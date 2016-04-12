@@ -1,0 +1,12 @@
+# eclipse project files
+/.settings/
+/.buildpath
+/.project
+/.pydevproject
+
+# composer
+/vendor/
+/composer.lock
+
+# sandbox
+/demo/

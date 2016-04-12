@@ -1,0 +1,24 @@
+{
+	"name": "sop/asn1",
+	"description": "A PHP library for ASN.1 DER encoding and decoding.",
+	"license": "MIT",
+	"type": "library",
+	"keywords": ["asn1", "asn.1", "der"],
+	"authors": [
+		{
+			"name": "Joni Eskelinen",
+			"email": "jonieske@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.6.3",
+		"ext-gmp": "*",
+		"ext-mbstring": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"ASN1\\": "lib/ASN1/"
+		}
+	}
+}
