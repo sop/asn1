@@ -52,5 +52,5 @@ Outputs:
 
     Hello, 42, 1.3.6.1.3
 
-### License
+## License
 This project is licensed under the MIT License.
