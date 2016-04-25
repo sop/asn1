@@ -2,11 +2,14 @@
 
 namespace ASN1\Type;
 
-use ASN1\Component\Length;
 use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
 
 
+/**
+ * Base class for primitive strings.
+ */
 abstract class PrimitiveString extends StringType
 {
 	use PrimitiveType;
@@ -15,8 +18,8 @@ abstract class PrimitiveString extends StringType
 		return $this->_string;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		if (!$identifier->isPrimitive()) {
 			throw new DecodeException("DER encoded string must be primitive");

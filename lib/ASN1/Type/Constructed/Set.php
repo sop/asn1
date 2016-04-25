@@ -6,16 +6,19 @@ use ASN1\Element;
 use ASN1\Type\Structure;
 
 
+/**
+ * Implements <i>SET</i> and <i>SET OF</i> types.
+ */
 class Set extends Structure
 {
 	/**
 	 * Constructor
 	 *
-	 * @param Element ...$elements
+	 * @param Element ...$elements Any number of elements
 	 */
 	public function __construct(Element ...$elements) {
-		parent::__construct(...$elements);
 		$this->_typeTag = self::TYPE_SET;
+		parent::__construct(...$elements);
 	}
 	
 	/**

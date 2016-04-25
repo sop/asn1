@@ -2,14 +2,17 @@
 
 namespace ASN1\Type\Primitive;
 
+use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Element;
+use ASN1\Exception\DecodeException;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
-use ASN1\Component\Identifier;
-use ASN1\Exception\DecodeException;
 
 
+/**
+ * Implements <i>BOOLEAN</i> type.
+ */
 class Boolean extends Element
 {
 	use UniversalClass;
@@ -17,7 +20,7 @@ class Boolean extends Element
 	
 	/**
 	 * Value
-	 * 
+	 *
 	 * @var bool
 	 */
 	private $_bool;
@@ -29,7 +32,7 @@ class Boolean extends Element
 	 */
 	public function __construct($bool) {
 		$this->_typeTag = self::TYPE_BOOLEAN;
-		$this->_bool = (bool)$bool;
+		$this->_bool = (bool) $bool;
 	}
 	
 	/**
@@ -45,8 +48,8 @@ class Boolean extends Element
 		return $this->_bool ? chr(0xff) : chr(0);
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx, 1);
 		$byte = ord($data[$idx++]);

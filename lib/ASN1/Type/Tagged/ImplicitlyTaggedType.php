@@ -2,10 +2,17 @@
 
 namespace ASN1\Type\Tagged;
 
-use ASN1\Element;
 use ASN1\Component\Identifier;
+use ASN1\Element;
 
 
+/**
+ * Implements implicit tagging mode.
+ *
+ * Implicit tagging changes the tag of the tagged type. This changes the
+ * DER encoding of the type, and hence the abstract syntax must be known when
+ * decoding the data.
+ */
 class ImplicitlyTaggedType extends ContextSpecificTaggedType implements 
 	ImplicitTagging
 {
@@ -21,7 +28,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 	}
 	
 	public function isConstructed() {
-		// depends on underlying type
+		// depends on the underlying type
 		return $this->_element->isConstructed();
 	}
 	

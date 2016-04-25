@@ -2,22 +2,28 @@
 
 namespace ASN1\Type\Primitive;
 
-use ASN1\Type\UniversalClass;
 use ASN1\Type\PrimitiveString;
+use ASN1\Type\UniversalClass;
 
 
+/**
+ * Implements <i>BMPString</i> type.
+ *
+ * BMP stands for Basic Multilingual Plane. This is generally an Unicode string
+ * with UCS-2 encoding.
+ */
 class BMPString extends PrimitiveString
 {
 	use UniversalClass;
 	
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param string $string
 	 */
 	public function __construct($string) {
-		parent::__construct($string);
 		$this->_typeTag = self::TYPE_BMP_STRING;
+		parent::__construct($string);
 	}
 	
 	protected function _validateString($string) {

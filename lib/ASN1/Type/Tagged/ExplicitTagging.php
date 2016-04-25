@@ -8,7 +8,7 @@ use ASN1\Element;
 interface ExplicitTagging
 {
 	/**
-	 * Get wrapped element.
+	 * Get explicitly tagged wrapped element.
 	 *
 	 * @param int|null $expectedTag Expected tag of the underlying type
 	 * @throws \UnexpectedValueException If expectation fails

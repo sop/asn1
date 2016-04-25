@@ -2,13 +2,16 @@
 
 namespace ASN1\Type\Primitive;
 
+use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Element;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
-use ASN1\Component\Identifier;
 
 
+/**
+ * Implements <i>INTEGER</i> type.
+ */
 class Integer extends Element
 {
 	use UniversalClass;
@@ -16,7 +19,7 @@ class Integer extends Element
 	
 	/**
 	 * Value
-	 * 
+	 *
 	 * @var int|string
 	 */
 	private $_number;
@@ -27,13 +30,12 @@ class Integer extends Element
 	 * @param int|string $number
 	 */
 	public function __construct($number) {
+		$this->_typeTag = self::TYPE_INTEGER;
 		if (!self::_validateNumber($number)) {
 			$var = is_scalar($number) ? strval($number) : gettype($number);
-			throw new \InvalidArgumentException(
-				"'$var' is not a valid number");
+			throw new \InvalidArgumentException("'$var' is not a valid number");
 		}
 		$this->_number = $number;
-		$this->_typeTag = self::TYPE_INTEGER;
 	}
 	
 	/**
@@ -86,8 +88,8 @@ class Integer extends Element
 		return $bin;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		$bytes = substr($data, $idx, $length->length());
@@ -113,7 +115,7 @@ class Integer extends Element
 	
 	/**
 	 * Test that number is valid for this context
-	 * 
+	 *
 	 * @param mixed $num
 	 * @return boolean
 	 */

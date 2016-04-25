@@ -5,6 +5,12 @@ namespace ASN1\Type\Tagged;
 use ASN1\Element;
 
 
+/**
+ * Implements explicit tagging mode.
+ *
+ * Explicit tagging wraps a type by prepending a tag. Underlying DER encoding
+ * is not changed.
+ */
 class ExplicitlyTaggedType extends ContextSpecificTaggedType implements 
 	ExplicitTagging
 {

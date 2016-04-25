@@ -332,8 +332,8 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Test whether element is tagged (context specific)
-	 * and optionally has given tag.
+	 * Test whether element is tagged (context specific) and optionally has
+	 * a given tag.
 	 *
 	 * @param int|null $tag
 	 * @throws \UnexpectedValueException
@@ -353,7 +353,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Get name for an universal tag
+	 * Get human readable name for an universal tag.
 	 *
 	 * @param int $tag
 	 * @return string

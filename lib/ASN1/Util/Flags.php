@@ -85,7 +85,7 @@ class Flags
 			throw new \OutOfBoundsException("Index is out of bounds");
 		}
 		// octet index
-		$oi = (int)floor($idx / 8);
+		$oi = (int) floor($idx / 8);
 		$byte = $this->_flags[$oi];
 		// bit index
 		$bi = $idx % 8;

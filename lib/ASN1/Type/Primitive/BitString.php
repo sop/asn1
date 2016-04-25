@@ -2,14 +2,17 @@
 
 namespace ASN1\Type\Primitive;
 
-use ASN1\Type\StringType;
-use ASN1\Type\PrimitiveType;
-use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
 use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Type\PrimitiveType;
+use ASN1\Type\StringType;
+use ASN1\Type\UniversalClass;
 
 
+/**
+ * Implements <i>BIT STRING</i> type.
+ */
 class BitString extends StringType
 {
 	use UniversalClass;
@@ -29,9 +32,9 @@ class BitString extends StringType
 	 * @param int $unused_bits Number of unused bits in the last octet
 	 */
 	public function __construct($string, $unused_bits = 0) {
+		$this->_typeTag = self::TYPE_BIT_STRING;
 		parent::__construct($string);
 		$this->_unusedBits = $unused_bits;
-		$this->_typeTag = self::TYPE_BIT_STRING;
 	}
 	
 	/**
@@ -61,7 +64,7 @@ class BitString extends StringType
 	 */
 	public function testBit($idx) {
 		// octet index
-		$oi = (int)floor($idx / 8);
+		$oi = (int) floor($idx / 8);
 		// if octet is outside range
 		if ($oi < 0 || $oi >= strlen($this->_string)) {
 			throw new \OutOfBoundsException("Index is out of bounds");
@@ -157,8 +160,8 @@ class BitString extends StringType
 		return $der;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		if ($length->length() < 1) {

@@ -2,16 +2,18 @@
 
 namespace ASN1\Type\Primitive;
 
+use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Element;
+use ASN1\Exception\DecodeException;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
-use ASN1\Component\Identifier;
-use ASN1\Exception\DecodeException;
 
 
 /**
- * @todo implement
+ * Implements <i>REAL</i> type.
+ *
+ * @todo Implement parsing. Currently just parks DER data for re-encoding.
  */
 class Real extends Element
 {
@@ -28,12 +30,11 @@ class Real extends Element
 	 * @param string $number
 	 */
 	public function __construct($number) {
-	if (!self::_validateNumber($number)) {
-			throw new \InvalidArgumentException(
-				"'$number' is not a valid real");
+		$this->_typeTag = self::TYPE_REAL;
+		if (!self::_validateNumber($number)) {
+			throw new \InvalidArgumentException("'$number' is not a valid real");
 		}
 		$this->_number = $number;
-		$this->_typeTag = self::TYPE_REAL;
 	}
 	
 	protected function _encodedContentDER() {
@@ -43,8 +44,8 @@ class Real extends Element
 		return $this->_der;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		// if length is zero, value is zero (spec 8.5.2)

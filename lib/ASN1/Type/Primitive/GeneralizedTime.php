@@ -2,27 +2,46 @@
 
 namespace ASN1\Type\Primitive;
 
-use ASN1\Type\TimeType;
-use ASN1\Type\PrimitiveType;
-use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
 use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Type\PrimitiveType;
+use ASN1\Type\TimeType;
+use ASN1\Type\UniversalClass;
 
 
+/**
+ * Implements <i>GeneralizedTime</i> type.
+ */
 class GeneralizedTime extends TimeType
 {
 	use UniversalClass;
 	use PrimitiveType;
 	
 	/**
+	 * Regular expression to parse date.
+	 *
+	 * @var string
+	 */
+	const REGEX = /* @formatter:off */ '#^' .
+		'(\d\d\d\d)' . /* YYYY */
+		'(\d\d)' . /* MM */
+		'(\d\d)' . /* DD */
+		'(\d\d)' . /* hh */
+		'(\d\d)' . /* mm */
+		'(\d\d)' . /* ss */
+		'(?:\.(\d+))?' . /* frac */
+		'Z' . /* TZ */
+		'$#' /* @formatter:on */;
+	
+	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param \DateTimeImmutable $dt
 	 */
 	public function __construct(\DateTimeImmutable $dt) {
-		parent::__construct($dt);
 		$this->_typeTag = self::TYPE_GENERALIZED_TIME;
+		parent::__construct($dt);
 	}
 	
 	protected function _encodedContentDER() {
@@ -41,23 +60,13 @@ class GeneralizedTime extends TimeType
 		return $this->_formatted;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data,  &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		$str = substr($data, $idx, $length->length());
 		$idx += $length->length();
-		$regex = '#^' 
-			. /* YYYY */ '(\d\d\d\d)' 
-			. /* MM */ '(\d\d)' 
-			. /* DD */ '(\d\d)' 
-			. /* hh */ '(\d\d)' 
-			. /* mm */ '(\d\d)' 
-			. /* ss */ '(\d\d)' 
-			. /* frac */ '(?:\.(\d+))?'
-			. /* TZ */ 'Z'
-			. '$#';
-		if (!preg_match($regex, $str, $match)) {
+		if (!preg_match(self::REGEX, $str, $match)) {
 			throw new DecodeException("Invalid GeneralizedTime format");
 		}
 		list(, $year, $month, $day, $hour, $minute, $second) = $match;
@@ -68,14 +77,14 @@ class GeneralizedTime extends TimeType
 				throw new DecodeException(
 					"Fractional seconds must omit trailing zeroes");
 			}
-			$frac = (int)$frac;
+			$frac = (int) $frac;
 		} else {
 			$frac = 0;
 		}
-		$time = $year . $month . $day .
-			$hour . $minute . $second . "." . $frac . "UTC";
-		$dt = \DateTimeImmutable::createFromFormat(
-			"!YmdHis.uT", $time, new \DateTimeZone("UTC"));
+		$time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
+			 "UTC";
+		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
+			new \DateTimeZone("UTC"));
 		if (!$dt) {
 			throw new DecodeException("Failed to decode Generalizedime");
 		}

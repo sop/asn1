@@ -2,10 +2,10 @@
 
 namespace ASN1\Type\Tagged;
 
+use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Element;
 use ASN1\Type\TaggedType;
-use ASN1\Component\Length;
-use ASN1\Component\Identifier;
 
 
 /**

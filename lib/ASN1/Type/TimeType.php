@@ -5,10 +5,13 @@ namespace ASN1\Type;
 use ASN1\Element;
 
 
+/**
+ * Base class for all types representing a point in time.
+ */
 abstract class TimeType extends Element
 {
 	/**
-	 * Time
+	 * Date and time.
 	 *
 	 * @var \DateTimeImmutable $_dateTime
 	 */
@@ -24,7 +27,7 @@ abstract class TimeType extends Element
 	}
 	
 	/**
-	 * Get time
+	 * Get time.
 	 *
 	 * @return \DateTimeImmutable
 	 */

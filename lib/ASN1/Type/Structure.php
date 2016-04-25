@@ -2,33 +2,33 @@
 
 namespace ASN1\Type;
 
-use ASN1\Element;
-use ASN1\Component\Length;
 use ASN1\Component\Identifier;
+use ASN1\Component\Length;
+use ASN1\Element;
 use ASN1\Exception\DecodeException;
 
 
 /**
- * Base class for constructed types
+ * Base class for constructed types.
  */
-abstract class Structure extends Element
-	implements \Countable, \IteratorAggregate
+abstract class Structure extends Element implements \Countable, 
+	\IteratorAggregate
 {
 	use UniversalClass;
 	
 	/**
-	 * Array of elements in structure
+	 * Array of elements in the structure.
 	 *
 	 * @var Element[] $_elements
 	 */
 	protected $_elements;
 	
 	/**
-	 * Mapping of tagged elements
-	 * 
+	 * Mapping of tagged elements.
+	 *
 	 * @var array $_taggedMap
 	 */
-	protected $_taggedMap;
+	private $_taggedMap;
 	
 	/**
 	 * Constructor
@@ -51,8 +51,8 @@ abstract class Structure extends Element
 		return $data;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		if (!$identifier->isConstructed()) {
 			throw new DecodeException(
@@ -65,8 +65,7 @@ abstract class Structure extends Element
 			$elements[] = Element::fromDER($data, $idx);
 			// check that element didn't overflow length
 			if ($idx > $end) {
-				throw new DecodeException(
-					"Structure's content overflows length");
+				throw new DecodeException("Structure's content overflows length");
 			}
 		}
 		$offset = $idx;
@@ -106,7 +105,7 @@ abstract class Structure extends Element
 	}
 	
 	/**
-	 * Get elements in structure
+	 * Get elements in the structure.
 	 *
 	 * @return Element[]
 	 */
@@ -117,7 +116,7 @@ abstract class Structure extends Element
 	/**
 	 * Check whether structure has an element at given index, optionally
 	 * satisfying given tag expectation.
-	 * 
+	 *
 	 * @param int $idx
 	 * @param int $expectedTag
 	 * @return bool
@@ -135,11 +134,14 @@ abstract class Structure extends Element
 	}
 	
 	/**
-	 * Get element at given index
+	 * Get element at given index.
+	 *
+	 * Optionally check that the element has a given tag.
 	 *
 	 * @param int $idx Index, first element is 0
 	 * @param int $expectedTag Type tag to expect
-	 * @throws \OutOfBoundsException
+	 * @throws \OutOfBoundsException If element doesn't exists
+	 * @throws \UnexpectedValueException If expectation fails
 	 * @return Element
 	 */
 	public function at($idx, $expectedTag = null) {
@@ -155,8 +157,8 @@ abstract class Structure extends Element
 	}
 	
 	/**
-	 * Whether structure contains context specific element with given tag
-	 * 
+	 * Whether structure contains context specific element with given tag.
+	 *
 	 * @param int $tag
 	 * @return boolean
 	 */
@@ -165,8 +167,7 @@ abstract class Structure extends Element
 		if (!isset($this->_taggedMap)) {
 			$this->_taggedMap = array();
 			foreach ($this->_elements as $element) {
-				if ($element->typeClass() ===
-						Identifier::CLASS_CONTEXT_SPECIFIC) {
+				if ($element->isTagged()) {
 					$this->_taggedMap[$element->tag()] = $element;
 				}
 			}
@@ -175,24 +176,23 @@ abstract class Structure extends Element
 	}
 	
 	/**
-	 * Get context specific element tagged with given tag
-	 * 
+	 * Get context specific element tagged with given tag.
+	 *
 	 * @param int $tag
 	 * @throws \OutOfBoundsException
 	 * @return Element
 	 */
 	public function getTagged($tag) {
 		if (!$this->hasTagged($tag)) {
-			throw new \OutOfBoundsException(
-				"No tagged element for tag $tag");
+			throw new \OutOfBoundsException("No tagged element for tag $tag");
 		}
 		return $this->_taggedMap[$tag];
 	}
 	
 	/**
-	 * {@inheritDoc}
 	 *
 	 * @see Countable::count()
+	 * @return int
 	 */
 	public function count() {
 		return count($this->_elements);
@@ -200,7 +200,7 @@ abstract class Structure extends Element
 	
 	/**
 	 * Get iterator for elements of the structure.
-	 * 
+	 *
 	 * @see IteratorAggregate::getIterator()
 	 * @return \Traversable
 	 */

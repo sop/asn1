@@ -3,6 +3,9 @@
 namespace ASN1\Type\Primitive;
 
 
+/**
+ * Implements <i>ENUMERATED</i> type.
+ */
 class Enumerated extends Integer
 {
 	/**
@@ -11,7 +14,7 @@ class Enumerated extends Integer
 	 * @param int|string $number
 	 */
 	public function __construct($number) {
-		parent::__construct($number);
 		$this->_typeTag = self::TYPE_ENUMERATED;
+		parent::__construct($number);
 	}
 }

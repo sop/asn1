@@ -6,7 +6,7 @@ use ASN1\Component\Identifier;
 
 
 /**
- * Trait for types of universal class
+ * Trait for types of universal class.
  */
 trait UniversalClass
 {

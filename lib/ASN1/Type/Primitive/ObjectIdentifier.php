@@ -2,29 +2,32 @@
 
 namespace ASN1\Type\Primitive;
 
+use ASN1\Component\Identifier;
+use ASN1\Component\Length;
 use ASN1\Element;
+use ASN1\Exception\DecodeException;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
-use ASN1\Component\Length;
-use ASN1\Component\Identifier;
-use ASN1\Exception\DecodeException;
 
 
+/**
+ * Implements <i>OBJECT IDENTIFIER</i> type.
+ */
 class ObjectIdentifier extends Element
 {
 	use UniversalClass;
 	use PrimitiveType;
 	
 	/**
-	 * Value
-	 * 
+	 * Object identifier in dotted format.
+	 *
 	 * @var string
 	 */
 	private $_oid;
 	
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param string $oid OID in dotted format
 	 */
 	public function __construct($oid) {
@@ -34,8 +37,8 @@ class ObjectIdentifier extends Element
 	}
 	
 	/**
-	 * Get OID
-	 * 
+	 * Get OID in dotted format.
+	 *
 	 * @return string
 	 */
 	public function oid() {
@@ -74,8 +77,8 @@ class ObjectIdentifier extends Element
 		return $data;
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		$end = $idx + $length->length();

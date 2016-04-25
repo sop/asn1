@@ -57,8 +57,8 @@ class DERData extends Element
 		return substr($this->_der, $this->_contentOffset);
 	}
 	
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		throw new \LogicException("Not implemented");
 	}
 	
