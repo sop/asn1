@@ -6,7 +6,7 @@ namespace ASN1;
 interface Encodable
 {
 	/**
-	 * Encode object to DER
+	 * Encode object to DER.
 	 *
 	 * @return string
 	 */

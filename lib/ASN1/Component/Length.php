@@ -2,25 +2,24 @@
 
 namespace ASN1\Component;
 
-use ASN1\Decodable;
 use ASN1\Encodable;
 use ASN1\Exception\DecodeException;
 
 
 /**
- * Class to represent BER/DER length octets
+ * Class to represent BER/DER length octets.
  */
-class Length implements Decodable, Encodable
+class Length implements Encodable
 {
 	/**
-	 * Length
+	 * Length.
 	 *
 	 * @var int
 	 */
 	private $_length;
 	
 	/**
-	 * Whether length is indefinite
+	 * Whether length is indefinite.
 	 *
 	 * @var boolean
 	 */
@@ -29,8 +28,8 @@ class Length implements Decodable, Encodable
 	/**
 	 * Constructor
 	 *
-	 * @param int|string $length
-	 * @param boolean $indefinite
+	 * @param int|string $length Length
+	 * @param boolean $indefinite Whether length is indefinite
 	 */
 	public function __construct($length, $indefinite = false) {
 		$this->_length = $length;
@@ -38,11 +37,13 @@ class Length implements Decodable, Encodable
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Decode length component from DER data.
 	 *
-	 * @see Decodable::fromDER
-	 * @param string $data
-	 * @param int $offset
+	 * @param string $data DER encoded data
+	 * @param int|null $offset Reference to the variable that contains offset
+	 *        into the data where to start parsing. Variable is updated to
+	 *        the offset next to the parsed length component. If null, start
+	 *        from offset 0.
 	 * @throws DecodeException
 	 * @return self
 	 */
@@ -69,8 +70,8 @@ class Length implements Decodable, Encodable
 				while (--$count >= 0) {
 					if ($idx >= $datalen) {
 						throw new DecodeException(
-							"Unexpected end of data while decoding".
-								" long form length");
+							"Unexpected end of data while decoding" .
+								 " long form length");
 					}
 					$byte = ord($data[$idx++]);
 					$num <<= 8;
@@ -89,6 +90,7 @@ class Length implements Decodable, Encodable
 	
 	/**
 	 * Decode length from DER.
+	 *
 	 * Throws an exception if length doesn't match with expected or if data
 	 * doesn't contain enough bytes.
 	 *
@@ -103,8 +105,7 @@ class Length implements Decodable, Encodable
 		$length = self::fromDER($data, $idx);
 		// DER encoding must have definite length (spec 10.1)
 		if ($length->isIndefinite()) {
-			throw new DecodeException(
-				"DER encoding must have definite length");
+			throw new DecodeException("DER encoding must have definite length");
 		}
 		// if certain length was expected
 		if (isset($expected) && $expected != $length->_length) {
@@ -115,14 +116,13 @@ class Length implements Decodable, Encodable
 		if (strlen($data) < $idx + $length->_length) {
 			throw new DecodeException(
 				"Length {$length->_length} overflows data, " .
-					(strlen($data) - $idx) . " bytes left");
+					 (strlen($data) - $idx) . " bytes left");
 		}
 		$offset = $idx;
 		return $length;
 	}
 	
 	/**
-	 * {@inheritDoc}
 	 *
 	 * @see Encodable::toDER()
 	 * @throws \DomainException If length is too large to encode
@@ -157,7 +157,7 @@ class Length implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get length
+	 * Get length.
 	 *
 	 * @throws \LogicException If length is indefinite
 	 * @return int|string
@@ -170,7 +170,7 @@ class Length implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether length is indefinite
+	 * Whether length is indefinite.
 	 *
 	 * @return boolean
 	 */

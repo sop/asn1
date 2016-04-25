@@ -2,62 +2,55 @@
 
 namespace ASN1\Component;
 
-use ASN1\Decodable;
 use ASN1\Encodable;
 use ASN1\Exception\DecodeException;
 
 
 /**
- * Class to represent BER/DER identifier octets
+ * Class to represent BER/DER identifier octets.
  */
-class Identifier implements Decodable, Encodable
+class Identifier implements Encodable
 {
-	/**
-	 * Type class enumerations
-	 *
-	 * @var int
-	 */
+	// Type class enumerations
 	const CLASS_UNIVERSAL = 0b00;
 	const CLASS_APPLICATION = 0b01;
 	const CLASS_CONTEXT_SPECIFIC = 0b10;
 	const CLASS_PRIVATE = 0b11;
 	
 	/**
-	 * Human readable type classes
-	 * 
+	 * Human readable type classes.
+	 *
 	 * @var array
 	 */
 	private static $_classNames = array(
-		self::CLASS_UNIVERSAL => "UNIVERSAL",
-		self::CLASS_APPLICATION => "APPLICATION",
-		self::CLASS_CONTEXT_SPECIFIC => "CONTEXT SPECIFIC",
-		self::CLASS_PRIVATE => "PRIVATE",
+		/* @formatter:off */
+		self::CLASS_UNIVERSAL => "UNIVERSAL", 
+		self::CLASS_APPLICATION => "APPLICATION", 
+		self::CLASS_CONTEXT_SPECIFIC => "CONTEXT SPECIFIC", 
+		self::CLASS_PRIVATE => "PRIVATE"
+		/* @formatter:on */
 	);
 	
-	/**
-	 * P/C enumerations
-	 *
-	 * @var int
-	 */
+	// P/C enumerations
 	const PRIMITIVE = 0b0;
 	const CONSTRUCTED = 0b1;
 	
 	/**
-	 * Type class
+	 * Type class.
 	 *
 	 * @var int
 	 */
 	private $_class;
 	
 	/**
-	 * Primitive or Constructed
+	 * Primitive or Constructed.
 	 *
 	 * @var int
 	 */
 	private $_pc;
 	
 	/**
-	 * Content type
+	 * Content type.
 	 *
 	 * @var int
 	 */
@@ -66,9 +59,9 @@ class Identifier implements Decodable, Encodable
 	/**
 	 * Constructor
 	 *
-	 * @param int $class
-	 * @param int $pc
-	 * @param int|string $tag
+	 * @param int $class Type class
+	 * @param int $pc Privitive / Constructed
+	 * @param int|string $tag Type tag
 	 */
 	public function __construct($class, $pc, $tag) {
 		$this->_class = 0b11 & $class;
@@ -77,11 +70,13 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Decode identifier component from DER data.
 	 *
-	 * @see Decodable::fromDER
-	 * @param string $data
-	 * @param int $offset
+	 * @param string $data DER encoded data
+	 * @param int|null $offset Reference to the variable that contains offset
+	 *        into the data where to start parsing. Variable is updated to
+	 *        the offset next to the parsed identifier. If null, start from
+	 *        offset 0.
 	 * @throws DecodeException
 	 * @return self
 	 */
@@ -106,8 +101,8 @@ class Identifier implements Decodable, Encodable
 			while (true) {
 				if ($idx >= $datalen) {
 					throw new DecodeException(
-						"Unexpected end of data while decoding".
-							" long form identifier");
+						"Unexpected end of data while decoding" .
+							 " long form identifier");
 				}
 				$byte = ord($data[$idx++]);
 				$tag <<= 7;
@@ -126,7 +121,6 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * {@inheritDoc}
 	 *
 	 * @see Encodable::toDER()
 	 * @return string
@@ -153,7 +147,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get class of the type
+	 * Get class of the type.
 	 *
 	 * @return int
 	 */
@@ -162,7 +156,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get P/C
+	 * Get P/C.
 	 *
 	 * @return int
 	 */
@@ -171,7 +165,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get tag number
+	 * Get tag number.
 	 *
 	 * @return int
 	 */
@@ -180,7 +174,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether type is universal class
+	 * Whether type is universal class.
 	 *
 	 * @return boolean
 	 */
@@ -189,7 +183,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether type is application class
+	 * Whether type is application class.
 	 *
 	 * @return boolean
 	 */
@@ -198,7 +192,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether type is context specific class
+	 * Whether type is context specific class.
 	 *
 	 * @return boolean
 	 */
@@ -207,7 +201,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether type is private class
+	 * Whether type is private class.
 	 *
 	 * @return boolean
 	 */
@@ -216,7 +210,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether content is primitive
+	 * Whether content is primitive.
 	 *
 	 * @return boolean
 	 */
@@ -225,7 +219,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Whether content is constructed
+	 * Whether content is constructed.
 	 *
 	 * @return boolean
 	 */
@@ -234,7 +228,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get copy of Identifier with given class
+	 * Get copy of Identifier with given class.
 	 *
 	 * @param int $class
 	 * @return self
@@ -246,7 +240,7 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get copy of Identifier with given tag
+	 * Get copy of Identifier with given tag.
 	 *
 	 * @param int $tag
 	 * @return self
@@ -258,8 +252,8 @@ class Identifier implements Decodable, Encodable
 	}
 	
 	/**
-	 * Get human readable type class name
-	 * 
+	 * Get human readable type class name.
+	 *
 	 * @param int $class
 	 * @return string
 	 */

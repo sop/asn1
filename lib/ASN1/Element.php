@@ -2,22 +2,43 @@
 
 namespace ASN1;
 
-use ASN1\Component\Length;
 use ASN1\Component\Identifier;
-use ASN1\Type\TimeType;
+use ASN1\Component\Length;
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Constructed\Set;
+use ASN1\Type\Primitive\BitString;
+use ASN1\Type\Primitive\BMPString;
+use ASN1\Type\Primitive\Boolean;
+use ASN1\Type\Primitive\CharacterString;
+use ASN1\Type\Primitive\Enumerated;
+use ASN1\Type\Primitive\GeneralizedTime;
+use ASN1\Type\Primitive\GeneralString;
+use ASN1\Type\Primitive\GraphicString;
+use ASN1\Type\Primitive\IA5String;
+use ASN1\Type\Primitive\Integer;
+use ASN1\Type\Primitive\NullType;
+use ASN1\Type\Primitive\NumericString;
+use ASN1\Type\Primitive\ObjectIdentifier;
+use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\Primitive\PrintableString;
+use ASN1\Type\Primitive\Real;
+use ASN1\Type\Primitive\T61String;
+use ASN1\Type\Primitive\UniversalString;
+use ASN1\Type\Primitive\UTCTime;
+use ASN1\Type\Primitive\UTF8String;
+use ASN1\Type\Primitive\VideotexString;
+use ASN1\Type\Primitive\VisibleString;
 use ASN1\Type\StringType;
+use ASN1\Type\TaggedType;
+use ASN1\Type\TimeType;
 
 
 /**
- * Base class for all ASN.1 type elements
+ * Base class for all ASN.1 type elements.
  */
-abstract class Element implements Decodable, Encodable
+abstract class Element implements Encodable
 {
-	/**
-	 * Universal type tags
-	 * 
-	 * @var int
-	 */
+	// Universal type tags
 	const TYPE_EOC = 0x00;
 	const TYPE_BOOLEAN = 0x01;
 	const TYPE_INTEGER = 0x02;
@@ -49,65 +70,43 @@ abstract class Element implements Decodable, Encodable
 	const TYPE_BMP_STRING = 0x1e;
 	
 	/**
-	 * Mapping from universal type tag to implementation class name
+	 * Mapping from universal type tag to implementation class name.
 	 *
 	 * @var array
 	 */
 	private static $_tagToCls = array(
-		self::TYPE_BOOLEAN => 
-			__NAMESPACE__ . '\Type\Primitive\Boolean',
-		self::TYPE_INTEGER => 
-			__NAMESPACE__ . '\Type\Primitive\Integer',
-		self::TYPE_BIT_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\BitString',
-		self::TYPE_OCTET_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\OctetString',
-		self::TYPE_NULL => 
-			 __NAMESPACE__ . '\Type\Primitive\NullType',
-		self::TYPE_OBJECT_IDENTIFIER => 
-			 __NAMESPACE__ . '\Type\Primitive\ObjectIdentifier',
-		self::TYPE_REAL => 
-			 __NAMESPACE__ . '\Type\Primitive\Real',
-		self::TYPE_ENUMERATED => 
-			 __NAMESPACE__ . '\Type\Primitive\Enumerated',
-		self::TYPE_UTF8_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\UTF8String',
-		self::TYPE_SEQUENCE => 
-			 __NAMESPACE__ . '\Type\Constructed\Sequence',
-		self::TYPE_SET => 
-			 __NAMESPACE__ . '\Type\Constructed\Set',
-		self::TYPE_NUMERIC_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\NumericString',
-		self::TYPE_PRINTABLE_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\PrintableString',
-		self::TYPE_T61_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\T61String',
-		self::TYPE_VIDEOTEX_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\VideotexString',
-		self::TYPE_IA5_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\IA5String',
-		self::TYPE_UTC_TIME => 
-			 __NAMESPACE__ . '\Type\Primitive\UTCTime',
-		self::TYPE_GENERALIZED_TIME => 
-			 __NAMESPACE__ . '\Type\Primitive\GeneralizedTime',
-		self::TYPE_GRAPHIC_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\GraphicString',
-		self::TYPE_VISIBLE_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\VisibleString',
-		self::TYPE_GENERAL_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\GeneralString',
-		self::TYPE_UNIVERSAL_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\UniversalString',
-		self::TYPE_CHARACTER_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\CharacterString',
-		self::TYPE_BMP_STRING => 
-			 __NAMESPACE__ . '\Type\Primitive\BMPString'
+		/* @formatter:off */
+		self::TYPE_BOOLEAN => Boolean::class,
+		self::TYPE_INTEGER => Integer::class,
+		self::TYPE_BIT_STRING => BitString::class,
+		self::TYPE_OCTET_STRING => OctetString::class,
+		self::TYPE_NULL => NullType::class,
+		self::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::class,
+		self::TYPE_REAL => Real::class,
+		self::TYPE_ENUMERATED => Enumerated::class,
+		self::TYPE_UTF8_STRING => UTF8String::class,
+		self::TYPE_SEQUENCE => Sequence::class,
+		self::TYPE_SET => Set::class,
+		self::TYPE_NUMERIC_STRING => NumericString::class,
+		self::TYPE_PRINTABLE_STRING => PrintableString::class,
+		self::TYPE_T61_STRING => T61String::class,
+		self::TYPE_VIDEOTEX_STRING => VideotexString::class,
+		self::TYPE_IA5_STRING => IA5String::class,
+		self::TYPE_UTC_TIME => UTCTime::class,
+		self::TYPE_GENERALIZED_TIME => GeneralizedTime::class,
+		self::TYPE_GRAPHIC_STRING => GraphicString::class,
+		self::TYPE_VISIBLE_STRING => VisibleString::class,
+		self::TYPE_GENERAL_STRING => GeneralString::class,
+		self::TYPE_UNIVERSAL_STRING => UniversalString::class,
+		self::TYPE_CHARACTER_STRING => CharacterString::class,
+		self::TYPE_BMP_STRING => BMPString::class
+		/* @formatter:on */
 	);
 	
 	/**
 	 * Pseudotype for all string types.
 	 * May be used as an expectation parameter.
-	 * 
+	 *
 	 * @var int
 	 */
 	const TYPE_STRING = -1;
@@ -115,17 +114,18 @@ abstract class Element implements Decodable, Encodable
 	/**
 	 * Pseudotype for all time types.
 	 * May be used as an expectation parameter.
-	 * 
+	 *
 	 * @var int
 	 */
 	const TYPE_TIME = -2;
 	
 	/**
-	 * Human readable names for universal type tags
-	 * 
+	 * Human readable names for universal type tags.
+	 *
 	 * @var array
 	 */
 	private static $_typeNames = array(
+		/* @formatter:off */
 		self::TYPE_EOC => "EOC",
 		self::TYPE_BOOLEAN => "BOOLEAN",
 		self::TYPE_INTEGER => "INTEGER",
@@ -157,10 +157,11 @@ abstract class Element implements Decodable, Encodable
 		self::TYPE_BMP_STRING => "BMPString",
 		self::TYPE_STRING => "Any String",
 		self::TYPE_TIME => "Any Time"
+		/* @formatter:on */
 	);
 	
 	/**
-	 * Element's type tag
+	 * Element's type tag.
 	 *
 	 * @var int
 	 */
@@ -190,20 +191,20 @@ abstract class Element implements Decodable, Encodable
 	abstract protected function _encodedContentDER();
 	
 	/**
-	 * Decode type specific element from DER
+	 * Decode type-specific element from DER.
 	 *
 	 * @param Identifier $identifier Pre-parsed identifier
-	 * @param string $data
-	 * @param int $offset Offset in data to next byte after identifier
+	 * @param string $data DER data
+	 * @param int $offset Offset in data to the next byte after identifier
 	 * @return Element
 	 */
-	protected static function _decodeFromDER(
-			Identifier $identifier, $data, &$offset) {
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
 		throw new \BadMethodCallException();
 	}
 	
 	/**
-	 * Get tag of the element
+	 * Get tag of the element.
 	 *
 	 * @return int
 	 */
@@ -212,12 +213,14 @@ abstract class Element implements Decodable, Encodable
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Decode element from DER data.
 	 *
-	 * @see Decodable::fromDER
-	 * @param string $data
-	 * @param int $offset
-	 * @return static
+	 * @param string $data DER encoded data
+	 * @param int|null $offset Reference to the variable that contains offset
+	 *        into the data where to start parsing. Variable is updated to
+	 *        the offset next to the parsed element. If null, start from offset
+	 *        0.
+	 * @return self
 	 */
 	public static function fromDER($data, &$offset = null) {
 		assert('is_string($data)', "got " . gettype($data));
@@ -252,7 +255,7 @@ abstract class Element implements Decodable, Encodable
 	protected static function _determineImplClass(Identifier $identifier) {
 		// tagged type
 		if ($identifier->isContextSpecific()) {
-			return __NAMESPACE__ . '\Type\TaggedType';
+			return TaggedType::class;
 		}
 		if ($identifier->isUniversal()) {
 			if (isset(self::$_tagToCls[$identifier->tag()])) {
@@ -261,20 +264,19 @@ abstract class Element implements Decodable, Encodable
 		}
 		throw new \UnexpectedValueException(
 			Identifier::classToName($identifier->typeClass()) . " " .
-			self::tagToName($identifier->tag()) . " not implemented");
+				 self::tagToName($identifier->tag()) . " not implemented");
 	}
 	
 	/**
+	 *
 	 * {@inheritDoc}
 	 *
 	 * @see Encodable::toDER()
 	 * @return string
 	 */
 	public function toDER() {
-		$identifier = new Identifier(
-			$this->typeClass(), 
-			$this->isConstructed() ?
-				Identifier::CONSTRUCTED : Identifier::PRIMITIVE, 
+		$identifier = new Identifier($this->typeClass(), 
+			$this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE, 
 			$this->_typeTag);
 		$content = $this->_encodedContentDER();
 		$length = new Length(strlen($content));
