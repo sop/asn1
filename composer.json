@@ -1,10 +1,10 @@
 {
 	"name": "sop/asn1",
-	"description": "A PHP library for ASN.1 DER encoding and decoding.",
+	"description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
 	"homepage": "https://github.com/sop/asn1",
 	"license": "MIT",
 	"type": "library",
-	"keywords": ["asn1", "asn.1", "der"],
+	"keywords": ["asn1", "asn.1", "x690", "x.690", "der"],
 	"authors": [
 		{
 			"name": "Joni Eskelinen",
