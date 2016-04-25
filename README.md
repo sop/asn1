@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/sop/asn1.svg?branch=master)](https://travis-ci.org/sop/asn1)
 
 # ASN.1
-A PHP library for Abstract Syntax Notation One (ASN.1)
+A PHP library for X.690 Abstract Syntax Notation One (ASN.1)
 Distinguished Encoding Rules (DER) encoding and decoding.
 
 ## Installation
