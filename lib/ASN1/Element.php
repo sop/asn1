@@ -74,7 +74,7 @@ abstract class Element implements Encodable
 	 *
 	 * @var array
 	 */
-	private static $_tagToCls = array(
+	const TAG_TO_CLS = array(
 		/* @formatter:off */
 		self::TYPE_BOOLEAN => Boolean::class,
 		self::TYPE_INTEGER => Integer::class,
@@ -124,7 +124,7 @@ abstract class Element implements Encodable
 	 *
 	 * @var array
 	 */
-	private static $_typeNames = array(
+	const NAME_MAPPING = array(
 		/* @formatter:off */
 		self::TYPE_EOC => "EOC",
 		self::TYPE_BOOLEAN => "BOOLEAN",
@@ -258,8 +258,8 @@ abstract class Element implements Encodable
 			return TaggedType::class;
 		}
 		if ($identifier->isUniversal()) {
-			if (isset(self::$_tagToCls[$identifier->tag()])) {
-				return self::$_tagToCls[$identifier->tag()];
+			if (array_key_exists($identifier->tag(), self::TAG_TO_CLS)) {
+				return self::TAG_TO_CLS[$identifier->tag()];
 			}
 		}
 		throw new \UnexpectedValueException(
@@ -359,9 +359,9 @@ abstract class Element implements Encodable
 	 * @return string
 	 */
 	public static function tagToName($tag) {
-		if (!isset(self::$_typeNames[$tag])) {
+		if (!array_key_exists($tag, self::NAME_MAPPING)) {
 			return "TAG $tag";
 		}
-		return self::$_typeNames[$tag];
+		return self::NAME_MAPPING[$tag];
 	}
 }

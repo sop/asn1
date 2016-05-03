@@ -22,7 +22,7 @@ class Identifier implements Encodable
 	 *
 	 * @var array
 	 */
-	private static $_classNames = array(
+	const NAME_MAPPING = array(
 		/* @formatter:off */
 		self::CLASS_UNIVERSAL => "UNIVERSAL", 
 		self::CLASS_APPLICATION => "APPLICATION", 
@@ -258,9 +258,9 @@ class Identifier implements Encodable
 	 * @return string
 	 */
 	public static function classToName($class) {
-		if (!isset(self::$_classNames[$class])) {
+		if (!array_key_exists($class, self::NAME_MAPPING)) {
 			return "CLASS $class";
 		}
-		return self::$_classNames[$class];
+		return self::NAME_MAPPING[$class];
 	}
 }
