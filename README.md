@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/sop/asn1.svg?branch=master)](https://travis-ci.org/sop/asn1)
+[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/master/LICENSE)
 
 # ASN.1
 A PHP library for X.690 Abstract Syntax Notation One (ASN.1)
@@ -29,7 +30,7 @@ and an explicitly tagged OID.
 ```php
 $seq = new Sequence(
 	new UTF8String("Hello"),
-	new Integer(42), 
+	new Integer(42),
 	new ExplicitlyTaggedType(
 		1, new ObjectIdentifier("1.3.6.1.3"))
 );
