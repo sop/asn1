@@ -5,17 +5,20 @@ namespace ASN1\Util;
 use ASN1\Type\Primitive\BitString;
 
 
+/**
+ * Class to handle a bit string as a field of flags.
+ */
 class Flags
 {
 	/**
-	 * Flag octets
+	 * Flag octets.
 	 *
 	 * @var string $_flags
 	 */
 	protected $_flags;
 	
 	/**
-	 * Number of flags
+	 * Number of flags.
 	 *
 	 * @var string $_width
 	 */
@@ -55,7 +58,7 @@ class Flags
 	}
 	
 	/**
-	 * Initialize from BitString
+	 * Initialize from BitString.
 	 *
 	 * @param BitString $bs
 	 * @param int $width
@@ -73,7 +76,7 @@ class Flags
 	}
 	
 	/**
-	 * Test whether bit at given index is set.
+	 * Check whether a bit at given index is set.
 	 * Index 0 is the leftmost bit.
 	 *
 	 * @param int $idx
@@ -96,8 +99,7 @@ class Flags
 	
 	/**
 	 * Get flags as an octet string.
-	 * Zeroes are appended to the last octet
-	 * if width is not divisible by 8.
+	 * Zeroes are appended to the last octet if width is not divisible by 8.
 	 *
 	 * @return string
 	 */
@@ -106,7 +108,7 @@ class Flags
 	}
 	
 	/**
-	 * Get flags as a base 10 integer
+	 * Get flags as a base 10 integer.
 	 *
 	 * @return number
 	 */
@@ -120,8 +122,7 @@ class Flags
 	
 	/**
 	 * Get flags as a BitString.
-	 * Unused bits are set accordingly.
-	 * Trailing zeroes are not stripped.
+	 * Unused bits are set accordingly. Trailing zeroes are not stripped.
 	 *
 	 * @return BitString
 	 */

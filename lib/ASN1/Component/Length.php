@@ -94,8 +94,9 @@ class Length implements Encodable
 	 * Throws an exception if length doesn't match with expected or if data
 	 * doesn't contain enough bytes.
 	 *
-	 * @param string $data
-	 * @param int $offset
+	 * @see self::fromDER
+	 * @param string $data DER data
+	 * @param int $offset Reference to the offset variable
 	 * @param int|null $expected Expected length, null to bypass checking
 	 * @throws DecodeException
 	 * @return self

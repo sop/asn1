@@ -158,7 +158,8 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Whether structure contains context specific element with given tag.
+	 * Check whether structure contains a context specific element with a given
+	 * tag.
 	 *
 	 * @param int $tag
 	 * @return boolean
@@ -177,7 +178,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get context specific element tagged with given tag.
+	 * Get context specific element tagged with a given tag.
 	 *
 	 * @param int $tag
 	 * @throws \OutOfBoundsException
@@ -200,7 +201,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get iterator for elements of the structure.
+	 * Get iterator for the elements of the structure.
 	 *
 	 * @see IteratorAggregate::getIterator()
 	 * @return \Traversable

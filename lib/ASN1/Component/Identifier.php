@@ -176,7 +176,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether type is universal class.
+	 * Check whether type is of an universal class.
 	 *
 	 * @return boolean
 	 */
@@ -185,7 +185,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether type is application class.
+	 * Check whether type is of an application class.
 	 *
 	 * @return boolean
 	 */
@@ -194,7 +194,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether type is context specific class.
+	 * Check whether type is of a context specific class.
 	 *
 	 * @return boolean
 	 */
@@ -203,7 +203,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether type is private class.
+	 * Check whether type is of a private class.
 	 *
 	 * @return boolean
 	 */
@@ -212,7 +212,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether content is primitive.
+	 * Check whether content is primitive type.
 	 *
 	 * @return boolean
 	 */
@@ -221,7 +221,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Whether content is constructed.
+	 * Check hether content is constructed type.
 	 *
 	 * @return boolean
 	 */
@@ -230,9 +230,9 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Get copy of Identifier with given class.
+	 * Get self with given type class.
 	 *
-	 * @param int $class
+	 * @param int $class One of <code>CLASS_*</code> enumerations
 	 * @return self
 	 */
 	public function withClass($class) {
@@ -242,7 +242,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Get copy of Identifier with given tag.
+	 * Get self with given type tag.
 	 *
 	 * @param int $tag
 	 * @return self
@@ -254,7 +254,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Get human readable type class name.
+	 * Get human readable name of the type class.
 	 *
 	 * @param int $class
 	 * @return string

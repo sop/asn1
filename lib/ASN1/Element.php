@@ -173,7 +173,7 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Get class of the type.
-	 * One of CLASS_* constants.
+	 * One of <code>Identifier::CLASS_*</code> constants.
 	 *
 	 * @return int
 	 */
@@ -251,7 +251,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Determine class that implements type
+	 * Determine a class that implements the type.
 	 *
 	 * @param Identifier $identifier
 	 * @return string Class name
@@ -273,8 +273,6 @@ abstract class Element implements Encodable
 	
 	/**
 	 *
-	 * {@inheritDoc}
-	 *
 	 * @see Encodable::toDER()
 	 * @return string
 	 */
@@ -288,7 +286,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Test whether element is a type of given tag
+	 * Check whether element is a type of a given tag.
 	 *
 	 * @param int $tag
 	 * @return boolean
@@ -310,7 +308,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Test whether element is tagged (context specific).
+	 * Check whether element is tagged (context specific).
 	 *
 	 * @return bool
 	 */
@@ -319,7 +317,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Test whether element is a type of given tag.
+	 * Check whether element is a type of a given tag.
 	 * Throws an exception if expectation fails.
 	 *
 	 * @param int $tag
@@ -336,7 +334,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Test whether element is tagged (context specific) and optionally has
+	 * Check whether element is tagged (context specific) and optionally has
 	 * a given tag.
 	 *
 	 * @param int|null $tag

@@ -27,7 +27,7 @@ class DERData extends Element
 	protected $_identifier;
 	
 	/**
-	 * Offset to content in DER data.
+	 * Offset to the content in DER data.
 	 *
 	 * @var int $_contentOffset
 	 */
