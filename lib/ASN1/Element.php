@@ -72,9 +72,11 @@ abstract class Element implements Encodable
 	/**
 	 * Mapping from universal type tag to implementation class name.
 	 *
+	 * @internal
+	 *
 	 * @var array
 	 */
-	const TAG_TO_CLS = array(
+	const MAP_TAG_TO_CLASS = array(
 		/* @formatter:off */
 		self::TYPE_BOOLEAN => Boolean::class,
 		self::TYPE_INTEGER => Integer::class,
@@ -120,11 +122,13 @@ abstract class Element implements Encodable
 	const TYPE_TIME = -2;
 	
 	/**
-	 * Human readable names for universal type tags.
+	 * Mapping from universal type tag to human readable name.
+	 *
+	 * @internal
 	 *
 	 * @var array
 	 */
-	const NAME_MAPPING = array(
+	const MAP_TYPE_TO_NAME = array(
 		/* @formatter:off */
 		self::TYPE_EOC => "EOC",
 		self::TYPE_BOOLEAN => "BOOLEAN",
@@ -258,8 +262,8 @@ abstract class Element implements Encodable
 			return TaggedType::class;
 		}
 		if ($identifier->isUniversal()) {
-			if (array_key_exists($identifier->tag(), self::TAG_TO_CLS)) {
-				return self::TAG_TO_CLS[$identifier->tag()];
+			if (array_key_exists($identifier->tag(), self::MAP_TAG_TO_CLASS)) {
+				return self::MAP_TAG_TO_CLASS[$identifier->tag()];
 			}
 		}
 		throw new \UnexpectedValueException(
@@ -359,9 +363,9 @@ abstract class Element implements Encodable
 	 * @return string
 	 */
 	public static function tagToName($tag) {
-		if (!array_key_exists($tag, self::NAME_MAPPING)) {
+		if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
 			return "TAG $tag";
 		}
-		return self::NAME_MAPPING[$tag];
+		return self::MAP_TYPE_TO_NAME[$tag];
 	}
 }

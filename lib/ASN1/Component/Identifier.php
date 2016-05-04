@@ -18,11 +18,13 @@ class Identifier implements Encodable
 	const CLASS_PRIVATE = 0b11;
 	
 	/**
-	 * Human readable type classes.
+	 * Mapping from type class to human readable name.
+	 *
+	 * @internal
 	 *
 	 * @var array
 	 */
-	const NAME_MAPPING = array(
+	const MAP_CLASS_TO_NAME = array(
 		/* @formatter:off */
 		self::CLASS_UNIVERSAL => "UNIVERSAL", 
 		self::CLASS_APPLICATION => "APPLICATION", 
@@ -258,9 +260,9 @@ class Identifier implements Encodable
 	 * @return string
 	 */
 	public static function classToName($class) {
-		if (!array_key_exists($class, self::NAME_MAPPING)) {
+		if (!array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
 			return "CLASS $class";
 		}
-		return self::NAME_MAPPING[$class];
+		return self::MAP_CLASS_TO_NAME[$class];
 	}
 }
