@@ -32,14 +32,14 @@ class Real extends Element
 	public function __construct($number) {
 		$this->_typeTag = self::TYPE_REAL;
 		if (!self::_validateNumber($number)) {
-			throw new \InvalidArgumentException("'$number' is not a valid real");
+			throw new \InvalidArgumentException("'$number' is not a valid real.");
 		}
 		$this->_number = $number;
 	}
 	
 	protected function _encodedContentDER() {
 		if (!isset($this->_der)) {
-			throw new \Exception("DER encoding of REAL value not implemented");
+			throw new \Exception("DER encoding of REAL value not implemented.");
 		}
 		return $this->_der;
 	}
@@ -71,7 +71,7 @@ class Real extends Element
 	}
 	
 	protected static function _decodeBinaryEncoding($data) {
-		throw new \Exception("Not implemented");
+		throw new \Exception("Not implemented.");
 	}
 	
 	protected static function _decodeDecimalEncoding($data) {
@@ -83,7 +83,7 @@ class Real extends Element
 	protected static function _decodeSpecialRealValue($data) {
 		if (strlen($data) != 1) {
 			throw new DecodeException(
-				"SpecialRealValue must have one content octet");
+				"SpecialRealValue must have one content octet.");
 		}
 		$byte = ord($data[0]);
 		if ($byte == 0x40) { // positive infinity
@@ -91,12 +91,12 @@ class Real extends Element
 		} else if ($byte == 0x41) { // negative infinity
 			return new self("-INF");
 		} else {
-			throw new DecodeException("Invalid SpecialRealValue encoding");
+			throw new DecodeException("Invalid SpecialRealValue encoding.");
 		}
 	}
 	
 	/**
-	 * Test that number is valid for this context
+	 * Test that number is valid for this context.
 	 *
 	 * @param mixed $num
 	 * @return boolean

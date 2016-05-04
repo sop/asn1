@@ -27,7 +27,7 @@ abstract class StringType extends Element
 		assert('is_string($string)', "got " . gettype($string));
 		if (!$this->_validateString($string)) {
 			throw new \InvalidArgumentException(
-				"Not a valid " . self::tagToName($this->_typeTag) . " string");
+				"Not a valid " . self::tagToName($this->_typeTag) . " string.");
 		}
 		$this->_string = $string;
 	}

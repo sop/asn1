@@ -67,14 +67,14 @@ class BitString extends StringType
 		$oi = (int) floor($idx / 8);
 		// if octet is outside range
 		if ($oi < 0 || $oi >= strlen($this->_string)) {
-			throw new \OutOfBoundsException("Index is out of bounds");
+			throw new \OutOfBoundsException("Index is out of bounds.");
 		}
 		// bit index
 		$bi = $idx % 8;
 		// if tested bit is last octet's unused bit
 		if ($oi === strlen($this->_string) - 1) {
 			if ($bi >= 8 - $this->_unusedBits) {
-				throw new \OutOfBoundsException("Index refers to unused bit");
+				throw new \OutOfBoundsException("Index refers to an unused bit.");
 			}
 		}
 		$byte = $this->_string[$oi];
@@ -96,7 +96,7 @@ class BitString extends StringType
 			return 0;
 		}
 		if ($start + $length > $this->numBits()) {
-			throw new \OutOfBoundsException("Not enough bits");
+			throw new \OutOfBoundsException("Not enough bits.");
 		}
 		$bits = gmp_init(0);
 		$idx = $start;
@@ -165,19 +165,19 @@ class BitString extends StringType
 		$idx = $offset;
 		$length = Length::expectFromDER($data, $idx);
 		if ($length->length() < 1) {
-			throw new DecodeException("Bit string length must be at least 1");
+			throw new DecodeException("Bit string length must be at least 1.");
 		}
 		$unused_bits = ord($data[$idx++]);
 		if ($unused_bits > 7) {
 			throw new DecodeException(
-				"Unused bits in bit string must be less than 7");
+				"Unused bits in a bit string must be less than 7.");
 		}
 		$str = substr($data, $idx, $length->length() - 1);
 		if ($unused_bits) {
 			$mask = (1 << $unused_bits) - 1;
 			if (ord($str[strlen($str) - 1]) & $mask) {
 				throw new DecodeException(
-					"DER encoded bit string must have zero padding");
+					"DER encoded bit string must have zero padding.");
 			}
 		}
 		$offset = $idx + $length->length() - 1;

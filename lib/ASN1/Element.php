@@ -241,7 +241,7 @@ abstract class Element implements Encodable
 		if ($called_class != __CLASS__) {
 			if (!($element instanceof $called_class)) {
 				throw new \UnexpectedValueException(
-					"$called_class expected, got " . get_class($element));
+					"$called_class expected, got " . get_class($element) . ".");
 			}
 		}
 		if (isset($offset)) {
@@ -268,7 +268,7 @@ abstract class Element implements Encodable
 		}
 		throw new \UnexpectedValueException(
 			Identifier::classToName($identifier->typeClass()) . " " .
-				 self::tagToName($identifier->tag()) . " not implemented");
+				 self::tagToName($identifier->tag()) . " not implemented.");
 	}
 	
 	/**
@@ -330,7 +330,7 @@ abstract class Element implements Encodable
 		if (!$this->isType($tag)) {
 			throw new \UnexpectedValueException(
 				self::tagToName($tag) . " expected, got " .
-					 self::tagToName($this->_typeTag));
+					 self::tagToName($this->_typeTag) . ".");
 		}
 		return $this;
 	}
@@ -347,11 +347,11 @@ abstract class Element implements Encodable
 		if (!$this->isTagged()) {
 			throw new \UnexpectedValueException(
 				"Context specific element expected, got " .
-					 Identifier::classToName($this->typeClass()));
+					 Identifier::classToName($this->typeClass()) . ".");
 		}
 		if (isset($tag) && $this->tag() != $tag) {
 			throw new \UnexpectedValueException(
-				"Tag $tag expected, got " . $this->tag());
+				"Tag $tag expected, got " . $this->tag() . ".");
 		}
 		return $this;
 	}

@@ -55,7 +55,7 @@ class UTCTime extends TimeType
 		$str = substr($data, $idx, $length->length());
 		$idx += $length->length();
 		if (!preg_match(self::REGEX, $str, $match)) {
-			throw new DecodeException("Invalid UTCTime format");
+			throw new DecodeException("Invalid UTCTime format.");
 		}
 		list(, $year, $month, $day, $hour, $minute, $second) = $match;
 		$tz = "UTC";
@@ -63,7 +63,7 @@ class UTCTime extends TimeType
 		$dt = \DateTimeImmutable::createFromFormat("!ymdHisT", $time, 
 			new \DateTimeZone($tz));
 		if (!$dt) {
-			throw new DecodeException("Failed to decode UTCTime");
+			throw new DecodeException("Failed to decode UTCTime.");
 		}
 		$offset = $idx;
 		return new self($dt);

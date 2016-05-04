@@ -87,7 +87,7 @@ class Identifier implements Encodable
 		$idx = $offset ? $offset : 0;
 		$datalen = strlen($data);
 		if ($idx >= $datalen) {
-			throw new DecodeException("Invalid offset");
+			throw new DecodeException("Invalid offset.");
 		}
 		$byte = ord($data[$idx++]);
 		// bits 8 and 7 (class)
@@ -104,7 +104,7 @@ class Identifier implements Encodable
 				if ($idx >= $datalen) {
 					throw new DecodeException(
 						"Unexpected end of data while decoding" .
-							 " long form identifier");
+							 " long form identifier.");
 				}
 				$byte = ord($data[$idx++]);
 				$tag <<= 7;

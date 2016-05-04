@@ -56,7 +56,7 @@ class Boolean extends Element
 		if ($byte != 0) {
 			if ($byte != 0xff) {
 				throw new DecodeException(
-					"DER encoded boolean true must have all bits set to 1");
+					"DER encoded boolean true must have all bits set to 1.");
 			}
 		}
 		$offset = $idx;

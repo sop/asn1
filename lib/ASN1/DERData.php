@@ -13,21 +13,21 @@ use ASN1\Component\Length;
 class DERData extends Element
 {
 	/**
-	 * DER encoded data
+	 * DER encoded data.
 	 *
 	 * @var string $_der
 	 */
 	protected $_der;
 	
 	/**
-	 * Identifier of the underlying type
+	 * Identifier of the underlying type.
 	 *
 	 * @var Identifier $_identifier
 	 */
 	protected $_identifier;
 	
 	/**
-	 * Offset to content in DER data
+	 * Offset to content in DER data.
 	 *
 	 * @var int $_contentOffset
 	 */
@@ -59,7 +59,7 @@ class DERData extends Element
 	
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
 			&$offset) {
-		throw new \LogicException("Not implemented");
+		throw new \LogicException("Not implemented.");
 	}
 	
 	public function toDER() {

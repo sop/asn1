@@ -82,7 +82,7 @@ class Flags
 	 */
 	public function test($idx) {
 		if ($idx >= $this->_width) {
-			throw new \OutOfBoundsException("Index is out of bounds");
+			throw new \OutOfBoundsException("Index is out of bounds.");
 		}
 		// octet index
 		$oi = (int) floor($idx / 8);

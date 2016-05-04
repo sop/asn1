@@ -22,14 +22,14 @@ abstract class PrimitiveString extends StringType
 			&$offset) {
 		$idx = $offset;
 		if (!$identifier->isPrimitive()) {
-			throw new DecodeException("DER encoded string must be primitive");
+			throw new DecodeException("DER encoded string must be primitive.");
 		}
 		$length = Length::expectFromDER($data, $idx);
 		$str = $length->length() ? substr($data, $idx, $length->length()) : "";
 		if (false === $str) {
 			throw new \LengthException(
 				"Failed to extract substring, stringlen=" . strlen($data) .
-					 ", start=$idx, length=" . $length->length());
+					 ", start=$idx, length=" . $length->length() . ".");
 		}
 		$offset = $idx + $length->length();
 		try {

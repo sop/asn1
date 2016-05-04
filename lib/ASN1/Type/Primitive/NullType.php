@@ -33,7 +33,7 @@ class NullType extends Element
 			&$offset) {
 		$idx = $offset;
 		if (!$identifier->isPrimitive()) {
-			throw new DecodeException("Null value must be primitive");
+			throw new DecodeException("Null value must be primitive.");
 		}
 		// null type has always zero length
 		Length::expectFromDER($data, $idx, 0);

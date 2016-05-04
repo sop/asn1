@@ -87,7 +87,7 @@ class ObjectIdentifier extends Element
 			$num = gmp_init("0", 10);
 			while (true) {
 				if ($idx >= $end) {
-					throw new DecodeException("Unexpected end of data");
+					throw new DecodeException("Unexpected end of data.");
 				}
 				$byte = ord($data[$idx++]);
 				$num |= $byte & 0x7f;

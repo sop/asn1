@@ -56,7 +56,7 @@ abstract class Structure extends Element implements \Countable,
 		$idx = $offset;
 		if (!$identifier->isConstructed()) {
 			throw new DecodeException(
-				"Structured element must have constructed bit set");
+				"Structured element must have constructed bit set.");
 		}
 		$length = Length::expectFromDER($data, $idx);
 		$end = $idx + $length->length();
@@ -65,7 +65,8 @@ abstract class Structure extends Element implements \Countable,
 			$elements[] = Element::fromDER($data, $idx);
 			// check that element didn't overflow length
 			if ($idx > $end) {
-				throw new DecodeException("Structure's content overflows length");
+				throw new DecodeException(
+					"Structure's content overflows length.");
 			}
 		}
 		$offset = $idx;
@@ -84,7 +85,7 @@ abstract class Structure extends Element implements \Countable,
 		$offset = 0;
 		$identifier = Identifier::fromDER($data, $offset);
 		if (!$identifier->isConstructed()) {
-			throw new DecodeException("Element is not constructed");
+			throw new DecodeException("Element is not constructed.");
 		}
 		$length = Length::expectFromDER($data, $offset);
 		$end = $offset + $length->length();
@@ -147,7 +148,7 @@ abstract class Structure extends Element implements \Countable,
 	public function at($idx, $expectedTag = null) {
 		if (!isset($this->_elements[$idx])) {
 			throw new \OutOfBoundsException(
-				"Structure doesn't have an element at index $idx");
+				"Structure doesn't have an element at index $idx.");
 		}
 		$element = $this->_elements[$idx];
 		if (isset($expectedTag)) {
@@ -184,7 +185,7 @@ abstract class Structure extends Element implements \Countable,
 	 */
 	public function getTagged($tag) {
 		if (!$this->hasTagged($tag)) {
-			throw new \OutOfBoundsException("No tagged element for tag $tag");
+			throw new \OutOfBoundsException("No tagged element for tag $tag.");
 		}
 		return $this->_taggedMap[$tag];
 	}

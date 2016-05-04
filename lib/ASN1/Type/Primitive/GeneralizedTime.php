@@ -67,7 +67,7 @@ class GeneralizedTime extends TimeType
 		$str = substr($data, $idx, $length->length());
 		$idx += $length->length();
 		if (!preg_match(self::REGEX, $str, $match)) {
-			throw new DecodeException("Invalid GeneralizedTime format");
+			throw new DecodeException("Invalid GeneralizedTime format.");
 		}
 		list(, $year, $month, $day, $hour, $minute, $second) = $match;
 		if (isset($match[7])) {
@@ -75,7 +75,7 @@ class GeneralizedTime extends TimeType
 			// DER restricts trailing zeroes in fractional seconds component
 			if ($frac[strlen($frac) - 1] === '0') {
 				throw new DecodeException(
-					"Fractional seconds must omit trailing zeroes");
+					"Fractional seconds must omit trailing zeroes.");
 			}
 			$frac = (int) $frac;
 		} else {
@@ -86,7 +86,7 @@ class GeneralizedTime extends TimeType
 		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
 			new \DateTimeZone("UTC"));
 		if (!$dt) {
-			throw new DecodeException("Failed to decode Generalizedime");
+			throw new DecodeException("Failed to decode Generalizedime.");
 		}
 		$offset = $idx;
 		return new self($dt);

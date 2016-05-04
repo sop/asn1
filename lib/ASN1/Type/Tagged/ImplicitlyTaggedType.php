@@ -42,7 +42,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 			throw new \UnexpectedValueException(
 				"Type class " . Identifier::classToName($class) .
 					 " expected, got " .
-					 Identifier::classToName($this->_element->typeClass()));
+					 Identifier::classToName($this->_element->typeClass()) . ".");
 		}
 		return $this->_element;
 	}

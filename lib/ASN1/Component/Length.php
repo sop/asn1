@@ -52,7 +52,7 @@ class Length implements Encodable
 		$idx = $offset ? $offset : 0;
 		$datalen = strlen($data);
 		if ($idx >= $datalen) {
-			throw new DecodeException("Invalid offset");
+			throw new DecodeException("Invalid offset.");
 		}
 		$indefinite = false;
 		$byte = ord($data[$idx++]);
@@ -63,7 +63,7 @@ class Length implements Encodable
 			$count = $length;
 			// first octet must not be 0xff (spec 8.1.3.5c)
 			if ($count == 127) {
-				throw new DecodeException("Invalid number of length octets");
+				throw new DecodeException("Invalid number of length octets.");
 			}
 			$num = gmp_init(0, 10);
 			if ($count) {
@@ -71,7 +71,7 @@ class Length implements Encodable
 					if ($idx >= $datalen) {
 						throw new DecodeException(
 							"Unexpected end of data while decoding" .
-								 " long form length");
+								 " long form length.");
 					}
 					$byte = ord($data[$idx++]);
 					$num <<= 8;
@@ -105,18 +105,18 @@ class Length implements Encodable
 		$length = self::fromDER($data, $idx);
 		// DER encoding must have definite length (spec 10.1)
 		if ($length->isIndefinite()) {
-			throw new DecodeException("DER encoding must have definite length");
+			throw new DecodeException("DER encoding must have definite length.");
 		}
 		// if certain length was expected
 		if (isset($expected) && $expected != $length->_length) {
 			throw new DecodeException(
-				"Expected length $expected, got {$length->_length}");
+				"Expected length $expected, got {$length->_length}.");
 		}
 		// check that enough data is available
 		if (strlen($data) < $idx + $length->_length) {
 			throw new DecodeException(
 				"Length {$length->_length} overflows data, " .
-					 (strlen($data) - $idx) . " bytes left");
+					 (strlen($data) - $idx) . " bytes left.");
 		}
 		$offset = $idx;
 		return $length;
@@ -143,7 +143,7 @@ class Length implements Encodable
 				$count = count($octets);
 				// first octet must not be 0xff
 				if ($count >= 127) {
-					throw new \DomainException("Too many length octets");
+					throw new \DomainException("Too many length octets.");
 				}
 				$bytes[] = 0x80 | $count;
 				foreach (array_reverse($octets) as $octet) {
@@ -164,7 +164,7 @@ class Length implements Encodable
 	 */
 	public function length() {
 		if ($this->_indefinite) {
-			throw new \LogicException("Length is indefinite");
+			throw new \LogicException("Length is indefinite.");
 		}
 		return $this->_length;
 	}
