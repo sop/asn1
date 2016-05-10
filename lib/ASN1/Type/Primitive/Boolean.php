@@ -19,7 +19,7 @@ class Boolean extends Element
 	use PrimitiveType;
 	
 	/**
-	 * Value
+	 * Value.
 	 *
 	 * @var bool
 	 */
@@ -36,7 +36,7 @@ class Boolean extends Element
 	}
 	
 	/**
-	 * Get value
+	 * Get the value.
 	 *
 	 * @return bool
 	 */

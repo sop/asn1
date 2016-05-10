@@ -24,6 +24,6 @@ class IA5String extends PrimitiveString
 	}
 	
 	protected function _validateString($string) {
-		return preg_match('/[^\x01-\x7f]/', $string) === 0;
+		return preg_match('/[^\x01-\x7f]/', $string) == 0;
 	}
 }

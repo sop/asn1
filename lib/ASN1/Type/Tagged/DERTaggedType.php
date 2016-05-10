@@ -21,21 +21,21 @@ class DERTaggedType extends TaggedType implements ExplicitTagging,
 	ImplicitTagging
 {
 	/**
-	 * Identifier
+	 * Identifier.
 	 *
 	 * @var Identifier
 	 */
 	private $_identifier;
 	
 	/**
-	 * DER data
+	 * DER data.
 	 *
 	 * @var string
 	 */
 	private $_data;
 	
 	/**
-	 * Offset to data
+	 * Offset to data.
 	 *
 	 * @var int
 	 */

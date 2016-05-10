@@ -13,14 +13,14 @@ use ASN1\Type\TaggedType;
 abstract class ContextSpecificTaggedType extends TaggedType
 {
 	/**
-	 * Wrapped element
+	 * Wrapped element.
 	 *
 	 * @var Element $_element
 	 */
 	protected $_element;
 	
 	/**
-	 * Get wrapped element
+	 * Get the wrapped element.
 	 *
 	 * @return Element
 	 */

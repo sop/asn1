@@ -19,7 +19,7 @@ class BitString extends StringType
 	use PrimitiveType;
 	
 	/**
-	 * Number of unused bits in the last octet
+	 * Number of unused bits in the last octet.
 	 *
 	 * @var int $_unusedBits
 	 */
@@ -38,7 +38,7 @@ class BitString extends StringType
 	}
 	
 	/**
-	 * Get number of bits in string
+	 * Get the number of bits in the string.
 	 *
 	 * @return int
 	 */
@@ -47,7 +47,7 @@ class BitString extends StringType
 	}
 	
 	/**
-	 * Get number of unused bits in last octet of the string
+	 * Get the number of unused bits in the last octet of the string.
 	 *
 	 * @return int
 	 */
@@ -56,7 +56,7 @@ class BitString extends StringType
 	}
 	
 	/**
-	 * Test whether bit is set
+	 * Test whether bit is set.
 	 *
 	 * @param int $idx Bit index.
 	 *        Most significant bit of the first octet is index 0.
@@ -72,7 +72,7 @@ class BitString extends StringType
 		// bit index
 		$bi = $idx % 8;
 		// if tested bit is last octet's unused bit
-		if ($oi === strlen($this->_string) - 1) {
+		if ($oi == strlen($this->_string) - 1) {
 			if ($bi >= 8 - $this->_unusedBits) {
 				throw new \OutOfBoundsException("Index refers to an unused bit.");
 			}
@@ -84,7 +84,7 @@ class BitString extends StringType
 	}
 	
 	/**
-	 * Get range of bits
+	 * Get range of bits.
 	 *
 	 * @param int $start Index of first bit
 	 * @param int $length Number of bits in range
@@ -113,7 +113,7 @@ class BitString extends StringType
 	}
 	
 	/**
-	 * Get copy of bit string with trailing zeroes removed.
+	 * Get a copy of the bit string with trailing zeroes removed.
 	 *
 	 * @return self
 	 */

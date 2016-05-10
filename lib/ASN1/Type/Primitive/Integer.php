@@ -18,7 +18,7 @@ class Integer extends Element
 	use PrimitiveType;
 	
 	/**
-	 * Value
+	 * Value.
 	 *
 	 * @var int|string
 	 */
@@ -39,7 +39,7 @@ class Integer extends Element
 	}
 	
 	/**
-	 * Get number
+	 * Get the number.
 	 *
 	 * @return int|string
 	 */
@@ -114,7 +114,7 @@ class Integer extends Element
 	}
 	
 	/**
-	 * Test that number is valid for this context
+	 * Test that number is valid for this context.
 	 *
 	 * @param mixed $num
 	 * @return boolean
