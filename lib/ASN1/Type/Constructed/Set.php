@@ -31,10 +31,10 @@ class Set extends Structure
 		$obj = clone $this;
 		usort($obj->_elements, 
 			function (Element $a, Element $b) {
-				if ($a->typeClass() !== $b->typeClass()) {
+				if ($a->typeClass() != $b->typeClass()) {
 					return $a->typeClass() < $b->typeClass() ? -1 : 1;
 				}
-				if ($a->tag() === $b->tag()) {
+				if ($a->tag() == $b->tag()) {
 					return 0;
 				}
 				return $a->tag() < $b->tag() ? -1 : 1;

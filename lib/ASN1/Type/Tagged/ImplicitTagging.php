@@ -12,7 +12,8 @@ interface ImplicitTagging
 	 * Get implicitly tagged wrapped element.
 	 *
 	 * @param int $tag Tag of the element
-	 * @param int $class Type class of the element
+	 * @param int $class Expected type class of the element
+	 * @throws \UnexpectedValueException If expectation fails
 	 * @return Element
 	 */
 	public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL);

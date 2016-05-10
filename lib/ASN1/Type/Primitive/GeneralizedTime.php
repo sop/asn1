@@ -86,7 +86,7 @@ class GeneralizedTime extends TimeType
 		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
 			new \DateTimeZone("UTC"));
 		if (!$dt) {
-			throw new DecodeException("Failed to decode Generalizedime.");
+			throw new DecodeException("Failed to decode GeneralizedTime.");
 		}
 		$offset = $idx;
 		return new self($dt);

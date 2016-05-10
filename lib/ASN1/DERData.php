@@ -53,13 +53,11 @@ class DERData extends Element
 		return $this->_identifier->isConstructed();
 	}
 	
+	/**
+	 * @codeCoverageIgnore Never called since toDER is overriden
+	 */
 	protected function _encodedContentDER() {
 		return substr($this->_der, $this->_contentOffset);
-	}
-	
-	protected static function _decodeFromDER(Identifier $identifier, $data, 
-			&$offset) {
-		throw new \LogicException("Not implemented.");
 	}
 	
 	public function toDER() {

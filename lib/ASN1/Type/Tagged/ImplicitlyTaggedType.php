@@ -38,7 +38,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 	
 	public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL) {
 		$this->_element->expectType($tag);
-		if ($this->_element->typeClass() !== $class) {
+		if ($this->_element->typeClass() != $class) {
 			throw new \UnexpectedValueException(
 				"Type class " . Identifier::classToName($class) .
 					 " expected, got " .
