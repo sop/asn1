@@ -74,4 +74,65 @@ class StructureTest extends PHPUnit_Framework_TestCase
 		$der = $el->toDER();
 		Structure::explodeDER($der);
 	}
+	
+	public function testReplace() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq = $seq->withReplaced(1, new Boolean(true));
+		$expected = new Sequence(new NullType(), new Boolean(true));
+		$this->assertEquals($expected, $seq);
+	}
+	
+	/**
+	 * @expectedException OutOfBoundsException
+	 */
+	public function testReplaceFail() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq->withReplaced(2, new Boolean(true));
+	}
+	
+	public function testInsertFirst() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq = $seq->withInserted(0, new Boolean(true));
+		$expected = new Sequence(new Boolean(true), new NullType(), 
+			new NullType());
+		$this->assertEquals($expected, $seq);
+	}
+	
+	public function testInsertBetween() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq = $seq->withInserted(1, new Boolean(true));
+		$expected = new Sequence(new NullType(), new Boolean(true), 
+			new NullType());
+		$this->assertEquals($expected, $seq);
+	}
+	
+	public function testInsertLast() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq = $seq->withInserted(2, new Boolean(true));
+		$expected = new Sequence(new NullType(), new NullType(), 
+			new Boolean(true));
+		$this->assertEquals($expected, $seq);
+	}
+	
+	/**
+	 * @expectedException OutOfBoundsException
+	 */
+	public function testInsertOOB() {
+		$seq = new Sequence(new NullType(), new NullType());
+		$seq->withInserted(3, new Boolean(true));
+	}
+	
+	public function testAppend() {
+		$seq = new Sequence(new NullType());
+		$seq = $seq->withAppended(new Boolean(true));
+		$expected = new Sequence(new NullType(), new Boolean(true));
+		$this->assertEquals($expected, $seq);
+	}
+	
+	public function testPrepend() {
+		$seq = new Sequence(new NullType());
+		$seq = $seq->withPrepended(new Boolean(true));
+		$expected = new Sequence(new Boolean(true), new NullType());
+		$this->assertEquals($expected, $seq);
+	}
 }

@@ -106,6 +106,65 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
+	 * Get self with element at given index replaced by another.
+	 *
+	 * @param int $idx Element index
+	 * @param Element $el New element to insert into structure
+	 * @throws \OutOfBoundsException
+	 * @return self
+	 */
+	public function withReplaced($idx, Element $el) {
+		if (!isset($this->_elements[$idx])) {
+			throw new \OutOfBoundsException(
+				"Structure doesn't have element at index $idx.");
+		}
+		$obj = clone $this;
+		$obj->_elements[$idx] = $el;
+		return $obj;
+	}
+	
+	/**
+	 * Get self with element inserted before given index.
+	 *
+	 * @param int $idx Element index
+	 * @param Element $el New element to insert into structure
+	 * @throws \OutOfBoundsException
+	 * @return self
+	 */
+	public function withInserted($idx, Element $el) {
+		if (count($this->_elements) < $idx || $idx < 0) {
+			throw new \OutOfBoundsException("Index $idx is out of bounds.");
+		}
+		$obj = clone $this;
+		array_splice($obj->_elements, $idx, 0, [$el]);
+		return $obj;
+	}
+	
+	/**
+	 * Get self with element appended to the end.
+	 *
+	 * @param Element $el
+	 * @return self
+	 */
+	public function withAppended(Element $el) {
+		$obj = clone $this;
+		array_push($obj->_elements, $el);
+		return $obj;
+	}
+	
+	/**
+	 * Get self with element prepended in the beginning.
+	 *
+	 * @param Element $el
+	 * @return self
+	 */
+	public function withPrepended(Element $el) {
+		$obj = clone $this;
+		array_unshift($obj->_elements, $el);
+		return $obj;
+	}
+	
+	/**
 	 * Get elements in the structure.
 	 *
 	 * @return Element[]
