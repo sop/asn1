@@ -4,6 +4,9 @@
 /.project
 /.pydevproject
 
+# build
+/build/
+
 # composer
 /vendor/
 /composer.lock
