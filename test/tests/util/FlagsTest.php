@@ -210,4 +210,12 @@ class FlagsTest extends PHPUnit_Framework_TestCase
 			/* @formatter:on */
 		);
 	}
+	
+	/**
+	 * @expectedException OutOfBoundsException
+	 */
+	public function testTestOOB() {
+		$flags = new Flags(0, 8);
+		$flags->test(8);
+	}
 }

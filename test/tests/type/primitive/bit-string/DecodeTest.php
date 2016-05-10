@@ -64,4 +64,18 @@ class BitStringDecodeTest extends PHPUnit_Framework_TestCase
 		$el = BitString::fromDER("\x3\x3\x4\x08\x00");
 		$el->testBit(16);
 	}
+	
+	/**
+	 * @expectedException ASN1\Exception\DecodeException
+	 */
+	public function testLengthFail() {
+		BitString::fromDER("\x3\x0");
+	}
+	
+	/**
+	 * @expectedException ASN1\Exception\DecodeException
+	 */
+	public function testUnusedBitsFail() {
+		BitString::fromDER("\x3\x3\x8\xff\x00");
+	}
 }

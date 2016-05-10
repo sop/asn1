@@ -6,6 +6,7 @@ use ASN1\Type\Primitive\NullType;
 
 /**
  * @group encode
+ * @group structure
  * @group sequence
  */
 class SequenceEncodeTest extends PHPUnit_Framework_TestCase

@@ -24,6 +24,13 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($length->isIndefinite());
 	}
 	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testLengthFailsBecauseIndefinite() {
+		Length::fromDER("\x80")->length();
+	}
+	
 	public function testShortForm() {
 		$length = Length::fromDER("\x7f");
 		$this->assertEquals(0x7f, $length->length());
@@ -62,6 +69,14 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
 		$length = Length::fromDER($der);
 		$num = gmp_init(str_repeat("ff", 126), 16);
 		$this->assertEquals($length->length(), gmp_strval($num));
+	}
+	
+	/**
+	 * @expectedException ASN1\Exception\DecodeException
+	 */
+	public function testOffsetFail() {
+		$offset = 1;
+		Length::fromDER("\x0", $offset);
 	}
 	
 	/**

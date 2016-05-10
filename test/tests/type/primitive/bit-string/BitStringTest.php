@@ -19,10 +19,12 @@ class BitStringTest extends PHPUnit_Framework_TestCase
 	
 	public function ffProvider() {
 		return array(
+			/* @formatter:off */
 			[0, 8, 0xff],
 			[1, 2, 0x03],
 			[6, 2, 0x03],
 			[2, 4, 0x0f]
+			/* @formatter:on */
 		);
 	}
 	
@@ -36,10 +38,17 @@ class BitStringTest extends PHPUnit_Framework_TestCase
 	
 	public function ffffProvider() {
 		return array(
+			/* @formatter:off */
 			[0, 8, 0xff],
 			[6, 4, 0x0f],
 			[12, 4, 0x0f]
+			/* @formatter:on */
 		);
+	}
+	
+	public function testEmptyRange() {
+		$bs = new BitString("\0");
+		$this->assertEquals(0, $bs->range(0, 0));
 	}
 	
 	/**

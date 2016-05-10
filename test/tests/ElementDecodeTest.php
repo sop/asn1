@@ -35,4 +35,18 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
 	public function testInvalidParam() {
 		Element::fromDER(new \stdClass());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testUnimplementedFail() {
+		Element::fromDER("\x1f\x7f\x0");
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testExpectTaggedFail() {
+		Element::fromDER("\x5\x0")->expectTagged();
+	}
 }

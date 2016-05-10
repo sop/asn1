@@ -9,6 +9,7 @@ use ASN1\Type\Tagged\ImplicitlyTaggedType;
 
 /**
  * @group encode
+ * @group structure
  * @group set
  */
 class SetEncodeTest extends PHPUnit_Framework_TestCase

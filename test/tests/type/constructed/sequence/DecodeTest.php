@@ -6,6 +6,7 @@ use ASN1\Type\Constructed\Sequence;
 
 /**
  * @group decode
+ * @group structure
  * @group sequence
  */
 class SequenceDecodeTest extends PHPUnit_Framework_TestCase

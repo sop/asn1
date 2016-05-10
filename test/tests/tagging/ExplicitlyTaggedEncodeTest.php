@@ -7,6 +7,7 @@ use ASN1\Type\Tagged\ExplicitlyTaggedType;
 
 /**
  * @group encode
+ * @group tagging
  * @group explicit-tag
  */
 class ExplicitlyTaggedEncodeTest extends PHPUnit_Framework_TestCase

@@ -34,6 +34,11 @@ class IdentifierDecodeTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($identifier->isPrivate());
 	}
 	
+	public function testPC() {
+		$identifier = Identifier::fromDER(chr(0b00000000));
+		$this->assertEquals(Identifier::PRIMITIVE, $identifier->pc());
+	}
+	
 	public function testPrimitive() {
 		$identifier = Identifier::fromDER(chr(0b00000000));
 		$this->assertTrue($identifier->isPrimitive());
