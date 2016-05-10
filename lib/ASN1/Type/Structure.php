@@ -143,7 +143,7 @@ abstract class Structure extends Element implements \Countable,
 	/**
 	 * Get self with element appended to the end.
 	 *
-	 * @param Element $el
+	 * @param Element $el Element to insert into structure
 	 * @return self
 	 */
 	public function withAppended(Element $el) {
@@ -155,12 +155,29 @@ abstract class Structure extends Element implements \Countable,
 	/**
 	 * Get self with element prepended in the beginning.
 	 *
-	 * @param Element $el
+	 * @param Element $el Element to insert into structure
 	 * @return self
 	 */
 	public function withPrepended(Element $el) {
 		$obj = clone $this;
 		array_unshift($obj->_elements, $el);
+		return $obj;
+	}
+	
+	/**
+	 * Get self with element at given index removed.
+	 *
+	 * @param int $idx Element index
+	 * @throws \OutOfBoundsException
+	 * @return self
+	 */
+	public function withoutElement($idx) {
+		if (!isset($this->_elements[$idx])) {
+			throw new \OutOfBoundsException(
+				"Structure doesn't have element at index $idx.");
+		}
+		$obj = clone $this;
+		array_splice($obj->_elements, $idx, 1);
 		return $obj;
 	}
 	

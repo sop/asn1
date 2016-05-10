@@ -135,4 +135,33 @@ class StructureTest extends PHPUnit_Framework_TestCase
 		$expected = new Sequence(new Boolean(true), new NullType());
 		$this->assertEquals($expected, $seq);
 	}
+	
+	public function testRemoveFirst() {
+		$seq = new Sequence(new NullType(), new Boolean(true), new NullType());
+		$seq = $seq->withoutElement(0);
+		$expected = new Sequence(new Boolean(true), new NullType());
+		$this->assertEquals($expected, $seq);
+	}
+	
+	public function testRemoveLast() {
+		$seq = new Sequence(new NullType(), new Boolean(true), new NullType());
+		$seq = $seq->withoutElement(2);
+		$expected = new Sequence(new NullType(), new Boolean(true));
+		$this->assertEquals($expected, $seq);
+	}
+	
+	public function testRemoveOnly() {
+		$seq = new Sequence(new NullType());
+		$seq = $seq->withoutElement(0);
+		$expected = new Sequence();
+		$this->assertEquals($expected, $seq);
+	}
+	
+	/**
+	 * @expectedException OutOfBoundsException
+	 */
+	public function testRemoveFail() {
+		$seq = new Sequence(new NullType());
+		$seq->withoutElement(1);
+	}
 }
