@@ -42,6 +42,16 @@ class ExplicitlyTaggedtypeTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * @depends testCreate
+	 *
+	 * @param ExplicitTagging $el
+	 */
+	public function testExpectation(ExplicitTagging $el) {
+		$this->assertInstanceOf(NullType::class, 
+			$el->explicit(Element::TYPE_NULL));
+	}
+	
+	/**
+	 * @depends testCreate
 	 * @expectedException UnexpectedValueException
 	 *
 	 * @param ExplicitTagging $el

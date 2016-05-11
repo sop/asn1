@@ -2,6 +2,7 @@
 
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Structure;
 
@@ -13,7 +14,7 @@ use ASN1\Type\Structure;
 class SequenceTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
-		$seq = new Sequence(new NullType(), new NullType());
+		$seq = new Sequence(new NullType(), new Boolean(true));
 		$this->assertInstanceOf(Structure::class, $seq);
 		return $seq;
 	}
@@ -56,18 +57,18 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 * @param Sequence $seq
 	 */
 	public function testAt(Sequence $seq) {
-		$el = $seq->at(1);
+		$el = $seq->at(0);
 		$this->assertInstanceOf(NullType::class, $el);
 	}
 	
 	/**
 	 * @depends testCreate
-	 * @expectedException OutOfBoundsException
 	 *
 	 * @param Sequence $seq
 	 */
-	public function testAtFail(Sequence $seq) {
-		$seq->at(2);
+	public function testAtExpected(Sequence $seq) {
+		$el = $seq->at(0, Element::TYPE_NULL);
+		$this->assertInstanceOf(NullType::class, $el);
 	}
 	
 	/**
@@ -77,6 +78,16 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 * @param Sequence $seq
 	 */
 	public function testAtExpectationFail(Sequence $seq) {
-		$seq->at(1, Element::TYPE_BOOLEAN);
+		$seq->at(1, Element::TYPE_NULL);
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException OutOfBoundsException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testAtOOB(Sequence $seq) {
+		$seq->at(2);
 	}
 }

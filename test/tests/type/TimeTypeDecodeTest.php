@@ -1,6 +1,7 @@
 <?php
 
 use ASN1\Element;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\TimeType;
 
 
@@ -24,6 +25,14 @@ class TimeTypeDecodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testExpectation() {
 		$el = TimeType::fromDER("\x17\x0d" . "060102220405Z");
+		$el->expectType(Element::TYPE_TIME);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testExpectationFails() {
+		$el = new NullType();
 		$el->expectType(Element::TYPE_TIME);
 	}
 }
