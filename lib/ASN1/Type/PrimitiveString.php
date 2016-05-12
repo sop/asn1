@@ -26,14 +26,9 @@ abstract class PrimitiveString extends StringType
 		}
 		$length = Length::expectFromDER($data, $idx);
 		$str = $length->length() ? substr($data, $idx, $length->length()) : "";
-		if (false === $str) {
-			// This branch should never occur, because length is checked.
-			// @codeCoverageIgnoreStart
-			throw new \LengthException(
-				"Failed to extract substring, stringlen=" . strlen($data) .
-					 ", start=$idx, length=" . $length->length() . ".");
-			// @codeCoverageIgnoreEnd
-		}
+		// substr should never return false, since length is
+		// checked by Length::expectFromDER.
+		assert('is_string($str)', "substr");
 		$offset = $idx + $length->length();
 		try {
 			return new static($str);
