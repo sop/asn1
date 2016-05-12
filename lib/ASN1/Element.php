@@ -204,10 +204,8 @@ abstract class Element implements Encodable
 	 */
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
 			&$offset) {
-		// @codeCoverageIgnoreStart
 		throw new \BadMethodCallException(
 			__METHOD__ . " must be implemented in derived class.");
-		// @codeCoverageIgnoreEnd
 	}
 	
 	/**
