@@ -1,5 +1,6 @@
 <?php
 
+use ASN1\Component\Identifier;
 use ASN1\Element;
 use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
@@ -48,5 +49,18 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExpectTaggedFail() {
 		Element::fromDER("\x5\x0")->expectTagged();
+	}
+	
+	/**
+	 * @expectedException BadMethodCallException
+	 */
+	public function testFromDERBadCall() {
+		$cls = new ReflectionClass(Element::class);
+		$mtd = $cls->getMethod("_decodeFromDER");
+		$mtd->setAccessible(true);
+		$identifier = new Identifier(Identifier::CLASS_UNIVERSAL, 
+			Identifier::PRIMITIVE, Element::TYPE_NULL);
+		$offset = 0;
+		$mtd->invokeArgs(null, [$identifier, "", &$offset]);
 	}
 }

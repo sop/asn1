@@ -5,6 +5,7 @@ use ASN1\DERData;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Boolean;
+use ASN1\Type\Primitive\OctetString;
 
 
 /**
@@ -55,5 +56,23 @@ class DERDataTest extends PHPUnit_Framework_TestCase
 		$el = new DERData("\x5\x0");
 		$seq = new Sequence($el, new Boolean(true));
 		$this->assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
+	}
+	
+	public function testEncodedContentEmpty() {
+		$el = new DERData("\x5\x0");
+		$cls = new ReflectionClass($el);
+		$mtd = $cls->getMethod("_encodedContentDER");
+		$mtd->setAccessible(true);
+		$content = $mtd->invoke($el);
+		$this->assertEquals("", $content);
+	}
+	
+	public function testEncodedContentValue() {
+		$el = new DERData((new OctetString("test"))->toDER());
+		$cls = new ReflectionClass($el);
+		$mtd = $cls->getMethod("_encodedContentDER");
+		$mtd->setAccessible(true);
+		$content = $mtd->invoke($el);
+		$this->assertEquals("test", $content);
 	}
 }
