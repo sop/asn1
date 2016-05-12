@@ -71,4 +71,11 @@ class GeneralizedTimeDecodeTest extends PHPUnit_Framework_TestCase
 	public function testNoTimezone() {
 		GeneralizedTime::fromDER("\x18\x0e" . "20060102220405");
 	}
+	
+	/**
+	 * @expectedException ASN1\Exception\DecodeException
+	 */
+	public function testInvalidTime() {
+		GeneralizedTime::fromDER("\x18\x19" . "20060102220405.123456789Z");
+	}
 }
