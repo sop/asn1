@@ -21,6 +21,8 @@ class UTCTime extends TimeType
 	/**
 	 * Regular expression to parse date.
 	 *
+	 * DER restricts format to UTC timezone (Z suffix).
+	 *
 	 * @var string
 	 */
 	const REGEX = /* @formatter:off */ '#^' .
@@ -63,7 +65,9 @@ class UTCTime extends TimeType
 		$dt = \DateTimeImmutable::createFromFormat("!ymdHisT", $time, 
 			new \DateTimeZone($tz));
 		if (!$dt) {
-			throw new DecodeException("Failed to decode UTCTime.");
+			$errors = \DateTimeImmutable::getLastErrors()["errors"];
+			throw new DecodeException(
+				"Failed to decode UTCTime: " . implode(", ", $errors));
 		}
 		$offset = $idx;
 		return new self($dt);

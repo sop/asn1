@@ -21,6 +21,8 @@ class GeneralizedTime extends TimeType
 	/**
 	 * Regular expression to parse date.
 	 *
+	 * DER restricts format to UTC timezone (Z suffix).
+	 *
 	 * @var string
 	 */
 	const REGEX = /* @formatter:off */ '#^' .
@@ -86,7 +88,9 @@ class GeneralizedTime extends TimeType
 		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
 			new \DateTimeZone("UTC"));
 		if (!$dt) {
-			throw new DecodeException("Failed to decode GeneralizedTime.");
+			$errors = \DateTimeImmutable::getLastErrors()["errors"];
+			throw new DecodeException(
+				"Failed to decode GeneralizedTime: " . implode(", ", $errors));
 		}
 		$offset = $idx;
 		return new self($dt);
