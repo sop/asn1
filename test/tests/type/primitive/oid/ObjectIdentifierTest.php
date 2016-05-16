@@ -1,18 +1,18 @@
 <?php
 
 use ASN1\Element;
-use ASN1\Type\Primitive\UniversalString;
+use ASN1\Type\Primitive\ObjectIdentifier;
 
 
 /**
  * @group type
- * @group universal-string
+ * @group oid
  */
-class UniversalStringTest extends PHPUnit_Framework_TestCase
+class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
-		$el = new UniversalString("");
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = new ObjectIdentifier("1.3.6.1.3");
+		$this->assertInstanceOf(ObjectIdentifier::class, $el);
 		return $el;
 	}
 	
@@ -33,8 +33,8 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 * @param string $data
 	 */
 	public function testDecode($data) {
-		$el = UniversalString::fromDER($data);
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = ObjectIdentifier::fromDER($data);
+		$this->assertInstanceOf(ObjectIdentifier::class, $el);
 		return $el;
 	}
 	
@@ -47,12 +47,5 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRecoded(Element $ref, Element $el) {
 		$this->assertEquals($ref, $el);
-	}
-	
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testInvalidString() {
-		new UniversalString("xxx");
 	}
 }

@@ -22,6 +22,39 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testCreate
 	 *
+	 * @param Element $el
+	 */
+	public function testEncode(Element $el) {
+		$der = $el->toDER();
+		$this->assertInternalType("string", $der);
+		return $der;
+	}
+	
+	/**
+	 * @depends testEncode
+	 *
+	 * @param string $data
+	 */
+	public function testDecode($data) {
+		$el = Sequence::fromDER($data);
+		$this->assertInstanceOf(Sequence::class, $el);
+		return $el;
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @depends testDecode
+	 *
+	 * @param Element $ref
+	 * @param Element $el
+	 */
+	public function testRecoded(Element $ref, Element $el) {
+		$this->assertEquals($ref, $el);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
 	 * @param Sequence $seq
 	 */
 	public function testElements(Sequence $seq) {

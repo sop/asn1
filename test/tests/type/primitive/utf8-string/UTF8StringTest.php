@@ -1,18 +1,18 @@
 <?php
 
 use ASN1\Element;
-use ASN1\Type\Primitive\UniversalString;
+use ASN1\Type\Primitive\UTF8String;
 
 
 /**
  * @group type
- * @group universal-string
+ * @group utf8-string
  */
-class UniversalStringTest extends PHPUnit_Framework_TestCase
+class UTF8StringTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
-		$el = new UniversalString("");
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = new UTF8String("");
+		$this->assertInstanceOf(UTF8String::class, $el);
 		return $el;
 	}
 	
@@ -33,8 +33,8 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 * @param string $data
 	 */
 	public function testDecode($data) {
-		$el = UniversalString::fromDER($data);
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = UTF8String::fromDER($data);
+		$this->assertInstanceOf(UTF8String::class, $el);
 		return $el;
 	}
 	
@@ -53,6 +53,6 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testInvalidString() {
-		new UniversalString("xxx");
+		new UTF8String(hex2bin("ff"));
 	}
 }

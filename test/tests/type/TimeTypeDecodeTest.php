@@ -25,7 +25,8 @@ class TimeTypeDecodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testExpectation() {
 		$el = TimeType::fromDER("\x17\x0d" . "060102220405Z");
-		$el->expectType(Element::TYPE_TIME);
+		$this->assertInstanceOf(TimeType::class, 
+			$el->expectType(Element::TYPE_TIME));
 	}
 	
 	/**

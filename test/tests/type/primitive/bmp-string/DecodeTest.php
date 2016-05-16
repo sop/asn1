@@ -5,7 +5,7 @@ use ASN1\Type\Primitive\BMPString;
 
 /**
  * @group decode
- * @group gmp-string
+ * @group bmp-string
  */
 class BMPStringDecodeTest extends PHPUnit_Framework_TestCase
 {

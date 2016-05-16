@@ -1,18 +1,18 @@
 <?php
 
 use ASN1\Element;
-use ASN1\Type\Primitive\UniversalString;
+use ASN1\Type\Primitive\VisibleString;
 
 
 /**
  * @group type
- * @group universal-string
+ * @group visible-string
  */
-class UniversalStringTest extends PHPUnit_Framework_TestCase
+class VisibleStringTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
-		$el = new UniversalString("");
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = new VisibleString("");
+		$this->assertInstanceOf(VisibleString::class, $el);
 		return $el;
 	}
 	
@@ -33,8 +33,8 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 * @param string $data
 	 */
 	public function testDecode($data) {
-		$el = UniversalString::fromDER($data);
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = VisibleString::fromDER($data);
+		$this->assertInstanceOf(VisibleString::class, $el);
 		return $el;
 	}
 	
@@ -47,12 +47,5 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRecoded(Element $ref, Element $el) {
 		$this->assertEquals($ref, $el);
-	}
-	
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testInvalidString() {
-		new UniversalString("xxx");
 	}
 }

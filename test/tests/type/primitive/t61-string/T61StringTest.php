@@ -1,18 +1,18 @@
 <?php
 
 use ASN1\Element;
-use ASN1\Type\Primitive\UniversalString;
+use ASN1\Type\Primitive\T61String;
 
 
 /**
  * @group type
- * @group universal-string
+ * @group t61-string
  */
-class UniversalStringTest extends PHPUnit_Framework_TestCase
+class T61StringTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
-		$el = new UniversalString("");
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = new T61String("");
+		$this->assertInstanceOf(T61String::class, $el);
 		return $el;
 	}
 	
@@ -33,8 +33,8 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 * @param string $data
 	 */
 	public function testDecode($data) {
-		$el = UniversalString::fromDER($data);
-		$this->assertInstanceOf(UniversalString::class, $el);
+		$el = T61String::fromDER($data);
+		$this->assertInstanceOf(T61String::class, $el);
 		return $el;
 	}
 	
@@ -47,12 +47,5 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRecoded(Element $ref, Element $el) {
 		$this->assertEquals($ref, $el);
-	}
-	
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testInvalidString() {
-		new UniversalString("xxx");
 	}
 }
