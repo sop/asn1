@@ -14,7 +14,7 @@ class Enumerated extends Integer
 	 * @param int|string $number
 	 */
 	public function __construct($number) {
-		$this->_typeTag = self::TYPE_ENUMERATED;
 		parent::__construct($number);
+		$this->_typeTag = self::TYPE_ENUMERATED;
 	}
 }
