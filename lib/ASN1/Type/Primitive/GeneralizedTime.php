@@ -37,6 +37,13 @@ class GeneralizedTime extends TimeType
 		'$#' /* @formatter:on */;
 	
 	/**
+	 * Cached formatted date.
+	 *
+	 * @var string|null
+	 */
+	private $_formatted;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param \DateTimeImmutable $dt
