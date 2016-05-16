@@ -172,15 +172,20 @@ class BitString extends StringType
 			throw new DecodeException(
 				"Unused bits in a bit string must be less than 8.");
 		}
-		$str = substr($data, $idx, $length->length() - 1);
-		if ($unused_bits) {
-			$mask = (1 << $unused_bits) - 1;
-			if (ord($str[strlen($str) - 1]) & $mask) {
-				throw new DecodeException(
-					"DER encoded bit string must have zero padding.");
+		$str_len = $length->length() - 1;
+		if ($str_len) {
+			$str = substr($data, $idx, $str_len);
+			if ($unused_bits) {
+				$mask = (1 << $unused_bits) - 1;
+				if (ord($str[strlen($str) - 1]) & $mask) {
+					throw new DecodeException(
+						"DER encoded bit string must have zero padding.");
+				}
 			}
+		} else {
+			$str = "";
 		}
-		$offset = $idx + $length->length() - 1;
+		$offset = $idx + $str_len;
 		return new self($str, $unused_bits);
 	}
 }
