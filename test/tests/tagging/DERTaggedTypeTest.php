@@ -17,11 +17,29 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * @depends testCreate
-	 * 
+	 *
 	 * @param DERTaggedType $el
 	 */
 	public function testEncode(DERTaggedType $el) {
 		$der = $el->toDER();
 		$this->assertEquals("\xa0\x2\x5\x0", $der);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param DERTaggedType $el
+	 */
+	public function testExpectExplicit(DERTaggedType $el) {
+		$this->assertInstanceOf(TaggedType::class, $el->expectExplicit());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param DERTaggedType $el
+	 */
+	public function testExpectImplicit(DERTaggedType $el) {
+		$this->assertInstanceOf(TaggedType::class, $el->expectImplicit());
 	}
 }

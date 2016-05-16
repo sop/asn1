@@ -5,6 +5,7 @@ use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Tagged\ImplicitlyTaggedType;
 use ASN1\Type\Tagged\ImplicitTagging;
+use ASN1\Type\TaggedType;
 
 
 /**
@@ -38,5 +39,43 @@ class ImplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExpectationFail(ImplicitTagging $el) {
 		$el->implicit(Element::TYPE_NULL, Identifier::CLASS_PRIVATE);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectImplicit(TaggedType $el) {
+		$this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit());
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectExplicitFail(TaggedType $el) {
+		$el->expectExplicit();
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectImplicitWithTag(TaggedType $el) {
+		$this->assertInstanceOf(ImplicitTagging::class, $el->expectImplicit(1));
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectImplicitWithInvalidTagFail(TaggedType $el) {
+		$el->expectImplicit(2);
 	}
 }

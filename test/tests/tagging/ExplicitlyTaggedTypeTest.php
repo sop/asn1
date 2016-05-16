@@ -87,4 +87,42 @@ class ExplicitlyTaggedtypeTest extends PHPUnit_Framework_TestCase
 	public function testExpectTagFail(ExplicitlyTaggedType $el) {
 		$el->expectTagged(2);
 	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectExplicit(TaggedType $el) {
+		$this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit());
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectImplicitFail(TaggedType $el) {
+		$el->expectImplicit();
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectExplicitWithTag(TaggedType $el) {
+		$this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit(1));
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testExpectExplicitWithInvalidTagFail(TaggedType $el) {
+		$el->expectExplicit(2);
+	}
 }
