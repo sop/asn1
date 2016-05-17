@@ -262,7 +262,7 @@ abstract class Structure extends Element implements \Countable,
 	 */
 	public function getTagged($tag) {
 		if (!$this->hasTagged($tag)) {
-			throw new \OutOfBoundsException("No tagged element for tag $tag.");
+			throw new \LogicException("No tagged element for tag $tag.");
 		}
 		return $this->_taggedMap[$tag];
 	}
@@ -280,7 +280,7 @@ abstract class Structure extends Element implements \Countable,
 	 * Get iterator for the elements of the structure.
 	 *
 	 * @see IteratorAggregate::getIterator()
-	 * @return \Traversable
+	 * @return \ArrayIterator
 	 */
 	public function getIterator() {
 		return new \ArrayIterator($this->_elements);
