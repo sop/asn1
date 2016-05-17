@@ -21,6 +21,15 @@ class CharacterStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param Element $el
 	 */
+	public function testTag(Element $el) {
+		$this->assertEquals(Element::TYPE_CHARACTER_STRING, $el->tag());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
 	public function testEncode(Element $el) {
 		$der = $el->toDER();
 		$this->assertInternalType("string", $der);

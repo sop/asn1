@@ -64,7 +64,7 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @expectedException OutOfBoundsException
+	 * @expectedException LogicException
 	 */
 	public function testInvalidTag() {
 		// null, tag 0, null

@@ -16,6 +16,15 @@ class IntegerTest extends PHPUnit_Framework_TestCase
 		return $el;
 	}
 	
+/**
+	 * @depends testCreate
+	 * 
+	 * @param Element $el
+	 */
+	public function testTag(Element $el) {
+		$this->assertEquals(Element::TYPE_INTEGER, $el->tag());
+	}
+	
 	/**
 	 * @depends testCreate
 	 *
