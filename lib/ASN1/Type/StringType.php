@@ -37,8 +37,16 @@ abstract class StringType extends Element
 	 *
 	 * @return string
 	 */
-	public function str() {
+	public function string() {
 		return $this->_string;
+	}
+	
+	/**
+	 *
+	 * @deprecated After 1.4.0. Use <code>string()</code>.
+	 */
+	public function str() {
+		return $this->string();
 	}
 	
 	/**

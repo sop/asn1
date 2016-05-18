@@ -65,9 +65,8 @@ class Flags
 	 * @return self
 	 */
 	public static function fromBitString(BitString $bs, $width) {
-		$str = $bs->str();
 		$num_bits = $bs->numBits();
-		$num = gmp_import($str, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+		$num = gmp_import($bs->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
 		$num >>= $bs->unusedBits();
 		if ($num_bits < $width) {
 			$num <<= ($width - $num_bits);
@@ -103,8 +102,16 @@ class Flags
 	 *
 	 * @return string
 	 */
-	public function str() {
+	public function string() {
 		return $this->_flags;
+	}
+	
+	/**
+	 *
+	 * @deprecated After 1.4.0. Use <code>string()</code>.
+	 */
+	public function str() {
+		return $this->string();
 	}
 	
 	/**
