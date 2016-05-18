@@ -19,7 +19,7 @@ class FlagsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFlags($num, $width, $result) {
 		$flags = new Flags($num, $width);
-		$this->assertEquals($result, $flags->str());
+		$this->assertEquals($result, $flags->string());
 	}
 	
 	public function flagsProvider() {
@@ -109,7 +109,7 @@ class FlagsTest extends PHPUnit_Framework_TestCase
 	public function testToBitString($num, $width, $result, $unused_bits) {
 		$flags = new Flags($num, $width);
 		$bs = $flags->bitString();
-		$this->assertEquals($result, $bs->str());
+		$this->assertEquals($result, $bs->string());
 		$this->assertEquals($unused_bits, $bs->unusedBits());
 	}
 	
@@ -139,7 +139,7 @@ class FlagsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromBitString($str, $unused_bits, $width, $result) {
 		$flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
-		$this->assertEquals($result, $flags->str());
+		$this->assertEquals($result, $flags->string());
 	}
 	
 	public function fromBitStringProvider() {

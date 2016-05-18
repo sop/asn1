@@ -17,7 +17,7 @@ class VisibleStringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World!";
 		$el = VisibleString::fromDER("\x1a\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 	
 	/**

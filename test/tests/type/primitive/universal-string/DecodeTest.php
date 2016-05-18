@@ -17,7 +17,7 @@ class UniversalStringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
 		$el = UniversalString::fromDER("\x1c\x14$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 	
 	/**

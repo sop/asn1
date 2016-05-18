@@ -17,7 +17,7 @@ class UTF8StringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!";
 		$el = UTF8String::fromDER("\x0c\x26$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 	
 	/**

@@ -17,7 +17,7 @@ class PrintableStringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World.";
 		$el = PrintableString::fromDER("\x13\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 	
 	/**

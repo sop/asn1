@@ -17,7 +17,7 @@ class IA5StringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World!";
 		$el = IA5String::fromDER("\x16\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 	
 	/**

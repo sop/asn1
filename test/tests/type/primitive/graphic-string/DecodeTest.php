@@ -17,6 +17,6 @@ class GraphicStringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World!";
 		$el = GraphicString::fromDER("\x19\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 }

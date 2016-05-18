@@ -17,6 +17,6 @@ class T61StringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World!";
 		$el = T61String::fromDER("\x14\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 }

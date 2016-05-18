@@ -17,7 +17,7 @@ class StringTypeDecodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testValue() {
 		$el = StringType::fromDER("\x13\x0bHello World");
-		$this->assertEquals("Hello World", $el->str());
+		$this->assertEquals("Hello World", $el->string());
 	}
 	
 	public function testExpectation() {

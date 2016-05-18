@@ -17,6 +17,6 @@ class GeneralStringDecodeTest extends PHPUnit_Framework_TestCase
 	public function testValue() {
 		$str = "Hello World!";
 		$el = GeneralString::fromDER("\x1b\x0c$str");
-		$this->assertEquals($str, $el->str());
+		$this->assertEquals($str, $el->string());
 	}
 }
