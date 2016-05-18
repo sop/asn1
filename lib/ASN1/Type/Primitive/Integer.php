@@ -18,7 +18,7 @@ class Integer extends Element
 	use PrimitiveType;
 	
 	/**
-	 * Value.
+	 * Number as a base 10.
 	 *
 	 * @var int|string
 	 */
@@ -27,7 +27,7 @@ class Integer extends Element
 	/**
 	 * Constructor
 	 *
-	 * @param int|string $number
+	 * @param int|string $number Base 10 integer
 	 */
 	public function __construct($number) {
 		$this->_typeTag = self::TYPE_INTEGER;
@@ -39,7 +39,7 @@ class Integer extends Element
 	}
 	
 	/**
-	 * Get the number.
+	 * Get the number as a base 10.
 	 *
 	 * @return int|string
 	 */
