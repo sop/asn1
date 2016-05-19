@@ -18,6 +18,7 @@ use ASN1\Type\Primitive\IA5String;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\NumericString;
+use ASN1\Type\Primitive\ObjectDescriptor;
 use ASN1\Type\Primitive\ObjectIdentifier;
 use ASN1\Type\Primitive\OctetString;
 use ASN1\Type\Primitive\PrintableString;
@@ -84,6 +85,7 @@ abstract class Element implements Encodable
 		self::TYPE_OCTET_STRING => OctetString::class,
 		self::TYPE_NULL => NullType::class,
 		self::TYPE_OBJECT_IDENTIFIER => ObjectIdentifier::class,
+		self::TYPE_OBJECT_DESCRIPTOR => ObjectDescriptor::class,
 		self::TYPE_REAL => Real::class,
 		self::TYPE_ENUMERATED => Enumerated::class,
 		self::TYPE_UTF8_STRING => UTF8String::class,
@@ -137,7 +139,7 @@ abstract class Element implements Encodable
 		self::TYPE_OCTET_STRING => "OCTET STRING",
 		self::TYPE_NULL => "NULL",
 		self::TYPE_OBJECT_IDENTIFIER => "OBJECT IDENTIFIER",
-		self::TYPE_OBJECT_DESCRIPTOR => "Object Descriptor",
+		self::TYPE_OBJECT_DESCRIPTOR => "ObjectDescriptor",
 		self::TYPE_EXTERNAL => "EXTERNAL",
 		self::TYPE_REAL => "REAL",
 		self::TYPE_ENUMERATED => "ENUMERATED",
