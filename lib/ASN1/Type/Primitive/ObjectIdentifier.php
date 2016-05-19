@@ -23,7 +23,7 @@ class ObjectIdentifier extends Element
 	 *
 	 * @var string
 	 */
-	private $_oid;
+	protected $_oid;
 	
 	/**
 	 * Constructor
@@ -46,16 +46,64 @@ class ObjectIdentifier extends Element
 	}
 	
 	protected function _encodedContentDER() {
-		$subids = array();
-		// convert oid to array of subid's as gmp integers
-		foreach (explode(".", $this->_oid) as $subid) {
-			$subids[] = gmp_init($subid, 10);
-		}
+		$subids = self::_explodeDottedOID($this->_oid);
 		// encode first two subids to one according to spec section 8.19.4
 		if (count($subids) >= 2) {
 			$num = ($subids[0] * 40) + $subids[1];
 			array_splice($subids, 0, 2, array($num));
 		}
+		return self::_encodeSubIDs(...$subids);
+	}
+	
+	protected static function _decodeFromDER(Identifier $identifier, $data, 
+			&$offset) {
+		$idx = $offset;
+		$len = Length::expectFromDER($data, $idx)->length();
+		$subids = self::_decodeSubIDs(substr($data, $idx, $len));
+		$idx += $len;
+		// decode first subidentifier according to spec section 8.19.4
+		if (isset($subids[0])) {
+			list($x, $y) = gmp_div_qr($subids[0], "40");
+			array_splice($subids, 0, 1, array($x, $y));
+		}
+		$offset = $idx;
+		return new self(self::_implodeSubIDs(...$subids));
+	}
+	
+	/**
+	 * Explode dotted OID to an array of sub ID's.
+	 *
+	 * @param string $oid OID in dotted format
+	 * @return \GMP[] Array of GMP numbers
+	 */
+	protected static function _explodeDottedOID($oid) {
+		$subids = array();
+		foreach (explode(".", $oid) as $subid) {
+			$subids[] = gmp_init($subid, 10);
+		}
+		return $subids;
+	}
+	
+	/**
+	 * Implode an array of sub IDs to dotted OID format.
+	 *
+	 * @param \GMP ...$subids
+	 * @return string
+	 */
+	protected static function _implodeSubIDs(\GMP ...$subids) {
+		return implode(".", 
+			array_map(function ($num) {
+				return gmp_strval($num, 10);
+			}, $subids));
+	}
+	
+	/**
+	 * Encode sub ID's to DER.
+	 *
+	 * @param \GMP ...$subids
+	 * @return string
+	 */
+	protected static function _encodeSubIDs(\GMP ...$subids) {
 		$data = "";
 		foreach ($subids as $subid) {
 			// if number fits to one base 128 byte
@@ -77,12 +125,17 @@ class ObjectIdentifier extends Element
 		return $data;
 	}
 	
-	protected static function _decodeFromDER(Identifier $identifier, $data, 
-			&$offset) {
-		$idx = $offset;
-		$length = Length::expectFromDER($data, $idx);
-		$end = $idx + $length->length();
+	/**
+	 * Decode sub ID's from DER data.
+	 *
+	 * @param string $data
+	 * @throws DecodeException
+	 * @return \GMP[] Array of GMP numbers
+	 */
+	protected static function _decodeSubIDs($data) {
 		$subids = array();
+		$idx = 0;
+		$end = strlen($data);
 		while ($idx < $end) {
 			$num = gmp_init("0", 10);
 			while (true) {
@@ -99,17 +152,6 @@ class ObjectIdentifier extends Element
 			}
 			$subids[] = $num;
 		}
-		// decode first subidentifier according to spec section 8.19.4
-		if (isset($subids[0])) {
-			list($x, $y) = gmp_div_qr($subids[0], "40");
-			array_splice($subids, 0, 1, array($x, $y));
-		}
-		$offset = $idx;
-		// convert numbers to strings
-		$subids = array_map(
-			function ($num) {
-				return gmp_strval($num, 10);
-			}, $subids);
-		return new self(implode(".", $subids));
+		return $subids;
 	}
 }
