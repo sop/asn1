@@ -23,6 +23,7 @@ use ASN1\Type\Primitive\ObjectIdentifier;
 use ASN1\Type\Primitive\OctetString;
 use ASN1\Type\Primitive\PrintableString;
 use ASN1\Type\Primitive\Real;
+use ASN1\Type\Primitive\RelativeOID;
 use ASN1\Type\Primitive\T61String;
 use ASN1\Type\Primitive\UniversalString;
 use ASN1\Type\Primitive\UTCTime;
@@ -89,6 +90,7 @@ abstract class Element implements Encodable
 		self::TYPE_REAL => Real::class,
 		self::TYPE_ENUMERATED => Enumerated::class,
 		self::TYPE_UTF8_STRING => UTF8String::class,
+		self::TYPE_RELATIVE_OID => RelativeOID::class,
 		self::TYPE_SEQUENCE => Sequence::class,
 		self::TYPE_SET => Set::class,
 		self::TYPE_NUMERIC_STRING => NumericString::class,
