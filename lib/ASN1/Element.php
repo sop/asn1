@@ -4,6 +4,7 @@ namespace ASN1;
 
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
+use ASN1\Exception\DecodeException;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Constructed\Set;
 use ASN1\Type\Primitive\BitString;
@@ -238,8 +239,14 @@ abstract class Element implements Encodable
 		$identifier = Identifier::fromDER($data, $idx);
 		// determine class that implements type specific decoding
 		$cls = self::_determineImplClass($identifier);
-		// decode remaining element
-		$element = $cls::_decodeFromDER($identifier, $data, $idx);
+		try {
+			// decode remaining element
+			$element = $cls::_decodeFromDER($identifier, $data, $idx);
+		} catch (\LogicException $e) {
+			throw new DecodeException(
+				"Error while decoding " . self::tagToName($identifier->tag()) .
+					 ".", 0, $e);
+		}
 		// if called in context of a concrete class, check
 		// that decoded type matches the type of a calling class
 		$called_class = get_called_class();
