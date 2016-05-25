@@ -20,13 +20,12 @@ To decode DER data, use `fromDER` static method of the expected type.
 To encode object to DER, use `toDER` instance method.
 Exception shall be thrown on errors.
 
-
-## Code examples
+## Code Examples
 Here are some simple usage examples. Namespaces are omitted for brevity.
 
 ### Encode
 Encode a sequence containing a UTF-8 string, an integer
-and an explicitly tagged OID.
+and an explicitly tagged object identifier.
 
 ```php
 $seq = new Sequence(
@@ -47,7 +46,7 @@ Decode DER encoding from above.
 
 ```php
 $seq = Sequence::fromDER(hex2bin($hexder));
-echo $seq->at(0)->str() . ", " .
+echo $seq->at(0)->string() . ", " .
 	$seq->at(1)->number() .", " .
 	$seq->at(2)->explicit()->oid();
 ```
@@ -55,6 +54,19 @@ echo $seq->at(0)->str() . ", " .
 Outputs:
 
     Hello, 42, 1.3.6.1.3
+
+### Real-World Examples
+See the following for more practical real-world usage examples.
+
+* RSA Private Key
+    * [Decode](https://github.com/sop/crypto-util/blob/1.3.0/lib/CryptoUtil/ASN1/RSA/RSAPrivateKey.php#L108)
+    * [Encode](https://github.com/sop/crypto-util/blob/1.3.0/lib/CryptoUtil/ASN1/RSA/RSAPrivateKey.php#L252)
+* X.501 Attribute
+    * [Decode](https://github.com/sop/x501/blob/0.2.0/lib/X501/ASN1/Attribute.php#L53)
+    * [Encode](https://github.com/sop/x501/blob/0.2.0/lib/X501/ASN1/Attribute.php#L106)
+* X.509 Certificate (`TBSCertificate` sequence)
+    * [Decode](https://github.com/sop/x509/blob/0.2.0/lib/X509/Certificate/TBSCertificate.php#L127)
+    * [Encode](https://github.com/sop/x509/blob/0.2.0/lib/X509/Certificate/TBSCertificate.php#L522)
 
 ## License
 This project is licensed under the MIT License.
