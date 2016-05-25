@@ -11,6 +11,13 @@ use ASN1\Element;
 abstract class TimeType extends Element
 {
 	/**
+	 * UTC timezone.
+	 *
+	 * @var string
+	 */
+	const TZ_UTC = "UTC";
+	
+	/**
 	 * Date and time.
 	 *
 	 * @var \DateTimeImmutable $_dateTime
@@ -49,7 +56,7 @@ abstract class TimeType extends Element
 	}
 	
 	/**
-	 * Get time.
+	 * Get the date and time.
 	 *
 	 * @return \DateTimeImmutable
 	 */
@@ -61,10 +68,10 @@ abstract class TimeType extends Element
 	 * Create DateTimeZone object from string.
 	 *
 	 * @param string $tz
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If timezone is invalid
 	 * @return \DateTimeZone
 	 */
-	private static function _createTimeZone($tz) {
+	protected static function _createTimeZone($tz) {
 		try {
 			return new \DateTimeZone($tz);
 		} catch (\Exception $e) {
@@ -77,7 +84,7 @@ abstract class TimeType extends Element
 	 *
 	 * @return string
 	 */
-	private static function _getLastDateTimeImmutableErrorsStr() {
+	protected static function _getLastDateTimeImmutableErrorsStr() {
 		$errors = \DateTimeImmutable::getLastErrors()["errors"];
 		return implode(", ", $errors);
 	}
