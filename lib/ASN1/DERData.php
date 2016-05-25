@@ -4,10 +4,12 @@ namespace ASN1;
 
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
+use ASN1\Exception\DecodeException;
 
 
 /**
  * Container for raw DER encoded data.
+ *
  * May be inserted into structure without decoding first.
  */
 class DERData extends Element
@@ -37,6 +39,7 @@ class DERData extends Element
 	 * Constructor
 	 *
 	 * @param string $data DER encoded data
+	 * @throws DecodeException If data does not adhere to DER
 	 */
 	public function __construct($data) {
 		$this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
@@ -54,7 +57,8 @@ class DERData extends Element
 	}
 	
 	protected function _encodedContentDER() {
-		if ($this->_contentOffset == strlen($this->_der)) {
+		// if there's no content payload
+		if (strlen($this->_der) == $this->_contentOffset) {
 			return "";
 		}
 		return substr($this->_der, $this->_contentOffset);

@@ -52,7 +52,7 @@ class Identifier implements Encodable
 	private $_pc;
 	
 	/**
-	 * Content type.
+	 * Content type tag.
 	 *
 	 * @var int
 	 */
@@ -79,7 +79,7 @@ class Identifier implements Encodable
 	 *        into the data where to start parsing. Variable is updated to
 	 *        the offset next to the parsed identifier. If null, start from
 	 *        offset 0.
-	 * @throws DecodeException
+	 * @throws DecodeException If decoding fails
 	 * @return self
 	 */
 	public static function fromDER($data, &$offset = null) {
@@ -98,7 +98,7 @@ class Identifier implements Encodable
 		// bits 5 to 1 (tag number)
 		$tag = (0b00011111 & $byte);
 		// long-form identifier
-		if ($tag == 0x1f) {
+		if (0x1f == $tag) {
 			$tag = gmp_init(0, 10);
 			while (true) {
 				if ($idx >= $datalen) {
@@ -133,7 +133,7 @@ class Identifier implements Encodable
 		$tag = gmp_init($this->_tag, 10);
 		if ($tag < 0x1f) {
 			$bytes[] = $byte | $tag;
-		} else {
+		} else { // long-form identifier
 			$bytes[] = $byte | 0x1f;
 			$octets = array();
 			for (; $tag > 0; $tag >>= 7) {
@@ -167,7 +167,7 @@ class Identifier implements Encodable
 	}
 	
 	/**
-	 * Get tag number.
+	 * Get the tag number.
 	 *
 	 * @return int
 	 */
@@ -181,7 +181,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isUniversal() {
-		return $this->_class == self::CLASS_UNIVERSAL;
+		return self::CLASS_UNIVERSAL == $this->_class;
 	}
 	
 	/**
@@ -190,7 +190,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isApplication() {
-		return $this->_class == self::CLASS_APPLICATION;
+		return self::CLASS_APPLICATION == $this->_class;
 	}
 	
 	/**
@@ -199,7 +199,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isContextSpecific() {
-		return $this->_class == self::CLASS_CONTEXT_SPECIFIC;
+		return self::CLASS_CONTEXT_SPECIFIC == $this->_class;
 	}
 	
 	/**
@@ -208,7 +208,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isPrivate() {
-		return $this->_class == self::CLASS_PRIVATE;
+		return self::CLASS_PRIVATE == $this->_class;
 	}
 	
 	/**
@@ -217,7 +217,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isPrimitive() {
-		return $this->_pc == self::PRIMITIVE;
+		return self::PRIMITIVE == $this->_pc;
 	}
 	
 	/**
@@ -226,7 +226,7 @@ class Identifier implements Encodable
 	 * @return boolean
 	 */
 	public function isConstructed() {
-		return $this->_pc == self::CONSTRUCTED;
+		return self::CONSTRUCTED == $this->_pc;
 	}
 	
 	/**

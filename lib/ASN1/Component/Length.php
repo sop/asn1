@@ -44,7 +44,7 @@ class Length implements Encodable
 	 *        into the data where to start parsing. Variable is updated to
 	 *        the offset next to the parsed length component. If null, start
 	 *        from offset 0.
-	 * @throws DecodeException
+	 * @throws DecodeException If decoding fails
 	 * @return self
 	 */
 	public static function fromDER($data, &$offset = null) {
@@ -98,7 +98,7 @@ class Length implements Encodable
 	 * @param string $data DER data
 	 * @param int $offset Reference to the offset variable
 	 * @param int|null $expected Expected length, null to bypass checking
-	 * @throws DecodeException
+	 * @throws DecodeException If decoding or expectation fails
 	 * @return self
 	 */
 	public static function expectFromDER($data, &$offset, $expected = null) {
@@ -158,7 +158,7 @@ class Length implements Encodable
 	}
 	
 	/**
-	 * Get length.
+	 * Get the length.
 	 *
 	 * @throws \LogicException If length is indefinite
 	 * @return int|string

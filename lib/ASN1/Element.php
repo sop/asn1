@@ -112,6 +112,7 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Pseudotype for all string types.
+	 *
 	 * May be used as an expectation parameter.
 	 *
 	 * @var int
@@ -120,6 +121,7 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Pseudotype for all time types.
+	 *
 	 * May be used as an expectation parameter.
 	 *
 	 * @var int
@@ -178,6 +180,7 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Get class of the type.
+	 *
 	 * One of <code>Identifier::CLASS_*</code> constants.
 	 *
 	 * @return int
@@ -186,6 +189,7 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Whether type is constructed.
+	 *
 	 * Otherwise it's primitive.
 	 *
 	 * @return bool
@@ -194,6 +198,9 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Get content encoded in DER.
+	 *
+	 * Returns the DER encoded content without identifier and length header
+	 * octets.
 	 *
 	 * @return string
 	 */
@@ -205,6 +212,7 @@ abstract class Element implements Encodable
 	 * @param Identifier $identifier Pre-parsed identifier
 	 * @param string $data DER data
 	 * @param int $offset Offset in data to the next byte after identifier
+	 * @throws DecodeException If decoding fails
 	 * @return Element
 	 */
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
@@ -215,6 +223,10 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Get tag of the element.
+	 *
+	 * Interpretation of the tag depends on context. For example it may
+	 * represent a universal type tag or tag of a implicitly or explicitly
+	 * tagged type.
 	 *
 	 * @return int
 	 */
@@ -230,6 +242,9 @@ abstract class Element implements Encodable
 	 *        into the data where to start parsing. Variable is updated to
 	 *        the offset next to the parsed element. If null, start from offset
 	 *        0.
+	 * @throws DecodeException If decoding fails
+	 * @throws \UnexpectedValueException If called in the context of an expected
+	 *         type, but decoding yields another type
 	 * @return self
 	 */
 	public static function fromDER($data, &$offset = null) {
@@ -243,19 +258,21 @@ abstract class Element implements Encodable
 			// decode remaining element
 			$element = $cls::_decodeFromDER($identifier, $data, $idx);
 		} catch (\LogicException $e) {
+			// rethrow as a RuntimeException for unified exception handling
 			throw new DecodeException(
 				"Error while decoding " . self::tagToName($identifier->tag()) .
 					 ".", 0, $e);
 		}
-		// if called in context of a concrete class, check
+		// if called in the context of a concrete class, check
 		// that decoded type matches the type of a calling class
 		$called_class = get_called_class();
-		if ($called_class != __CLASS__) {
+		if (__CLASS__ != $called_class) {
 			if (!($element instanceof $called_class)) {
 				throw new \UnexpectedValueException(
 					"$called_class expected, got " . get_class($element) . ".");
 			}
 		}
+		// update offset for the caller
 		if (isset($offset)) {
 			$offset = $idx;
 		}
@@ -263,7 +280,7 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Determine a class that implements the type.
+	 * Determine the class that implements the type.
 	 *
 	 * @param Identifier $identifier
 	 * @return string Class name
@@ -330,10 +347,12 @@ abstract class Element implements Encodable
 	
 	/**
 	 * Check whether element is a type of a given tag.
+	 *
 	 * Throws an exception if expectation fails.
 	 *
 	 * @param int $tag
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If element type differs from the
+	 *         expected
 	 * @return self
 	 */
 	public function expectType($tag) {
@@ -349,8 +368,10 @@ abstract class Element implements Encodable
 	 * Check whether element is tagged (context specific) and optionally has
 	 * a given tag.
 	 *
+	 * Throws an exception if element is not tagged or doesn't have given tag.
+	 *
 	 * @param int|null $tag
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If expectation fails
 	 * @return self
 	 */
 	public function expectTagged($tag = null) {
