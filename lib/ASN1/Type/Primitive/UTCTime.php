@@ -46,7 +46,7 @@ class UTCTime extends TimeType
 	}
 	
 	protected function _encodedContentDER() {
-		$dt = $this->_dateTime->setTimezone(new \DateTimeZone("UTC"));
+		$dt = $this->_dateTime->setTimezone(self::_createTimeZone(self::TZ_UTC));
 		return $dt->format("ymdHis\Z");
 	}
 	
@@ -60,14 +60,13 @@ class UTCTime extends TimeType
 			throw new DecodeException("Invalid UTCTime format.");
 		}
 		list(, $year, $month, $day, $hour, $minute, $second) = $match;
-		$tz = "UTC";
-		$time = $year . $month . $day . $hour . $minute . $second . $tz;
+		$time = $year . $month . $day . $hour . $minute . $second . self::TZ_UTC;
 		$dt = \DateTimeImmutable::createFromFormat("!ymdHisT", $time, 
-			new \DateTimeZone($tz));
+			self::_createTimeZone(self::TZ_UTC));
 		if (!$dt) {
-			$errors = \DateTimeImmutable::getLastErrors()["errors"];
 			throw new DecodeException(
-				"Failed to decode UTCTime: " . implode(", ", $errors));
+				"Failed to decode UTCTime: " .
+					 self::_getLastDateTimeImmutableErrorsStr());
 		}
 		$offset = $idx;
 		return new self($dt);

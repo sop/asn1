@@ -55,7 +55,8 @@ class GeneralizedTime extends TimeType
 	
 	protected function _encodedContentDER() {
 		if (!isset($this->_formatted)) {
-			$dt = $this->_dateTime->setTimezone(new \DateTimeZone("UTC"));
+			$dt = $this->_dateTime->setTimezone(
+				self::_createTimeZone(self::TZ_UTC));
 			$this->_formatted = $dt->format("YmdHis");
 			// if fractions were used
 			$frac = $dt->format("u");
@@ -91,13 +92,13 @@ class GeneralizedTime extends TimeType
 			$frac = 0;
 		}
 		$time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
-			 "UTC";
+			 self::TZ_UTC;
 		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
-			new \DateTimeZone("UTC"));
+			self::_createTimeZone(self::TZ_UTC));
 		if (!$dt) {
-			$errors = \DateTimeImmutable::getLastErrors()["errors"];
 			throw new DecodeException(
-				"Failed to decode GeneralizedTime: " . implode(", ", $errors));
+				"Failed to decode GeneralizedTime: " .
+					 self::_getLastDateTimeImmutableErrorsStr());
 		}
 		$offset = $idx;
 		return new self($dt);
