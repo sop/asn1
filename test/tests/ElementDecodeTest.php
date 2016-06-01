@@ -47,6 +47,13 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @expectedException UnexpectedValueException
 	 */
+	public function testUnimplementedPrivateFail() {
+		Element::fromDER("\xdf\x7f\x0");
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
 	public function testExpectTaggedFail() {
 		Element::fromDER("\x5\x0")->expectTagged();
 	}

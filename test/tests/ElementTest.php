@@ -1,6 +1,7 @@
 <?php
 
 use ASN1\Element;
+use ASN1\Type\Primitive\NullType;
 
 
 /**
@@ -10,5 +11,14 @@ class ElementTest extends PHPUnit_Framework_TestCase
 {
 	public function testUnknownTagToName() {
 		$this->assertEquals("TAG 100", Element::tagToName(100));
+	}
+	
+	public function testIsTypeUniversalInvalidClass() {
+		$el = new NullType();
+		$cls = new ReflectionClass($el);
+		$prop = $cls->getProperty("_typeTag");
+		$prop->setAccessible(true);
+		$prop->setValue($el, Element::TYPE_BOOLEAN);
+		$this->assertFalse($el->isType(Element::TYPE_BOOLEAN));
 	}
 }
