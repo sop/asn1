@@ -20,7 +20,7 @@ class Flags
 	/**
 	 * Number of flags.
 	 *
-	 * @var string $_width
+	 * @var int $_width
 	 */
 	protected $_width;
 	
@@ -28,7 +28,7 @@ class Flags
 	 * Constructor
 	 *
 	 * @param number $flags Flags
-	 * @param int $width Number of Flags. If width is larger than number of
+	 * @param int $width The number of flags. If width is larger than number of
 	 *        bits in $flags, zeroes are prepended to flag field.
 	 */
 	public function __construct($flags, $width) {
@@ -117,7 +117,7 @@ class Flags
 	/**
 	 * Get flags as a base 10 integer.
 	 *
-	 * @return number
+	 * @return int|string
 	 */
 	public function number() {
 		$num = gmp_import($this->_flags, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
