@@ -21,4 +21,9 @@ class ElementTest extends PHPUnit_Framework_TestCase
 		$prop->setValue($el, Element::TYPE_BOOLEAN);
 		$this->assertFalse($el->isType(Element::TYPE_BOOLEAN));
 	}
+	
+	public function testIsPseudotypeFail() {
+		$el = new NullType();
+		$this->assertFalse($el->isType(-3));
+	}
 }
