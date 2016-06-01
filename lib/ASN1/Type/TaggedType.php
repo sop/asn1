@@ -29,7 +29,7 @@ abstract class TaggedType extends Element
 	 *
 	 * @param int|null $expectedTag Optionally checked tag
 	 * @throws \UnexpectedValueException
-	 * @return self
+	 * @return ExplicitTagging
 	 */
 	public function expectExplicit($expectedTag = null) {
 		if (!($this instanceof ExplicitTagging)) {
@@ -47,7 +47,7 @@ abstract class TaggedType extends Element
 	 *
 	 * @param int|null $expectedTag
 	 * @throws \UnexpectedValueException
-	 * @return self
+	 * @return ImplicitTagging
 	 */
 	public function expectImplicit($expectedTag = null) {
 		if (!($this instanceof ImplicitTagging)) {
