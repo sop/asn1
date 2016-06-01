@@ -10,7 +10,3 @@ before_script:
 
 after_success:
     - travis_retry php vendor/bin/coveralls -v
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - >-
-        travis_retry php ocular.phar code-coverage:upload --format=php-clover
-        build/logs/clover.xml
