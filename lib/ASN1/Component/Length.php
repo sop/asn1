@@ -2,8 +2,8 @@
 
 namespace ASN1\Component;
 
-use ASN1\Encodable;
 use ASN1\Exception\DecodeException;
+use ASN1\Feature\Encodable;
 
 
 /**

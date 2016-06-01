@@ -1,6 +1,6 @@
 <?php
 
-namespace ASN1;
+namespace ASN1\Feature;
 
 
 /**
