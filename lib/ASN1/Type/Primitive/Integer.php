@@ -49,6 +49,7 @@ class Integer extends Element
 	
 	protected function _encodedContentDER() {
 		$num = gmp_init($this->_number, 10);
+		$bin = "";
 		switch (gmp_sign($num)) {
 		// zero
 		case 0:
