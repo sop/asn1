@@ -51,7 +51,7 @@ class Boolean extends Element
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
 			&$offset) {
 		$idx = $offset;
-		$length = Length::expectFromDER($data, $idx, 1);
+		Length::expectFromDER($data, $idx, 1);
 		$byte = ord($data[$idx++]);
 		if ($byte != 0) {
 			if ($byte != 0xff) {
