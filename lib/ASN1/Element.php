@@ -319,6 +319,27 @@ abstract class Element implements ElementBase
 	}
 	
 	/**
+	 * Check whether the element is a concrete type of a given tag.
+	 *
+	 * @param int $tag
+	 * @return bool
+	 */
+	private function _isConcreteType($tag) {
+		// if tag doesn't match
+		if ($this->tag() != $tag) {
+			return false;
+		}
+		// if type is universal check that instance is of a correct class
+		if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
+			$cls = self::_determineUniversalImplClass($tag);
+			if (!($this instanceof $cls)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::isType()
 	 */
@@ -328,23 +349,12 @@ abstract class Element implements ElementBase
 			return false;
 		}
 		// concrete type
-		if ($tag >= 0 && $this->tag() == $tag) {
-			// if type is universal check that class instance is correct
-			if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
-				$cls = self::_determineUniversalImplClass($tag);
-				if (!($this instanceof $cls)) {
-					return false;
-				}
-			}
-			return true;
+		if ($tag >= 0) {
+			return $this->_isConcreteType($tag);
 		} else if (self::TYPE_STRING == $tag) { // string type
-			if ($this instanceof StringType) {
-				return true;
-			}
+			return $this instanceof StringType;
 		} else if (self::TYPE_TIME == $tag) { // time type
-			if ($this instanceof TimeType) {
-				return true;
-			}
+			return $this instanceof TimeType;
 		}
 		return false;
 	}
