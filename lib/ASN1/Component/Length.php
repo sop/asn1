@@ -14,7 +14,7 @@ class Length implements Encodable
 	/**
 	 * Length.
 	 *
-	 * @var int
+	 * @var int|string
 	 */
 	private $_length;
 	

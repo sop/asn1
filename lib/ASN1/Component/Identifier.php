@@ -54,7 +54,7 @@ class Identifier implements Encodable
 	/**
 	 * Content type tag.
 	 *
-	 * @var int
+	 * @var int|string
 	 */
 	private $_tag;
 	
@@ -63,7 +63,7 @@ class Identifier implements Encodable
 	 *
 	 * @param int $class Type class
 	 * @param int $pc Privitive / Constructed
-	 * @param int|string $tag Type tag
+	 * @param int|string $tag Type tag number
 	 */
 	public function __construct($class, $pc, $tag) {
 		$this->_class = 0b11 & $class;
@@ -169,7 +169,7 @@ class Identifier implements Encodable
 	/**
 	 * Get the tag number.
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function tag() {
 		return $this->_tag;
@@ -244,7 +244,7 @@ class Identifier implements Encodable
 	/**
 	 * Get self with given type tag.
 	 *
-	 * @param int $tag
+	 * @param int|string $tag Tag number
 	 * @return self
 	 */
 	public function withTag($tag) {
