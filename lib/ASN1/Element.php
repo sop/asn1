@@ -280,14 +280,29 @@ abstract class Element implements ElementBase
 		if ($identifier->isContextSpecific()) {
 			return TaggedType::class;
 		}
+		// universal class
 		if ($identifier->isUniversal()) {
-			if (array_key_exists($identifier->tag(), self::MAP_TAG_TO_CLASS)) {
-				return self::MAP_TAG_TO_CLASS[$identifier->tag()];
-			}
+			return self::_determineUniversalImplClass(
+				intval($identifier->tag()));
 		}
 		throw new \UnexpectedValueException(
 			Identifier::classToName($identifier->typeClass()) . " " .
 				 $identifier->tag() . " not implemented.");
+	}
+	
+	/**
+	 * Determine the class that implements an universal type of the given tag.
+	 *
+	 * @param int $tag
+	 * @throws \UnexpectedValueException
+	 * @return string Class name
+	 */
+	protected static function _determineUniversalImplClass($tag) {
+		if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
+			throw new \UnexpectedValueException(
+				"Universal tag $tag not implemented.");
+		}
+		return self::MAP_TAG_TO_CLASS[$tag];
 	}
 	
 	/**
@@ -314,6 +329,13 @@ abstract class Element implements ElementBase
 		}
 		// concrete type
 		if ($tag >= 0 && $this->tag() == $tag) {
+			// if type is universal check that class instance is correct
+			if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
+				$cls = self::_determineUniversalImplClass($tag);
+				if (!($this instanceof $cls)) {
+					return false;
+				}
+			}
 			return true;
 		} else if (self::TYPE_STRING == $tag) { // string type
 			if ($this instanceof StringType) {
