@@ -1,0 +1,7 @@
+build:
+    tests:
+        override:
+            -
+                coverage:
+                    format: php-clover
+                    file: build/logs/clover.xml
