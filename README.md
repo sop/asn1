@@ -13,8 +13,8 @@ This library is available on
     composer require sop/asn1
 
 ## Usage
-The general idea is that each ASN.1 type has it's corresponding PHP class,
-that knows the details of encoding and decoding of the specific type.
+The general idea is that each ASN.1 type has its corresponding PHP class,
+that knows the details of encoding and decoding the specific type.
 
 To decode DER data, use `fromDER` static method of the expected type.
 To encode object to DER, use `toDER` instance method.
@@ -30,11 +30,12 @@ and an explicitly tagged object identifier.
 ```php
 $seq = new Sequence(
 	new UTF8String("Hello"),
-	new Integer(42),
+	new Integer(42), 
 	new ExplicitlyTaggedType(
 		1, new ObjectIdentifier("1.3.6.1.3"))
 );
-echo bin2hex($seq->toDER());
+$der = $seq->toDER();
+echo bin2hex($der);
 ```
 
 Outputs:
@@ -45,7 +46,7 @@ Outputs:
 Decode DER encoding from above.
 
 ```php
-$seq = Sequence::fromDER(hex2bin($hexder));
+$seq = Sequence::fromDER($der);
 echo $seq->at(0)->string() . ", " .
 	$seq->at(1)->number() .", " .
 	$seq->at(2)->explicit()->oid();
