@@ -4,9 +4,10 @@ namespace ASN1\Type\Tagged;
 
 use ASN1\Component\Identifier;
 use ASN1\Element;
+use ASN1\Feature\ElementBase;
 
 
-interface ImplicitTagging
+interface ImplicitTagging extends ElementBase
 {
 	/**
 	 * Get implicitly tagged wrapped element.

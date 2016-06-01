@@ -5,6 +5,7 @@ namespace ASN1;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Feature\ElementBase;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Constructed\Set;
 use ASN1\Type\Primitive\BitString;
@@ -39,7 +40,7 @@ use ASN1\Type\TimeType;
 /**
  * Base class for all ASN.1 type elements.
  */
-abstract class Element implements Encodable
+abstract class Element implements ElementBase
 {
 	// Universal type tags
 	const TYPE_EOC = 0x00;
@@ -179,20 +180,14 @@ abstract class Element implements Encodable
 	protected $_typeTag;
 	
 	/**
-	 * Get class of the type.
 	 *
-	 * One of <code>Identifier::CLASS_*</code> constants.
-	 *
-	 * @return int
+	 * @see \ASN1\Feature\ElementBase::typeClass()
 	 */
 	abstract public function typeClass();
 	
 	/**
-	 * Whether type is constructed.
 	 *
-	 * Otherwise it's primitive.
-	 *
-	 * @return bool
+	 * @see \ASN1\Feature\ElementBase::isConstructed()
 	 */
 	abstract public function isConstructed();
 	
@@ -222,13 +217,8 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Get tag of the element.
 	 *
-	 * Interpretation of the tag depends on context. For example it may
-	 * represent a universal type tag or tag of a implicitly or explicitly
-	 * tagged type.
-	 *
-	 * @return int
+	 * @see \ASN1\Feature\ElementBase::tag()
 	 */
 	public function tag() {
 		return $this->_typeTag;
@@ -297,13 +287,12 @@ abstract class Element implements Encodable
 		}
 		throw new \UnexpectedValueException(
 			Identifier::classToName($identifier->typeClass()) . " " .
-				 self::tagToName($identifier->tag()) . " not implemented.");
+				 $identifier->tag() . " not implemented.");
 	}
 	
 	/**
 	 *
-	 * @see Encodable::toDER()
-	 * @return string
+	 * @see \ASN1\Feature\Encodable::toDER()
 	 */
 	public function toDER() {
 		$identifier = new Identifier($this->typeClass(), 
@@ -315,12 +304,14 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Check whether element is a type of a given tag.
 	 *
-	 * @param int $tag
-	 * @return boolean
+	 * @see \ASN1\Feature\ElementBase::isType()
 	 */
 	public function isType($tag) {
+		// if element is context specific
+		if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
+			return false;
+		}
 		// concrete type
 		if ($tag >= 0 && $this->tag() == $tag) {
 			return true;
@@ -337,42 +328,29 @@ abstract class Element implements Encodable
 	}
 	
 	/**
-	 * Check whether element is tagged (context specific).
 	 *
-	 * @return bool
+	 * @see \ASN1\Feature\ElementBase::isTagged()
 	 */
 	public function isTagged() {
-		return $this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC;
+		return $this instanceof TaggedType;
 	}
 	
 	/**
-	 * Check whether element is a type of a given tag.
 	 *
-	 * Throws an exception if expectation fails.
-	 *
-	 * @param int $tag
-	 * @throws \UnexpectedValueException If element type differs from the
-	 *         expected
-	 * @return self
+	 * @see \ASN1\Feature\ElementBase::expectType()
 	 */
 	public function expectType($tag) {
 		if (!$this->isType($tag)) {
 			throw new \UnexpectedValueException(
 				self::tagToName($tag) . " expected, got " .
-					 self::tagToName($this->_typeTag) . ".");
+					 $this->_typeDescriptorString() . ".");
 		}
 		return $this;
 	}
 	
 	/**
-	 * Check whether element is tagged (context specific) and optionally has
-	 * a given tag.
 	 *
-	 * Throws an exception if element is not tagged or doesn't have given tag.
-	 *
-	 * @param int|null $tag
-	 * @throws \UnexpectedValueException If expectation fails
-	 * @return self
+	 * @see \ASN1\Feature\ElementBase::expectTagged()
 	 */
 	public function expectTagged($tag = null) {
 		if (!$this->isTagged()) {
@@ -385,6 +363,19 @@ abstract class Element implements Encodable
 				"Tag $tag expected, got " . $this->tag() . ".");
 		}
 		return $this;
+	}
+	
+	/**
+	 * Get textual description of the type for debugging purposes.
+	 *
+	 * @return string
+	 */
+	protected function _typeDescriptorString() {
+		if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
+			return self::tagToName($this->_typeTag);
+		}
+		return Identifier::classToName($this->typeClass()) . " TAG " .
+			 $this->_typeTag;
 	}
 	
 	/**
