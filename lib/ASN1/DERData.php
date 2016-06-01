@@ -45,7 +45,7 @@ class DERData extends Element
 		$this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
 		Length::expectFromDER($data, $this->_contentOffset);
 		$this->_der = $data;
-		$this->_typeTag = $this->_identifier->tag();
+		$this->_typeTag = intval($this->_identifier->tag());
 	}
 	
 	public function typeClass() {

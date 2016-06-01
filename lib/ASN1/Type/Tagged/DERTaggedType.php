@@ -52,7 +52,7 @@ class DERTaggedType extends TaggedType implements ExplicitTagging,
 		$this->_identifier = $identifier;
 		$this->_data = $data;
 		$this->_offset = $offset;
-		$this->_typeTag = $identifier->tag();
+		$this->_typeTag = intval($identifier->tag());
 	}
 	
 	public function typeClass() {
