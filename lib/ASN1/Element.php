@@ -182,12 +182,14 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::typeClass()
+	 * @return int
 	 */
 	abstract public function typeClass();
 	
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::isConstructed()
+	 * @return bool
 	 */
 	abstract public function isConstructed();
 	
@@ -219,6 +221,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::tag()
+	 * @return int
 	 */
 	public function tag() {
 		return $this->_typeTag;
@@ -308,6 +311,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\Encodable::toDER()
+	 * @return string
 	 */
 	public function toDER() {
 		$identifier = new Identifier($this->typeClass(), 
@@ -342,6 +346,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::isType()
+	 * @return bool
 	 */
 	public function isType($tag) {
 		// if element is context specific
@@ -362,6 +367,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::isTagged()
+	 * @return bool
 	 */
 	public function isTagged() {
 		return $this instanceof TaggedType;
@@ -370,6 +376,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::expectType()
+	 * @return ElementBase
 	 */
 	public function expectType($tag) {
 		if (!$this->isType($tag)) {
@@ -383,6 +390,7 @@ abstract class Element implements ElementBase
 	/**
 	 *
 	 * @see \ASN1\Feature\ElementBase::expectTagged()
+	 * @return TaggedType
 	 */
 	public function expectTagged($tag = null) {
 		if (!$this->isTagged()) {
