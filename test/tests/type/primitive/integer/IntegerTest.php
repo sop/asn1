@@ -1,7 +1,9 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\Primitive\Integer;
+use ASN1\Type\Primitive\NullType;
 
 
 /**
@@ -16,9 +18,9 @@ class IntegerTest extends PHPUnit_Framework_TestCase
 		return $el;
 	}
 	
-/**
+	/**
 	 * @depends testCreate
-	 * 
+	 *
 	 * @param Element $el
 	 */
 	public function testTag(Element $el) {
@@ -56,5 +58,23 @@ class IntegerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRecoded(Element $ref, Element $el) {
 		$this->assertEquals($ref, $el);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(Integer::class, $wrap->asInteger());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asInteger();
 	}
 }

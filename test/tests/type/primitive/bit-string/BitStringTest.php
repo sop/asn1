@@ -1,7 +1,9 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\Primitive\BitString;
+use ASN1\Type\Primitive\NullType;
 
 
 /**
@@ -106,5 +108,23 @@ class BitStringTest extends PHPUnit_Framework_TestCase
 	public function testRangeOOB() {
 		$bs = new BitString("\xff");
 		$bs->range(7, 2);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(BitString::class, $wrap->asBitString());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asBitString();
 	}
 }

@@ -60,7 +60,9 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
 		$this->assertInstanceOf(NullType::class, 
 			$set->getTagged(1)
-				->explicit());
+				->expectExplicit()
+				->explicit()
+				->asNull());
 	}
 	
 	/**

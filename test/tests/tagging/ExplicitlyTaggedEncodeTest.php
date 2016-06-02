@@ -30,6 +30,8 @@ class ExplicitlyTaggedEncodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testRecode() {
 		$el = new ExplicitlyTaggedType(0, new Boolean(true));
-		$this->assertInstanceOf(Boolean::class, $el->explicit());
+		$this->assertInstanceOf(Boolean::class, 
+			$el->explicit()
+				->asBoolean());
 	}
 }

@@ -1,7 +1,9 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\Primitive\GeneralizedTime;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\TimeType;
 
 
@@ -59,5 +61,24 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($ref->dateTime()
 			->getTimestamp(), $el->dateTime()
 			->getTimestamp());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(GeneralizedTime::class, 
+			$wrap->asGeneralizedTime());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asGeneralizedTime();
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\Real;
 
 
@@ -106,5 +108,23 @@ class RealTest extends PHPUnit_Framework_TestCase
 		$prop->setAccessible(true);
 		$prop->setValue($real, "fail");
 		$real->float();
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(Real::class, $wrap->asReal());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asReal();
 	}
 }

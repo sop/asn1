@@ -26,6 +26,7 @@ class ImplicitlyTaggedEncodeTest extends PHPUnit_Framework_TestCase
 	public function testRecode() {
 		$el = new ImplicitlyTaggedType(0, new Boolean(true));
 		$this->assertInstanceOf(Boolean::class, 
-			$el->implicit(Element::TYPE_BOOLEAN));
+			$el->implicit(Element::TYPE_BOOLEAN)
+				->asBoolean());
 	}
 }

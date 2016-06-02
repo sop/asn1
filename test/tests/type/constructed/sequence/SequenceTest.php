@@ -1,6 +1,7 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
@@ -99,7 +100,7 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 * @param Sequence $seq
 	 */
 	public function testAt(Sequence $seq) {
-		$el = $seq->at(0);
+		$el = $seq->at(0)->asNull();
 		$this->assertInstanceOf(NullType::class, $el);
 	}
 	
@@ -109,7 +110,7 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 * @param Sequence $seq
 	 */
 	public function testAtExpected(Sequence $seq) {
-		$el = $seq->at(0, Element::TYPE_NULL);
+		$el = $seq->at(0, Element::TYPE_NULL)->asNull();
 		$this->assertInstanceOf(NullType::class, $el);
 	}
 	
@@ -131,5 +132,23 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAtOOB(Sequence $seq) {
 		$seq->at(2);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(Sequence::class, $wrap->asSequence());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asSequence();
 	}
 }

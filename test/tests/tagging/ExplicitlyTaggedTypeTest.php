@@ -12,7 +12,7 @@ use ASN1\Type\TaggedType;
  * @group tagging
  * @group explicit-tag
  */
-class ExplicitlyTaggedtypeTest extends PHPUnit_Framework_TestCase
+class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
 {
 	public function testCreate() {
 		$el = new ExplicitlyTaggedType(1, new NullType());
@@ -47,7 +47,8 @@ class ExplicitlyTaggedtypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExpectation(ExplicitTagging $el) {
 		$this->assertInstanceOf(NullType::class, 
-			$el->explicit(Element::TYPE_NULL));
+			$el->explicit(Element::TYPE_NULL)
+				->asNull());
 	}
 	
 	/**

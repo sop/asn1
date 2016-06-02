@@ -1,5 +1,7 @@
 <?php
 
+use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\Tagged\DERTaggedType;
 use ASN1\Type\TaggedType;
 
@@ -41,5 +43,15 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExpectImplicit(DERTaggedType $el) {
 		$this->assertInstanceOf(TaggedType::class, $el->expectImplicit());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(TaggedType::class, $wrap->asTagged());
 	}
 }

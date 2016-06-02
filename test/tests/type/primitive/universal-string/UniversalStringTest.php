@@ -1,6 +1,8 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\UniversalString;
 
 
@@ -63,5 +65,24 @@ class UniversalStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidString() {
 		new UniversalString("xxx");
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(UniversalString::class, 
+			$wrap->asUniversalString());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asUniversalString();
 	}
 }

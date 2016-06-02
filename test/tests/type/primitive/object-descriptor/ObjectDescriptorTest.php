@@ -1,6 +1,8 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\ObjectDescriptor;
 
 
@@ -67,5 +69,24 @@ class ObjectDescriptorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDescriptor(ObjectDescriptor $desc) {
 		$this->assertEquals(self::DESCRIPTOR, $desc->descriptor());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(ObjectDescriptor::class, 
+			$wrap->asObjectDescriptor());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asObjectDescriptor();
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\T61String;
 
 
@@ -56,5 +58,23 @@ class T61StringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRecoded(Element $ref, Element $el) {
 		$this->assertEquals($ref, $el);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param Element $el
+	 */
+	public function testWrapped(Element $el) {
+		$wrap = new ElementWrapper($el);
+		$this->assertInstanceOf(T61String::class, $wrap->asT61String());
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testWrappedFail() {
+		$wrap = new ElementWrapper(new NullType());
+		$wrap->asT61String();
 	}
 }
