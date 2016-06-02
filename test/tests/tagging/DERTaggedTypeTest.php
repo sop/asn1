@@ -1,9 +1,9 @@
 <?php
 
 use ASN1\Element;
-use ASN1\ElementWrapper;
 use ASN1\Type\Tagged\DERTaggedType;
 use ASN1\Type\TaggedType;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -51,7 +51,7 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
 	 * @param Element $el
 	 */
 	public function testWrapped(Element $el) {
-		$wrap = new ElementWrapper($el);
+		$wrap = new UnspecifiedType($el);
 		$this->assertInstanceOf(TaggedType::class, $wrap->asTagged());
 	}
 }

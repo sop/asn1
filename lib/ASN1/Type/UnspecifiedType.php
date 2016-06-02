@@ -1,8 +1,9 @@
 <?php
 
-namespace ASN1;
+namespace ASN1\Type;
 
 use ASN1\Component\Identifier;
+use ASN1\Element;
 use ASN1\Feature\ElementBase;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Constructed\Set;
@@ -42,7 +43,7 @@ use ASN1\Type\TimeType;
  * Provides accessor methods to test the underlying type and return a type
  * hinted instance of the concrete element.
  */
-class ElementWrapper implements ElementBase
+class UnspecifiedType implements ElementBase
 {
 	/**
 	 * Wrapped element.

@@ -3,7 +3,7 @@
 namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
-use ASN1\ElementWrapper;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -37,12 +37,12 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
 	/**
 	 *
 	 * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
-	 * @return ElementWrapper
+	 * @return UnspecifiedType
 	 */
 	public function explicit($expectedTag = null) {
 		if (isset($expectedTag)) {
 			$this->_element->expectType($expectedTag);
 		}
-		return new ElementWrapper($this->_element);
+		return new UnspecifiedType($this->_element);
 	}
 }

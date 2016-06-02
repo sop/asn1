@@ -1,8 +1,8 @@
 <?php
 
-use ASN1\ElementWrapper;
 use ASN1\Type\Primitive\GeneralizedTime;
 use ASN1\Type\TimeType;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -39,11 +39,11 @@ class TimeTypeTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * @depends testFromString
-	 * 
+	 *
 	 * @param TimeType $time
 	 */
 	public function testWrapped(TimeType $time) {
-		$wrap = new ElementWrapper($time);
+		$wrap = new UnspecifiedType($time);
 		$this->assertInstanceOf(TimeType::class, $wrap->asTime());
 	}
 }

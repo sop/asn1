@@ -1,11 +1,11 @@
 <?php
 
 use ASN1\Element;
-use ASN1\ElementWrapper;
 use ASN1\Type\Constructed\Set;
 use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Structure;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -74,7 +74,7 @@ class SetTest extends PHPUnit_Framework_TestCase
 	 * @param Element $el
 	 */
 	public function testWrapped(Element $el) {
-		$wrap = new ElementWrapper($el);
+		$wrap = new UnspecifiedType($el);
 		$this->assertInstanceOf(Set::class, $wrap->asSet());
 	}
 	
@@ -82,7 +82,7 @@ class SetTest extends PHPUnit_Framework_TestCase
 	 * @expectedException UnexpectedValueException
 	 */
 	public function testWrappedFail() {
-		$wrap = new ElementWrapper(new NullType());
+		$wrap = new UnspecifiedType(new NullType());
 		$wrap->asSet();
 	}
 }
