@@ -517,8 +517,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\Encodable::toDER()
 	 * @return string
 	 */
@@ -528,8 +526,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\ElementBase::typeClass()
 	 * @return int
 	 */
@@ -539,8 +535,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\ElementBase::isConstructed()
 	 * @return bool
 	 */
@@ -550,8 +544,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\ElementBase::tag()
 	 * @return int
 	 */
@@ -561,8 +553,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\ElementBase::isType()
 	 * @return bool
 	 */
@@ -583,8 +573,6 @@ class UnspecifiedType implements ElementBase
 	
 	/**
 	 *
-	 * @deprecated Use any <code>as*</code> accessor method first to ensure
-	 *             type strictness.
 	 * @see \ASN1\Feature\ElementBase::isTagged()
 	 * @return bool
 	 */
