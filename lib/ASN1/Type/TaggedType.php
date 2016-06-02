@@ -32,14 +32,15 @@ abstract class TaggedType extends Element
 	 * @return ExplicitTagging
 	 */
 	public function expectExplicit($expectedTag = null) {
-		if (!($this instanceof ExplicitTagging)) {
+		$el = $this;
+		if (!$el instanceof ExplicitTagging) {
 			throw new \UnexpectedValueException(
 				"Element doesn't implement explicit tagging.");
 		}
 		if (isset($expectedTag)) {
-			$this->expectTagged($expectedTag);
+			$el->expectTagged($expectedTag);
 		}
-		return $this;
+		return $el;
 	}
 	
 	/**
@@ -61,14 +62,15 @@ abstract class TaggedType extends Element
 	 * @return ImplicitTagging
 	 */
 	public function expectImplicit($expectedTag = null) {
-		if (!($this instanceof ImplicitTagging)) {
+		$el = $this;
+		if (!$el instanceof ImplicitTagging) {
 			throw new \UnexpectedValueException(
 				"Element doesn't implement implicit tagging.");
 		}
 		if (isset($expectedTag)) {
-			$this->expectTagged($expectedTag);
+			$el->expectTagged($expectedTag);
 		}
-		return $this;
+		return $el;
 	}
 	
 	/**
@@ -76,7 +78,7 @@ abstract class TaggedType extends Element
 	 *
 	 * @param int $tag Type tag of the inner element
 	 * @param int|null $expectedTag Optional outer tag expectation
-	 * @param int $class Optional inner type class expectation
+	 * @param int $expectedClass Optional inner type class expectation
 	 * @throws \UnexpectedValueException If expectation fails
 	 * @return UnspecifiedType
 	 */
