@@ -42,7 +42,7 @@ use ASN1\Type\TimeType;
  * Provides accessor methods to test the underlying type and return a type
  * hinted instance of the concrete element.
  */
-class ElementWrapper
+class ElementWrapper implements ElementBase
 {
 	/**
 	 * Wrapped element.
@@ -512,5 +512,93 @@ class ElementWrapper
 			return Element::tagToName($tag);
 		}
 		return Identifier::classToName($type_cls) . " TAG $tag";
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\Encodable::toDER()
+	 * @return string
+	 */
+	public function toDER() {
+		return $this->_element->toDER();
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::typeClass()
+	 * @return int
+	 */
+	public function typeClass() {
+		return $this->_element->typeClass();
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::isConstructed()
+	 * @return bool
+	 */
+	public function isConstructed() {
+		return $this->_element->isConstructed();
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::tag()
+	 * @return int
+	 */
+	public function tag() {
+		return $this->_element->tag();
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::isType()
+	 * @return bool
+	 */
+	public function isType($tag) {
+		return $this->_element->isType($tag);
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::expectType()
+	 * @return ElementBase
+	 */
+	public function expectType($tag) {
+		return $this->_element->expectType($tag);
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::isTagged()
+	 * @return bool
+	 */
+	public function isTagged() {
+		return $this->_element->isTagged();
+	}
+	
+	/**
+	 *
+	 * @deprecated Use any <code>as*</code> accessor method first to ensure
+	 *             type strictness.
+	 * @see \ASN1\Feature\ElementBase::expectTagged()
+	 * @return TaggedType
+	 */
+	public function expectTagged($tag = null) {
+		return $this->_element->expectTagged($tag);
 	}
 }
