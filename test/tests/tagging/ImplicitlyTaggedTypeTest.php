@@ -86,6 +86,27 @@ class ImplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
 	 * @param TaggedType $el
 	 */
 	public function testExpectTypeFails(TaggedType $el) {
-		$el->expectType(1);
+		$el->expectType(Element::TYPE_NULL);
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testAsImplicit(TaggedType $el) {
+		$this->assertInstanceOf(NullType::class, 
+			$el->asImplicit(Element::TYPE_NULL, 1)
+				->asNull());
+	}
+	
+	/**
+	 * @depends testCreate
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param TaggedType $el
+	 */
+	public function testAsImplicitFail(TaggedType $el) {
+		$el->asImplicit(Element::TYPE_NULL, 2);
 	}
 }

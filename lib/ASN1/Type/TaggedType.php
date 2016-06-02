@@ -27,8 +27,8 @@ abstract class TaggedType extends Element
 	/**
 	 * Check whether element supports explicit tagging.
 	 *
-	 * @param int|null $expectedTag Optionally checked tag
-	 * @throws \UnexpectedValueException
+	 * @param int|null $expectedTag Optional outer tag expectation
+	 * @throws \UnexpectedValueException If expectation fails
 	 * @return ExplicitTagging
 	 */
 	public function expectExplicit($expectedTag = null) {
@@ -43,10 +43,21 @@ abstract class TaggedType extends Element
 	}
 	
 	/**
+	 * Get the wrapped inner element employing explicit tagging.
+	 *
+	 * @param int|null $expectedTag Optional outer tag expectation
+	 * @throws \UnexpectedValueException If expectation fails
+	 * @return UnspecifiedType
+	 */
+	public function asExplicit($expectedTag = null) {
+		return $this->expectExplicit($expectedTag)->explicit();
+	}
+	
+	/**
 	 * Check whether element supports implicit tagging.
 	 *
-	 * @param int|null $expectedTag
-	 * @throws \UnexpectedValueException
+	 * @param int|null $expectedTag Optional outer tag expectation
+	 * @throws \UnexpectedValueException If expectation fails
 	 * @return ImplicitTagging
 	 */
 	public function expectImplicit($expectedTag = null) {
@@ -58,5 +69,20 @@ abstract class TaggedType extends Element
 			$this->expectTagged($expectedTag);
 		}
 		return $this;
+	}
+	
+	/**
+	 * Get the wrapped inner element employing implicit tagging.
+	 *
+	 * @param int $tag Type tag of the inner element
+	 * @param int|null $expectedTag Optional outer tag expectation
+	 * @param int $class Optional inner type class expectation
+	 * @throws \UnexpectedValueException If expectation fails
+	 * @return UnspecifiedType
+	 */
+	public function asImplicit($tag, $expectedTag = null, 
+			$expectedClass = Identifier::CLASS_UNIVERSAL) {
+		return $this->expectImplicit($expectedTag)->implicit($tag, 
+			$expectedClass);
 	}
 }
