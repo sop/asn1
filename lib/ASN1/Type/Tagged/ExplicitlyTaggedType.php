@@ -3,6 +3,7 @@
 namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
+use ASN1\ElementWrapper;
 
 
 /**
@@ -33,10 +34,15 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
 		return $this->_element->toDER();
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
+	 * @return ElementWrapper
+	 */
 	public function explicit($expectedTag = null) {
 		if (isset($expectedTag)) {
 			$this->_element->expectType($expectedTag);
 		}
-		return $this->_element;
+		return new ElementWrapper($this->_element);
 	}
 }

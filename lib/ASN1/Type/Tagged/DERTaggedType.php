@@ -5,6 +5,7 @@ namespace ASN1\Type\Tagged;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Type\TaggedType;
 
 
@@ -69,13 +70,24 @@ class DERTaggedType extends TaggedType implements ExplicitTagging,
 		return substr($this->_data, $idx, $length->length());
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
+	 * @return ElementWrapper
+	 */
 	public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL) {
 		$identifier = $this->_identifier->withClass($class)->withTag($tag);
 		$cls = self::_determineImplClass($identifier);
 		$idx = $this->_offset;
-		return $cls::_decodeFromDER($identifier, $this->_data, $idx);
+		$element = $cls::_decodeFromDER($identifier, $this->_data, $idx);
+		return new ElementWrapper($element);
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
+	 * @return ElementWrapper
+	 */
 	public function explicit($expectedTag = null) {
 		$idx = $this->_offset;
 		Length::expectFromDER($this->_data, $idx);
@@ -83,6 +95,6 @@ class DERTaggedType extends TaggedType implements ExplicitTagging,
 		if (isset($expectedTag)) {
 			$element->expectType($expectedTag);
 		}
-		return $element;
+		return new ElementWrapper($element);
 	}
 }

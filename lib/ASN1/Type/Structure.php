@@ -5,6 +5,7 @@ namespace ASN1\Type;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Element;
+use ASN1\ElementWrapper;
 use ASN1\Exception\DecodeException;
 
 
@@ -215,11 +216,14 @@ abstract class Structure extends Element implements \Countable,
 	 *
 	 * Optionally check that the element has a given tag.
 	 *
+	 * NOTE! Expectation checking is deprecated and shall be done
+	 * with ElementWrapper.
+	 *
 	 * @param int $idx Index, first element is 0
 	 * @param int $expectedTag Type tag to expect
 	 * @throws \OutOfBoundsException If element doesn't exists
 	 * @throws \UnexpectedValueException If expectation fails
-	 * @return Element
+	 * @return ElementWrapper
 	 */
 	public function at($idx, $expectedTag = null) {
 		if (!isset($this->_elements[$idx])) {
@@ -230,7 +234,7 @@ abstract class Structure extends Element implements \Countable,
 		if (isset($expectedTag)) {
 			$element->expectType($expectedTag);
 		}
-		return $element;
+		return new ElementWrapper($element);
 	}
 	
 	/**
@@ -258,7 +262,7 @@ abstract class Structure extends Element implements \Countable,
 	 *
 	 * @param int $tag
 	 * @throws \OutOfBoundsException
-	 * @return Element
+	 * @return TaggedType
 	 */
 	public function getTagged($tag) {
 		if (!$this->hasTagged($tag)) {

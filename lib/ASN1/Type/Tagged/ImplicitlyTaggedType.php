@@ -4,6 +4,7 @@ namespace ASN1\Type\Tagged;
 
 use ASN1\Component\Identifier;
 use ASN1\Element;
+use ASN1\ElementWrapper;
 
 
 /**
@@ -36,6 +37,11 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 		return $this->_element->_encodedContentDER();
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
+	 * @return ElementWrapper
+	 */
 	public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL) {
 		$this->_element->expectType($tag);
 		if ($this->_element->typeClass() != $class) {
@@ -44,6 +50,6 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 					 " expected, got " .
 					 Identifier::classToName($this->_element->typeClass()) . ".");
 		}
-		return $this->_element;
+		return new ElementWrapper($this->_element);
 	}
 }
