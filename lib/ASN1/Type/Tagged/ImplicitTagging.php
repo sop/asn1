@@ -8,6 +8,9 @@ use ASN1\Feature\ElementBase;
 use ASN1\Type\UnspecifiedType;
 
 
+/**
+ * Interface for classes providing implicit tagging.
+ */
 interface ImplicitTagging extends ElementBase
 {
 	/**

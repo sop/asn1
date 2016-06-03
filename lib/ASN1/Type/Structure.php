@@ -25,9 +25,9 @@ abstract class Structure extends Element implements \Countable,
 	protected $_elements;
 	
 	/**
-	 * Mapping of tagged elements.
+	 * Lookup table for tagged elements.
 	 *
-	 * @var array $_taggedMap
+	 * @var TaggedType[]|null $_taggedMap
 	 */
 	private $_taggedMap;
 	
@@ -40,10 +40,20 @@ abstract class Structure extends Element implements \Countable,
 		$this->_elements = $elements;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::isConstructed()
+	 * @return bool
+	 */
 	public function isConstructed() {
 		return true;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_encodedContentDER()
+	 * @return string
+	 */
 	protected function _encodedContentDER() {
 		$data = "";
 		foreach ($this->_elements as $element) {
@@ -52,6 +62,11 @@ abstract class Structure extends Element implements \Countable,
 		return $data;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_decodeFromDER()
+	 * @return self
+	 */
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
 			&$offset) {
 		$idx = $offset;
@@ -76,7 +91,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Explode DER structure to DER encoded parts it contains.
+	 * Explode DER structure to DER encoded components that it contains.
 	 *
 	 * @param string $data
 	 * @throws DecodeException
@@ -195,8 +210,8 @@ abstract class Structure extends Element implements \Countable,
 	 * Check whether structure has an element at given index, optionally
 	 * satisfying given tag expectation.
 	 *
-	 * @param int $idx
-	 * @param int $expectedTag
+	 * @param int $idx Index 0..n
+	 * @param int|null $expectedTag Optional type tag expectation
 	 * @return bool
 	 */
 	public function has($idx, $expectedTag = null) {
@@ -219,8 +234,8 @@ abstract class Structure extends Element implements \Countable,
 	 * NOTE! Expectation checking is deprecated and shall be done
 	 * with UnspecifiedType.
 	 *
-	 * @param int $idx Index, first element is 0
-	 * @param int $expectedTag Type tag to expect
+	 * @param int $idx Index 0..n
+	 * @param int|null $expectedTag Optional type tag expectation
 	 * @throws \OutOfBoundsException If element doesn't exists
 	 * @throws \UnexpectedValueException If expectation fails
 	 * @return UnspecifiedType
@@ -241,7 +256,7 @@ abstract class Structure extends Element implements \Countable,
 	 * Check whether structure contains a context specific element with a given
 	 * tag.
 	 *
-	 * @param int $tag
+	 * @param int $tag Tag number
 	 * @return boolean
 	 */
 	public function hasTagged($tag) {
@@ -261,7 +276,7 @@ abstract class Structure extends Element implements \Countable,
 	 * Get context specific element tagged with a given tag.
 	 *
 	 * @param int $tag
-	 * @throws \OutOfBoundsException
+	 * @throws \LogicException If tag doesn't exists
 	 * @return TaggedType
 	 */
 	public function getTagged($tag) {

@@ -28,11 +28,21 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
 		$this->_element = $element;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::isConstructed()
+	 * @return bool
+	 */
 	public function isConstructed() {
 		// depends on the underlying type
 		return $this->_element->isConstructed();
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_encodedContentDER()
+	 * @return string
+	 */
 	protected function _encodedContentDER() {
 		return $this->_element->_encodedContentDER();
 	}

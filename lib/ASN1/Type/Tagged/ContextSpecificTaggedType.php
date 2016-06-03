@@ -28,6 +28,11 @@ abstract class ContextSpecificTaggedType extends TaggedType
 		return $this->_element;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::typeClass()
+	 * @return int
+	 */
 	public function typeClass() {
 		return Identifier::CLASS_CONTEXT_SPECIFIC;
 	}

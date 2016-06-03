@@ -14,10 +14,20 @@ abstract class PrimitiveString extends StringType
 {
 	use PrimitiveType;
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_encodedContentDER()
+	 * @return string
+	 */
 	protected function _encodedContentDER() {
 		return $this->_string;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_decodeFromDER()
+	 * @return self
+	 */
 	protected static function _decodeFromDER(Identifier $identifier, $data, 
 			&$offset) {
 		$idx = $offset;

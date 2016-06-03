@@ -107,14 +107,6 @@ class Flags
 	}
 	
 	/**
-	 *
-	 * @deprecated After 1.4.0. Use <code>string()</code>.
-	 */
-	public function str() {
-		return $this->string();
-	}
-	
-	/**
 	 * Get flags as a base 10 integer.
 	 *
 	 * @return int|string

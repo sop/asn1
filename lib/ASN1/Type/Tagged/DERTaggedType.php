@@ -56,14 +56,29 @@ class DERTaggedType extends TaggedType implements ExplicitTagging,
 		$this->_typeTag = intval($identifier->tag());
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::typeClass()
+	 * @return int
+	 */
 	public function typeClass() {
 		return $this->_identifier->typeClass();
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::isConstructed()
+	 * @return bool
+	 */
 	public function isConstructed() {
 		return $this->_identifier->isConstructed();
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_encodedContentDER()
+	 * @return string
+	 */
 	protected function _encodedContentDER() {
 		$idx = $this->_offset;
 		$length = Length::expectFromDER($this->_data, $idx);

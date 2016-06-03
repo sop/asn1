@@ -46,7 +46,7 @@ use ASN1\Type\TimeType;
 class UnspecifiedType implements ElementBase
 {
 	/**
-	 * Wrapped element.
+	 * The wrapped element.
 	 *
 	 * @var Element
 	 */
@@ -62,7 +62,7 @@ class UnspecifiedType implements ElementBase
 	}
 	
 	/**
-	 * Compatibility method to dispatch calls to wrapped element.
+	 * Compatibility method to dispatch calls to the wrapped element.
 	 *
 	 * @deprecated Use <code>as*</code> accessor methods to ensure strict type
 	 * @param string $mtd Method name

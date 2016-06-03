@@ -18,18 +18,28 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
 	/**
 	 * Constructor
 	 *
-	 * @param int $tag
-	 * @param Element $element
+	 * @param int $tag Tag number
+	 * @param Element $element Wrapped element
 	 */
 	public function __construct($tag, Element $element) {
 		$this->_typeTag = $tag;
 		$this->_element = $element;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::isConstructed()
+	 * @return bool
+	 */
 	public function isConstructed() {
 		return true;
 	}
 	
+	/**
+	 *
+	 * @see \ASN1\Element::_encodedContentDER()
+	 * @return string
+	 */
 	protected function _encodedContentDER() {
 		return $this->_element->toDER();
 	}

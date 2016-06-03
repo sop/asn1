@@ -194,7 +194,7 @@ abstract class Element implements ElementBase
 	abstract public function isConstructed();
 	
 	/**
-	 * Get content encoded in DER.
+	 * Get the content encoded in DER.
 	 *
 	 * Returns the DER encoded content without identifier and length header
 	 * octets.
@@ -216,15 +216,6 @@ abstract class Element implements ElementBase
 			&$offset) {
 		throw new \BadMethodCallException(
 			__METHOD__ . " must be implemented in derived class.");
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\ElementBase::tag()
-	 * @return int
-	 */
-	public function tag() {
-		return $this->_typeTag;
 	}
 	
 	/**
@@ -260,7 +251,7 @@ abstract class Element implements ElementBase
 		// that decoded type matches the type of a calling class
 		$called_class = get_called_class();
 		if (__CLASS__ != $called_class) {
-			if (!($element instanceof $called_class)) {
+			if (!$element instanceof $called_class) {
 				throw new \UnexpectedValueException(
 					"$called_class expected, got " . get_class($element) . ".");
 			}
@@ -270,6 +261,124 @@ abstract class Element implements ElementBase
 			$offset = $idx;
 		}
 		return $element;
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\Encodable::toDER()
+	 * @return string
+	 */
+	public function toDER() {
+		$identifier = new Identifier($this->typeClass(), 
+			$this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE, 
+			$this->_typeTag);
+		$content = $this->_encodedContentDER();
+		$length = new Length(strlen($content));
+		return $identifier->toDER() . $length->toDER() . $content;
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::tag()
+	 * @return int
+	 */
+	public function tag() {
+		return $this->_typeTag;
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::isType()
+	 * @return bool
+	 */
+	public function isType($tag) {
+		// if element is context specific
+		if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
+			return false;
+		}
+		// negative tags identify an abstract pseudotype
+		if ($tag < 0) {
+			return $this->_isPseudoType($tag);
+		}
+		return $this->_isConcreteType($tag);
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::expectType()
+	 * @return ElementBase
+	 */
+	public function expectType($tag) {
+		if (!$this->isType($tag)) {
+			throw new \UnexpectedValueException(
+				self::tagToName($tag) . " expected, got " .
+					 $this->_typeDescriptorString() . ".");
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check whether the element is a concrete type of a given tag.
+	 *
+	 * @param int $tag
+	 * @return bool
+	 */
+	private function _isConcreteType($tag) {
+		// if tag doesn't match
+		if ($this->tag() != $tag) {
+			return false;
+		}
+		// if type is universal check that instance is of a correct class
+		if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
+			$cls = self::_determineUniversalImplClass($tag);
+			if (!$this instanceof $cls) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Check whether the element is a pseudotype.
+	 *
+	 * @param int $tag
+	 * @return bool
+	 */
+	private function _isPseudoType($tag) {
+		switch ($tag) {
+		case self::TYPE_STRING:
+			return $this instanceof StringType;
+		case self::TYPE_TIME:
+			return $this instanceof TimeType;
+		}
+		return false;
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::isTagged()
+	 * @return bool
+	 */
+	public function isTagged() {
+		return $this instanceof TaggedType;
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::expectTagged()
+	 * @return TaggedType
+	 */
+	public function expectTagged($tag = null) {
+		if (!$this->isTagged()) {
+			throw new \UnexpectedValueException(
+				"Context specific element expected, got " .
+					 Identifier::classToName($this->typeClass()) . ".");
+		}
+		if (isset($tag) && $this->tag() != $tag) {
+			throw new \UnexpectedValueException(
+				"Tag $tag expected, got " . $this->tag() . ".");
+		}
+		return $this;
 	}
 	
 	/**
@@ -306,103 +415,6 @@ abstract class Element implements ElementBase
 				"Universal tag $tag not implemented.");
 		}
 		return self::MAP_TAG_TO_CLASS[$tag];
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\Encodable::toDER()
-	 * @return string
-	 */
-	public function toDER() {
-		$identifier = new Identifier($this->typeClass(), 
-			$this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE, 
-			$this->_typeTag);
-		$content = $this->_encodedContentDER();
-		$length = new Length(strlen($content));
-		return $identifier->toDER() . $length->toDER() . $content;
-	}
-	
-	/**
-	 * Check whether the element is a concrete type of a given tag.
-	 *
-	 * @param int $tag
-	 * @return bool
-	 */
-	private function _isConcreteType($tag) {
-		// if tag doesn't match
-		if ($this->tag() != $tag) {
-			return false;
-		}
-		// if type is universal check that instance is of a correct class
-		if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
-			$cls = self::_determineUniversalImplClass($tag);
-			if (!($this instanceof $cls)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\ElementBase::isType()
-	 * @return bool
-	 */
-	public function isType($tag) {
-		// if element is context specific
-		if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
-			return false;
-		}
-		// concrete type
-		if ($tag >= 0) {
-			return $this->_isConcreteType($tag);
-		} else if (self::TYPE_STRING == $tag) { // string type
-			return $this instanceof StringType;
-		} else if (self::TYPE_TIME == $tag) { // time type
-			return $this instanceof TimeType;
-		}
-		return false;
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\ElementBase::isTagged()
-	 * @return bool
-	 */
-	public function isTagged() {
-		return $this instanceof TaggedType;
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\ElementBase::expectType()
-	 * @return ElementBase
-	 */
-	public function expectType($tag) {
-		if (!$this->isType($tag)) {
-			throw new \UnexpectedValueException(
-				self::tagToName($tag) . " expected, got " .
-					 $this->_typeDescriptorString() . ".");
-		}
-		return $this;
-	}
-	
-	/**
-	 *
-	 * @see \ASN1\Feature\ElementBase::expectTagged()
-	 * @return TaggedType
-	 */
-	public function expectTagged($tag = null) {
-		if (!$this->isTagged()) {
-			throw new \UnexpectedValueException(
-				"Context specific element expected, got " .
-					 Identifier::classToName($this->typeClass()) . ".");
-		}
-		if (isset($tag) && $this->tag() != $tag) {
-			throw new \UnexpectedValueException(
-				"Tag $tag expected, got " . $this->tag() . ".");
-		}
-		return $this;
 	}
 	
 	/**

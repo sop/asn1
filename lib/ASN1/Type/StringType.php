@@ -42,14 +42,6 @@ abstract class StringType extends Element
 	}
 	
 	/**
-	 *
-	 * @deprecated After 1.4.0. Use <code>string()</code>.
-	 */
-	public function str() {
-		return $this->string();
-	}
-	
-	/**
 	 * Check whether string is valid for the concrete type.
 	 *
 	 * @param string $string

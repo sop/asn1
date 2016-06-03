@@ -218,9 +218,4 @@ class FlagsTest extends PHPUnit_Framework_TestCase
 		$flags = new Flags(0, 8);
 		$flags->test(8);
 	}
-	
-	public function testStr() {
-		$flags = new Flags(0, 8);
-		$this->assertInternalType("string", $flags->str());
-	}
 }

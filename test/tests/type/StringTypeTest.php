@@ -11,11 +11,6 @@ use ASN1\Type\UnspecifiedType;
  */
 class StringTypeTest extends PHPUnit_Framework_TestCase
 {
-	public function testStr() {
-		$el = new OctetString("");
-		$this->assertInternalType("string", $el->str());
-	}
-	
 	public function testWrapped() {
 		$wrap = new UnspecifiedType(new OctetString(""));
 		$this->assertInstanceOf(StringType::class, $wrap->asString());
