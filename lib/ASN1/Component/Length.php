@@ -60,32 +60,43 @@ class Length implements Encodable
 		$length = (0x7f & $byte);
 		// long form
 		if (0x80 & $byte) {
-			$count = $length;
-			// first octet must not be 0xff (spec 8.1.3.5c)
-			if ($count == 127) {
-				throw new DecodeException("Invalid number of length octets.");
-			}
-			$num = gmp_init(0, 10);
-			if ($count) {
-				while (--$count >= 0) {
-					if ($idx >= $datalen) {
-						throw new DecodeException(
-							"Unexpected end of data while decoding" .
-								 " long form length.");
-					}
-					$byte = ord($data[$idx++]);
-					$num <<= 8;
-					$num |= $byte;
-				}
-			} else { // indefinite form
+			if (!$length) {
 				$indefinite = true;
+			} else {
+				if ($idx + $length > $datalen) {
+					throw new DecodeException("Too many length octets.");
+				}
+				$length = self::_parseLongForm($length, $data, $idx);
 			}
-			$length = gmp_strval($num);
 		}
 		if (isset($offset)) {
 			$offset = $idx;
 		}
 		return new self($length, $indefinite);
+	}
+	
+	/**
+	 * Parse long form length.
+	 *
+	 * @param int $length Number of octets
+	 * @param string $data Data
+	 * @param int $offset Reference to the variable containing offset to the
+	 *        data.
+	 * @throws DecodeException If decoding fails
+	 * @return int|string
+	 */
+	private static function _parseLongForm($length, $data, &$offset) {
+		// first octet must not be 0xff (spec 8.1.3.5c)
+		if ($length == 127) {
+			throw new DecodeException("Invalid number of length octets.");
+		}
+		$num = gmp_init(0, 10);
+		while (--$length >= 0) {
+			$byte = ord($data[$offset++]);
+			$num <<= 8;
+			$num |= $byte;
+		}
+		return gmp_strval($num);
 	}
 	
 	/**
