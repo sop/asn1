@@ -49,42 +49,58 @@ class Integer extends Element
 	
 	protected function _encodedContentDER() {
 		$num = gmp_init($this->_number, 10);
-		$bin = "";
 		switch (gmp_sign($num)) {
-		// zero
-		case 0:
-			$bin = "\x0";
-			break;
 		// positive
 		case 1:
-			$bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-			// if first bit is 1, prepend full zero byte
-			// to represent positive two's complement
-			if (ord($bin[0]) & 0x80) {
-				$bin = chr(0x00) . $bin;
-			}
-			break;
+			return self::_encodePositiveInteger($num);
 		// negative
 		case -1:
-			$num = gmp_abs($num);
-			// compute number of bytes required
-			$width = 1;
-			if ($num > 128) {
-				$tmp = $num;
-				do {
-					$width++;
-					$tmp >>= 8;
-				} while ($tmp > 128);
-			}
-			// compute two's complement 2^n - x
-			$num = gmp_pow("2", 8 * $width) - $num;
-			$bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-			// if first bit is 0, prepend full inverted byte
-			// to represent negative two's complement
-			if (!(ord($bin[0]) & 0x80)) {
-				$bin = chr(0xff) . $bin;
-			}
-			break;
+			return self::_encodeNegativeInteger($num);
+		}
+		// zero
+		return "\0";
+	}
+	
+	/**
+	 * Encode positive integer to DER content.
+	 *
+	 * @param \GMP $num
+	 * @return string
+	 */
+	private static function _encodePositiveInteger(\GMP $num) {
+		$bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+		// if first bit is 1, prepend full zero byte
+		// to represent positive two's complement
+		if (ord($bin[0]) & 0x80) {
+			$bin = chr(0x00) . $bin;
+		}
+		return $bin;
+	}
+	
+	/**
+	 * Encode negative integer to DER content.
+	 *
+	 * @param \GMP $num
+	 * @return string
+	 */
+	private static function _encodeNegativeInteger(\GMP $num) {
+		$num = gmp_abs($num);
+		// compute number of bytes required
+		$width = 1;
+		if ($num > 128) {
+			$tmp = $num;
+			do {
+				$width++;
+				$tmp >>= 8;
+			} while ($tmp > 128);
+		}
+		// compute two's complement 2^n - x
+		$num = gmp_pow("2", 8 * $width) - $num;
+		$bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+		// if first bit is 0, prepend full inverted byte
+		// to represent negative two's complement
+		if (!(ord($bin[0]) & 0x80)) {
+			$bin = chr(0xff) . $bin;
 		}
 		return $bin;
 	}
