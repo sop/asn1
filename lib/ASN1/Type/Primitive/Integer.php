@@ -64,10 +64,10 @@ class Integer extends Element
 	/**
 	 * Encode positive integer to DER content.
 	 *
-	 * @param \GMP $num
+	 * @param \GMP|resource $num
 	 * @return string
 	 */
-	private static function _encodePositiveInteger(\GMP $num) {
+	private static function _encodePositiveInteger($num) {
 		$bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
 		// if first bit is 1, prepend full zero byte
 		// to represent positive two's complement
@@ -80,10 +80,10 @@ class Integer extends Element
 	/**
 	 * Encode negative integer to DER content.
 	 *
-	 * @param \GMP $num
+	 * @param \GMP|resource $num
 	 * @return string
 	 */
-	private static function _encodeNegativeInteger(\GMP $num) {
+	private static function _encodeNegativeInteger($num) {
 		$num = gmp_abs($num);
 		// compute number of bytes required
 		$width = 1;
