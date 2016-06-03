@@ -32,12 +32,28 @@ abstract class Structure extends Element implements \Countable,
 	private $_taggedMap;
 	
 	/**
+	 * Cache variable of elements wrapped into UnspecifiedType objects.
+	 *
+	 * @var UnspecifiedType[]|null $_unspecifiedTypes
+	 */
+	private $_unspecifiedTypes;
+	
+	/**
 	 * Constructor
 	 *
 	 * @param Element ...$elements Any number of elements
 	 */
 	public function __construct(Element ...$elements) {
 		$this->_elements = $elements;
+	}
+	
+	/**
+	 * Clone magic method.
+	 */
+	public function __clone() {
+		// clear cache-variables
+		$this->_taggedMap = null;
+		$this->_unspecifiedTypes = null;
 	}
 	
 	/**
@@ -200,10 +216,16 @@ abstract class Structure extends Element implements \Countable,
 	/**
 	 * Get elements in the structure.
 	 *
-	 * @return Element[]
+	 * @return UnspecifiedType[]
 	 */
 	public function elements() {
-		return $this->_elements;
+		if (!isset($this->_unspecifiedTypes)) {
+			$this->_unspecifiedTypes = array_map(
+				function (Element $el) {
+					return new UnspecifiedType($el);
+				}, $this->_elements);
+		}
+		return $this->_unspecifiedTypes;
 	}
 	
 	/**
@@ -296,12 +318,12 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get iterator for the elements of the structure.
+	 * Get iterator for the UnspecifiedElement objects.
 	 *
 	 * @see IteratorAggregate::getIterator()
 	 * @return \ArrayIterator
 	 */
 	public function getIterator() {
-		return new \ArrayIterator($this->_elements);
+		return new \ArrayIterator($this->elements());
 	}
 }
