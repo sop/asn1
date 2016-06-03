@@ -99,27 +99,40 @@ class Identifier implements Encodable
 		$tag = (0b00011111 & $byte);
 		// long-form identifier
 		if (0x1f == $tag) {
-			$tag = gmp_init(0, 10);
-			while (true) {
-				if ($idx >= $datalen) {
-					throw new DecodeException(
-						"Unexpected end of data while decoding" .
-							 " long form identifier.");
-				}
-				$byte = ord($data[$idx++]);
-				$tag <<= 7;
-				$tag |= 0x7f & $byte;
-				// last byte has bit 8 set to zero
-				if (!(0x80 & $byte)) {
-					break;
-				}
-			}
-			$tag = gmp_strval($tag, 10);
+			$tag = self::_decodeLongFormTag($data, $idx);
 		}
 		if (isset($offset)) {
 			$offset = $idx;
 		}
 		return new self($class, $pc, $tag);
+	}
+	
+	/**
+	 * Parse long form tag.
+	 *
+	 * @param string $data DER data
+	 * @param int $offset Reference to the variable containing offset to data
+	 * @throws DecodeException If decoding fails
+	 * @return int|string Tag number
+	 */
+	private static function _decodeLongFormTag($data, &$offset) {
+		$datalen = strlen($data);
+		$tag = gmp_init(0, 10);
+		while (true) {
+			if ($offset >= $datalen) {
+				throw new DecodeException(
+					"Unexpected end of data while decoding" .
+						 " long form identifier.");
+			}
+			$byte = ord($data[$offset++]);
+			$tag <<= 7;
+			$tag |= 0x7f & $byte;
+			// last byte has bit 8 set to zero
+			if (!(0x80 & $byte)) {
+				break;
+			}
+		}
+		return gmp_strval($tag, 10);
 	}
 	
 	/**
