@@ -61,7 +61,7 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
 	 * @expectedException ASN1\Exception\DecodeException
 	 */
 	public function testInvalidLength() {
-		Length::fromDER("\xff");
+		Length::fromDER("\xff" . str_repeat("\0", 127));
 	}
 	
 	public function testHugeLength() {
