@@ -74,15 +74,6 @@ class UnspecifiedType implements ElementBase
 	}
 	
 	/**
-	 * Get the wrapped element as an abstract type.
-	 *
-	 * @return ElementBase
-	 */
-	public function asElement() {
-		return $this->_element;
-	}
-	
-	/**
 	 * Get the wrapped element as a context specific tagged type.
 	 *
 	 * @throws \UnexpectedValueException
@@ -589,5 +580,14 @@ class UnspecifiedType implements ElementBase
 	 */
 	public function expectTagged($tag = null) {
 		return $this->_element->expectTagged($tag);
+	}
+	
+	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::asElement()
+	 * @return Element
+	 */
+	public function asElement() {
+		return $this->_element;
 	}
 }

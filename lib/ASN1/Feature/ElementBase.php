@@ -2,6 +2,7 @@
 
 namespace ASN1\Feature;
 
+use ASN1\Element;
 use ASN1\Type\TaggedType;
 
 
@@ -78,4 +79,11 @@ interface ElementBase extends Encodable
 	 * @return TaggedType
 	 */
 	public function expectTagged($tag = null);
+	
+	/**
+	 * Get the object as an abstract Element instance.
+	 *
+	 * @return Element
+	 */
+	public function asElement();
 }

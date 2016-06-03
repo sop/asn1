@@ -382,6 +382,15 @@ abstract class Element implements ElementBase
 	}
 	
 	/**
+	 *
+	 * @see \ASN1\Feature\ElementBase::asElement()
+	 * @return Element
+	 */
+	final public function asElement() {
+		return $this;
+	}
+	
+	/**
 	 * Determine the class that implements the type.
 	 *
 	 * @param Identifier $identifier
