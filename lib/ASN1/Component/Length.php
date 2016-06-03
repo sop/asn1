@@ -66,7 +66,7 @@ class Length implements Encodable
 				if ($idx + $length > $datalen) {
 					throw new DecodeException("Too many length octets.");
 				}
-				$length = self::_parseLongForm($length, $data, $idx);
+				$length = self::_decodeLongFormLength($length, $data, $idx);
 			}
 		}
 		if (isset($offset)) {
@@ -76,7 +76,7 @@ class Length implements Encodable
 	}
 	
 	/**
-	 * Parse long form length.
+	 * Decode long form length.
 	 *
 	 * @param int $length Number of octets
 	 * @param string $data Data
@@ -85,7 +85,7 @@ class Length implements Encodable
 	 * @throws DecodeException If decoding fails
 	 * @return int|string
 	 */
-	private static function _parseLongForm($length, $data, &$offset) {
+	private static function _decodeLongFormLength($length, $data, &$offset) {
 		// first octet must not be 0xff (spec 8.1.3.5c)
 		if ($length == 127) {
 			throw new DecodeException("Invalid number of length octets.");
