@@ -20,15 +20,6 @@ abstract class ContextSpecificTaggedType extends TaggedType
 	protected $_element;
 	
 	/**
-	 * Get the wrapped element.
-	 *
-	 * @return Element
-	 */
-	public function element() {
-		return $this->_element;
-	}
-	
-	/**
 	 *
 	 * @see \ASN1\Element::typeClass()
 	 * @return int
