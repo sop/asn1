@@ -5,6 +5,7 @@ use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Structure;
+use ASN1\Type\Tagged\ImplicitlyTaggedType;
 
 
 /**
@@ -163,5 +164,15 @@ class StructureTest extends PHPUnit_Framework_TestCase
 	public function testRemoveFail() {
 		$seq = new Sequence(new NullType());
 		$seq->withoutElement(1);
+	}
+	
+	/**
+	 * Test that cached tagging lookup table is cleared on clone.
+	 */
+	public function testTaggedAfterClone() {
+		$seq = new Sequence(new ImplicitlyTaggedType(1, new NullType()));
+		$seq->hasTagged(1);
+		$seq = $seq->withAppended(new ImplicitlyTaggedType(2, new NullType()));
+		$this->assertTrue($seq->hasTagged(2));
 	}
 }

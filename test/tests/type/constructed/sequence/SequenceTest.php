@@ -69,7 +69,7 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testElements(Sequence $seq) {
 		$elements = $seq->elements();
-		$this->assertCount(2, $elements);
+		$this->assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
 	}
 	
 	/**
@@ -92,6 +92,7 @@ class SequenceTest extends PHPUnit_Framework_TestCase
 			$elements[] = $el;
 		}
 		$this->assertCount(2, $elements);
+		$this->assertContainsOnlyInstancesOf(UnspecifiedType::class, $elements);
 	}
 	
 	/**
