@@ -26,4 +26,9 @@ class ElementTest extends PHPUnit_Framework_TestCase
 		$el = new NullType();
 		$this->assertFalse($el->isType(-3));
 	}
+	
+	public function testAsElement() {
+		$el = new NullType();
+		$this->assertEquals($el, $el->asElement());
+	}
 }

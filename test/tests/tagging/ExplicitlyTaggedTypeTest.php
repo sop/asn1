@@ -2,7 +2,6 @@
 
 use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Tagged\ContextSpecificTaggedType;
 use ASN1\Type\Tagged\ExplicitlyTaggedType;
 use ASN1\Type\Tagged\ExplicitTagging;
 use ASN1\Type\TaggedType;
@@ -18,16 +17,6 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
 		$el = new ExplicitlyTaggedType(1, new NullType());
 		$this->assertInstanceOf(ExplicitTagging::class, $el);
 		return $el;
-	}
-	
-	/**
-	 * @depends testCreate
-	 *
-	 * @param ContextSpecificTaggedType $el
-	 */
-	public function testGetElement(ContextSpecificTaggedType $el) {
-		$this->assertEquals(Element::TYPE_NULL, $el->element()
-			->tag());
 	}
 	
 	/**
