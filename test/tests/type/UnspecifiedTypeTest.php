@@ -8,11 +8,26 @@ use ASN1\Type\Tagged\ImplicitlyTaggedType;
 use ASN1\Type\UnspecifiedType;
 
 
-class ElementWrapperTest extends PHPUnit_Framework_TestCase
+class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
 {
 	public function testAsElement() {
 		$wrap = new UnspecifiedType(new NullType());
 		$this->assertInstanceOf(ElementBase::class, $wrap->asElement());
+		return $wrap;
+	}
+	
+	public function testFromElementBase() {
+		$el = new NullType();
+		$wrap = UnspecifiedType::fromElementBase($el);
+		$this->assertInstanceOf(UnspecifiedType::class, $wrap);
+	}
+	
+	/**
+	 * @depends testAsElement
+	 */
+	public function testFromElementBaseAsWrap(UnspecifiedType $type) {
+		$wrap = UnspecifiedType::fromElementBase($type);
+		$this->assertInstanceOf(UnspecifiedType::class, $wrap);
 	}
 	
 	/**
