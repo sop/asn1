@@ -2,6 +2,7 @@
 
 use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -30,5 +31,16 @@ class ElementTest extends PHPUnit_Framework_TestCase
 	public function testAsElement() {
 		$el = new NullType();
 		$this->assertEquals($el, $el->asElement());
+		return $el;
+	}
+	
+	/**
+	 * @depends testAsElement
+	 *
+	 * @param Element $el
+	 */
+	public function testAsUnspecified(Element $el) {
+		$type = $el->asUnspecified();
+		$this->assertInstanceOf(UnspecifiedType::class, $type);
 	}
 }

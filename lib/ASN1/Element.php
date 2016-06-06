@@ -35,6 +35,7 @@ use ASN1\Type\Primitive\VisibleString;
 use ASN1\Type\StringType;
 use ASN1\Type\TaggedType;
 use ASN1\Type\TimeType;
+use ASN1\Type\UnspecifiedType;
 
 
 /**
@@ -388,6 +389,15 @@ abstract class Element implements ElementBase
 	 */
 	final public function asElement() {
 		return $this;
+	}
+	
+	/**
+	 * Get element decorated with UnspecifiedType object.
+	 *
+	 * @return UnspecifiedType
+	 */
+	public function asUnspecified() {
+		return new UnspecifiedType($this);
 	}
 	
 	/**
