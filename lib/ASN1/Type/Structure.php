@@ -10,7 +10,7 @@ use ASN1\Type\UnspecifiedType;
 
 
 /**
- * Base class for constructed types.
+ * Base class for the constructed types.
  */
 abstract class Structure extends Element implements \Countable, 
 	\IteratorAggregate
@@ -25,7 +25,7 @@ abstract class Structure extends Element implements \Countable,
 	protected $_elements;
 	
 	/**
-	 * Lookup table for tagged elements.
+	 * Lookup table for the tagged elements.
 	 *
 	 * @var TaggedType[]|null $_taggedMap
 	 */
@@ -138,10 +138,10 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get self with element at given index replaced by another.
+	 * Get self with an element at the given index replaced by another.
 	 *
 	 * @param int $idx Element index
-	 * @param Element $el New element to insert into structure
+	 * @param Element $el New element to insert into the structure
 	 * @throws \OutOfBoundsException
 	 * @return self
 	 */
@@ -156,10 +156,10 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get self with element inserted before given index.
+	 * Get self with an element inserted before the given index.
 	 *
 	 * @param int $idx Element index
-	 * @param Element $el New element to insert into structure
+	 * @param Element $el New element to insert into the structure
 	 * @throws \OutOfBoundsException
 	 * @return self
 	 */
@@ -173,9 +173,9 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get self with element appended to the end.
+	 * Get self with an element appended to the end.
 	 *
-	 * @param Element $el Element to insert into structure
+	 * @param Element $el Element to insert into the structure
 	 * @return self
 	 */
 	public function withAppended(Element $el) {
@@ -185,9 +185,9 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get self with element prepended in the beginning.
+	 * Get self with an element prepended in the beginning.
 	 *
-	 * @param Element $el Element to insert into structure
+	 * @param Element $el Element to insert into the structure
 	 * @return self
 	 */
 	public function withPrepended(Element $el) {
@@ -197,7 +197,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get self with element at given index removed.
+	 * Get self with an element at the given index removed.
 	 *
 	 * @param int $idx Element index
 	 * @throws \OutOfBoundsException
@@ -229,7 +229,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Check whether structure has an element at given index, optionally
+	 * Check whether the structure has an element at the given index, optionally
 	 * satisfying given tag expectation.
 	 *
 	 * @param int $idx Index 0..n
@@ -249,11 +249,10 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get element at given index.
+	 * Get the element at the given index, optionally checking that the element
+	 * has a given tag.
 	 *
-	 * Optionally check that the element has a given tag.
-	 *
-	 * NOTE! Expectation checking is deprecated and shall be done
+	 * NOTE! Expectation checking is deprecated and should be done
 	 * with UnspecifiedType.
 	 *
 	 * @param int $idx Index 0..n
@@ -275,8 +274,8 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Check whether structure contains a context specific element with a given
-	 * tag.
+	 * Check whether the structure contains a context specific element with a
+	 * given tag.
 	 *
 	 * @param int $tag Tag number
 	 * @return boolean
@@ -295,7 +294,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get context specific element tagged with a given tag.
+	 * Get a context specific element tagged with a given tag.
 	 *
 	 * @param int $tag
 	 * @throws \LogicException If tag doesn't exists
@@ -318,7 +317,7 @@ abstract class Structure extends Element implements \Countable,
 	}
 	
 	/**
-	 * Get iterator for the UnspecifiedElement objects.
+	 * Get an iterator for the UnspecifiedElement objects.
 	 *
 	 * @see IteratorAggregate::getIterator()
 	 * @return \ArrayIterator

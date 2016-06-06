@@ -90,7 +90,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a context specific tagged type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not tagged
 	 * @return TaggedType
 	 */
 	public function asTagged() {
@@ -104,7 +104,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a boolean type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a boolean
 	 * @return Boolean
 	 */
 	public function asBoolean() {
@@ -118,7 +118,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an integer type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not an integer
 	 * @return Integer
 	 */
 	public function asInteger() {
@@ -132,7 +132,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a bit string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a bit string
 	 * @return BitString
 	 */
 	public function asBitString() {
@@ -146,7 +146,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an octet string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not an octet string
 	 * @return OctetString
 	 */
 	public function asOctetString() {
@@ -160,7 +160,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a null type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a null
 	 * @return NullType
 	 */
 	public function asNull() {
@@ -174,7 +174,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an object identifier type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not an object
+	 *         identifier
 	 * @return ObjectIdentifier
 	 */
 	public function asObjectIdentifier() {
@@ -189,7 +190,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an object descriptor type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not an object
+	 *         descriptor
 	 * @return ObjectDescriptor
 	 */
 	public function asObjectDescriptor() {
@@ -204,7 +206,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a real type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a real
 	 * @return Real
 	 */
 	public function asReal() {
@@ -218,7 +220,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an enumerated type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not an enumerated
 	 * @return Enumerated
 	 */
 	public function asEnumerated() {
@@ -232,7 +234,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a UTF8 string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a UTF8 string
 	 * @return UTF8String
 	 */
 	public function asUTF8String() {
@@ -246,7 +248,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a relative OID type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a relative OID
 	 * @return RelativeOID
 	 */
 	public function asRelativeOID() {
@@ -260,7 +262,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a sequence type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a sequence
 	 * @return Sequence
 	 */
 	public function asSequence() {
@@ -274,7 +276,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a set type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a set
 	 * @return Set
 	 */
 	public function asSet() {
@@ -288,7 +290,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a numeric string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a numeric string
 	 * @return NumericString
 	 */
 	public function asNumericString() {
@@ -302,7 +304,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a printable string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a printable
+	 *         string
 	 * @return PrintableString
 	 */
 	public function asPrintableString() {
@@ -316,7 +319,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a T61 string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a T61 string
 	 * @return T61String
 	 */
 	public function asT61String() {
@@ -330,7 +333,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a videotex string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a videotex string
 	 * @return VideotexString
 	 */
 	public function asVideotexString() {
@@ -342,9 +345,9 @@ class UnspecifiedType implements ElementBase
 	}
 	
 	/**
-	 * Get the wrapped element as a IA6 string type.
+	 * Get the wrapped element as a IA5 string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a IA5 string
 	 * @return IA5String
 	 */
 	public function asIA5String() {
@@ -358,7 +361,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as an UTC time type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a UTC time
 	 * @return UTCTime
 	 */
 	public function asUTCTime() {
@@ -372,7 +375,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a generalized time type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a generalized
+	 *         time
 	 * @return GeneralizedTime
 	 */
 	public function asGeneralizedTime() {
@@ -386,7 +390,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a graphic string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a graphic string
 	 * @return GraphicString
 	 */
 	public function asGraphicString() {
@@ -400,7 +404,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a visible string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a visible string
 	 * @return VisibleString
 	 */
 	public function asVisibleString() {
@@ -414,7 +418,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a general string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not general string
 	 * @return GeneralString
 	 */
 	public function asGeneralString() {
@@ -428,7 +432,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a universal string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a universal
+	 *         string
 	 * @return UniversalString
 	 */
 	public function asUniversalString() {
@@ -442,7 +447,8 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a character string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a character
+	 *         string
 	 * @return CharacterString
 	 */
 	public function asCharacterString() {
@@ -456,7 +462,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as a BMP string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a bmp string
 	 * @return BMPString
 	 */
 	public function asBMPString() {
@@ -470,7 +476,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as any string type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a string
 	 * @return StringType
 	 */
 	public function asString() {
@@ -484,7 +490,7 @@ class UnspecifiedType implements ElementBase
 	/**
 	 * Get the wrapped element as any time type.
 	 *
-	 * @throws \UnexpectedValueException
+	 * @throws \UnexpectedValueException If the element is not a time
 	 * @return TimeType
 	 */
 	public function asTime() {
