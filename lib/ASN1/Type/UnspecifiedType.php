@@ -62,6 +62,20 @@ class UnspecifiedType implements ElementBase
 	}
 	
 	/**
+	 * Initialize from ElementBase interface.
+	 *
+	 * @param ElementBase $el
+	 * @return self
+	 */
+	public static function fromElementBase(ElementBase $el) {
+		// if element is already wrapped
+		if ($el instanceof self) {
+			return $el;
+		}
+		return new self($el->asElement());
+	}
+	
+	/**
 	 * Compatibility method to dispatch calls to the wrapped element.
 	 *
 	 * @deprecated Use <code>as*</code> accessor methods to ensure strict type
