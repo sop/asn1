@@ -19,7 +19,9 @@ that knows the details of encoding and decoding the specific type.
 
 To decode DER data, use `fromDER` static method of the expected type.
 To encode object to DER, use `toDER` instance method.
-Exception shall be thrown on errors.
+
+All objects are immutable and method chaining is promoted for the fluency
+of the API. Exception shall be thrown on errors.
 
 ## Code Examples
 Here are some simple usage examples. Namespaces are omitted for brevity.
@@ -38,7 +40,6 @@ $seq = new Sequence(
 $der = $seq->toDER();
 echo bin2hex($der);
 ```
-
 Outputs:
 
     30120c0548656c6c6f02012aa10606042b060103
@@ -48,14 +49,16 @@ Decode DER encoding from above.
 
 ```php
 $seq = Sequence::fromDER($der);
-echo $seq->at(0)->string() . ", " .
-	$seq->at(1)->number() .", " .
-	$seq->at(2)->explicit()->oid();
+echo $seq->at(0)->asUTF8String()->string() . "\n";
+echo $seq->at(1)->asInteger()->number() . "\n";
+echo $seq->at(2)->asTagged()->asExplicit()
+	->asObjectIdentifier()->oid() . "\n";
 ```
-
 Outputs:
 
-    Hello, 42, 1.3.6.1.3
+    Hello
+    42
+    1.3.6.1.3
 
 ### Real-World Examples
 See the following for more practical real-world usage examples.
