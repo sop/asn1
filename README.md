@@ -63,15 +63,15 @@ Outputs:
 ### Real-World Examples
 See the following for more practical real-world usage examples.
 
-* RSA Private Key
-    * [Decode](https://github.com/sop/crypto-util/blob/1.3.0/lib/CryptoUtil/ASN1/RSA/RSAPrivateKey.php#L108)
-    * [Encode](https://github.com/sop/crypto-util/blob/1.3.0/lib/CryptoUtil/ASN1/RSA/RSAPrivateKey.php#L252)
+* EC Private Key
+    * [Decode](https://github.com/sop/crypto-util/blob/1.5.1/lib/CryptoUtil/ASN1/EC/ECPrivateKey.php#L67)
+    * [Encode](https://github.com/sop/crypto-util/blob/1.5.1/lib/CryptoUtil/ASN1/EC/ECPrivateKey.php#L192)
 * X.501 Attribute
-    * [Decode](https://github.com/sop/x501/blob/0.2.0/lib/X501/ASN1/Attribute.php#L53)
-    * [Encode](https://github.com/sop/x501/blob/0.2.0/lib/X501/ASN1/Attribute.php#L106)
+    * [Decode](https://github.com/sop/x501/blob/0.3.0/lib/X501/ASN1/Attribute.php#L54)
+    * [Encode](https://github.com/sop/x501/blob/0.3.0/lib/X501/ASN1/Attribute.php#L108)
 * X.509 Certificate (`TBSCertificate` sequence)
-    * [Decode](https://github.com/sop/x509/blob/0.2.0/lib/X509/Certificate/TBSCertificate.php#L127)
-    * [Encode](https://github.com/sop/x509/blob/0.2.0/lib/X509/Certificate/TBSCertificate.php#L522)
+    * [Decode](https://github.com/sop/x509/blob/0.3.0/lib/X509/Certificate/TBSCertificate.php#L127)
+    * [Encode](https://github.com/sop/x509/blob/0.3.0/lib/X509/Certificate/TBSCertificate.php#L534)
 
 ## License
 This project is licensed under the MIT License.
