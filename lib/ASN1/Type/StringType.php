@@ -33,7 +33,7 @@ abstract class StringType extends Element
 	}
 	
 	/**
-	 * Get string value.
+	 * Get the string value.
 	 *
 	 * @return string
 	 */
