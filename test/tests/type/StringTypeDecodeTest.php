@@ -22,7 +22,8 @@ class StringTypeDecodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testExpectation() {
 		$el = StringType::fromDER("\x13\x0bHello World");
-		$el->expectType(Element::TYPE_STRING);
+		$this->assertInstanceOf(StringType::class, 
+			$el->expectType(Element::TYPE_STRING));
 	}
 	
 	/**
