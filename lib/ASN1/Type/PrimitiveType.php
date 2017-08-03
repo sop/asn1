@@ -2,13 +2,18 @@
 
 namespace ASN1\Type;
 
-
 /**
  * Trait for primitive types.
  */
 trait PrimitiveType
 {
-	public function isConstructed() {
-		return false;
-	}
+    /**
+     *
+     * @see \ASN1\Element::isConstructed()
+     * @return boolean
+     */
+    public function isConstructed()
+    {
+        return false;
+    }
 }

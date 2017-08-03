@@ -5,7 +5,6 @@ namespace ASN1\Type\Primitive;
 use ASN1\Type\PrimitiveString;
 use ASN1\Type\UniversalClass;
 
-
 /**
  * Implements <i>UTF8String</i> type.
  *
@@ -13,19 +12,25 @@ use ASN1\Type\UniversalClass;
  */
 class UTF8String extends PrimitiveString
 {
-	use UniversalClass;
-	
-	/**
-	 * Constructor
-	 *
-	 * @param string $string
-	 */
-	public function __construct($string) {
-		$this->_typeTag = self::TYPE_UTF8_STRING;
-		parent::__construct($string);
-	}
-	
-	protected function _validateString($string) {
-		return mb_check_encoding($string, "UTF-8");
-	}
+    use UniversalClass;
+    
+    /**
+     * Constructor.
+     *
+     * @param string $string
+     */
+    public function __construct($string)
+    {
+        $this->_typeTag = self::TYPE_UTF8_STRING;
+        parent::__construct($string);
+    }
+    
+    /**
+     *
+     * {@inheritdoc}
+     */
+    protected function _validateString($string)
+    {
+        return mb_check_encoding($string, "UTF-8");
+    }
 }

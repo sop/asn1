@@ -9,98 +9,117 @@ use ASN1\Type\PrimitiveType;
 use ASN1\Type\TimeType;
 use ASN1\Type\UniversalClass;
 
-
 /**
  * Implements <i>GeneralizedTime</i> type.
  */
 class GeneralizedTime extends TimeType
 {
-	use UniversalClass;
-	use PrimitiveType;
-	
-	/**
-	 * Regular expression to parse date.
-	 *
-	 * DER restricts format to UTC timezone (Z suffix).
-	 *
-	 * @var string
-	 */
-	const REGEX = /* @formatter:off */ '#^' .
-		'(\d\d\d\d)' . /* YYYY */
-		'(\d\d)' . /* MM */
-		'(\d\d)' . /* DD */
-		'(\d\d)' . /* hh */
-		'(\d\d)' . /* mm */
-		'(\d\d)' . /* ss */
-		'(?:\.(\d+))?' . /* frac */
-		'Z' . /* TZ */
-		'$#' /* @formatter:on */;
-	
-	/**
-	 * Cached formatted date.
-	 *
-	 * @var string|null
-	 */
-	private $_formatted;
-	
-	/**
-	 * Constructor
-	 *
-	 * @param \DateTimeImmutable $dt
-	 */
-	public function __construct(\DateTimeImmutable $dt) {
-		$this->_typeTag = self::TYPE_GENERALIZED_TIME;
-		parent::__construct($dt);
-	}
-	
-	protected function _encodedContentDER() {
-		if (!isset($this->_formatted)) {
-			$dt = $this->_dateTime->setTimezone(
-				self::_createTimeZone(self::TZ_UTC));
-			$this->_formatted = $dt->format("YmdHis");
-			// if fractions were used
-			$frac = $dt->format("u");
-			if ($frac != 0) {
-				$frac = rtrim($frac, "0");
-				$this->_formatted .= ".$frac";
-			}
-			// timezone
-			$this->_formatted .= "Z";
-		}
-		return $this->_formatted;
-	}
-	
-	protected static function _decodeFromDER(Identifier $identifier, $data, 
-			&$offset) {
-		$idx = $offset;
-		$length = Length::expectFromDER($data, $idx);
-		$str = substr($data, $idx, $length->length());
-		$idx += $length->length();
-		if (!preg_match(self::REGEX, $str, $match)) {
-			throw new DecodeException("Invalid GeneralizedTime format.");
-		}
-		list(, $year, $month, $day, $hour, $minute, $second) = $match;
-		if (isset($match[7])) {
-			$frac = $match[7];
-			// DER restricts trailing zeroes in fractional seconds component
-			if ($frac[strlen($frac) - 1] === '0') {
-				throw new DecodeException(
-					"Fractional seconds must omit trailing zeroes.");
-			}
-			$frac = (int) $frac;
-		} else {
-			$frac = 0;
-		}
-		$time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
-			 self::TZ_UTC;
-		$dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time, 
-			self::_createTimeZone(self::TZ_UTC));
-		if (!$dt) {
-			throw new DecodeException(
-				"Failed to decode GeneralizedTime: " .
-					 self::_getLastDateTimeImmutableErrorsStr());
-		}
-		$offset = $idx;
-		return new self($dt);
-	}
+    use UniversalClass;
+    use PrimitiveType;
+    
+    /**
+     * Regular expression to parse date.
+     *
+     * DER restricts format to UTC timezone (Z suffix).
+     *
+     * @var string
+     */
+    const REGEX = /* @formatter:off */ '#^' .
+        '(\d\d\d\d)' . /* YYYY */
+        '(\d\d)' . /* MM */
+        '(\d\d)' . /* DD */
+        '(\d\d)' . /* hh */
+        '(\d\d)' . /* mm */
+        '(\d\d)' . /* ss */
+        '(?:\.(\d+))?' . /* frac */
+        'Z' . /* TZ */
+        '$#' /* @formatter:on */;
+    
+    /**
+     * Cached formatted date.
+     *
+     * @var string|null
+     */
+    private $_formatted;
+    
+    /**
+     * Constructor.
+     *
+     * @param \DateTimeImmutable $dt
+     */
+    public function __construct(\DateTimeImmutable $dt)
+    {
+        $this->_typeTag = self::TYPE_GENERALIZED_TIME;
+        parent::__construct($dt);
+    }
+    
+    /**
+     * Clear cached variables on clone.
+     */
+    public function __clone()
+    {
+        $this->_formatted = null;
+    }
+    
+    /**
+     *
+     * {@inheritdoc}
+     */
+    protected function _encodedContentDER()
+    {
+        if (!isset($this->_formatted)) {
+            $dt = $this->_dateTime->setTimezone(
+                self::_createTimeZone(self::TZ_UTC));
+            $this->_formatted = $dt->format("YmdHis");
+            // if fractions were used
+            $frac = $dt->format("u");
+            if ($frac != 0) {
+                $frac = rtrim($frac, "0");
+                $this->_formatted .= ".$frac";
+            }
+            // timezone
+            $this->_formatted .= "Z";
+        }
+        return $this->_formatted;
+    }
+    
+    /**
+     *
+     * {@inheritdoc}
+     * @return self
+     */
+    protected static function _decodeFromDER(Identifier $identifier, $data,
+        &$offset)
+    {
+        $idx = $offset;
+        $length = Length::expectFromDER($data, $idx);
+        $str = substr($data, $idx, $length->length());
+        $idx += $length->length();
+        if (!preg_match(self::REGEX, $str, $match)) {
+            throw new DecodeException("Invalid GeneralizedTime format.");
+        }
+        list(, $year, $month, $day, $hour, $minute, $second) = $match;
+        if (isset($match[7])) {
+            $frac = $match[7];
+            // DER restricts trailing zeroes in fractional seconds component
+            if ('0' === $frac[strlen($frac) - 1]) {
+                throw new DecodeException(
+                    "Fractional seconds must omit trailing zeroes.");
+            }
+            $frac = (int) $frac;
+        } else {
+            $frac = 0;
+        }
+        $time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
+             self::TZ_UTC;
+        $dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time,
+            self::_createTimeZone(self::TZ_UTC));
+        if (!$dt) {
+            throw new DecodeException(
+                "Failed to decode GeneralizedTime: " .
+                     self::_getLastDateTimeImmutableErrorsStr());
+        }
+        $offset = $idx;
+        return new self($dt);
+    }
 }

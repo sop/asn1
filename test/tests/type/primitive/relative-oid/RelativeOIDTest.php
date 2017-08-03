@@ -1,10 +1,9 @@
 <?php
 
 use ASN1\Element;
+use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\RelativeOID;
-use ASN1\Type\UnspecifiedType;
-
 
 /**
  * @group type
@@ -12,69 +11,76 @@ use ASN1\Type\UnspecifiedType;
  */
 class RelativeOIDTest extends PHPUnit_Framework_TestCase
 {
-	public function testCreate() {
-		$el = new RelativeOID("1.3.6.1.3");
-		$this->assertInstanceOf(RelativeOID::class, $el);
-		return $el;
-	}
-	
-	/**
-	 * @depends testCreate
-	 *
-	 * @param Element $el
-	 */
-	public function testTag(Element $el) {
-		$this->assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
-	}
-	
-	/**
-	 * @depends testCreate
-	 *
-	 * @param Element $el
-	 */
-	public function testEncode(Element $el) {
-		$der = $el->toDER();
-		$this->assertInternalType("string", $der);
-		return $der;
-	}
-	
-	/**
-	 * @depends testEncode
-	 *
-	 * @param string $data
-	 */
-	public function testDecode($data) {
-		$el = RelativeOID::fromDER($data);
-		$this->assertInstanceOf(RelativeOID::class, $el);
-		return $el;
-	}
-	
-	/**
-	 * @depends testCreate
-	 * @depends testDecode
-	 *
-	 * @param Element $ref
-	 * @param Element $el
-	 */
-	public function testRecoded(Element $ref, Element $el) {
-		$this->assertEquals($ref, $el);
-	}
-	
-	/**
-	 * @depends testCreate
-	 *
-	 * @param Element $el
-	 */
-	public function testWrapped(Element $el) {
-		$wrap = new UnspecifiedType($el);
-		$this->assertInstanceOf(RelativeOID::class, $wrap->asRelativeOID());
-	}
-	
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
-	public function testWrappedFail() {
-		$wrap = new UnspecifiedType(new NullType());
-		$wrap->asRelativeOID();
-	}
+    public function testCreate()
+    {
+        $el = new RelativeOID("1.3.6.1.3");
+        $this->assertInstanceOf(RelativeOID::class, $el);
+        return $el;
+    }
+    
+    /**
+     * @depends testCreate
+     *
+     * @param Element $el
+     */
+    public function testTag(Element $el)
+    {
+        $this->assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
+    }
+    
+    /**
+     * @depends testCreate
+     *
+     * @param Element $el
+     */
+    public function testEncode(Element $el)
+    {
+        $der = $el->toDER();
+        $this->assertInternalType("string", $der);
+        return $der;
+    }
+    
+    /**
+     * @depends testEncode
+     *
+     * @param string $data
+     */
+    public function testDecode($data)
+    {
+        $el = RelativeOID::fromDER($data);
+        $this->assertInstanceOf(RelativeOID::class, $el);
+        return $el;
+    }
+    
+    /**
+     * @depends testCreate
+     * @depends testDecode
+     *
+     * @param Element $ref
+     * @param Element $el
+     */
+    public function testRecoded(Element $ref, Element $el)
+    {
+        $this->assertEquals($ref, $el);
+    }
+    
+    /**
+     * @depends testCreate
+     *
+     * @param Element $el
+     */
+    public function testWrapped(Element $el)
+    {
+        $wrap = new UnspecifiedType($el);
+        $this->assertInstanceOf(RelativeOID::class, $wrap->asRelativeOID());
+    }
+    
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testWrappedFail()
+    {
+        $wrap = new UnspecifiedType(new NullType());
+        $wrap->asRelativeOID();
+    }
 }
