@@ -25,14 +25,14 @@ class UTCTime extends TimeType
      * @var string
      */
     const REGEX = /* @formatter:off */ '#^' .
-		'(\d\d)' . /* YY */
-		'(\d\d)' . /* MM */
-		'(\d\d)' . /* DD */
-		'(\d\d)' . /* hh */
-		'(\d\d)' . /* mm */
-		'(\d\d)' . /* ss */
-		'Z' . /* TZ */
-		'$#' /* @formatter:on */;
+        '(\d\d)' . /* YY */
+        '(\d\d)' . /* MM */
+        '(\d\d)' . /* DD */
+        '(\d\d)' . /* hh */
+        '(\d\d)' . /* mm */
+        '(\d\d)' . /* ss */
+        'Z' . /* TZ */
+        '$#' /* @formatter:on */;
     
     /**
      * Constructor.

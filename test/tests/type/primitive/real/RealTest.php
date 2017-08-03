@@ -79,21 +79,21 @@ class RealTest extends PHPUnit_Framework_TestCase
     public function provideFromFloat()
     {
         return array(
-			/* @formatter:off */
-			[0],
-			[1],
-			[-1],
-			[1000000],
-			[-1000000],
-			[0.00001],
-			[-0.00001],
-			[0.1e-20],
-			[-0.1e-20],
-			[M_PI],
-			[-M_PI],
-			[M_E],
-			[-M_E]
-			/* @formatter:on */
+            /* @formatter:off */
+            [0],
+            [1],
+            [-1],
+            [1000000],
+            [-1000000],
+            [0.00001],
+            [-0.00001],
+            [0.1e-20],
+            [-0.1e-20],
+            [M_PI],
+            [-M_PI],
+            [M_E],
+            [-M_E]
+            /* @formatter:on */
         );
     }
     

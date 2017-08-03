@@ -27,14 +27,14 @@ class StructureTest extends PHPUnit_Framework_TestCase
     
     public function hasProvider()
     {
-        // @formatter:off
-		return array(
-			[0, true],
-			[1, true],
-			[2, true],
-			[3, false]
-		);
-		// @formatter:on
+        return array(
+            /* @formatter:off */
+            [0, true],
+            [1, true],
+            [2, true],
+            [3, false]
+            /* @formatter:on */
+        );
     }
     
     /**
@@ -52,14 +52,14 @@ class StructureTest extends PHPUnit_Framework_TestCase
     
     public function hasTypeProvider()
     {
-        // @formatter:off
-		return array(
-			[0, Element::TYPE_NULL, true],
-			[0, Element::TYPE_INTEGER, false],
-			[1, Element::TYPE_BOOLEAN, true],
-			[2, Element::TYPE_NULL, false]
-		);
-		// @formatter:on
+        return array(
+            /* @formatter:off */
+            [0, Element::TYPE_NULL, true],
+            [0, Element::TYPE_INTEGER, false],
+            [1, Element::TYPE_BOOLEAN, true],
+            [2, Element::TYPE_NULL, false]
+            /* @formatter:on */
+        );
     }
     
     public function testExplode()
