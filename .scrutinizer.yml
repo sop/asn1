@@ -1,8 +1,14 @@
 build:
     tests:
         override:
-            -
-                command: phpunit
-                coverage:
-                    format: php-clover
-                    file: build/logs/clover.xml
+        -   command: phpunit
+            coverage:
+                format: php-clover
+                file: build/logs/clover.xml
+checks:
+    php:
+        code_rating: true
+        duplication: false
+filter:
+    excluded_paths:
+    - test/
