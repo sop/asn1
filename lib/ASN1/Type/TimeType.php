@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 use ASN1\Element;
@@ -15,14 +17,14 @@ abstract class TimeType extends Element
      * @var string
      */
     const TZ_UTC = "UTC";
-    
+
     /**
      * Date and time.
      *
      * @var \DateTimeImmutable $_dateTime
      */
     protected $_dateTime;
-    
+
     /**
      * Constructor.
      *
@@ -32,7 +34,7 @@ abstract class TimeType extends Element
     {
         $this->_dateTime = $dt;
     }
-    
+
     /**
      * Initialize from datetime string.
      *
@@ -41,7 +43,7 @@ abstract class TimeType extends Element
      * @throws \RuntimeException
      * @return self
      */
-    public static function fromString($time, $tz = null)
+    public static function fromString(string $time, string $tz = null)
     {
         try {
             if (!isset($tz)) {
@@ -55,17 +57,17 @@ abstract class TimeType extends Element
                      self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
         }
     }
-    
+
     /**
      * Get the date and time.
      *
      * @return \DateTimeImmutable
      */
-    public function dateTime()
+    public function dateTime(): \DateTimeImmutable
     {
         return $this->_dateTime;
     }
-    
+
     /**
      * Create DateTimeZone object from string.
      *
@@ -73,7 +75,7 @@ abstract class TimeType extends Element
      * @throws \UnexpectedValueException If timezone is invalid
      * @return \DateTimeZone
      */
-    protected static function _createTimeZone($tz)
+    protected static function _createTimeZone($tz): \DateTimeZone
     {
         try {
             return new \DateTimeZone($tz);
@@ -81,13 +83,13 @@ abstract class TimeType extends Element
             throw new \UnexpectedValueException("Invalid timezone.", 0, $e);
         }
     }
-    
+
     /**
      * Get last error caused by DateTimeImmutable.
      *
      * @return string
      */
-    protected static function _getLastDateTimeImmutableErrorsStr()
+    protected static function _getLastDateTimeImmutableErrorsStr(): string
     {
         $errors = \DateTimeImmutable::getLastErrors()["errors"];
         return implode(", ", $errors);

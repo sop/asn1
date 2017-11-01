@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
@@ -33,7 +35,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @see \ASN1\Element::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         // depends on the underlying type
         return $this->_element->isConstructed();
@@ -44,17 +46,17 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @see \ASN1\Element::_encodedContentDER()
      * @return string
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         return $this->_element->_encodedContentDER();
     }
     
     /**
-     *
+     * {@inheritdoc}
      * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
      * @return UnspecifiedType
      */
-    public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL)
+    public function implicit($tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $this->_element->expectType($tag);
         if ($this->_element->typeClass() != $class) {

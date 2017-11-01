@@ -15,7 +15,8 @@
 	"require": {
 		"php": ">=5.6.3",
 		"ext-gmp": "*",
-		"ext-mbstring": "*"
+		"ext-mbstring": "*",
+		"phpunit/phpunit": "^6.4"
 	},
 	"autoload": {
 		"psr-4": {

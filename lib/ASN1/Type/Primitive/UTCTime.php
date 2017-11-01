@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Component\Identifier;
@@ -49,7 +51,7 @@ class UTCTime extends TimeType
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $dt = $this->_dateTime->setTimezone(self::_createTimeZone(self::TZ_UTC));
         return $dt->format("ymdHis\Z");
@@ -60,8 +62,8 @@ class UTCTime extends TimeType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

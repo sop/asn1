@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\Primitive\BitString;
 
 /**
@@ -10,8 +12,10 @@ class BitStringEncodeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider withoutTrailingZeroesProvider
+     * @param string $bits
+     * @param string $expected
      */
-    public function testWithoutTrailingZeroes($bits, $expected)
+    public function testWithoutTrailingZeroes(string $bits, string $expected)
     {
         $bs = new BitString($bits);
         $this->assertEquals($expected,
@@ -19,9 +23,9 @@ class BitStringEncodeTest extends PHPUnit_Framework_TestCase
                 ->toDER());
     }
     
-    public function withoutTrailingZeroesProvider()
+    public function withoutTrailingZeroesProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             ["", "\x3\x1\x0"],
             ["\x00", "\x3\x1\x0"],
@@ -36,8 +40,8 @@ class BitStringEncodeTest extends PHPUnit_Framework_TestCase
             ["\x00\x00\x02", "\x3\x4\x1\x0\x0\x02"],
             ["\x00\x02\x00", "\x3\x3\x1\x0\x02"],
             ["\x00\x01\x00", "\x3\x3\x0\x0\x01"],
-            ["\x00\x80\x00", "\x3\x3\x7\x0\x80"]
+            ["\x00\x80\x00", "\x3\x3\x7\x0\x80"],
             /* @formatter:on */
-        );
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 use ASN1\Element;
@@ -66,7 +68,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not tagged
      * @return TaggedType
      */
-    public function asTagged()
+    public function asTagged(): TaggedType
     {
         if (!$this->_element instanceof TaggedType) {
             throw new \UnexpectedValueException(
@@ -81,7 +83,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a boolean
      * @return Primitive\Boolean
      */
-    public function asBoolean()
+    public function asBoolean(): Primitive\Boolean
     {
         if (!$this->_element instanceof Primitive\Boolean) {
             throw new \UnexpectedValueException(
@@ -96,7 +98,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not an integer
      * @return Primitive\Integer
      */
-    public function asInteger()
+    public function asInteger(): Primitive\Integer
     {
         if (!$this->_element instanceof Primitive\Integer) {
             throw new \UnexpectedValueException(
@@ -111,7 +113,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a bit string
      * @return Primitive\BitString
      */
-    public function asBitString()
+    public function asBitString(): Primitive\BitString
     {
         if (!$this->_element instanceof Primitive\BitString) {
             throw new \UnexpectedValueException(
@@ -126,7 +128,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not an octet string
      * @return Primitive\OctetString
      */
-    public function asOctetString()
+    public function asOctetString(): Primitive\OctetString
     {
         if (!$this->_element instanceof Primitive\OctetString) {
             throw new \UnexpectedValueException(
@@ -141,7 +143,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a null
      * @return Primitive\NullType
      */
-    public function asNull()
+    public function asNull(): Primitive\NullType
     {
         if (!$this->_element instanceof Primitive\NullType) {
             throw new \UnexpectedValueException(
@@ -157,7 +159,7 @@ class UnspecifiedType implements ElementBase
      *         identifier
      * @return Primitive\ObjectIdentifier
      */
-    public function asObjectIdentifier()
+    public function asObjectIdentifier(): Primitive\ObjectIdentifier
     {
         if (!$this->_element instanceof Primitive\ObjectIdentifier) {
             throw new \UnexpectedValueException(
@@ -174,7 +176,7 @@ class UnspecifiedType implements ElementBase
      *         descriptor
      * @return Primitive\ObjectDescriptor
      */
-    public function asObjectDescriptor()
+    public function asObjectDescriptor(): Primitive\ObjectDescriptor
     {
         if (!$this->_element instanceof Primitive\ObjectDescriptor) {
             throw new \UnexpectedValueException(
@@ -190,7 +192,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a real
      * @return Primitive\Real
      */
-    public function asReal()
+    public function asReal(): Primitive\Real
     {
         if (!$this->_element instanceof Primitive\Real) {
             throw new \UnexpectedValueException(
@@ -205,7 +207,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not an enumerated
      * @return Primitive\Enumerated
      */
-    public function asEnumerated()
+    public function asEnumerated(): Primitive\Enumerated
     {
         if (!$this->_element instanceof Primitive\Enumerated) {
             throw new \UnexpectedValueException(
@@ -220,7 +222,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a UTF8 string
      * @return Primitive\UTF8String
      */
-    public function asUTF8String()
+    public function asUTF8String(): Primitive\UTF8String
     {
         if (!$this->_element instanceof Primitive\UTF8String) {
             throw new \UnexpectedValueException(
@@ -235,7 +237,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a relative OID
      * @return Primitive\RelativeOID
      */
-    public function asRelativeOID()
+    public function asRelativeOID(): Primitive\RelativeOID
     {
         if (!$this->_element instanceof Primitive\RelativeOID) {
             throw new \UnexpectedValueException(
@@ -250,7 +252,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a sequence
      * @return Constructed\Sequence
      */
-    public function asSequence()
+    public function asSequence(): Constructed\Sequence
     {
         if (!$this->_element instanceof Constructed\Sequence) {
             throw new \UnexpectedValueException(
@@ -265,7 +267,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a set
      * @return Constructed\Set
      */
-    public function asSet()
+    public function asSet(): Constructed\Set
     {
         if (!$this->_element instanceof Constructed\Set) {
             throw new \UnexpectedValueException(
@@ -280,7 +282,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a numeric string
      * @return Primitive\NumericString
      */
-    public function asNumericString()
+    public function asNumericString(): Primitive\NumericString
     {
         if (!$this->_element instanceof Primitive\NumericString) {
             throw new \UnexpectedValueException(
@@ -296,7 +298,7 @@ class UnspecifiedType implements ElementBase
      *         string
      * @return Primitive\PrintableString
      */
-    public function asPrintableString()
+    public function asPrintableString(): Primitive\PrintableString
     {
         if (!$this->_element instanceof Primitive\PrintableString) {
             throw new \UnexpectedValueException(
@@ -311,7 +313,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a T61 string
      * @return Primitive\T61String
      */
-    public function asT61String()
+    public function asT61String(): Primitive\T61String
     {
         if (!$this->_element instanceof Primitive\T61String) {
             throw new \UnexpectedValueException(
@@ -326,7 +328,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a videotex string
      * @return Primitive\VideotexString
      */
-    public function asVideotexString()
+    public function asVideotexString(): Primitive\VideotexString
     {
         if (!$this->_element instanceof Primitive\VideotexString) {
             throw new \UnexpectedValueException(
@@ -341,7 +343,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a IA5 string
      * @return Primitive\IA5String
      */
-    public function asIA5String()
+    public function asIA5String(): Primitive\IA5String
     {
         if (!$this->_element instanceof Primitive\IA5String) {
             throw new \UnexpectedValueException(
@@ -356,7 +358,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a UTC time
      * @return Primitive\UTCTime
      */
-    public function asUTCTime()
+    public function asUTCTime(): Primitive\UTCTime
     {
         if (!$this->_element instanceof Primitive\UTCTime) {
             throw new \UnexpectedValueException(
@@ -372,7 +374,7 @@ class UnspecifiedType implements ElementBase
      *         time
      * @return Primitive\GeneralizedTime
      */
-    public function asGeneralizedTime()
+    public function asGeneralizedTime(): Primitive\GeneralizedTime
     {
         if (!$this->_element instanceof Primitive\GeneralizedTime) {
             throw new \UnexpectedValueException(
@@ -387,7 +389,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a graphic string
      * @return Primitive\GraphicString
      */
-    public function asGraphicString()
+    public function asGraphicString(): Primitive\GraphicString
     {
         if (!$this->_element instanceof Primitive\GraphicString) {
             throw new \UnexpectedValueException(
@@ -402,7 +404,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a visible string
      * @return Primitive\VisibleString
      */
-    public function asVisibleString()
+    public function asVisibleString(): Primitive\VisibleString
     {
         if (!$this->_element instanceof Primitive\VisibleString) {
             throw new \UnexpectedValueException(
@@ -417,7 +419,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not general string
      * @return Primitive\GeneralString
      */
-    public function asGeneralString()
+    public function asGeneralString(): Primitive\GeneralString
     {
         if (!$this->_element instanceof Primitive\GeneralString) {
             throw new \UnexpectedValueException(
@@ -433,7 +435,7 @@ class UnspecifiedType implements ElementBase
      *         string
      * @return Primitive\UniversalString
      */
-    public function asUniversalString()
+    public function asUniversalString(): Primitive\UniversalString
     {
         if (!$this->_element instanceof Primitive\UniversalString) {
             throw new \UnexpectedValueException(
@@ -449,7 +451,7 @@ class UnspecifiedType implements ElementBase
      *         string
      * @return Primitive\CharacterString
      */
-    public function asCharacterString()
+    public function asCharacterString(): Primitive\CharacterString
     {
         if (!$this->_element instanceof Primitive\CharacterString) {
             throw new \UnexpectedValueException(
@@ -464,7 +466,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a bmp string
      * @return Primitive\BMPString
      */
-    public function asBMPString()
+    public function asBMPString(): Primitive\BMPString
     {
         if (!$this->_element instanceof Primitive\BMPString) {
             throw new \UnexpectedValueException(
@@ -479,7 +481,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a string
      * @return StringType
      */
-    public function asString()
+    public function asString(): StringType
     {
         if (!$this->_element instanceof StringType) {
             throw new \UnexpectedValueException(
@@ -494,7 +496,7 @@ class UnspecifiedType implements ElementBase
      * @throws \UnexpectedValueException If the element is not a time
      * @return TimeType
      */
-    public function asTime()
+    public function asTime(): TimeType
     {
         if (!$this->_element instanceof TimeType) {
             throw new \UnexpectedValueException(
@@ -509,7 +511,7 @@ class UnspecifiedType implements ElementBase
      * @param int $tag Type tag of the expected element
      * @return string
      */
-    private function _generateExceptionMessage($tag)
+    private function _generateExceptionMessage($tag): string
     {
         return sprintf("%s expected, got %s.", Element::tagToName($tag),
             $this->_typeDescriptorString());
@@ -535,7 +537,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\Encodable::toDER()
      * @return string
      */
-    public function toDER()
+    public function toDER(): string
     {
         return $this->_element->toDER();
     }
@@ -545,7 +547,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::typeClass()
      * @return int
      */
-    public function typeClass()
+    public function typeClass(): int
     {
         return $this->_element->typeClass();
     }
@@ -555,7 +557,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return $this->_element->isConstructed();
     }
@@ -572,10 +574,11 @@ class UnspecifiedType implements ElementBase
     
     /**
      *
+     * {@inheritdoc}
      * @see \ASN1\Feature\ElementBase::isType()
      * @return bool
      */
-    public function isType($tag)
+    public function isType($tag): bool
     {
         return $this->_element->isType($tag);
     }
@@ -587,7 +590,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectType()
      * @return ElementBase
      */
-    public function expectType($tag)
+    public function expectType($tag): ElementBase
     {
         return $this->_element->expectType($tag);
     }
@@ -597,7 +600,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::isTagged()
      * @return bool
      */
-    public function isTagged()
+    public function isTagged(): bool
     {
         return $this->_element->isTagged();
     }
@@ -609,7 +612,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectTagged()
      * @return TaggedType
      */
-    public function expectTagged($tag = null)
+    public function expectTagged($tag = null): TaggedType
     {
         return $this->_element->expectTagged($tag);
     }
@@ -619,7 +622,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::asElement()
      * @return Element
      */
-    public function asElement()
+    public function asElement(): Element
     {
         return $this->_element;
     }

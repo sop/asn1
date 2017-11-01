@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\BitString;
@@ -32,8 +34,9 @@ class BitStringTest extends PHPUnit_Framework_TestCase
      * @depends testCreate
      *
      * @param Element $el
+     * @return string
      */
-    public function testEncode(Element $el)
+    public function testEncode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertInternalType("string", $der);
@@ -44,8 +47,9 @@ class BitStringTest extends PHPUnit_Framework_TestCase
      * @depends testEncode
      *
      * @param string $data
+     * @return BitString
      */
-    public function testDecode($data)
+    public function testDecode(string $data): BitString
     {
         $el = BitString::fromDER($data);
         $this->assertInstanceOf(BitString::class, $el);
@@ -66,43 +70,49 @@ class BitStringTest extends PHPUnit_Framework_TestCase
     
     /**
      * @dataProvider ffProvider
+     * @param int $start
+     * @param int $length
+     * @param string $result
      */
-    public function testRange8($start, $length, $result)
+    public function testRange8(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff");
         $this->assertEquals($result, $bs->range($start, $length));
     }
     
-    public function ffProvider()
+    public function ffProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0, 8, 0xff],
             [1, 2, 0x03],
             [6, 2, 0x03],
-            [2, 4, 0x0f]
+            [2, 4, 0x0f],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
      * @dataProvider ffffProvider
+     * @param int $start
+     * @param int $length
+     * @param string $result
      */
-    public function testRange16($start, $length, $result)
+    public function testRange16(int $start, int $length, string $result)
     {
         $bs = new BitString("\xff\xff");
         $this->assertEquals($result, $bs->range($start, $length));
     }
     
-    public function ffffProvider()
+    public function ffffProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0, 8, 0xff],
             [6, 4, 0x0f],
-            [12, 4, 0x0f]
+            [12, 4, 0x0f],
             /* @formatter:on */
-        );
+        ];
     }
     
     public function testEmptyRange()

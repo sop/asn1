@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Element;
@@ -59,7 +61,7 @@ class Real extends Element
      *
      * @param string $number Number in NR3 form.
      */
-    public function __construct($number)
+    public function __construct(string $number)
     {
         $this->_typeTag = self::TYPE_REAL;
         if (!self::_validateNumber($number)) {
@@ -75,7 +77,7 @@ class Real extends Element
      * @param float $number
      * @return self
      */
-    public static function fromFloat($number)
+    public static function fromFloat(float $number)
     {
         return new self(self::_decimalToNR3(strval($number)));
     }
@@ -85,7 +87,7 @@ class Real extends Element
      *
      * @return float
      */
-    public function float()
+    public function float(): float
     {
         return self::_nr3ToDecimal($this->_number);
     }
@@ -94,7 +96,7 @@ class Real extends Element
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         /* if the real value is the value zero, there shall be no contents
          octets in the encoding. (X.690 07-2002, section 8.5.2) */
@@ -111,8 +113,8 @@ class Real extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
@@ -139,7 +141,7 @@ class Real extends Element
      * @todo Implement
      * @param string $data
      */
-    protected static function _decodeBinaryEncoding($data)
+    protected static function _decodeBinaryEncoding(string $data)
     {
         throw new \RuntimeException(
             "Binary encoding of REAL is not implemented.");
@@ -151,7 +153,7 @@ class Real extends Element
      * @throws \RuntimeException
      * @return \ASN1\Type\Primitive\Real
      */
-    protected static function _decodeDecimalEncoding($data)
+    protected static function _decodeDecimalEncoding(string $data): Real
     {
         $nr = ord($data[0]) & 0x03;
         if ($nr != 0x03) {
@@ -166,7 +168,7 @@ class Real extends Element
      * @todo Implement
      * @param string $data
      */
-    protected static function _decodeSpecialRealValue($data)
+    protected static function _decodeSpecialRealValue(string $data)
     {
         if (strlen($data) != 1) {
             throw new DecodeException(
@@ -188,7 +190,7 @@ class Real extends Element
      * @param string $str
      * @return string
      */
-    private static function _decimalToNR3($str)
+    private static function _decimalToNR3(string $str): string
     {
         // if number is in exponent form
         if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match)) {
@@ -237,7 +239,7 @@ class Real extends Element
      * @throws \UnexpectedValueException
      * @return float
      */
-    private static function _nr3ToDecimal($str)
+    private static function _nr3ToDecimal(string $str): float
     {
         if (!preg_match(self::NR3_REGEX, $str, $match)) {
             throw new \UnexpectedValueException(
@@ -274,7 +276,7 @@ class Real extends Element
      * @param mixed $num
      * @return boolean
      */
-    private static function _validateNumber($num)
+    private static function _validateNumber($num): bool
     {
         if (!preg_match(self::NR3_REGEX, $num)) {
             return false;

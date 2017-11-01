@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Component\Identifier;
@@ -30,7 +32,7 @@ class BitString extends StringType
      * @param string $string Content octets
      * @param int $unused_bits Number of unused bits in the last octet
      */
-    public function __construct($string, $unused_bits = 0)
+    public function __construct(string $string, int $unused_bits = 0)
     {
         $this->_typeTag = self::TYPE_BIT_STRING;
         parent::__construct($string);
@@ -42,7 +44,7 @@ class BitString extends StringType
      *
      * @return int
      */
-    public function numBits()
+    public function numBits(): int
     {
         return strlen($this->_string) * 8 - $this->_unusedBits;
     }
@@ -52,7 +54,7 @@ class BitString extends StringType
      *
      * @return int
      */
-    public function unusedBits()
+    public function unusedBits(): int
     {
         return $this->_unusedBits;
     }
@@ -64,7 +66,7 @@ class BitString extends StringType
      *        Most significant bit of the first octet is index 0.
      * @return boolean
      */
-    public function testBit($idx)
+    public function testBit($idx): bool
     {
         // octet index
         $oi = (int) floor($idx / 8);
@@ -94,7 +96,7 @@ class BitString extends StringType
      * @throws \OutOfBoundsException
      * @return number Integer of $length bits
      */
-    public function range($start, $length)
+    public function range(int $start, int $length)
     {
         if (!$length) {
             return 0;
@@ -157,7 +159,7 @@ class BitString extends StringType
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $der = chr($this->_unusedBits);
         $der .= $this->_string;
@@ -175,8 +177,8 @@ class BitString extends StringType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

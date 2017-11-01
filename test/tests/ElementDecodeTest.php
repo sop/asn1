@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Type\Primitive\Boolean;
@@ -32,8 +34,8 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     * @expectedExceptionMessageRegExp /assert.+?is_string.+?failed/
+     * @expectedException \TypeError
+     * @expectedExceptionMessageRegExp /must be of the type string/
      */
     public function testInvalidParam()
     {

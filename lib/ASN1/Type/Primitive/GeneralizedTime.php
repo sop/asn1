@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Component\Identifier;
@@ -65,7 +67,7 @@ class GeneralizedTime extends TimeType
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         if (!isset($this->_formatted)) {
             $dt = $this->_dateTime->setTimezone(
@@ -88,8 +90,8 @@ class GeneralizedTime extends TimeType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

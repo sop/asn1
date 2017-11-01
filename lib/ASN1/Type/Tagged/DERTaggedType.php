@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
@@ -49,7 +51,7 @@ class DERTaggedType extends TaggedType implements
      * @param string $data
      * @param int $offset Offset to next byte after identifier
      */
-    public function __construct(Identifier $identifier, $data, $offset)
+    public function __construct(Identifier $identifier, string $data, int $offset)
     {
         $this->_identifier = $identifier;
         $this->_data = $data;
@@ -62,7 +64,7 @@ class DERTaggedType extends TaggedType implements
      * @see \ASN1\Element::typeClass()
      * @return int
      */
-    public function typeClass()
+    public function typeClass(): int
     {
         return $this->_identifier->typeClass();
     }
@@ -72,7 +74,7 @@ class DERTaggedType extends TaggedType implements
      * @see \ASN1\Element::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return $this->_identifier->isConstructed();
     }
@@ -82,7 +84,7 @@ class DERTaggedType extends TaggedType implements
      * @see \ASN1\Element::_encodedContentDER()
      * @return string
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $idx = $this->_offset;
         $length = Length::expectFromDER($this->_data, $idx);
@@ -90,11 +92,11 @@ class DERTaggedType extends TaggedType implements
     }
     
     /**
-     *
+     * {@inheritdoc}
      * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
      * @return UnspecifiedType
      */
-    public function implicit($tag, $class = Identifier::CLASS_UNIVERSAL)
+    public function implicit($tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $identifier = $this->_identifier->withClass($class)->withTag($tag);
         $cls = self::_determineImplClass($identifier);
@@ -108,7 +110,7 @@ class DERTaggedType extends TaggedType implements
      * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
      * @return UnspecifiedType
      */
-    public function explicit($expectedTag = null)
+    public function explicit($expectedTag = null): UnspecifiedType
     {
         $idx = $this->_offset;
         Length::expectFromDER($this->_data, $idx);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\Primitive\PrintableString;
 
 /**

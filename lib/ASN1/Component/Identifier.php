@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Component;
 
 use ASN1\Exception\DecodeException;
@@ -23,14 +25,14 @@ class Identifier implements Encodable
      *
      * @var array
      */
-    const MAP_CLASS_TO_NAME = array(
+    const MAP_CLASS_TO_NAME = [
         /* @formatter:off */
         self::CLASS_UNIVERSAL => "UNIVERSAL", 
         self::CLASS_APPLICATION => "APPLICATION", 
         self::CLASS_CONTEXT_SPECIFIC => "CONTEXT SPECIFIC", 
-        self::CLASS_PRIVATE => "PRIVATE"
+        self::CLASS_PRIVATE => "PRIVATE",
         /* @formatter:on */
-    );
+    ];
     
     // P/C enumerations
     const PRIMITIVE = 0b0;
@@ -61,10 +63,10 @@ class Identifier implements Encodable
      * Constructor.
      *
      * @param int $class Type class
-     * @param int $pc Privitive / Constructed
+     * @param int $pc Primitive / Constructed
      * @param int|string $tag Type tag number
      */
-    public function __construct($class, $pc, $tag)
+    public function __construct(int $class, int $pc, $tag)
     {
         $this->_class = 0b11 & $class;
         $this->_pc = 0b1 & $pc;
@@ -82,9 +84,8 @@ class Identifier implements Encodable
      * @throws DecodeException If decoding fails
      * @return self
      */
-    public static function fromDER($data, &$offset = null)
+    public static function fromDER(string $data, int &$offset = null): self
     {
-        assert('is_string($data)', "got " . gettype($data));
         $idx = $offset ? $offset : 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
@@ -114,9 +115,9 @@ class Identifier implements Encodable
      * @param string $data DER data
      * @param int $offset Reference to the variable containing offset to data
      * @throws DecodeException If decoding fails
-     * @return int|string Tag number
+     * @return string Tag number
      */
-    private static function _decodeLongFormTag($data, &$offset)
+    private static function _decodeLongFormTag(string $data, int &$offset): string
     {
         $datalen = strlen($data);
         $tag = gmp_init(0, 10);
@@ -142,16 +143,16 @@ class Identifier implements Encodable
      * @see Encodable::toDER()
      * @return string
      */
-    public function toDER()
+    public function toDER(): string
     {
-        $bytes = array();
+        $bytes = [];
         $byte = $this->_class << 6 | $this->_pc << 5;
         $tag = gmp_init($this->_tag, 10);
         if ($tag < 0x1f) {
             $bytes[] = $byte | $tag;
         } else { // long-form identifier
             $bytes[] = $byte | 0x1f;
-            $octets = array();
+            $octets = [];
             for (; $tag > 0; $tag >>= 7) {
                 array_push($octets, gmp_intval(0x80 | ($tag & 0x7f)));
             }
@@ -169,7 +170,7 @@ class Identifier implements Encodable
      *
      * @return int
      */
-    public function typeClass()
+    public function typeClass(): int
     {
         return $this->_class;
     }
@@ -179,7 +180,7 @@ class Identifier implements Encodable
      *
      * @return int
      */
-    public function pc()
+    public function pc(): int
     {
         return $this->_pc;
     }
@@ -199,7 +200,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isUniversal()
+    public function isUniversal(): bool
     {
         return self::CLASS_UNIVERSAL == $this->_class;
     }
@@ -209,7 +210,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isApplication()
+    public function isApplication(): bool
     {
         return self::CLASS_APPLICATION == $this->_class;
     }
@@ -219,7 +220,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isContextSpecific()
+    public function isContextSpecific(): bool
     {
         return self::CLASS_CONTEXT_SPECIFIC == $this->_class;
     }
@@ -229,7 +230,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isPrivate()
+    public function isPrivate(): bool
     {
         return self::CLASS_PRIVATE == $this->_class;
     }
@@ -239,7 +240,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isPrimitive()
+    public function isPrimitive(): bool
     {
         return self::PRIMITIVE == $this->_pc;
     }
@@ -249,7 +250,7 @@ class Identifier implements Encodable
      *
      * @return boolean
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return self::CONSTRUCTED == $this->_pc;
     }
@@ -260,7 +261,7 @@ class Identifier implements Encodable
      * @param int $class One of <code>CLASS_*</code> enumerations
      * @return self
      */
-    public function withClass($class)
+    public function withClass(int $class): self
     {
         $obj = clone $this;
         $obj->_class = $class;
@@ -273,7 +274,7 @@ class Identifier implements Encodable
      * @param int|string $tag Tag number
      * @return self
      */
-    public function withTag($tag)
+    public function withTag(int $tag): self
     {
         $obj = clone $this;
         $obj->_tag = $tag;
@@ -286,7 +287,7 @@ class Identifier implements Encodable
      * @param int $class
      * @return string
      */
-    public static function classToName($class)
+    public static function classToName(int $class): string
     {
         if (!array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
             return "CLASS $class";

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Component\Length;
 
 /**
@@ -117,8 +119,8 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     * @expectedExceptionMessageRegExp /assert.+?is_string.+?failed/
+     * @expectedException \TypeError
+     * @expectedExceptionMessageRegExp /must be of the type string/
      */
     public function testInvalidParam()
     {

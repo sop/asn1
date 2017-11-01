@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Component\Identifier;
@@ -15,9 +17,8 @@ class RelativeOID extends ObjectIdentifier
      *
      * @param string $oid OID in dotted format
      */
-    public function __construct($oid)
+    public function __construct(string $oid)
     {
-        assert('is_string($oid)', "got " . gettype($oid));
         $this->_oid = $oid;
         $this->_typeTag = self::TYPE_RELATIVE_OID;
     }
@@ -26,7 +27,7 @@ class RelativeOID extends ObjectIdentifier
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         return self::_encodeSubIDs(...self::_explodeDottedOID($this->_oid));
     }
@@ -36,8 +37,8 @@ class RelativeOID extends ObjectIdentifier
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+         int &$offset)
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->length();

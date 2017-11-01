@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 use ASN1\Element;
@@ -40,7 +42,7 @@ abstract class Structure extends Element implements
     /**
      * Constructor.
      *
-     * @param Element ...$elements Any number of elements
+     * @param Element[] $elements Any number of elements
      */
     public function __construct(Element ...$elements)
     {
@@ -62,7 +64,7 @@ abstract class Structure extends Element implements
      * @see \ASN1\Element::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return true;
     }
@@ -72,7 +74,7 @@ abstract class Structure extends Element implements
      * @see \ASN1\Element::_encodedContentDER()
      * @return string
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $data = "";
         foreach ($this->_elements as $element) {
@@ -83,11 +85,12 @@ abstract class Structure extends Element implements
     
     /**
      *
+     * {@inheritdoc}
      * @see \ASN1\Element::_decodeFromDER()
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         if (!$identifier->isConstructed()) {
@@ -96,7 +99,7 @@ abstract class Structure extends Element implements
         }
         $length = Length::expectFromDER($data, $idx);
         $end = $idx + $length->length();
-        $elements = array();
+        $elements = [];
         while ($idx < $end) {
             $elements[] = Element::fromDER($data, $idx);
             // check that element didn't overflow length
@@ -117,7 +120,7 @@ abstract class Structure extends Element implements
      * @throws DecodeException
      * @return string[]
      */
-    public static function explodeDER($data)
+    public static function explodeDER(string $data): array
     {
         $offset = 0;
         $identifier = Identifier::fromDER($data, $offset);
@@ -126,7 +129,7 @@ abstract class Structure extends Element implements
         }
         $length = Length::expectFromDER($data, $offset);
         $end = $offset + $length->length();
-        $parts = array();
+        $parts = [];
         while ($offset < $end) {
             // start of the element
             $idx = $offset;
@@ -150,7 +153,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withReplaced($idx, Element $el)
+    public function withReplaced(int $idx, Element $el)
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
@@ -169,7 +172,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withInserted($idx, Element $el)
+    public function withInserted(int $idx, Element $el)
     {
         if (count($this->_elements) < $idx || $idx < 0) {
             throw new \OutOfBoundsException("Index $idx is out of bounds.");
@@ -228,7 +231,7 @@ abstract class Structure extends Element implements
      *
      * @return UnspecifiedType[]
      */
-    public function elements()
+    public function elements(): array
     {
         if (!isset($this->_unspecifiedTypes)) {
             $this->_unspecifiedTypes = array_map(
@@ -247,7 +250,7 @@ abstract class Structure extends Element implements
      * @param int|null $expectedTag Optional type tag expectation
      * @return bool
      */
-    public function has($idx, $expectedTag = null)
+    public function has(int $idx, $expectedTag = null): bool
     {
         if (!isset($this->_elements[$idx])) {
             return false;
@@ -273,7 +276,7 @@ abstract class Structure extends Element implements
      * @throws \UnexpectedValueException If expectation fails
      * @return UnspecifiedType
      */
-    public function at($idx, $expectedTag = null)
+    public function at(int $idx, $expectedTag = null): UnspecifiedType
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
@@ -293,11 +296,11 @@ abstract class Structure extends Element implements
      * @param int $tag Tag number
      * @return boolean
      */
-    public function hasTagged($tag)
+    public function hasTagged($tag): bool
     {
         // lazily build lookup map
         if (!isset($this->_taggedMap)) {
-            $this->_taggedMap = array();
+            $this->_taggedMap = [];
             foreach ($this->_elements as $element) {
                 if ($element->isTagged()) {
                     $this->_taggedMap[$element->tag()] = $element;
@@ -314,7 +317,7 @@ abstract class Structure extends Element implements
      * @throws \LogicException If tag doesn't exists
      * @return TaggedType
      */
-    public function getTagged($tag)
+    public function getTagged($tag): TaggedType
     {
         if (!$this->hasTagged($tag)) {
             throw new \LogicException("No tagged element for tag $tag.");
@@ -327,7 +330,7 @@ abstract class Structure extends Element implements
      * @see \Countable::count()
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_elements);
     }
@@ -338,7 +341,7 @@ abstract class Structure extends Element implements
      * @see \IteratorAggregate::getIterator()
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->elements());
     }

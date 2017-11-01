@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 use ASN1\Element;
@@ -18,8 +20,8 @@ abstract class TaggedType extends Element
      *
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $type = new DERTaggedType($identifier, $data, $idx);
@@ -35,7 +37,7 @@ abstract class TaggedType extends Element
      * @throws \UnexpectedValueException If expectation fails
      * @return ExplicitTagging
      */
-    public function expectExplicit($expectedTag = null)
+    public function expectExplicit(int $expectedTag = null): ExplicitTagging
     {
         $el = $this;
         if (!$el instanceof ExplicitTagging) {
@@ -55,7 +57,7 @@ abstract class TaggedType extends Element
      * @throws \UnexpectedValueException If expectation fails
      * @return UnspecifiedType
      */
-    public function asExplicit($expectedTag = null)
+    public function asExplicit($expectedTag = null): UnspecifiedType
     {
         return $this->expectExplicit($expectedTag)->explicit();
     }
@@ -67,7 +69,7 @@ abstract class TaggedType extends Element
      * @throws \UnexpectedValueException If expectation fails
      * @return ImplicitTagging
      */
-    public function expectImplicit($expectedTag = null)
+    public function expectImplicit($expectedTag = null): ImplicitTagging
     {
         $el = $this;
         if (!$el instanceof ImplicitTagging) {
@@ -90,7 +92,7 @@ abstract class TaggedType extends Element
      * @return UnspecifiedType
      */
     public function asImplicit($tag, $expectedTag = null,
-        $expectedClass = Identifier::CLASS_UNIVERSAL)
+        int $expectedClass = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         return $this->expectImplicit($expectedTag)->implicit($tag,
             $expectedClass);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Element;
@@ -29,9 +31,8 @@ class ObjectIdentifier extends Element
      *
      * @param string $oid OID in dotted format
      */
-    public function __construct($oid)
+    public function __construct(string $oid)
     {
-        assert('is_string($oid)', "got " . gettype($oid));
         $this->_oid = $oid;
         $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
     }
@@ -41,7 +42,7 @@ class ObjectIdentifier extends Element
      *
      * @return string
      */
-    public function oid()
+    public function oid(): string
     {
         return $this->_oid;
     }
@@ -50,7 +51,7 @@ class ObjectIdentifier extends Element
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $subids = self::_explodeDottedOID($this->_oid);
         // encode first two subids to one according to spec section 8.19.4
@@ -66,8 +67,8 @@ class ObjectIdentifier extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->length();
@@ -88,9 +89,9 @@ class ObjectIdentifier extends Element
      * @param string $oid OID in dotted format
      * @return \GMP[] Array of GMP numbers
      */
-    protected static function _explodeDottedOID($oid)
+    protected static function _explodeDottedOID($oid): array
     {
-        $subids = array();
+        $subids = [];
         foreach (explode(".", $oid) as $subid) {
             $subids[] = gmp_init($subid, 10);
         }
@@ -100,10 +101,10 @@ class ObjectIdentifier extends Element
     /**
      * Implode an array of sub IDs to dotted OID format.
      *
-     * @param \GMP ...$subids
+     * @param \GMP[] $subids
      * @return string
      */
-    protected static function _implodeSubIDs(\GMP ...$subids)
+    protected static function _implodeSubIDs(\GMP ...$subids): string
     {
         return implode(".",
             array_map(
@@ -115,10 +116,10 @@ class ObjectIdentifier extends Element
     /**
      * Encode sub ID's to DER.
      *
-     * @param \GMP ...$subids
+     * @param \GMP[] $subids
      * @return string
      */
-    protected static function _encodeSubIDs(\GMP ...$subids)
+    protected static function _encodeSubIDs(\GMP ...$subids): string
     {
         $data = "";
         foreach ($subids as $subid) {
@@ -126,7 +127,7 @@ class ObjectIdentifier extends Element
             if ($subid < 128) {
                 $data .= chr(intval($subid));
             } else { // encode to multiple bytes
-                $bytes = array();
+                $bytes = [];
                 do {
                     array_unshift($bytes, 0x7f & gmp_intval($subid));
                     $subid >>= 7;
@@ -148,9 +149,9 @@ class ObjectIdentifier extends Element
      * @throws DecodeException
      * @return \GMP[] Array of GMP numbers
      */
-    protected static function _decodeSubIDs($data)
+    protected static function _decodeSubIDs($data): array
     {
-        $subids = array();
+        $subids = [];
         $idx = 0;
         $end = strlen($data);
         while ($idx < $end) {

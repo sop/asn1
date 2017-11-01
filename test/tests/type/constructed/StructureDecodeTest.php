@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\Structure;
 use ASN1\Type\Constructed\Set;
 use ASN1\Type\Primitive\NullType;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1;
 
 use ASN1\Component\Identifier;
@@ -39,7 +41,7 @@ class DERData extends Element
      * @param string $data DER encoded data
      * @throws \ASN1\Exception\DecodeException If data does not adhere to DER
      */
-    public function __construct($data)
+    public function __construct(string $data)
     {
         $this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
         Length::expectFromDER($data, $this->_contentOffset);
@@ -52,7 +54,7 @@ class DERData extends Element
      * @see \ASN1\Element::typeClass()
      * @return int
      */
-    public function typeClass()
+    public function typeClass(): int
     {
         return $this->_identifier->typeClass();
     }
@@ -62,7 +64,7 @@ class DERData extends Element
      * @see \ASN1\Element::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return $this->_identifier->isConstructed();
     }
@@ -72,7 +74,7 @@ class DERData extends Element
      * @see \ASN1\Element::_encodedContentDER()
      * @return string
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         // if there's no content payload
         if (strlen($this->_der) == $this->_contentOffset) {
@@ -86,7 +88,7 @@ class DERData extends Element
      * @see \ASN1\Element::toDER()
      * @return string
      */
-    public function toDER()
+    public function toDER(): string
     {
         return $this->_der;
     }

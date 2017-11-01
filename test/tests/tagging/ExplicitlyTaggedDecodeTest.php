@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Type\TaggedType;

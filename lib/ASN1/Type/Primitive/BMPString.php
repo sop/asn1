@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Type\PrimitiveString;
@@ -20,7 +22,7 @@ class BMPString extends PrimitiveString
      *
      * @param string $string
      */
-    public function __construct($string)
+    public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_BMP_STRING;
         parent::__construct($string);
@@ -30,7 +32,7 @@ class BMPString extends PrimitiveString
      *
      * {@inheritdoc}
      */
-    protected function _validateString($string)
+    protected function _validateString(string $string): bool
     {
         // UCS-2 has fixed with of 2 octets (16 bits)
         if (strlen($string) % 2 !== 0) {

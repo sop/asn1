@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\StringType;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\OctetString;

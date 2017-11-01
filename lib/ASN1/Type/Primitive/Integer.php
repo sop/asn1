@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Element;
@@ -52,7 +54,7 @@ class Integer extends Element
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         $num = gmp_init($this->_number, 10);
         switch (gmp_sign($num)) {
@@ -73,7 +75,7 @@ class Integer extends Element
      * @param \GMP|resource $num
      * @return string
      */
-    private static function _encodePositiveInteger($num)
+    private static function _encodePositiveInteger(\GMP $num): string
     {
         $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         // if first bit is 1, prepend full zero byte
@@ -90,7 +92,7 @@ class Integer extends Element
      * @param \GMP|resource $num
      * @return string
      */
-    private static function _encodeNegativeInteger($num)
+    private static function _encodeNegativeInteger(\GMP $num): string
     {
         $num = gmp_abs($num);
         // compute number of bytes required
@@ -118,12 +120,16 @@ class Integer extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
-        $bytes = substr($data, $idx, $length->length());
+        if (gmp_cmp(gmp_init($length->length(),10), gmp_init(PHP_INT_MAX, 10)) >= 0) {
+            throw new \RuntimeException("Integer length too large");
+        }
+
+        $bytes = substr($data, $idx, (int) $length->length());
         $idx += $length->length();
         $neg = ord($bytes[0]) & 0x80;
         // negative, apply inversion of two's complement
@@ -150,7 +156,7 @@ class Integer extends Element
      * @param mixed $num
      * @return boolean
      */
-    private static function _validateNumber($num)
+    private static function _validateNumber($num): bool
     {
         if (is_int($num)) {
             return true;

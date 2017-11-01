@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Type\Structure;
 use ASN1\Type\Constructed\Sequence;
@@ -19,22 +21,22 @@ class StructureTest extends PHPUnit_Framework_TestCase
      * @param int $idx
      * @param bool $result
      */
-    public function testHas($idx, $result)
+    public function testHas(int $idx, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true), new NullType());
         $this->assertEquals($seq->has($idx), $result);
     }
     
-    public function hasProvider()
+    public function hasProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0, true],
             [1, true],
             [2, true],
             [3, false]
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
@@ -44,22 +46,22 @@ class StructureTest extends PHPUnit_Framework_TestCase
      * @param int $type
      * @param bool $result
      */
-    public function testHasType($idx, $type, $result)
+    public function testHasType(int $idx, int $type, bool $result)
     {
         $seq = new Sequence(new NullType(), new Boolean(true));
         $this->assertEquals($seq->has($idx, $type), $result);
     }
     
-    public function hasTypeProvider()
+    public function hasTypeProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0, Element::TYPE_NULL, true],
             [0, Element::TYPE_INTEGER, false],
             [1, Element::TYPE_BOOLEAN, true],
-            [2, Element::TYPE_NULL, false]
+            [2, Element::TYPE_NULL, false],
             /* @formatter:on */
-        );
+        ];
     }
     
     public function testExplode()

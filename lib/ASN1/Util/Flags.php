@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Util;
 
 use ASN1\Type\Primitive\BitString;
@@ -30,7 +32,7 @@ class Flags
      * @param int $width The number of flags. If width is larger than number of
      *        bits in $flags, zeroes are prepended to flag field.
      */
-    public function __construct($flags, $width)
+    public function __construct($flags, int $width)
     {
         if (!$width) {
             $this->_flags = "";
@@ -64,7 +66,7 @@ class Flags
      * @param int $width
      * @return self
      */
-    public static function fromBitString(BitString $bs, $width)
+    public static function fromBitString(BitString $bs, int $width)
     {
         $num_bits = $bs->numBits();
         $num = gmp_import($bs->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
@@ -83,7 +85,7 @@ class Flags
      * @throws \OutOfBoundsException
      * @return bool
      */
-    public function test($idx)
+    public function test(int $idx)
     {
         if ($idx >= $this->_width) {
             throw new \OutOfBoundsException("Index is out of bounds.");
@@ -104,7 +106,7 @@ class Flags
      *
      * @return string
      */
-    public function string()
+    public function string(): string
     {
         return $this->_flags;
     }
@@ -129,7 +131,7 @@ class Flags
      *
      * @return BitString
      */
-    public function bitString()
+    public function bitString(): BitString
     {
         $last_octet_bits = $this->_width % 8;
         $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;

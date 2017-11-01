@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\NullType;
@@ -32,8 +34,9 @@ class RealTest extends PHPUnit_Framework_TestCase
      * @depends testCreate
      *
      * @param Element $el
+     * @return string
      */
-    public function testEncode(Element $el)
+    public function testEncode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertInternalType("string", $der);
@@ -44,8 +47,9 @@ class RealTest extends PHPUnit_Framework_TestCase
      * @depends testEncode
      *
      * @param string $data
+     * @return Real
      */
-    public function testDecode($data)
+    public function testDecode(string $data): Real
     {
         $el = Real::fromDER($data);
         $this->assertInstanceOf(Real::class, $el);
@@ -76,9 +80,9 @@ class RealTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($number, $recoded->float());
     }
     
-    public function provideFromFloat()
+    public function provideFromFloat(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0],
             [1],
@@ -92,9 +96,9 @@ class RealTest extends PHPUnit_Framework_TestCase
             [M_PI],
             [-M_PI],
             [M_E],
-            [-M_E]
+            [-M_E],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**

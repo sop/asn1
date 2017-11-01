@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Type\PrimitiveString;
@@ -17,7 +19,7 @@ class VideotexString extends PrimitiveString
      *
      * @param string $string
      */
-    public function __construct($string)
+    public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_VIDEOTEX_STRING;
         parent::__construct($string);
@@ -27,7 +29,7 @@ class VideotexString extends PrimitiveString
      *
      * {@inheritdoc}
      */
-    protected function _validateString($string)
+    protected function _validateString(string $string): bool
     {
         // allow everything
         return true;

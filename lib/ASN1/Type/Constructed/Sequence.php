@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Constructed;
 
 use ASN1\Element;
@@ -13,7 +15,7 @@ class Sequence extends Structure
     /**
      * Constructor
      *
-     * @param Element ...$elements Any number of elements
+     * @param Element[] $elements Any number of elements
      */
     public function __construct(Element ...$elements)
     {

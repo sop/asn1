@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Feature;
 
 /**
@@ -12,5 +14,5 @@ interface Encodable
      *
      * @return string
      */
-    public function toDER();
+    public function toDER(): string;
 }

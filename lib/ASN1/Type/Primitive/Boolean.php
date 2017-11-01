@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Element;
@@ -29,10 +31,10 @@ class Boolean extends Element
      *
      * @param bool $bool
      */
-    public function __construct($bool)
+    public function __construct(bool $bool)
     {
         $this->_typeTag = self::TYPE_BOOLEAN;
-        $this->_bool = (bool) $bool;
+        $this->_bool = $bool;
     }
     
     /**
@@ -40,7 +42,7 @@ class Boolean extends Element
      *
      * @return bool
      */
-    public function value()
+    public function value(): bool
     {
         return $this->_bool;
     }
@@ -49,7 +51,7 @@ class Boolean extends Element
      *
      * {@inheritdoc}
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         return $this->_bool ? chr(0xff) : chr(0);
     }
@@ -59,19 +61,19 @@ class Boolean extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         $idx = $offset;
         Length::expectFromDER($data, $idx, 1);
         $byte = ord($data[$idx++]);
-        if ($byte != 0) {
+        if ($byte !== 0) {
             if ($byte != 0xff) {
                 throw new DecodeException(
                     "DER encoded boolean true must have all bits set to 1.");
             }
         }
         $offset = $idx;
-        return new self($byte != 0);
+        return new self($byte !== 0);
     }
 }

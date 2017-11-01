@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\Primitive\BitString;
 use ASN1\Util\Flags;
 
@@ -16,15 +18,15 @@ class FlagsTest extends PHPUnit_Framework_TestCase
      * @param int $width
      * @param string $result
      */
-    public function testFlags($num, $width, $result)
+    public function testFlags($num, int $width, string $result)
     {
         $flags = new Flags($num, $width);
         $this->assertEquals($result, $flags->string());
     }
     
-    public function flagsProvider()
+    public function flagsProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [1, 0, ""],
             [1, 1, "\x80"],
@@ -42,27 +44,27 @@ class FlagsTest extends PHPUnit_Framework_TestCase
             [0xffffff, 12, "\xff\xf0"],
             [1, 128, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01"],
             ["0x80000000000000000000000000000000",
-                128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"]
+                128, "\x80\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
      * @dataProvider setBitProvider
      *
-     * @param number $num
+     * @param int $num
      * @param int $width
      * @param int $idx
      */
-    public function testSetBit($num, $width, $idx)
+    public function testSetBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
         $this->assertTrue($flags->test($idx));
     }
     
-    public function setBitProvider()
+    public function setBitProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [1, 1, 0],
             [1, 4, 3],
@@ -72,46 +74,46 @@ class FlagsTest extends PHPUnit_Framework_TestCase
             [0x08, 4, 0],
             [0x80, 8, 0],
             [0x8000, 16, 0],
-            [0x80, 16, 8]
+            [0x80, 16, 8],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
      * @dataProvider unsetBitProvider
      *
-     * @param number $num
+     * @param int $num
      * @param int $width
      * @param int $idx
      */
-    public function testUnsetBit($num, $width, $idx)
+    public function testUnsetBit(int $num, int $width, int $idx)
     {
         $flags = new Flags($num, $width);
         $this->assertFalse($flags->test($idx));
     }
     
-    public function unsetBitProvider()
+    public function unsetBitProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0x7f, 8, 0],
             [0xfe, 8, 7],
             [0xff7f, 8, 0],
             [0xff7f, 12, 4],
-            [0xff7f, 16, 8]
+            [0xff7f, 16, 8],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
      * @dataProvider toBitStringProvider
      *
-     * @param number $num
+     * @param int $num
      * @param int $width
      * @param string $result
      * @param int $unused_bits
      */
-    public function testToBitString($num, $width, $result, $unused_bits)
+    public function testToBitString(int $num, int $width, $result, int $unused_bits)
     {
         $flags = new Flags($num, $width);
         $bs = $flags->bitString();
@@ -119,9 +121,9 @@ class FlagsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($unused_bits, $bs->unusedBits());
     }
     
-    public function toBitStringProvider()
+    public function toBitStringProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0, 0, "", 0],
             [1, 1, "\x80", 7],
@@ -131,9 +133,9 @@ class FlagsTest extends PHPUnit_Framework_TestCase
             [1, 16, "\x0\x01", 0],
             [0, 16, "\x0\x0", 0],
             [0x800, 12, "\x80\x0", 4],
-            [0x8000, 16, "\x80\x0", 0]
+            [0x8000, 16, "\x80\x0", 0],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
@@ -144,15 +146,15 @@ class FlagsTest extends PHPUnit_Framework_TestCase
      * @param int $width
      * @param string $result
      */
-    public function testFromBitString($str, $unused_bits, $width, $result)
+    public function testFromBitString(string $str, int $unused_bits, int $width, string $result)
     {
         $flags = Flags::fromBitString(new BitString($str, $unused_bits), $width);
         $this->assertEquals($result, $flags->string());
     }
     
-    public function fromBitStringProvider()
+    public function fromBitStringProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             ["\xff", 0, 8, "\xff"],
             ["\xff", 0, 4, "\xf0"],
@@ -160,9 +162,9 @@ class FlagsTest extends PHPUnit_Framework_TestCase
             ["\xff\xff", 4, 16, "\xff\xf0"],
             ["\xff\x80", 7, 16, "\xff\x80"],
             ["\x00\x10", 4, 12, "\x00\x10"],
-            ["\x00\x10", 4, 24, "\x00\x10\x00"]
+            ["\x00\x10", 4, 24, "\x00\x10\x00"],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
@@ -178,9 +180,9 @@ class FlagsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, $flags->number());
     }
     
-    public function numberProvider()
+    public function numberProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
             [0xff, 8, 255],
             [0xff, 4, 15],
@@ -195,9 +197,9 @@ class FlagsTest extends PHPUnit_Framework_TestCase
             [0x80, 24, 0x80],
             [0x8000, 16, 0x8000],
             ["0x80000000000000000000000000000000", 128,
-                "170141183460469231731687303715884105728"]
+                "170141183460469231731687303715884105728"],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**
@@ -208,20 +210,20 @@ class FlagsTest extends PHPUnit_Framework_TestCase
      * @param int $width
      * @param number $number
      */
-    public function testBitStringToNumber($str, $unused_bits, $width, $number)
+    public function testBitStringToNumber($str, int $unused_bits, int $width, $number)
     {
         $bs = new BitString($str, $unused_bits);
         $flags = Flags::fromBitString($bs, $width);
         $this->assertEquals($number, $flags->number());
     }
     
-    public function bitStringToNumberProvider()
+    public function bitStringToNumberProvider(): array
     {
-        return array(
+        return [
             /* @formatter:off */
-            ["\x20", 5, 9, 64]
+            ["\x20", 5, 9, 64],
             /* @formatter:on */
-        );
+        ];
     }
     
     /**

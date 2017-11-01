@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Feature;
+use ASN1\Element;
+use ASN1\Type\TaggedType;
 
 /**
  * Base interface for ASN.1 type elements.
@@ -14,7 +18,7 @@ interface ElementBase extends Encodable
      *
      * @return int
      */
-    public function typeClass();
+    public function typeClass(): int;
     
     /**
      * Check whether the element is constructed.
@@ -23,7 +27,7 @@ interface ElementBase extends Encodable
      *
      * @return bool
      */
-    public function isConstructed();
+    public function isConstructed(): bool;
     
     /**
      * Get the tag of the element.
@@ -42,7 +46,7 @@ interface ElementBase extends Encodable
      * @param int $tag Type tag
      * @return boolean
      */
-    public function isType($tag);
+    public function isType($tag): bool;
     
     /**
      * Check whether the element is a type of a given tag.
@@ -54,14 +58,14 @@ interface ElementBase extends Encodable
      *         expected
      * @return ElementBase
      */
-    public function expectType($tag);
+    public function expectType($tag): ElementBase;
     
     /**
      * Check whether the element is tagged (context specific).
      *
      * @return bool
      */
-    public function isTagged();
+    public function isTagged(): bool;
     
     /**
      * Check whether the element is tagged (context specific) and optionally has
@@ -74,12 +78,12 @@ interface ElementBase extends Encodable
      * @throws \UnexpectedValueException If expectation fails
      * @return \ASN1\Type\TaggedType
      */
-    public function expectTagged($tag = null);
+    public function expectTagged($tag = null): TaggedType;
     
     /**
      * Get the object as an abstract Element instance.
      *
      * @return \ASN1\Element
      */
-    public function asElement();
+    public function asElement(): Element;
 }

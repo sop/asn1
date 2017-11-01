@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Type\Primitive\Boolean;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Tagged\ExplicitlyTaggedType;

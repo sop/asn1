@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Type\PrimitiveString;
@@ -17,7 +19,7 @@ class OctetString extends PrimitiveString
      *
      * @param string $string
      */
-    public function __construct($string)
+    public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_OCTET_STRING;
         parent::__construct($string);

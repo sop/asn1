@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Component;
 
 use ASN1\Exception\DecodeException;
@@ -30,7 +32,7 @@ class Length implements Encodable
      * @param int|string $length Length
      * @param boolean $indefinite Whether length is indefinite
      */
-    public function __construct($length, $indefinite = false)
+    public function __construct($length, bool $indefinite = false)
     {
         $this->_length = $length;
         $this->_indefinite = $indefinite;
@@ -47,9 +49,8 @@ class Length implements Encodable
      * @throws DecodeException If decoding fails
      * @return self
      */
-    public static function fromDER($data, &$offset = null)
+    public static function fromDER(string $data, int &$offset = null): self
     {
-        assert('is_string($data)', "got " . gettype($data));
         $idx = $offset ? $offset : 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
@@ -86,7 +87,7 @@ class Length implements Encodable
      * @throws DecodeException If decoding fails
      * @return int|string
      */
-    private static function _decodeLongFormLength($length, $data, &$offset)
+    private static function _decodeLongFormLength(int $length, string $data, int &$offset)
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if ($length == 127) {
@@ -98,6 +99,7 @@ class Length implements Encodable
             $num <<= 8;
             $num |= $byte;
         }
+
         return gmp_strval($num);
     }
     
@@ -114,7 +116,7 @@ class Length implements Encodable
      * @throws DecodeException If decoding or expectation fails
      * @return self
      */
-    public static function expectFromDER($data, &$offset, $expected = null)
+    public static function expectFromDER(string $data, int &$offset, int $expected = null): self
     {
         $idx = $offset;
         $length = self::fromDER($data, $idx);
@@ -144,16 +146,16 @@ class Length implements Encodable
      * @throws \DomainException If length is too large to encode
      * @return string
      */
-    public function toDER()
+    public function toDER(): string
     {
-        $bytes = array();
+        $bytes = [];
         if ($this->_indefinite) {
             $bytes[] = 0x80;
         } else {
             $num = gmp_init($this->_length, 10);
             // long form
             if ($num > 127) {
-                $octets = array();
+                $octets = [];
                 for (; $num > 0; $num >>= 8) {
                     $octets[] = gmp_intval(0xff & $num);
                 }
@@ -192,7 +194,7 @@ class Length implements Encodable
      *
      * @return boolean
      */
-    public function isIndefinite()
+    public function isIndefinite(): bool
     {
         return $this->_indefinite;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
@@ -31,7 +33,7 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @see \ASN1\Element::isConstructed()
      * @return bool
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return true;
     }
@@ -41,17 +43,17 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @see \ASN1\Element::_encodedContentDER()
      * @return string
      */
-    protected function _encodedContentDER()
+    protected function _encodedContentDER(): string
     {
         return $this->_element->toDER();
     }
     
     /**
-     *
+     * {@inheritdoc}
      * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
      * @return UnspecifiedType
      */
-    public function explicit($expectedTag = null)
+    public function explicit($expectedTag = null): UnspecifiedType
     {
         if (isset($expectedTag)) {
             $this->_element->expectType($expectedTag);

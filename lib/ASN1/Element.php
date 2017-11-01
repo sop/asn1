@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1;
 
 use ASN1\Component\Identifier;
@@ -56,7 +58,7 @@ abstract class Element implements ElementBase
      *
      * @var array
      */
-    const MAP_TAG_TO_CLASS = array(
+    const MAP_TAG_TO_CLASS = [
         /* @formatter:off */
         self::TYPE_BOOLEAN => Primitive\Boolean::class,
         self::TYPE_INTEGER => Primitive\Integer::class,
@@ -83,9 +85,9 @@ abstract class Element implements ElementBase
         self::TYPE_GENERAL_STRING => Primitive\GeneralString::class,
         self::TYPE_UNIVERSAL_STRING => Primitive\UniversalString::class,
         self::TYPE_CHARACTER_STRING => Primitive\CharacterString::class,
-        self::TYPE_BMP_STRING => Primitive\BMPString::class
+        self::TYPE_BMP_STRING => Primitive\BMPString::class,
         /* @formatter:on */
-    );
+    ];
     
     /**
      * Pseudotype for all string types.
@@ -160,14 +162,14 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::typeClass()
      * @return int
      */
-    abstract public function typeClass();
+    abstract public function typeClass(): int;
     
     /**
      *
      * @see \ASN1\Feature\ElementBase::isConstructed()
      * @return bool
      */
-    abstract public function isConstructed();
+    abstract public function isConstructed(): bool;
     
     /**
      * Get the content encoded in DER.
@@ -186,10 +188,10 @@ abstract class Element implements ElementBase
      * @param string $data DER data
      * @param int $offset Offset in data to the next byte after identifier
      * @throws DecodeException If decoding fails
-     * @return Element
+     * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, $data,
-        &$offset)
+    protected static function _decodeFromDER(Identifier $identifier, string $data,
+        int &$offset)
     {
         throw new \BadMethodCallException(
             __METHOD__ . " must be implemented in derived class.");
@@ -208,9 +210,8 @@ abstract class Element implements ElementBase
      *         type, but decoding yields another type
      * @return self
      */
-    public static function fromDER($data, &$offset = null)
+    public static function fromDER(string $data, int &$offset = null)
     {
-        assert('is_string($data)', "got " . gettype($data));
         // decode identifier
         $idx = $offset ? $offset : 0;
         $identifier = Identifier::fromDER($data, $idx);
@@ -247,7 +248,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\Encodable::toDER()
      * @return string
      */
-    public function toDER()
+    public function toDER(): string
     {
         $identifier = new Identifier($this->typeClass(),
             $this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE,
@@ -272,7 +273,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::isType()
      * @return bool
      */
-    public function isType($tag)
+    public function isType($tag): bool
     {
         // if element is context specific
         if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
@@ -290,7 +291,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectType()
      * @return ElementBase
      */
-    public function expectType($tag)
+    public function expectType($tag): ElementBase
     {
         if (!$this->isType($tag)) {
             throw new \UnexpectedValueException(
@@ -306,7 +307,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return bool
      */
-    private function _isConcreteType($tag)
+    private function _isConcreteType($tag): bool
     {
         // if tag doesn't match
         if ($this->tag() != $tag) {
@@ -328,7 +329,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return bool
      */
-    private function _isPseudoType($tag)
+    private function _isPseudoType($tag): bool
     {
         switch ($tag) {
             case self::TYPE_STRING:
@@ -344,7 +345,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::isTagged()
      * @return bool
      */
-    public function isTagged()
+    public function isTagged(): bool
     {
         return $this instanceof TaggedType;
     }
@@ -354,7 +355,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectTagged()
      * @return TaggedType
      */
-    public function expectTagged($tag = null)
+    public function expectTagged($tag = null): TaggedType
     {
         if (!$this->isTagged()) {
             throw new \UnexpectedValueException(
@@ -373,7 +374,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::asElement()
      * @return Element
      */
-    final public function asElement()
+    final public function asElement(): Element
     {
         return $this;
     }
@@ -383,7 +384,7 @@ abstract class Element implements ElementBase
      *
      * @return UnspecifiedType
      */
-    public function asUnspecified()
+    public function asUnspecified(): UnspecifiedType
     {
         return new UnspecifiedType($this);
     }
@@ -394,7 +395,7 @@ abstract class Element implements ElementBase
      * @param Identifier $identifier
      * @return string Class name
      */
-    protected static function _determineImplClass(Identifier $identifier)
+    protected static function _determineImplClass(Identifier $identifier): string
     {
         // tagged type
         if ($identifier->isContextSpecific()) {
@@ -418,7 +419,7 @@ abstract class Element implements ElementBase
      * @throws \UnexpectedValueException
      * @return string Class name
      */
-    protected static function _determineUniversalImplClass($tag)
+    protected static function _determineUniversalImplClass($tag): string
     {
         if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
@@ -432,7 +433,7 @@ abstract class Element implements ElementBase
      *
      * @return string
      */
-    protected function _typeDescriptorString()
+    protected function _typeDescriptorString(): string
     {
         if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
             return self::tagToName($this->_typeTag);
@@ -447,7 +448,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return string
      */
-    public static function tagToName($tag)
+    public static function tagToName($tag): string
     {
         if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
             return "TAG $tag";

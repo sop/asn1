@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Type\Structure;
 use ASN1\Type\UnspecifiedType;
@@ -34,8 +36,9 @@ class SetTest extends PHPUnit_Framework_TestCase
      * @depends testCreate
      *
      * @param Element $el
+     * @return string
      */
-    public function testEncode(Element $el)
+    public function testEncode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertInternalType("string", $der);
@@ -46,8 +49,9 @@ class SetTest extends PHPUnit_Framework_TestCase
      * @depends testEncode
      *
      * @param string $data
+     * @return Set
      */
-    public function testDecode($data)
+    public function testDecode(string $data): Set
     {
         $el = Set::fromDER($data);
         $this->assertInstanceOf(Set::class, $el);

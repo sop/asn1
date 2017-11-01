@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 use ASN1\Element;
@@ -22,9 +24,8 @@ abstract class StringType extends Element
      * @param string $string
      * @throws \InvalidArgumentException
      */
-    public function __construct($string)
+    public function __construct(string $string)
     {
-        assert('is_string($string)', "got " . gettype($string));
         if (!$this->_validateString($string)) {
             throw new \InvalidArgumentException(
                 sprintf("Not a valid %s string.",
@@ -49,7 +50,7 @@ abstract class StringType extends Element
      * @param string $string
      * @return bool
      */
-    protected function _validateString($string)
+    protected function _validateString(string $string): bool
     {
         // Override in derived classes
         return true;

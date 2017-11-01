@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Type\PrimitiveString;
@@ -19,7 +21,7 @@ class UniversalString extends PrimitiveString
      *
      * @param string $string
      */
-    public function __construct($string)
+    public function __construct(string $string)
     {
         $this->_typeTag = self::TYPE_UNIVERSAL_STRING;
         parent::__construct($string);
@@ -29,7 +31,7 @@ class UniversalString extends PrimitiveString
      *
      * {@inheritdoc}
      */
-    protected function _validateString($string)
+    protected function _validateString(string $string): bool
     {
         // UCS-4 has fixed with of 4 octets (32 bits)
         if (strlen($string) % 4 != 0) {

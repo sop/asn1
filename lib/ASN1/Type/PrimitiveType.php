@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type;
 
 /**
@@ -12,7 +14,7 @@ trait PrimitiveType
      * @see \ASN1\Element::isConstructed()
      * @return boolean
      */
-    public function isConstructed()
+    public function isConstructed(): bool
     {
         return false;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Primitive;
 
 use ASN1\Type\PrimitiveString;
@@ -17,7 +19,7 @@ class ObjectDescriptor extends PrimitiveString
      *
      * @param string $descriptor
      */
-    public function __construct($descriptor)
+    public function __construct(string $descriptor)
     {
         $this->_string = $descriptor;
         $this->_typeTag = self::TYPE_OBJECT_DESCRIPTOR;
@@ -28,7 +30,7 @@ class ObjectDescriptor extends PrimitiveString
      *
      * @return string
      */
-    public function descriptor()
+    public function descriptor(): string
     {
         return $this->_string;
     }

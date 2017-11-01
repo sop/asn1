@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\IA5String;
@@ -32,8 +34,9 @@ class IA5StringTest extends PHPUnit_Framework_TestCase
      * @depends testCreate
      *
      * @param Element $el
+     * @return string
      */
-    public function testEncode(Element $el)
+    public function testEncode(Element $el): string
     {
         $der = $el->toDER();
         $this->assertInternalType("string", $der);
@@ -44,8 +47,9 @@ class IA5StringTest extends PHPUnit_Framework_TestCase
      * @depends testEncode
      *
      * @param string $data
+     * @return IA5String
      */
-    public function testDecode($data)
+    public function testDecode(string $data): IA5String
     {
         $el = IA5String::fromDER($data);
         $this->assertInstanceOf(IA5String::class, $el);

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ASN1\Type\Tagged;
 
 use ASN1\Feature\ElementBase;
+use ASN1\Type\UnspecifiedType;
 
 /**
  * Interface for classes providing explicit tagging.
@@ -19,5 +22,5 @@ interface ExplicitTagging extends ElementBase
      * @throws \UnexpectedValueException If expectation fails
      * @return \ASN1\Type\UnspecifiedType
      */
-    public function explicit($expectedTag = null);
+    public function explicit($expectedTag = null): UnspecifiedType;
 }
