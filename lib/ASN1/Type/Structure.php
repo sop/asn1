@@ -42,8 +42,8 @@ abstract class Structure extends Element implements
     
     /**
      * Constructor.
-     *
-     * @param Element[] $elements Any number of elements
+     * 
+     * @param Element ...$elements Any number of elements
      */
     public function __construct(Element ...$elements)
     {
