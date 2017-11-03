@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
@@ -39,7 +39,7 @@ abstract class StringType extends Element
      *
      * @return string
      */
-    public function string()
+    public function string(): string
     {
         return $this->_string;
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type\Tagged;
 
@@ -92,6 +92,7 @@ class DERTaggedType extends TaggedType implements
     }
     
     /**
+     *
      * {@inheritdoc}
      * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
      * @return UnspecifiedType

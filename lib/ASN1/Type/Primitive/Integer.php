@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
 
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
+use ASN1\Feature\ElementBase;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
 
@@ -21,7 +22,7 @@ class Integer extends Element
     /**
      * Number as a base 10.
      *
-     * @var int|string
+     * @var string
      */
     private $_number;
     
@@ -37,15 +38,15 @@ class Integer extends Element
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new \InvalidArgumentException("'$var' is not a valid number.");
         }
-        $this->_number = $number;
+        $this->_number = strval($number);
     }
     
     /**
      * Get the number as a base 10.
      *
-     * @return int|string
+     * @return string Integer as a string
      */
-    public function number()
+    public function number(): string
     {
         return $this->_number;
     }
@@ -121,14 +122,15 @@ class Integer extends Element
      * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
-        if (gmp_cmp(gmp_init($length->length(),10), gmp_init(PHP_INT_MAX, 10)) >= 0) {
+        if (gmp_cmp(gmp_init($length->length(), 10), gmp_init(PHP_INT_MAX, 10)) >=
+             0) {
             throw new \RuntimeException("Integer length too large");
         }
-
+        
         $bytes = substr($data, $idx, (int) $length->length());
         $idx += $length->length();
         $neg = ord($bytes[0]) & 0x80;

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Util;
 
@@ -66,7 +66,7 @@ class Flags
      * @param int $width
      * @return self
      */
-    public static function fromBitString(BitString $bs, int $width)
+    public static function fromBitString(BitString $bs, int $width): self
     {
         $num_bits = $bs->numBits();
         $num = gmp_import($bs->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
@@ -85,7 +85,7 @@ class Flags
      * @throws \OutOfBoundsException
      * @return bool
      */
-    public function test(int $idx)
+    public function test(int $idx): bool
     {
         if ($idx >= $this->_width) {
             throw new \OutOfBoundsException("Index is out of bounds.");
@@ -114,9 +114,9 @@ class Flags
     /**
      * Get flags as a base 10 integer.
      *
-     * @return int|string
+     * @return string Integer as a string
      */
-    public function number()
+    public function number(): string
     {
         $num = gmp_import($this->_flags, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         $last_octet_bits = $this->_width % 8;

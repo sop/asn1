@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
@@ -17,14 +17,14 @@ abstract class TimeType extends Element
      * @var string
      */
     const TZ_UTC = "UTC";
-
+    
     /**
      * Date and time.
      *
      * @var \DateTimeImmutable $_dateTime
      */
     protected $_dateTime;
-
+    
     /**
      * Constructor.
      *
@@ -34,7 +34,7 @@ abstract class TimeType extends Element
     {
         $this->_dateTime = $dt;
     }
-
+    
     /**
      * Initialize from datetime string.
      *
@@ -43,7 +43,7 @@ abstract class TimeType extends Element
      * @throws \RuntimeException
      * @return self
      */
-    public static function fromString(string $time, string $tz = null)
+    public static function fromString(string $time, string $tz = null): self
     {
         try {
             if (!isset($tz)) {
@@ -57,7 +57,7 @@ abstract class TimeType extends Element
                      self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
         }
     }
-
+    
     /**
      * Get the date and time.
      *
@@ -67,7 +67,7 @@ abstract class TimeType extends Element
     {
         return $this->_dateTime;
     }
-
+    
     /**
      * Create DateTimeZone object from string.
      *
@@ -83,7 +83,7 @@ abstract class TimeType extends Element
             throw new \UnexpectedValueException("Invalid timezone.", 0, $e);
         }
     }
-
+    
     /**
      * Get last error caused by DateTimeImmutable.
      *

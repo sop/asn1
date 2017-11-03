@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Feature\ElementBase;
 
 /**
  * Base class for primitive strings.
@@ -26,12 +27,13 @@ abstract class PrimitiveString extends StringType
     }
     
     /**
+     *
      * {@inheritdoc}
      * @see \ASN1\Element::_decodeFromDER()
      * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         $idx = $offset;
         if (!$identifier->isPrimitive()) {

@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
 
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Feature\ElementBase;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\StringType;
 use ASN1\Type\UniversalClass;
@@ -94,12 +95,12 @@ class BitString extends StringType
      * @param int $start Index of first bit
      * @param int $length Number of bits in range
      * @throws \OutOfBoundsException
-     * @return number Integer of $length bits
+     * @return string Integer of $length bits
      */
-    public function range(int $start, int $length)
+    public function range(int $start, int $length): string
     {
         if (!$length) {
-            return 0;
+            return "0";
         }
         if ($start + $length > $this->numBits()) {
             throw new \OutOfBoundsException("Not enough bits.");
@@ -123,7 +124,7 @@ class BitString extends StringType
      *
      * @return self
      */
-    public function withoutTrailingZeroes()
+    public function withoutTrailingZeroes(): self
     {
         // if bit string was empty
         if (!strlen($this->_string)) {
@@ -178,7 +179,7 @@ class BitString extends StringType
      * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

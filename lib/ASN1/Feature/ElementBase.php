@@ -1,8 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Feature;
+
 use ASN1\Element;
 use ASN1\Type\TaggedType;
 
@@ -38,7 +39,7 @@ interface ElementBase extends Encodable
      *
      * @return int
      */
-    public function tag();
+    public function tag(): int;
     
     /**
      * Check whether the element is a type of a given tag.

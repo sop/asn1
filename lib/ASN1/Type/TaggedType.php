@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
+use ASN1\Feature\ElementBase;
 use ASN1\Type\Tagged\DERTaggedType;
 use ASN1\Type\Tagged\ExplicitTagging;
 use ASN1\Type\Tagged\ImplicitTagging;
@@ -21,7 +22,7 @@ abstract class TaggedType extends Element
      * {@inheritdoc}
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         $idx = $offset;
         $type = new DERTaggedType($identifier, $data, $idx);

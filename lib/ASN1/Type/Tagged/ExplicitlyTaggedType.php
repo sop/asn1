@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type\Tagged;
 
@@ -49,6 +49,7 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
     }
     
     /**
+     *
      * {@inheritdoc}
      * @see \ASN1\Type\Tagged\ExplicitTagging::explicit()
      * @return UnspecifiedType

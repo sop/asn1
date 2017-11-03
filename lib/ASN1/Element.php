@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1;
 
@@ -179,7 +179,7 @@ abstract class Element implements ElementBase
      *
      * @return string
      */
-    abstract protected function _encodedContentDER();
+    abstract protected function _encodedContentDER(): string;
     
     /**
      * Decode type-specific element from DER.
@@ -191,7 +191,7 @@ abstract class Element implements ElementBase
      * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         throw new \BadMethodCallException(
             __METHOD__ . " must be implemented in derived class.");
@@ -210,7 +210,7 @@ abstract class Element implements ElementBase
      *         type, but decoding yields another type
      * @return self
      */
-    public static function fromDER(string $data, int &$offset = null)
+    public static function fromDER(string $data, int &$offset = null): ElementBase
     {
         // decode identifier
         $idx = $offset ? $offset : 0;
@@ -263,7 +263,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::tag()
      * @return int
      */
-    public function tag()
+    public function tag(): int
     {
         return $this->_typeTag;
     }

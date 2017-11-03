@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
@@ -40,7 +40,7 @@ class UnspecifiedType implements ElementBase
      * @param ElementBase $el
      * @return self
      */
-    public static function fromElementBase(ElementBase $el)
+    public static function fromElementBase(ElementBase $el): self
     {
         // if element is already wrapped
         if ($el instanceof self) {
@@ -522,7 +522,7 @@ class UnspecifiedType implements ElementBase
      *
      * @return string
      */
-    private function _typeDescriptorString()
+    private function _typeDescriptorString(): string
     {
         $type_cls = $this->_element->typeClass();
         $tag = $this->_element->tag();
@@ -567,7 +567,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::tag()
      * @return int
      */
-    public function tag()
+    public function tag(): int
     {
         return $this->_element->tag();
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type;
 
@@ -8,6 +8,7 @@ use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
+use ASN1\Feature\ElementBase;
 
 /**
  * Base class for the constructed types.
@@ -90,7 +91,7 @@ abstract class Structure extends Element implements
      * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset)
+        int &$offset): ElementBase
     {
         $idx = $offset;
         if (!$identifier->isConstructed()) {
@@ -153,7 +154,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withReplaced(int $idx, Element $el)
+    public function withReplaced(int $idx, Element $el): self
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
@@ -172,7 +173,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withInserted(int $idx, Element $el)
+    public function withInserted(int $idx, Element $el): self
     {
         if (count($this->_elements) < $idx || $idx < 0) {
             throw new \OutOfBoundsException("Index $idx is out of bounds.");
@@ -188,7 +189,7 @@ abstract class Structure extends Element implements
      * @param Element $el Element to insert into the structure
      * @return self
      */
-    public function withAppended(Element $el)
+    public function withAppended(Element $el): self
     {
         $obj = clone $this;
         array_push($obj->_elements, $el);
@@ -201,7 +202,7 @@ abstract class Structure extends Element implements
      * @param Element $el Element to insert into the structure
      * @return self
      */
-    public function withPrepended(Element $el)
+    public function withPrepended(Element $el): self
     {
         $obj = clone $this;
         array_unshift($obj->_elements, $el);
@@ -215,7 +216,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withoutElement($idx)
+    public function withoutElement($idx): self
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(

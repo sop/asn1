@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Type\Constructed;
 
@@ -29,7 +29,7 @@ class Set extends Structure
      *
      * @return self
      */
-    public function sortedSet()
+    public function sortedSet(): self
     {
         $obj = clone $this;
         usort($obj->_elements,
@@ -51,7 +51,7 @@ class Set extends Structure
      *
      * @return self
      */
-    public function sortedSetOf()
+    public function sortedSetOf(): self
     {
         $obj = clone $this;
         usort($obj->_elements,

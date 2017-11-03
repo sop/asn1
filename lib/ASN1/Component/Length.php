@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Component;
 
@@ -85,9 +85,10 @@ class Length implements Encodable
      * @param int $offset Reference to the variable containing offset to the
      *        data.
      * @throws DecodeException If decoding fails
-     * @return int|string
+     * @return string Integer as a string
      */
-    private static function _decodeLongFormLength(int $length, string $data, int &$offset)
+    private static function _decodeLongFormLength(int $length, string $data,
+        int &$offset): string
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if ($length == 127) {
@@ -99,7 +100,7 @@ class Length implements Encodable
             $num <<= 8;
             $num |= $byte;
         }
-
+        
         return gmp_strval($num);
     }
     
@@ -116,7 +117,8 @@ class Length implements Encodable
      * @throws DecodeException If decoding or expectation fails
      * @return self
      */
-    public static function expectFromDER(string $data, int &$offset, int $expected = null): self
+    public static function expectFromDER(string $data, int &$offset,
+        int $expected = null): self
     {
         $idx = $offset;
         $length = self::fromDER($data, $idx);

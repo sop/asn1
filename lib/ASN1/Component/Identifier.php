@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ASN1\Component;
 
@@ -25,8 +25,7 @@ class Identifier implements Encodable
      *
      * @var array
      */
-    const MAP_CLASS_TO_NAME = [
-        /* @formatter:off */
+    const MAP_CLASS_TO_NAME = [ /* @formatter:off */
         self::CLASS_UNIVERSAL => "UNIVERSAL", 
         self::CLASS_APPLICATION => "APPLICATION", 
         self::CLASS_CONTEXT_SPECIFIC => "CONTEXT SPECIFIC", 
