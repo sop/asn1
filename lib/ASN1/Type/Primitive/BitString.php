@@ -191,7 +191,7 @@ class BitString extends StringType
             throw new DecodeException(
                 "Unused bits in a bit string must be less than 8.");
         }
-        $str_len = $length->length() - 1;
+        $str_len = (int) $length->length() - 1;
         if ($str_len) {
             $str = substr($data, $idx, $str_len);
             if ($unused_bits) {

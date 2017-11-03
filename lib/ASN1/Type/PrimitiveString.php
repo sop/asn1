@@ -39,12 +39,12 @@ abstract class PrimitiveString extends StringType
         if (!$identifier->isPrimitive()) {
             throw new DecodeException("DER encoded string must be primitive.");
         }
-        $length = Length::expectFromDER($data, $idx);
-        $str = $length->length() ? substr($data, $idx, $length->length()) : "";
+        $length = (int) Length::expectFromDER($data, $idx)->length();
+        $str = $length ? substr($data, $idx, $length) : "";
         // substr should never return false, since length is
         // checked by Length::expectFromDER.
         assert(is_string($str), "substr");
-        $offset = $idx + $length->length();
+        $offset = $idx + $length;
         try {
             return new static($str);
         } catch (\InvalidArgumentException $e) {

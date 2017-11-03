@@ -118,12 +118,12 @@ class Real extends Element
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx);
+        $length = (int) Length::expectFromDER($data, $idx)->length();
         // if length is zero, value is zero (spec 8.5.2)
-        if (!$length->length()) {
+        if (!$length) {
             $obj = new self(self::NR3_ZERO);
         } else {
-            $bytes = substr($data, $idx, $length->length());
+            $bytes = substr($data, $idx, $length);
             $byte = ord($bytes[0]);
             if (0x80 & $byte) { // bit 8 = 1
                 $obj = self::_decodeBinaryEncoding($bytes);
@@ -133,7 +133,7 @@ class Real extends Element
                 $obj = self::_decodeSpecialRealValue($bytes);
             }
         }
-        $offset = $idx + $length->length();
+        $offset = $idx + $length;
         return $obj;
     }
     

@@ -42,7 +42,7 @@ abstract class Structure extends Element implements
     
     /**
      * Constructor.
-     * 
+     *
      * @param Element ...$elements Any number of elements
      */
     public function __construct(Element ...$elements)
@@ -128,8 +128,8 @@ abstract class Structure extends Element implements
         if (!$identifier->isConstructed()) {
             throw new DecodeException("Element is not constructed.");
         }
-        $length = Length::expectFromDER($data, $offset);
-        $end = $offset + $length->length();
+        $length = (int) Length::expectFromDER($data, $offset)->length();
+        $end = $offset + $length;
         $parts = [];
         while ($offset < $end) {
             // start of the element
@@ -137,11 +137,11 @@ abstract class Structure extends Element implements
             // skip identifier
             Identifier::fromDER($data, $offset);
             // decode element length
-            $length = Length::expectFromDER($data, $offset);
+            $length = (int) Length::expectFromDER($data, $offset)->length();
             // extract der encoding of the element
-            $parts[] = substr($data, $idx, $offset - $idx + $length->length());
+            $parts[] = substr($data, $idx, $offset - $idx + $length);
             // update offset over content
-            $offset += $length->length();
+            $offset += $length;
         }
         return $parts;
     }
