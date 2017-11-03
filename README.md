@@ -8,6 +8,12 @@
 A PHP library for X.690 Abstract Syntax Notation One (ASN.1)
 Distinguished Encoding Rules (DER) encoding and decoding.
 
+## Requirements
+
+-   PHP >=7.0
+-   gmp
+-   mbstring
+
 ## Installation
 
 This library is available on
