@@ -42,7 +42,7 @@ class RelativeOID extends ObjectIdentifier
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $len = (int) Length::expectFromDER($data, $idx)->length();
+        $len = Length::expectFromDER($data, $idx)->intVal();
         $subids = self::_decodeSubIDs(substr($data, $idx, $len));
         $offset = $idx + $len;
         return new self(self::_implodeSubIDs(...$subids));

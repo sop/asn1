@@ -26,8 +26,8 @@ abstract class TaggedType extends Element
     {
         $idx = $offset;
         $type = new DERTaggedType($identifier, $data, $idx);
-        $length = Length::expectFromDER($data, $idx);
-        $offset = $idx + $length->length();
+        $length = Length::expectFromDER($data, $idx)->intVal();
+        $offset = $idx + $length;
         return $type;
     }
     

@@ -125,14 +125,9 @@ class Integer extends Element
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx);
-        if (gmp_cmp(gmp_init($length->length(), 10), gmp_init(PHP_INT_MAX, 10)) >=
-             0) {
-            throw new \RuntimeException("Integer length too large");
-        }
-        
-        $bytes = substr($data, $idx, (int) $length->length());
-        $idx += $length->length();
+        $length = Length::expectFromDER($data, $idx)->intVal();
+        $bytes = substr($data, $idx, (int) $length);
+        $idx += $length;
         $neg = ord($bytes[0]) & 0x80;
         // negative, apply inversion of two's complement
         if ($neg) {

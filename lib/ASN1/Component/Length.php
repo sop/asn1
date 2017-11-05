@@ -190,6 +190,22 @@ class Length implements Encodable
         }
         return $this->_length;
     }
+
+    /**
+     * @return int
+     */
+    public function intVal(): int
+    {
+        if ($this->_indefinite) {
+            throw new \LogicException("Length is indefinite.");
+        }
+
+        if (gmp_cmp(gmp_init($this->_length, 10), gmp_init(PHP_INT_MAX, 10)) >= 0) {
+            throw new \LogicException("Integer length too large");
+        }
+
+        return (int) $this->_length;
+    }
     
     /**
      * Whether length is indefinite.

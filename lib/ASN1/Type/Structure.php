@@ -99,7 +99,7 @@ abstract class Structure extends Element implements
                 "Structured element must have constructed bit set.");
         }
         $length = Length::expectFromDER($data, $idx);
-        $end = $idx + $length->length();
+        $end = $idx + $length->intVal();
         $elements = [];
         while ($idx < $end) {
             $elements[] = Element::fromDER($data, $idx);
@@ -128,7 +128,7 @@ abstract class Structure extends Element implements
         if (!$identifier->isConstructed()) {
             throw new DecodeException("Element is not constructed.");
         }
-        $length = (int) Length::expectFromDER($data, $offset)->length();
+        $length = Length::expectFromDER($data, $offset)->intVal();
         $end = $offset + $length;
         $parts = [];
         while ($offset < $end) {
@@ -137,7 +137,7 @@ abstract class Structure extends Element implements
             // skip identifier
             Identifier::fromDER($data, $offset);
             // decode element length
-            $length = (int) Length::expectFromDER($data, $offset)->length();
+            $length = Length::expectFromDER($data, $offset)->intVal();
             // extract der encoding of the element
             $parts[] = substr($data, $idx, $offset - $idx + $length);
             // update offset over content

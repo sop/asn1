@@ -72,7 +72,7 @@ class ObjectIdentifier extends Element
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $len = (int) Length::expectFromDER($data, $idx)->length();
+        $len = Length::expectFromDER($data, $idx)->intVal();
         $subids = self::_decodeSubIDs(substr($data, $idx, $len));
         $idx += $len;
         // decode first subidentifier according to spec section 8.19.4

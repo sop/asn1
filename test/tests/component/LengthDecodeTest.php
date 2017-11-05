@@ -35,11 +35,30 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
     {
         Length::fromDER("\x80")->length();
     }
-    
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testIntValFailsBecauseIndefinite()
+    {
+        Length::fromDER("\x80")->intVal();
+    }
+
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage Integer length too large
+     */
+    public function testHugeLengthHasNoIntval()
+    {
+        $der = "\xfe" . str_repeat("\xff", 126);
+        Length::fromDER($der)->intVal();
+    }
+
     public function testShortForm()
     {
         $length = Length::fromDER("\x7f");
         $this->assertEquals(0x7f, $length->length());
+        $this->assertEquals(0x7f, $length->intVal());
     }
     
     public function testLongForm()
@@ -52,6 +71,7 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
     {
         $length = Length::fromDER("\x82\xca\xfe");
         $this->assertEquals(0xcafe, $length->length());
+        $this->assertEquals(0xcafe, $length->intVal());
     }
     
     /**
@@ -81,7 +101,7 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
         $num = gmp_init(str_repeat("ff", 126), 16);
         $this->assertEquals($length->length(), gmp_strval($num));
     }
-    
+
     /**
      * @expectedException ASN1\Exception\DecodeException
      */

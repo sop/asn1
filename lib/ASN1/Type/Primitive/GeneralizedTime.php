@@ -96,8 +96,9 @@ class GeneralizedTime extends TimeType
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
-        $str = substr($data, $idx, (int) $length->length());
-        $idx += $length->length();
+        $lenDiff = $length->intVal();
+        $str = substr($data, $idx, $lenDiff);
+        $idx += $lenDiff;
         if (!preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException("Invalid GeneralizedTime format.");
         }

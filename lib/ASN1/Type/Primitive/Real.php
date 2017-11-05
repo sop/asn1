@@ -118,7 +118,7 @@ class Real extends Element
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = (int) Length::expectFromDER($data, $idx)->length();
+        $length = Length::expectFromDER($data, $idx)->intVal();
         // if length is zero, value is zero (spec 8.5.2)
         if (!$length) {
             $obj = new self(self::NR3_ZERO);

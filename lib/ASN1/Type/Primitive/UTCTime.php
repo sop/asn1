@@ -67,7 +67,7 @@ class UTCTime extends TimeType
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = (int) Length::expectFromDER($data, $idx)->length();
+        $length = Length::expectFromDER($data, $idx)->intVal();
         $str = substr($data, $idx, $length);
         $idx += $length;
         if (!preg_match(self::REGEX, $str, $match)) {
