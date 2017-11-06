@@ -39,7 +39,7 @@ abstract class PrimitiveString extends StringType
         if (!$identifier->isPrimitive()) {
             throw new DecodeException("DER encoded string must be primitive.");
         }
-        $length = Length::expectFromDER($data, $idx)->intVal();
+        $length = Length::expectFromDER($data, $idx)->intLength();
         $str = $length ? substr($data, $idx, $length) : "";
         // substr should never return false, since length is
         // checked by Length::expectFromDER.

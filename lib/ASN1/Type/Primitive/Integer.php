@@ -125,8 +125,8 @@ class Integer extends Element
         int &$offset): ElementBase
     {
         $idx = $offset;
-        $length = Length::expectFromDER($data, $idx)->intVal();
-        $bytes = substr($data, $idx, (int) $length);
+        $length = Length::expectFromDER($data, $idx)->intLength();
+        $bytes = substr($data, $idx, $length);
         $idx += $length;
         $neg = ord($bytes[0]) & 0x80;
         // negative, apply inversion of two's complement

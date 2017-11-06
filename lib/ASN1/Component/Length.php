@@ -15,7 +15,7 @@ class Length implements Encodable
     /**
      * Length.
      *
-     * @var int|string
+     * @var string
      */
     private $_length;
     
@@ -27,6 +27,14 @@ class Length implements Encodable
     private $_indefinite;
     
     /**
+     * Length as an integer type.
+     *
+     * @internal Lazily initialized
+     * @var int
+     */
+    private $_intLength;
+    
+    /**
      * Constructor.
      *
      * @param int|string $length Length
@@ -34,7 +42,7 @@ class Length implements Encodable
      */
     public function __construct($length, bool $indefinite = false)
     {
-        $this->_length = $length;
+        $this->_length = strval($length);
         $this->_indefinite = $indefinite;
     }
     
@@ -127,16 +135,16 @@ class Length implements Encodable
             throw new DecodeException("DER encoding must have definite length.");
         }
         // if certain length was expected
-        if (isset($expected) && $expected != $length->_length) {
+        if (isset($expected) && $expected != $length->intLength()) {
             throw new DecodeException(
                 sprintf("Expected length %d, got %d.", $expected,
-                    $length->_length));
+                    $length->intLength()));
         }
         // check that enough data is available
-        if (strlen($data) < $idx + $length->_length) {
+        if (strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
                 sprintf("Length %d overflows data, %d bytes left.",
-                    $length->_length, strlen($data) - $idx));
+                    $length->intLength(), strlen($data) - $idx));
         }
         $offset = $idx;
         return $length;
@@ -181,30 +189,33 @@ class Length implements Encodable
      * Get the length.
      *
      * @throws \LogicException If length is indefinite
-     * @return int|string
+     * @return string Length as an integer string
      */
-    public function length()
+    public function length(): string
     {
         if ($this->_indefinite) {
             throw new \LogicException("Length is indefinite.");
         }
         return $this->_length;
     }
-
+    
     /**
+     * Get the length as an integer.
+     *
+     * @throws \LogicException If length is indefinite
+     * @throws \RuntimeException If length overflows integer size
      * @return int
      */
-    public function intVal(): int
+    public function intLength(): int
     {
-        if ($this->_indefinite) {
-            throw new \LogicException("Length is indefinite.");
+        if (!isset($this->_intLength)) {
+            $num = gmp_init($this->length(), 10);
+            if (gmp_cmp($num, gmp_init(PHP_INT_MAX, 10)) >= 0) {
+                throw new \RuntimeException("Integer overflow.");
+            }
+            $this->_intLength = gmp_intval($num);
         }
-
-        if (gmp_cmp(gmp_init($this->_length, 10), gmp_init(PHP_INT_MAX, 10)) >= 0) {
-            throw new \LogicException("Integer length too large");
-        }
-
-        return (int) $this->_length;
+        return $this->_intLength;
     }
     
     /**

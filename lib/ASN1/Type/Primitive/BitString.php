@@ -183,7 +183,7 @@ class BitString extends StringType
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
-        if ($length->intVal() < 1) {
+        if ($length->intLength() < 1) {
             throw new DecodeException("Bit string length must be at least 1.");
         }
         $unused_bits = ord($data[$idx++]);
@@ -191,7 +191,7 @@ class BitString extends StringType
             throw new DecodeException(
                 "Unused bits in a bit string must be less than 8.");
         }
-        $str_len = $length->intVal() - 1;
+        $str_len = $length->intLength() - 1;
         if ($str_len) {
             $str = substr($data, $idx, $str_len);
             if ($unused_bits) {

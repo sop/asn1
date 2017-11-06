@@ -39,26 +39,26 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException LogicException
      */
-    public function testIntValFailsBecauseIndefinite()
+    public function testIntLengthFailsBecauseIndefinite()
     {
-        Length::fromDER("\x80")->intVal();
+        Length::fromDER("\x80")->intLength();
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage Integer length too large
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Integer overflow.
      */
     public function testHugeLengthHasNoIntval()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
-        Length::fromDER($der)->intVal();
+        Length::fromDER($der)->intLength();
     }
 
     public function testShortForm()
     {
         $length = Length::fromDER("\x7f");
         $this->assertEquals(0x7f, $length->length());
-        $this->assertEquals(0x7f, $length->intVal());
+        $this->assertEquals(0x7f, $length->intLength());
     }
     
     public function testLongForm()
@@ -71,7 +71,7 @@ class LengthDecodeTest extends PHPUnit_Framework_TestCase
     {
         $length = Length::fromDER("\x82\xca\xfe");
         $this->assertEquals(0xcafe, $length->length());
-        $this->assertEquals(0xcafe, $length->intVal());
+        $this->assertEquals(0xcafe, $length->intLength());
     }
     
     /**

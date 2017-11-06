@@ -87,7 +87,7 @@ class DERTaggedType extends TaggedType implements
     protected function _encodedContentDER(): string
     {
         $idx = $this->_offset;
-        $length = Length::expectFromDER($this->_data, $idx)->intVal();
+        $length = Length::expectFromDER($this->_data, $idx)->intLength();
         return substr($this->_data, $idx, $length);
     }
     
