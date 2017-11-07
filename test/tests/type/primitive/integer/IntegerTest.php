@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
@@ -86,5 +86,26 @@ class IntegerTest extends PHPUnit_Framework_TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $wrap->asInteger();
+    }
+    
+    /**
+     * @depends testCreate
+     *
+     * @param Element $el
+     */
+    public function testIntNumber(Integer $el)
+    {
+        $this->assertEquals(1, $el->intNumber());
+    }
+    
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Integer overflow.
+     */
+    public function testIntNumberOverflow()
+    {
+        $num = gmp_init(PHP_INT_MAX, 10) + 1;
+        $int = new Integer(gmp_strval($num, 10));
+        $int->intNumber();
     }
 }

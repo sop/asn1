@@ -28,7 +28,7 @@ class Flags
     /**
      * Constructor.
      *
-     * @param number $flags Flags
+     * @param int|string $flags Flags
      * @param int $width The number of flags. If width is larger than number of
      *        bits in $flags, zeroes are prepended to flag field.
      */
@@ -123,6 +123,17 @@ class Flags
         $unused_bits = $last_octet_bits ? 8 - $last_octet_bits : 0;
         $num >>= $unused_bits;
         return gmp_strval($num, 10);
+    }
+    
+    /**
+     * Get flags as an integer.
+     *
+     * @return int
+     */
+    public function intNumber(): int
+    {
+        $num = new BigInt($this->number());
+        return $num->intVal();
     }
     
     /**

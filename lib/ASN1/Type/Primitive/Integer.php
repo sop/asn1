@@ -10,6 +10,7 @@ use ASN1\Component\Length;
 use ASN1\Feature\ElementBase;
 use ASN1\Type\PrimitiveType;
 use ASN1\Type\UniversalClass;
+use ASN1\Util\BigInt;
 
 /**
  * Implements <i>INTEGER</i> type.
@@ -20,9 +21,9 @@ class Integer extends Element
     use PrimitiveType;
     
     /**
-     * Number as a base 10.
+     * The number.
      *
-     * @var string
+     * @var BigInt
      */
     private $_number;
     
@@ -38,7 +39,7 @@ class Integer extends Element
             $var = is_scalar($number) ? strval($number) : gettype($number);
             throw new \InvalidArgumentException("'$var' is not a valid number.");
         }
-        $this->_number = strval($number);
+        $this->_number = new BigInt($number);
     }
     
     /**
@@ -48,7 +49,17 @@ class Integer extends Element
      */
     public function number(): string
     {
-        return $this->_number;
+        return $this->_number->base10();
+    }
+    
+    /**
+     * Get the number as an integer type.
+     * 
+     * @return int
+     */
+    public function intNumber(): int
+    {
+        return $this->_number->intVal();
     }
     
     /**
@@ -57,7 +68,7 @@ class Integer extends Element
      */
     protected function _encodedContentDER(): string
     {
-        $num = gmp_init($this->_number, 10);
+        $num = $this->_number->gmpObj();
         switch (gmp_sign($num)) {
             // positive
             case 1:
@@ -151,7 +162,7 @@ class Integer extends Element
      * Test that number is valid for this context.
      *
      * @param mixed $num
-     * @return boolean
+     * @return bool
      */
     private static function _validateNumber($num): bool
     {

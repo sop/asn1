@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Component\Identifier;
 
@@ -64,6 +64,12 @@ class IdentifierDecodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0b1111, $identifier->tag());
     }
     
+    public function testIntTag()
+    {
+        $identifier = Identifier::fromDER(chr(0b00001111));
+        $this->assertEquals(0b1111, $identifier->intTag());
+    }
+    
     public function testLongTag()
     {
         $identifier = Identifier::fromDER(chr(0b00011111) . "\x7f");
@@ -82,6 +88,16 @@ class IdentifierDecodeTest extends PHPUnit_Framework_TestCase
         $identifier = Identifier::fromDER($der);
         $num = gmp_init(str_repeat("1111111", 100) . "1111111", 2);
         $this->assertEquals(gmp_strval($num, 10), $identifier->tag());
+    }
+    
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Integer overflow.
+     */
+    public function testHugeIntTagOverflow()
+    {
+        $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
+        Identifier::fromDER($der)->intTag();
     }
     
     /**

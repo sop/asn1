@@ -6,6 +6,7 @@ namespace ASN1\Component;
 
 use ASN1\Exception\DecodeException;
 use ASN1\Feature\Encodable;
+use ASN1\Util\BigInt;
 
 /**
  * Class to represent BER/DER length octets.
@@ -15,7 +16,7 @@ class Length implements Encodable
     /**
      * Length.
      *
-     * @var string
+     * @var BigInt
      */
     private $_length;
     
@@ -27,14 +28,6 @@ class Length implements Encodable
     private $_indefinite;
     
     /**
-     * Length as an integer type.
-     *
-     * @internal Lazily initialized
-     * @var int
-     */
-    private $_intLength;
-    
-    /**
      * Constructor.
      *
      * @param int|string $length Length
@@ -42,7 +35,7 @@ class Length implements Encodable
      */
     public function __construct($length, bool $indefinite = false)
     {
-        $this->_length = strval($length);
+        $this->_length = new BigInt($length);
         $this->_indefinite = $indefinite;
     }
     
@@ -108,7 +101,6 @@ class Length implements Encodable
             $num <<= 8;
             $num |= $byte;
         }
-        
         return gmp_strval($num);
     }
     
@@ -162,7 +154,7 @@ class Length implements Encodable
         if ($this->_indefinite) {
             $bytes[] = 0x80;
         } else {
-            $num = gmp_init($this->_length, 10);
+            $num = $this->_length->gmpObj();
             // long form
             if ($num > 127) {
                 $octets = [];
@@ -196,7 +188,7 @@ class Length implements Encodable
         if ($this->_indefinite) {
             throw new \LogicException("Length is indefinite.");
         }
-        return $this->_length;
+        return $this->_length->base10();
     }
     
     /**
@@ -208,14 +200,10 @@ class Length implements Encodable
      */
     public function intLength(): int
     {
-        if (!isset($this->_intLength)) {
-            $num = gmp_init($this->length(), 10);
-            if (gmp_cmp($num, gmp_init(PHP_INT_MAX, 10)) >= 0) {
-                throw new \RuntimeException("Integer overflow.");
-            }
-            $this->_intLength = gmp_intval($num);
+        if ($this->_indefinite) {
+            throw new \LogicException("Length is indefinite.");
         }
-        return $this->_intLength;
+        return $this->_length->intVal();
     }
     
     /**

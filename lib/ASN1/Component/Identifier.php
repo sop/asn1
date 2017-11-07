@@ -6,6 +6,7 @@ namespace ASN1\Component;
 
 use ASN1\Exception\DecodeException;
 use ASN1\Feature\Encodable;
+use ASN1\Util\BigInt;
 
 /**
  * Class to represent BER/DER identifier octets.
@@ -54,7 +55,7 @@ class Identifier implements Encodable
     /**
      * Content type tag.
      *
-     * @var int|string
+     * @var BigInt
      */
     private $_tag;
     
@@ -69,7 +70,7 @@ class Identifier implements Encodable
     {
         $this->_class = 0b11 & $class;
         $this->_pc = 0b1 & $pc;
-        $this->_tag = $tag;
+        $this->_tag = new BigInt($tag);
     }
     
     /**
@@ -146,7 +147,7 @@ class Identifier implements Encodable
     {
         $bytes = [];
         $byte = $this->_class << 6 | $this->_pc << 5;
-        $tag = gmp_init($this->_tag, 10);
+        $tag = $this->_tag->gmpObj();
         if ($tag < 0x1f) {
             $bytes[] = $byte | $tag;
         } else { // long-form identifier
@@ -187,11 +188,21 @@ class Identifier implements Encodable
     /**
      * Get the tag number.
      *
-     * @return int|string
+     * @return string Base 10 integer string
      */
-    public function tag()
+    public function tag(): string
     {
-        return $this->_tag;
+        return $this->_tag->base10();
+    }
+    
+    /**
+     * Get the tag as an integer.
+     *
+     * @return int
+     */
+    public function intTag(): int
+    {
+        return $this->_tag->intVal();
     }
     
     /**
@@ -273,10 +284,10 @@ class Identifier implements Encodable
      * @param int|string $tag Tag number
      * @return self
      */
-    public function withTag(int $tag): self
+    public function withTag($tag): self
     {
         $obj = clone $this;
-        $obj->_tag = $tag;
+        $obj->_tag = new BigInt($tag);
         return $obj;
     }
     
