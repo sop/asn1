@@ -47,7 +47,7 @@ interface ElementBase extends Encodable
      * @param int $tag Type tag
      * @return boolean
      */
-    public function isType($tag): bool;
+    public function isType(int $tag): bool;
     
     /**
      * Check whether the element is a type of a given tag.
@@ -59,7 +59,7 @@ interface ElementBase extends Encodable
      *         expected
      * @return ElementBase
      */
-    public function expectType($tag): ElementBase;
+    public function expectType(int $tag): ElementBase;
     
     /**
      * Check whether the element is tagged (context specific).

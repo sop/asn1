@@ -511,7 +511,7 @@ class UnspecifiedType implements ElementBase
      * @param int $tag Type tag of the expected element
      * @return string
      */
-    private function _generateExceptionMessage($tag): string
+    private function _generateExceptionMessage(int $tag): string
     {
         return sprintf("%s expected, got %s.", Element::tagToName($tag),
             $this->_typeDescriptorString());
@@ -578,7 +578,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::isType()
      * @return bool
      */
-    public function isType($tag): bool
+    public function isType(int $tag): bool
     {
         return $this->_element->isType($tag);
     }
@@ -590,7 +590,7 @@ class UnspecifiedType implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectType()
      * @return ElementBase
      */
-    public function expectType($tag): ElementBase
+    public function expectType(int $tag): ElementBase
     {
         return $this->_element->expectType($tag);
     }

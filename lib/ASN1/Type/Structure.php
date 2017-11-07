@@ -216,7 +216,7 @@ abstract class Structure extends Element implements
      * @throws \OutOfBoundsException
      * @return self
      */
-    public function withoutElement($idx): self
+    public function withoutElement(int $idx): self
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
@@ -297,7 +297,7 @@ abstract class Structure extends Element implements
      * @param int $tag Tag number
      * @return boolean
      */
-    public function hasTagged($tag): bool
+    public function hasTagged(int $tag): bool
     {
         // lazily build lookup map
         if (!isset($this->_taggedMap)) {
@@ -318,7 +318,7 @@ abstract class Structure extends Element implements
      * @throws \LogicException If tag doesn't exists
      * @return TaggedType
      */
-    public function getTagged($tag): TaggedType
+    public function getTagged(int $tag): TaggedType
     {
         if (!$this->hasTagged($tag)) {
             throw new \LogicException("No tagged element for tag $tag.");

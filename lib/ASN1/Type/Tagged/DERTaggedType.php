@@ -56,7 +56,7 @@ class DERTaggedType extends TaggedType implements
         $this->_identifier = $identifier;
         $this->_data = $data;
         $this->_offset = $offset;
-        $this->_typeTag = intval($identifier->tag());
+        $this->_typeTag = $identifier->intTag();
     }
     
     /**
@@ -97,7 +97,7 @@ class DERTaggedType extends TaggedType implements
      * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
      * @return UnspecifiedType
      */
-    public function implicit($tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
+    public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $identifier = $this->_identifier->withClass($class)->withTag($tag);
         $cls = self::_determineImplClass($identifier);

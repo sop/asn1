@@ -75,7 +75,7 @@ abstract class TimeType extends Element
      * @throws \UnexpectedValueException If timezone is invalid
      * @return \DateTimeZone
      */
-    protected static function _createTimeZone($tz): \DateTimeZone
+    protected static function _createTimeZone(string $tz): \DateTimeZone
     {
         try {
             return new \DateTimeZone($tz);

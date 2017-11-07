@@ -90,7 +90,7 @@ class ObjectIdentifier extends Element
      * @param string $oid OID in dotted format
      * @return \GMP[] Array of GMP numbers
      */
-    protected static function _explodeDottedOID($oid): array
+    protected static function _explodeDottedOID(string $oid): array
     {
         $subids = [];
         foreach (explode(".", $oid) as $subid) {
@@ -150,7 +150,7 @@ class ObjectIdentifier extends Element
      * @throws DecodeException
      * @return \GMP[] Array of GMP numbers
      */
-    protected static function _decodeSubIDs($data): array
+    protected static function _decodeSubIDs(string $data): array
     {
         $subids = [];
         $idx = 0;

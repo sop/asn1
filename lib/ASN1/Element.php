@@ -224,7 +224,7 @@ abstract class Element implements ElementBase
             // rethrow as a RuntimeException for unified exception handling
             throw new DecodeException(
                 sprintf("Error while decoding %s.",
-                    self::tagToName($identifier->tag())), 0, $e);
+                    self::tagToName($identifier->intTag())), 0, $e);
         }
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
@@ -273,7 +273,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::isType()
      * @return bool
      */
-    public function isType($tag): bool
+    public function isType(int $tag): bool
     {
         // if element is context specific
         if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
@@ -291,7 +291,7 @@ abstract class Element implements ElementBase
      * @see \ASN1\Feature\ElementBase::expectType()
      * @return ElementBase
      */
-    public function expectType($tag): ElementBase
+    public function expectType(int $tag): ElementBase
     {
         if (!$this->isType($tag)) {
             throw new \UnexpectedValueException(
@@ -307,7 +307,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return bool
      */
-    private function _isConcreteType($tag): bool
+    private function _isConcreteType(int $tag): bool
     {
         // if tag doesn't match
         if ($this->tag() != $tag) {
@@ -329,7 +329,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return bool
      */
-    private function _isPseudoType($tag): bool
+    private function _isPseudoType(int $tag): bool
     {
         switch ($tag) {
             case self::TYPE_STRING:
@@ -403,8 +403,7 @@ abstract class Element implements ElementBase
         }
         // universal class
         if ($identifier->isUniversal()) {
-            return self::_determineUniversalImplClass(
-                intval($identifier->tag()));
+            return self::_determineUniversalImplClass($identifier->intTag());
         }
         throw new \UnexpectedValueException(
             sprintf("%s %d not implemented.",
@@ -419,7 +418,7 @@ abstract class Element implements ElementBase
      * @throws \UnexpectedValueException
      * @return string Class name
      */
-    protected static function _determineUniversalImplClass($tag): string
+    protected static function _determineUniversalImplClass(int $tag): string
     {
         if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
@@ -448,7 +447,7 @@ abstract class Element implements ElementBase
      * @param int $tag
      * @return string
      */
-    public static function tagToName($tag): string
+    public static function tagToName(int $tag): string
     {
         if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
             return "TAG $tag";

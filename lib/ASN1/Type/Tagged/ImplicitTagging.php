@@ -21,5 +21,5 @@ interface ImplicitTagging extends ElementBase
      * @throws \UnexpectedValueException If expectation fails
      * @return \ASN1\Type\UnspecifiedType
      */
-    public function implicit($tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType;
+    public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType;
 }

@@ -38,7 +38,7 @@ abstract class TaggedType extends Element
      * @throws \UnexpectedValueException If expectation fails
      * @return ExplicitTagging
      */
-    public function expectExplicit(int $expectedTag = null): ExplicitTagging
+    public function expectExplicit($expectedTag = null): ExplicitTagging
     {
         $el = $this;
         if (!$el instanceof ExplicitTagging) {
@@ -92,7 +92,7 @@ abstract class TaggedType extends Element
      * @throws \UnexpectedValueException If expectation fails
      * @return UnspecifiedType
      */
-    public function asImplicit($tag, $expectedTag = null,
+    public function asImplicit(int $tag, $expectedTag = null,
         int $expectedClass = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         return $this->expectImplicit($expectedTag)->implicit($tag,

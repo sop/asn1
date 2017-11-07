@@ -24,7 +24,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @param int $tag
      * @param Element $element
      */
-    public function __construct($tag, Element $element)
+    public function __construct(int $tag, Element $element)
     {
         $this->_typeTag = $tag;
         $this->_element = $element;
@@ -57,7 +57,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @see \ASN1\Type\Tagged\ImplicitTagging::implicit()
      * @return UnspecifiedType
      */
-    public function implicit($tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
+    public function implicit(int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $this->_element->expectType($tag);
         if ($this->_element->typeClass() != $class) {

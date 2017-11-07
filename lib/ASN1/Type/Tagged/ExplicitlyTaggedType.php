@@ -22,7 +22,7 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
      * @param int $tag Tag number
      * @param Element $element Wrapped element
      */
-    public function __construct($tag, Element $element)
+    public function __construct(int $tag, Element $element)
     {
         $this->_typeTag = $tag;
         $this->_element = $element;

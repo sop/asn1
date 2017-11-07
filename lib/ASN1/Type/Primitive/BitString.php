@@ -67,7 +67,7 @@ class BitString extends StringType
      *        Most significant bit of the first octet is index 0.
      * @return boolean
      */
-    public function testBit($idx): bool
+    public function testBit(int $idx): bool
     {
         // octet index
         $oi = (int) floor($idx / 8);
