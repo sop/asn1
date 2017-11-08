@@ -42,7 +42,7 @@ class UnspecifiedType implements ElementBase
      */
     public static function fromDER(string $data): self
     {
-        return new self(Element::fromDER($data));
+        return Element::fromDER($data)->asUnspecified();
     }
     
     /**
