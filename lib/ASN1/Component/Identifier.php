@@ -84,7 +84,7 @@ class Identifier implements Encodable
      * @throws DecodeException If decoding fails
      * @return self
      */
-    public static function fromDER(string $data, int &$offset = null): self
+    public static function fromDER(string $data, int &$offset = null): Identifier
     {
         $idx = $offset ? $offset : 0;
         $datalen = strlen($data);
@@ -271,7 +271,7 @@ class Identifier implements Encodable
      * @param int $class One of <code>CLASS_*</code> enumerations
      * @return self
      */
-    public function withClass(int $class): self
+    public function withClass(int $class): Identifier
     {
         $obj = clone $this;
         $obj->_class = $class;
@@ -284,7 +284,7 @@ class Identifier implements Encodable
      * @param int|string $tag Tag number
      * @return self
      */
-    public function withTag($tag): self
+    public function withTag($tag): Identifier
     {
         $obj = clone $this;
         $obj->_tag = new BigInt($tag);

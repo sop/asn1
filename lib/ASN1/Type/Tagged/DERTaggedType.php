@@ -102,8 +102,9 @@ class DERTaggedType extends TaggedType implements
         $identifier = $this->_identifier->withClass($class)->withTag($tag);
         $cls = self::_determineImplClass($identifier);
         $idx = $this->_offset;
+        /** @var \ASN1\Feature\ElementBase $element */
         $element = $cls::_decodeFromDER($identifier, $this->_data, $idx);
-        return new UnspecifiedType($element);
+        return $element->asUnspecified();
     }
     
     /**
@@ -119,6 +120,6 @@ class DERTaggedType extends TaggedType implements
         if (isset($expectedTag)) {
             $element->expectType($expectedTag);
         }
-        return new UnspecifiedType($element);
+        return $element->asUnspecified();
     }
 }

@@ -48,6 +48,7 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
      */
     protected function _encodedContentDER(): string
     {
+        // get only the content of the wrapped element.
         return $this->_element->_encodedContentDER();
     }
     
@@ -66,6 +67,6 @@ class ImplicitlyTaggedType extends ContextSpecificTaggedType implements
                     Identifier::classToName($class),
                     Identifier::classToName($this->_element->typeClass())));
         }
-        return new UnspecifiedType($this->_element);
+        return $this->_element->asUnspecified();
     }
 }

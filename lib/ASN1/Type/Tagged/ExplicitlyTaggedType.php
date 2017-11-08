@@ -45,6 +45,7 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
      */
     protected function _encodedContentDER(): string
     {
+        // get the full encoding of the wrapped element
         return $this->_element->toDER();
     }
     
@@ -59,6 +60,6 @@ class ExplicitlyTaggedType extends ContextSpecificTaggedType implements
         if (isset($expectedTag)) {
             $this->_element->expectType($expectedTag);
         }
-        return new UnspecifiedType($this->_element);
+        return $this->_element->asUnspecified();
     }
 }
