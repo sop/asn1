@@ -58,8 +58,7 @@ abstract class Element implements ElementBase
      *
      * @var array
      */
-    const MAP_TAG_TO_CLASS = [
-        /* @formatter:off */
+    const MAP_TAG_TO_CLASS = [ /* @formatter:off */
         self::TYPE_BOOLEAN => Primitive\Boolean::class,
         self::TYPE_INTEGER => Primitive\Integer::class,
         self::TYPE_BIT_STRING => Primitive\BitString::class,
@@ -85,7 +84,7 @@ abstract class Element implements ElementBase
         self::TYPE_GENERAL_STRING => Primitive\GeneralString::class,
         self::TYPE_UNIVERSAL_STRING => Primitive\UniversalString::class,
         self::TYPE_CHARACTER_STRING => Primitive\CharacterString::class,
-        self::TYPE_BMP_STRING => Primitive\BMPString::class,
+        self::TYPE_BMP_STRING => Primitive\BMPString::class
         /* @formatter:on */
     ];
     
@@ -114,8 +113,7 @@ abstract class Element implements ElementBase
      *
      * @var array
      */
-    const MAP_TYPE_TO_NAME = array(
-        /* @formatter:off */
+    const MAP_TYPE_TO_NAME = [ /* @formatter:off */
         self::TYPE_EOC => "EOC",
         self::TYPE_BOOLEAN => "BOOLEAN",
         self::TYPE_INTEGER => "INTEGER",
@@ -148,7 +146,7 @@ abstract class Element implements ElementBase
         self::TYPE_STRING => "Any String",
         self::TYPE_TIME => "Any Time"
         /* @formatter:on */
-    );
+    ];
     
     /**
      * Element's type tag.
@@ -208,7 +206,7 @@ abstract class Element implements ElementBase
      * @throws DecodeException If decoding fails
      * @throws \UnexpectedValueException If called in the context of an expected
      *         type, but decoding yields another type
-     * @return self
+     * @return ElementBase
      */
     public static function fromDER(string $data, int &$offset = null): ElementBase
     {
@@ -229,7 +227,7 @@ abstract class Element implements ElementBase
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
         $called_class = get_called_class();
-        if (__CLASS__ != $called_class) {
+        if (self::class != $called_class) {
             if (!$element instanceof $called_class) {
                 throw new \UnexpectedValueException(
                     sprintf("%s expected, got %s.", $called_class,
