@@ -6,6 +6,7 @@ namespace ASN1\Feature;
 
 use ASN1\Element;
 use ASN1\Type\TaggedType;
+use ASN1\Type\UnspecifiedType;
 
 /**
  * Base interface for ASN.1 type elements.
@@ -87,4 +88,11 @@ interface ElementBase extends Encodable
      * @return \ASN1\Element
      */
     public function asElement(): Element;
+    
+    /**
+     * Get the object as an UnspecifiedType instance.
+     *
+     * @return UnspecifiedType
+     */
+    public function asUnspecified(): UnspecifiedType;
 }

@@ -35,6 +35,17 @@ class UnspecifiedType implements ElementBase
     }
     
     /**
+     * Initialize from DER data.
+     *
+     * @param string $data DER encoded data
+     * @return self
+     */
+    public static function fromDER(string $data): self
+    {
+        return new self(Element::fromDER($data));
+    }
+    
+    /**
      * Initialize from ElementBase interface.
      *
      * @param ElementBase $el
@@ -625,5 +636,15 @@ class UnspecifiedType implements ElementBase
     public function asElement(): Element
     {
         return $this->_element;
+    }
+    
+    /**
+     *
+     * {@inheritdoc}
+     * @return UnspecifiedType
+     */
+    public function asUnspecified(): UnspecifiedType
+    {
+        return $this;
     }
 }

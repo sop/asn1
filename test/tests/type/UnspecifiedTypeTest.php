@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\DERData;
 use ASN1\Element;
@@ -18,11 +18,23 @@ class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
         return $wrap;
     }
     
+    public function testAsUnspecified()
+    {
+        $wrap = new UnspecifiedType(new NullType());
+        $this->assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
+    }
+    
     public function testFromElementBase()
     {
         $el = new NullType();
         $wrap = UnspecifiedType::fromElementBase($el);
         $this->assertInstanceOf(UnspecifiedType::class, $wrap);
+    }
+    
+    public function testFromDER()
+    {
+        $el = UnspecifiedType::fromDER("\x5\0")->asNull();
+        $this->assertInstanceOf(NullType::class, $el);
     }
     
     /**
