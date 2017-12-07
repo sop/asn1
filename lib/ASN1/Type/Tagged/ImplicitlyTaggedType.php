@@ -15,19 +15,21 @@ use ASN1\Type\UnspecifiedType;
  * DER encoding of the type, and hence the abstract syntax must be known when
  * decoding the data.
  */
-class ImplicitlyTaggedType extends ContextSpecificTaggedType implements 
-    ImplicitTagging
+class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
 {
     /**
      * Constructor.
      *
-     * @param int $tag
-     * @param Element $element
+     * @param int $tag Tag number
+     * @param Element $element Wrapped element
+     * @param int $class Type class
      */
-    public function __construct(int $tag, Element $element)
+    public function __construct(int $tag, Element $element,
+        int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
     {
         $this->_typeTag = $tag;
         $this->_element = $element;
+        $this->_class = $class;
     }
     
     /**

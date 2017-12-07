@@ -89,6 +89,22 @@ class UnspecifiedType implements ElementBase
     }
     
     /**
+     * Get the wrapped element as an application specific type.
+     *
+     * @throws \UnexpectedValueException If element is not application specific
+     * @return Tagged\ApplicationType
+     */
+    public function asApplication(): Tagged\ApplicationType
+    {
+        if (!$this->_element instanceof Tagged\ApplicationType) {
+            throw new \UnexpectedValueException(
+                "Application type expected, got " .
+                     $this->_typeDescriptorString());
+        }
+        return $this->_element;
+    }
+    
+    /**
      * Get the wrapped element as a boolean type.
      *
      * @throws \UnexpectedValueException If the element is not a boolean

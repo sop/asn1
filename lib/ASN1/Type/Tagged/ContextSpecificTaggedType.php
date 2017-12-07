@@ -4,13 +4,12 @@ declare(strict_types = 1);
 
 namespace ASN1\Type\Tagged;
 
-use ASN1\Component\Identifier;
 use ASN1\Type\TaggedType;
 
 /**
- * Base class for context-specific elements.
+ * Base class to wrap inner element for tagging.
  */
-abstract class ContextSpecificTaggedType extends TaggedType
+abstract class TaggedTypeWrap extends TaggedType
 {
     /**
      * Wrapped element.
@@ -20,12 +19,19 @@ abstract class ContextSpecificTaggedType extends TaggedType
     protected $_element;
     
     /**
+     * Type class.
+     *
+     * @var int
+     */
+    protected $_class;
+    
+    /**
      *
      * @see \ASN1\Element::typeClass()
      * @return int
      */
     public function typeClass(): int
     {
-        return Identifier::CLASS_CONTEXT_SPECIFIC;
+        return $this->_class;
     }
 }

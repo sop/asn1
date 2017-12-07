@@ -14,6 +14,7 @@ use ASN1\Type\StringType;
 use ASN1\Type\TaggedType;
 use ASN1\Type\TimeType;
 use ASN1\Type\UnspecifiedType;
+use ASN1\Type\Tagged\ApplicationType;
 
 /**
  * Base class for all ASN.1 type elements.
@@ -402,6 +403,10 @@ abstract class Element implements ElementBase
         // universal class
         if ($identifier->isUniversal()) {
             return self::_determineUniversalImplClass($identifier->intTag());
+        }
+        // application type
+        if ($identifier->isApplication()) {
+            return ApplicationType::class;
         }
         throw new \UnexpectedValueException(
             sprintf("%s %d not implemented.",

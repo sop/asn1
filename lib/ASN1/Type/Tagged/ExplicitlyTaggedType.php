@@ -6,6 +6,7 @@ namespace ASN1\Type\Tagged;
 
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
+use ASN1\Component\Identifier;
 
 /**
  * Implements explicit tagging mode.
@@ -13,19 +14,21 @@ use ASN1\Type\UnspecifiedType;
  * Explicit tagging wraps a type by prepending a tag. Underlying DER encoding
  * is not changed.
  */
-class ExplicitlyTaggedType extends ContextSpecificTaggedType implements 
-    ExplicitTagging
+class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
 {
     /**
      * Constructor.
      *
      * @param int $tag Tag number
      * @param Element $element Wrapped element
+     * @param int $class Type class
      */
-    public function __construct(int $tag, Element $element)
+    public function __construct(int $tag, Element $element,
+        int $class = Identifier::CLASS_CONTEXT_SPECIFIC)
     {
         $this->_typeTag = $tag;
         $this->_element = $element;
+        $this->_class = $class;
     }
     
     /**
