@@ -275,7 +275,7 @@ class Real extends Element
      * Test that number is valid for this context.
      *
      * @param mixed $num
-     * @return boolean
+     * @return bool
      */
     private static function _validateNumber($num): bool
     {

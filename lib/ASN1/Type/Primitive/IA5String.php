@@ -15,7 +15,7 @@ class IA5String extends PrimitiveString
     use UniversalClass;
     
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $string
      */

@@ -12,7 +12,7 @@ trait PrimitiveType
     /**
      *
      * @see \ASN1\Element::isConstructed()
-     * @return boolean
+     * @return bool
      */
     public function isConstructed(): bool
     {

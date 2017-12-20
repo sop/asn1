@@ -23,7 +23,7 @@ class Length implements Encodable
     /**
      * Whether length is indefinite.
      *
-     * @var boolean
+     * @var bool
      */
     private $_indefinite;
     
@@ -31,7 +31,7 @@ class Length implements Encodable
      * Constructor.
      *
      * @param int|string $length Length
-     * @param boolean $indefinite Whether length is indefinite
+     * @param bool $indefinite Whether length is indefinite
      */
     public function __construct($length, bool $indefinite = false)
     {
@@ -209,7 +209,7 @@ class Length implements Encodable
     /**
      * Whether length is indefinite.
      *
-     * @return boolean
+     * @return bool
      */
     public function isIndefinite(): bool
     {

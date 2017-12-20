@@ -46,7 +46,7 @@ interface ElementBase extends Encodable
      * Check whether the element is a type of a given tag.
      *
      * @param int $tag Type tag
-     * @return boolean
+     * @return bool
      */
     public function isType(int $tag): bool;
     

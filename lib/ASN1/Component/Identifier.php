@@ -208,7 +208,7 @@ class Identifier implements Encodable
     /**
      * Check whether type is of an universal class.
      *
-     * @return boolean
+     * @return bool
      */
     public function isUniversal(): bool
     {
@@ -218,7 +218,7 @@ class Identifier implements Encodable
     /**
      * Check whether type is of an application class.
      *
-     * @return boolean
+     * @return bool
      */
     public function isApplication(): bool
     {
@@ -228,7 +228,7 @@ class Identifier implements Encodable
     /**
      * Check whether type is of a context specific class.
      *
-     * @return boolean
+     * @return bool
      */
     public function isContextSpecific(): bool
     {
@@ -238,7 +238,7 @@ class Identifier implements Encodable
     /**
      * Check whether type is of a private class.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPrivate(): bool
     {
@@ -248,7 +248,7 @@ class Identifier implements Encodable
     /**
      * Check whether content is primitive type.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPrimitive(): bool
     {
@@ -258,7 +258,7 @@ class Identifier implements Encodable
     /**
      * Check hether content is constructed type.
      *
-     * @return boolean
+     * @return bool
      */
     public function isConstructed(): bool
     {

@@ -65,7 +65,7 @@ class BitString extends StringType
      *
      * @param int $idx Bit index.
      *        Most significant bit of the first octet is index 0.
-     * @return boolean
+     * @return bool
      */
     public function testBit(int $idx): bool
     {

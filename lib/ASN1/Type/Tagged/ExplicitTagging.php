@@ -15,8 +15,8 @@ interface ExplicitTagging extends ElementBase
     /**
      * Get explicitly tagged wrapped element.
      *
-     * NOTE! Expectation checking is deprecated and shall be done
-     * with UnspecifiedType.
+     * <strong>NOTE!</strong> Expectation checking is deprecated and shall be
+     * done with <code>UnspecifiedType</code>.
      *
      * @param int|null $expectedTag Expected tag of the underlying type
      * @throws \UnexpectedValueException If expectation fails

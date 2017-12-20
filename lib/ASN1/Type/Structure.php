@@ -268,8 +268,8 @@ abstract class Structure extends Element implements
      * Get the element at the given index, optionally checking that the element
      * has a given tag.
      *
-     * NOTE! Expectation checking is deprecated and should be done
-     * with UnspecifiedType.
+     * <strong>NOTE!</strong> Expectation checking is deprecated and should be
+     * done with <code>UnspecifiedType</code>.
      *
      * @param int $idx Index 0..n
      * @param int|null $expectedTag Optional type tag expectation
@@ -295,7 +295,7 @@ abstract class Structure extends Element implements
      * given tag.
      *
      * @param int $tag Tag number
-     * @return boolean
+     * @return bool
      */
     public function hasTagged(int $tag): bool
     {

@@ -92,7 +92,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as an application specific type.
      *
      * @throws \UnexpectedValueException If element is not application specific
-     * @return Tagged\ApplicationType
+     * @return \ASN1\Type\Tagged\ApplicationType
      */
     public function asApplication(): Tagged\ApplicationType
     {
@@ -108,7 +108,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a boolean type.
      *
      * @throws \UnexpectedValueException If the element is not a boolean
-     * @return Primitive\Boolean
+     * @return \ASN1\Type\Primitive\Boolean
      */
     public function asBoolean(): Primitive\Boolean
     {
@@ -123,7 +123,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as an integer type.
      *
      * @throws \UnexpectedValueException If the element is not an integer
-     * @return Primitive\Integer
+     * @return \ASN1\Type\Primitive\Integer
      */
     public function asInteger(): Primitive\Integer
     {
@@ -138,7 +138,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a bit string type.
      *
      * @throws \UnexpectedValueException If the element is not a bit string
-     * @return Primitive\BitString
+     * @return \ASN1\Type\Primitive\BitString
      */
     public function asBitString(): Primitive\BitString
     {
@@ -153,7 +153,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as an octet string type.
      *
      * @throws \UnexpectedValueException If the element is not an octet string
-     * @return Primitive\OctetString
+     * @return \ASN1\Type\Primitive\OctetString
      */
     public function asOctetString(): Primitive\OctetString
     {
@@ -168,7 +168,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a null type.
      *
      * @throws \UnexpectedValueException If the element is not a null
-     * @return Primitive\NullType
+     * @return \ASN1\Type\Primitive\NullType
      */
     public function asNull(): Primitive\NullType
     {
@@ -184,7 +184,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not an object
      *         identifier
-     * @return Primitive\ObjectIdentifier
+     * @return \ASN1\Type\Primitive\ObjectIdentifier
      */
     public function asObjectIdentifier(): Primitive\ObjectIdentifier
     {
@@ -201,7 +201,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not an object
      *         descriptor
-     * @return Primitive\ObjectDescriptor
+     * @return \ASN1\Type\Primitive\ObjectDescriptor
      */
     public function asObjectDescriptor(): Primitive\ObjectDescriptor
     {
@@ -217,7 +217,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a real type.
      *
      * @throws \UnexpectedValueException If the element is not a real
-     * @return Primitive\Real
+     * @return \ASN1\Type\Primitive\Real
      */
     public function asReal(): Primitive\Real
     {
@@ -232,7 +232,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as an enumerated type.
      *
      * @throws \UnexpectedValueException If the element is not an enumerated
-     * @return Primitive\Enumerated
+     * @return \ASN1\Type\Primitive\Enumerated
      */
     public function asEnumerated(): Primitive\Enumerated
     {
@@ -247,7 +247,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a UTF8 string type.
      *
      * @throws \UnexpectedValueException If the element is not a UTF8 string
-     * @return Primitive\UTF8String
+     * @return \ASN1\Type\Primitive\UTF8String
      */
     public function asUTF8String(): Primitive\UTF8String
     {
@@ -262,7 +262,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a relative OID type.
      *
      * @throws \UnexpectedValueException If the element is not a relative OID
-     * @return Primitive\RelativeOID
+     * @return \ASN1\Type\Primitive\RelativeOID
      */
     public function asRelativeOID(): Primitive\RelativeOID
     {
@@ -277,7 +277,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a sequence type.
      *
      * @throws \UnexpectedValueException If the element is not a sequence
-     * @return Constructed\Sequence
+     * @return \ASN1\Type\Constructed\Sequence
      */
     public function asSequence(): Constructed\Sequence
     {
@@ -292,7 +292,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a set type.
      *
      * @throws \UnexpectedValueException If the element is not a set
-     * @return Constructed\Set
+     * @return \ASN1\Type\Constructed\Set
      */
     public function asSet(): Constructed\Set
     {
@@ -307,7 +307,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a numeric string type.
      *
      * @throws \UnexpectedValueException If the element is not a numeric string
-     * @return Primitive\NumericString
+     * @return \ASN1\Type\Primitive\NumericString
      */
     public function asNumericString(): Primitive\NumericString
     {
@@ -323,7 +323,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not a printable
      *         string
-     * @return Primitive\PrintableString
+     * @return \ASN1\Type\Primitive\PrintableString
      */
     public function asPrintableString(): Primitive\PrintableString
     {
@@ -338,7 +338,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a T61 string type.
      *
      * @throws \UnexpectedValueException If the element is not a T61 string
-     * @return Primitive\T61String
+     * @return \ASN1\Type\Primitive\T61String
      */
     public function asT61String(): Primitive\T61String
     {
@@ -353,7 +353,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a videotex string type.
      *
      * @throws \UnexpectedValueException If the element is not a videotex string
-     * @return Primitive\VideotexString
+     * @return \ASN1\Type\Primitive\VideotexString
      */
     public function asVideotexString(): Primitive\VideotexString
     {
@@ -368,7 +368,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a IA5 string type.
      *
      * @throws \UnexpectedValueException If the element is not a IA5 string
-     * @return Primitive\IA5String
+     * @return \ASN1\Type\Primitive\IA5String
      */
     public function asIA5String(): Primitive\IA5String
     {
@@ -383,7 +383,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as an UTC time type.
      *
      * @throws \UnexpectedValueException If the element is not a UTC time
-     * @return Primitive\UTCTime
+     * @return \ASN1\Type\Primitive\UTCTime
      */
     public function asUTCTime(): Primitive\UTCTime
     {
@@ -399,7 +399,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not a generalized
      *         time
-     * @return Primitive\GeneralizedTime
+     * @return \ASN1\Type\Primitive\GeneralizedTime
      */
     public function asGeneralizedTime(): Primitive\GeneralizedTime
     {
@@ -414,7 +414,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a graphic string type.
      *
      * @throws \UnexpectedValueException If the element is not a graphic string
-     * @return Primitive\GraphicString
+     * @return \ASN1\Type\Primitive\GraphicString
      */
     public function asGraphicString(): Primitive\GraphicString
     {
@@ -429,7 +429,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a visible string type.
      *
      * @throws \UnexpectedValueException If the element is not a visible string
-     * @return Primitive\VisibleString
+     * @return \ASN1\Type\Primitive\VisibleString
      */
     public function asVisibleString(): Primitive\VisibleString
     {
@@ -444,7 +444,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a general string type.
      *
      * @throws \UnexpectedValueException If the element is not general string
-     * @return Primitive\GeneralString
+     * @return \ASN1\Type\Primitive\GeneralString
      */
     public function asGeneralString(): Primitive\GeneralString
     {
@@ -460,7 +460,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not a universal
      *         string
-     * @return Primitive\UniversalString
+     * @return \ASN1\Type\Primitive\UniversalString
      */
     public function asUniversalString(): Primitive\UniversalString
     {
@@ -476,7 +476,7 @@ class UnspecifiedType implements ElementBase
      *
      * @throws \UnexpectedValueException If the element is not a character
      *         string
-     * @return Primitive\CharacterString
+     * @return \ASN1\Type\Primitive\CharacterString
      */
     public function asCharacterString(): Primitive\CharacterString
     {
@@ -491,7 +491,7 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a BMP string type.
      *
      * @throws \UnexpectedValueException If the element is not a bmp string
-     * @return Primitive\BMPString
+     * @return \ASN1\Type\Primitive\BMPString
      */
     public function asBMPString(): Primitive\BMPString
     {

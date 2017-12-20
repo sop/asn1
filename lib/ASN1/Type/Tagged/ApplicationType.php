@@ -13,6 +13,10 @@ use ASN1\Feature\ElementBase;
  */
 class ApplicationType extends DERTaggedType
 {
+    /**
+     *
+     * {@inheritdoc}
+     */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
         int &$offset): ElementBase
     {

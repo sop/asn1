@@ -38,6 +38,7 @@ abstract class TimeType extends Element
     /**
      * Initialize from datetime string.
      *
+     * @link http://php.net/manual/en/datetime.formats.php
      * @param string $time Time string
      * @param string|null $tz Timezone, if null use default.
      * @throws \RuntimeException

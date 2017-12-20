@@ -13,9 +13,9 @@ use ASN1\Type\Structure;
 class Set extends Structure
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param Element[] $elements Any number of elements
+     * @param Element ...$elements Any number of elements
      */
     public function __construct(Element ...$elements)
     {

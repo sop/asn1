@@ -102,7 +102,7 @@ class ObjectIdentifier extends Element
     /**
      * Implode an array of sub IDs to dotted OID format.
      *
-     * @param \GMP[] $subids
+     * @param \GMP ...$subids
      * @return string
      */
     protected static function _implodeSubIDs(\GMP ...$subids): string
@@ -117,7 +117,7 @@ class ObjectIdentifier extends Element
     /**
      * Encode sub ID's to DER.
      *
-     * @param \GMP[] $subids
+     * @param \GMP ...$subids
      * @return string
      */
     protected static function _encodeSubIDs(\GMP ...$subids): string
