@@ -52,7 +52,7 @@ class Length implements Encodable
      */
     public static function fromDER(string $data, int &$offset = null): self
     {
-        $idx = $offset ? $offset : 0;
+        $idx = $offset ?? 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
             throw new DecodeException("Invalid offset.");

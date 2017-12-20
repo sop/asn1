@@ -212,7 +212,7 @@ abstract class Element implements ElementBase
     public static function fromDER(string $data, int &$offset = null): ElementBase
     {
         // decode identifier
-        $idx = $offset ? $offset : 0;
+        $idx = $offset ?? 0;
         $identifier = Identifier::fromDER($data, $idx);
         // determine class that implements type specific decoding
         $cls = self::_determineImplClass($identifier);
