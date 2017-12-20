@@ -43,7 +43,7 @@ abstract class PrimitiveString extends StringType
         $str = $length ? substr($data, $idx, $length) : "";
         // substr should never return false, since length is
         // checked by Length::expectFromDER.
-        assert(is_string($str), "substr");
+        assert(is_string($str), new DecodeException("substr"));
         $offset = $idx + $length;
         try {
             return new static($str);
