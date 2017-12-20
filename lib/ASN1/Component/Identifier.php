@@ -274,7 +274,7 @@ class Identifier implements Encodable
     public function withClass(int $class): Identifier
     {
         $obj = clone $this;
-        $obj->_class = $class;
+        $obj->_class = 0b11 & $class;
         return $obj;
     }
     
