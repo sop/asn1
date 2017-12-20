@@ -105,6 +105,21 @@ class UnspecifiedType implements ElementBase
     }
     
     /**
+     * Get the wrapped element as a private tagged type.
+     *
+     * @throws \UnexpectedValueException If element is not using private tagging
+     * @return \ASN1\Type\Tagged\PrivateType
+     */
+    public function asPrivate(): Tagged\PrivateType
+    {
+        if (!$this->_element instanceof Tagged\PrivateType) {
+            throw new \UnexpectedValueException(
+                "Private type expected, got " . $this->_typeDescriptorString());
+        }
+        return $this->_element;
+    }
+    
+    /**
      * Get the wrapped element as a boolean type.
      *
      * @throws \UnexpectedValueException If the element is not a boolean

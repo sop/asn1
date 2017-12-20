@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Element;
 use ASN1\Component\Identifier;
@@ -53,14 +53,6 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException UnexpectedValueException
      */
-    public function testUnimplementedPrivateFail()
-    {
-        Element::fromDER("\xdf\x7f\x0");
-    }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
     public function testExpectTaggedFail()
     {
         Element::fromDER("\x5\x0")->expectTagged();
@@ -78,5 +70,26 @@ class ElementDecodeTest extends PHPUnit_Framework_TestCase
             Identifier::PRIMITIVE, Element::TYPE_NULL);
         $offset = 0;
         $mtd->invokeArgs(null, [$identifier, "", &$offset]);
+    }
+    
+    /**
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessageRegExp /not implemented.$/
+     */
+    public function testFromUnimplementedClass()
+    {
+        $cls = new ReflectionClass(Element::class);
+        $mtd = $cls->getMethod("_determineImplClass");
+        $mtd->setAccessible(true);
+        $identifier = new ElementDecodeTest_IdentifierMockup(0, 0, 0);
+        $mtd->invokeArgs(null, [$identifier]);
+    }
+}
+
+class ElementDecodeTest_IdentifierMockup extends Identifier
+{
+    public function typeClass(): int
+    {
+        return 0xff;
     }
 }
