@@ -25,7 +25,7 @@ class ApplicationTypeTest extends TestCase
         return $el;
     }
     
-    public function getCreateImplicit()
+    public function testCreateImplicit()
     {
         $el = new ImplicitlyTaggedType(1, new Integer(42),
             Identifier::CLASS_APPLICATION);
