@@ -84,7 +84,7 @@ class Integer extends Element
     /**
      * Encode positive integer to DER content.
      *
-     * @param \GMP|resource $num
+     * @param \GMP $num
      * @return string
      */
     private static function _encodePositiveInteger(\GMP $num): string
@@ -101,7 +101,7 @@ class Integer extends Element
     /**
      * Encode negative integer to DER content.
      *
-     * @param \GMP|resource $num
+     * @param \GMP $num
      * @return string
      */
     private static function _encodeNegativeInteger(\GMP $num): string
