@@ -188,7 +188,7 @@ abstract class Element implements ElementBase
      * @param string $data DER data
      * @param int $offset Offset in data to the next byte after identifier
      * @throws DecodeException If decoding fails
-     * @return self
+     * @return ElementBase
      */
     protected static function _decodeFromDER(Identifier $identifier, string $data,
         int &$offset): ElementBase
