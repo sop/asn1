@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type;
@@ -43,11 +42,14 @@ abstract class Structure extends Element implements
     /**
      * Constructor.
      *
-     * @param Element ...$elements Any number of elements
+     * @param ElementBase ...$elements Any number of elements
      */
-    public function __construct(Element ...$elements)
+    public function __construct(ElementBase ...$elements)
     {
-        $this->_elements = $elements;
+        $this->_elements = array_map(
+            function (ElementBase $el) {
+                return $el->asElement();
+            }, $elements);
     }
     
     /**
