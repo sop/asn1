@@ -46,11 +46,23 @@ class ObjectIdentifierDecodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("1.1", $el->oid());
     }
     
+    public function testFirst79()
+    {
+        $el = ObjectIdentifier::fromDER("\x6\x1\x4f");
+        $this->assertEquals("1.39", $el->oid());
+    }
+    
+    public function testFirst80()
+    {
+        $el = ObjectIdentifier::fromDER("\x6\x1\x50");
+        $this->assertEquals("2.0", $el->oid());
+    }
+    
     public function testFirstHuge()
     {
         // 0x1fffff
         $el = ObjectIdentifier::fromDER("\x6\x3\xff\xff\x7f");
-        $this->assertEquals("52428.31", $el->oid());
+        $this->assertEquals("2.2097071", $el->oid());
     }
     
     /**

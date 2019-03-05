@@ -10,10 +10,10 @@ use ASN1\Type\Primitive\ObjectIdentifier;
  */
 class ObjectIdentifierEncodeTest extends PHPUnit_Framework_TestCase
 {
-    public function testZero()
+    public function testEmpty()
     {
-        $oid = new ObjectIdentifier("0");
-        $this->assertEquals("\x6\1\0", $oid->toDER());
+        $oid = new ObjectIdentifier("");
+        $this->assertEquals("\x6\0", $oid->toDER());
     }
     
     public function testEncodeLong()

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -28,6 +27,13 @@ class ObjectIdentifier extends Element
     protected $_oid;
     
     /**
+     * Object identifier split to sub ID's.
+     *
+     * @var \GMP[]
+     */
+    protected $_subids;
+    
+    /**
      * Constructor.
      *
      * @param string $oid OID in dotted format
@@ -35,6 +41,21 @@ class ObjectIdentifier extends Element
     public function __construct(string $oid)
     {
         $this->_oid = $oid;
+        $this->_subids = self::_explodeDottedOID($oid);
+        if (count($this->_subids) > 0) {
+            if (count($this->_subids) < 2) {
+                throw new \UnexpectedValueException(
+                    "OID must have at least two arcs.");
+            }
+            if ($this->_subids[0] > 2) {
+                throw new \UnexpectedValueException(
+                    "First arc must be less or equal to 2.");
+            }
+            if ($this->_subids[0] < 2 && $this->_subids[1] >= 40) {
+                throw new \UnexpectedValueException(
+                    "Second arc must be less than 40 for root arcs 0 and 1.");
+            }
+        }
         $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
     }
     
@@ -54,7 +75,7 @@ class ObjectIdentifier extends Element
      */
     protected function _encodedContentDER(): string
     {
-        $subids = self::_explodeDottedOID($this->_oid);
+        $subids = $this->_subids;
         // encode first two subids to one according to spec section 8.19.4
         if (count($subids) >= 2) {
             $num = ($subids[0] * 40) + $subids[1];
@@ -68,8 +89,8 @@ class ObjectIdentifier extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
@@ -77,7 +98,12 @@ class ObjectIdentifier extends Element
         $idx += $len;
         // decode first subidentifier according to spec section 8.19.4
         if (isset($subids[0])) {
-            list($x, $y) = gmp_div_qr($subids[0], "40");
+            if ($subids[0] < 80) {
+                list($x, $y) = gmp_div_qr($subids[0], "40");
+            } else {
+                $x = gmp_init(2, 10);
+                $y = $subids[0] - 80;
+            }
             array_splice($subids, 0, 1, array($x, $y));
         }
         $offset = $idx;
@@ -93,8 +119,15 @@ class ObjectIdentifier extends Element
     protected static function _explodeDottedOID(string $oid): array
     {
         $subids = [];
-        foreach (explode(".", $oid) as $subid) {
-            $subids[] = gmp_init($subid, 10);
+        if (strlen($oid)) {
+            foreach (explode(".", $oid) as $subid) {
+                $n = @gmp_init($subid, 10);
+                if (false === $n) {
+                    throw new \UnexpectedValueException(
+                        "'$subid' is not a number.");
+                }
+                $subids[] = $n;
+            }
         }
         return $subids;
     }
@@ -108,10 +141,9 @@ class ObjectIdentifier extends Element
     protected static function _implodeSubIDs(\GMP ...$subids): string
     {
         return implode(".",
-            array_map(
-                function ($num) {
-                    return gmp_strval($num, 10);
-                }, $subids));
+            array_map(function ($num) {
+                return gmp_strval($num, 10);
+            }, $subids));
     }
     
     /**

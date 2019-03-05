@@ -1,6 +1,5 @@
 <?php
-
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
@@ -8,6 +7,7 @@ use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\ObjectIdentifier;
 
 /**
+ *
  * @group type
  * @group oid
  */
@@ -21,6 +21,7 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testCreate
      *
      * @param Element $el
@@ -31,6 +32,7 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testCreate
      *
      * @param Element $el
@@ -44,6 +46,7 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testEncode
      *
      * @param string $data
@@ -57,6 +60,7 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testCreate
      * @depends testDecode
      *
@@ -69,6 +73,7 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testCreate
      *
      * @param Element $el
@@ -81,11 +86,84 @@ class ObjectIdentifierTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @expectedException UnexpectedValueException
      */
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
         $wrap->asObjectIdentifier();
+    }
+    
+    /**
+     *
+     * @expectedException UnexpectedValueException
+     */
+    public function testOnlyRootArc()
+    {
+        new ObjectIdentifier('0');
+    }
+    
+    /**
+     *
+     * @expectedException UnexpectedValueException
+     */
+    public function testInvalidRootArc()
+    {
+        new ObjectIdentifier('3.0');
+    }
+    
+    /**
+     *
+     * @expectedException UnexpectedValueException
+     */
+    public function testInvalidSubarc()
+    {
+        new ObjectIdentifier('0.40');
+    }
+    
+    /**
+     *
+     * @expectedException UnexpectedValueException
+     */
+    public function testInvalidSubarc1()
+    {
+        new ObjectIdentifier('1.40');
+    }
+    
+    /**
+     *
+     * @expectedException UnexpectedValueException
+     */
+    public function testInvalidNumber()
+    {
+        new ObjectIdentifier('1.1.x');
+    }
+    
+    /**
+     *
+     * @dataProvider oidProvider
+     * @param string $oid
+     */
+    public function testOID($oid)
+    {
+        $x = new ObjectIdentifier($oid);
+        $der = $x->toDER();
+        $this->assertEquals($oid,
+            UnspecifiedType::fromDER($der)->asObjectIdentifier()
+                ->oid());
+    }
+    
+    /**
+     *
+     * @return string[]
+     */
+    public function oidProvider()
+    {
+        return array_map(function ($x) {
+            return [$x];
+        },
+            ['0.0', '0.1', '1.0', '0.0.0', '0.39', '1.39', '2.39', '2.40',
+                '2.999999', '2.99999.1']);
     }
 }

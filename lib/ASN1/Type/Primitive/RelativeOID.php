@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -21,6 +20,7 @@ class RelativeOID extends ObjectIdentifier
     public function __construct(string $oid)
     {
         $this->_oid = $oid;
+        $this->_subids = self::_explodeDottedOID($oid);
         $this->_typeTag = self::TYPE_RELATIVE_OID;
     }
     
@@ -30,7 +30,7 @@ class RelativeOID extends ObjectIdentifier
      */
     protected function _encodedContentDER(): string
     {
-        return self::_encodeSubIDs(...self::_explodeDottedOID($this->_oid));
+        return self::_encodeSubIDs(...$this->_subids);
     }
     
     /**
@@ -38,8 +38,8 @@ class RelativeOID extends ObjectIdentifier
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $len = Length::expectFromDER($data, $idx)->intLength();
