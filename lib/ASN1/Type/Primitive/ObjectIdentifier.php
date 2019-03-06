@@ -42,18 +42,22 @@ class ObjectIdentifier extends Element
     {
         $this->_oid = $oid;
         $this->_subids = self::_explodeDottedOID($oid);
+        // if OID is non-empty
         if (count($this->_subids) > 0) {
+            // check that at least two nodes are set
             if (count($this->_subids) < 2) {
                 throw new \UnexpectedValueException(
-                    "OID must have at least two arcs.");
+                    "OID must have at least two nodes.");
             }
+            // check that root arc is in 0..2 range
             if ($this->_subids[0] > 2) {
                 throw new \UnexpectedValueException(
-                    "First arc must be less or equal to 2.");
+                    "Root arc must be in range of 0..2.");
             }
+            // if root arc is 0 or 1, second node must be in 0..39 range
             if ($this->_subids[0] < 2 && $this->_subids[1] >= 40) {
                 throw new \UnexpectedValueException(
-                    "Second arc must be less than 40 for root arcs 0 and 1.");
+                    "Second node must be in 0..39 range for root arcs 0 and 1.");
             }
         }
         $this->_typeTag = self::TYPE_OBJECT_IDENTIFIER;
