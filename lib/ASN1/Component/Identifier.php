@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Component;
@@ -125,7 +124,7 @@ class Identifier implements Encodable
             if ($offset >= $datalen) {
                 throw new DecodeException(
                     "Unexpected end of data while decoding" .
-                         " long form identifier.");
+                    " long form identifier.");
             }
             $byte = ord($data[$offset++]);
             $tag <<= 7;

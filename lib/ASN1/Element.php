@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1;
@@ -190,8 +189,8 @@ abstract class Element implements ElementBase
      * @throws DecodeException If decoding fails
      * @return ElementBase
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         throw new \BadMethodCallException(
             __METHOD__ . " must be implemented in derived class.");

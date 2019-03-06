@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type;
@@ -99,7 +98,7 @@ class UnspecifiedType implements ElementBase
         if (!$this->_element instanceof Tagged\ApplicationType) {
             throw new \UnexpectedValueException(
                 "Application type expected, got " .
-                     $this->_typeDescriptorString());
+                $this->_typeDescriptorString());
         }
         return $this->_element;
     }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -114,8 +113,8 @@ class Real extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
@@ -194,6 +193,7 @@ class Real extends Element
     private static function _decimalToNR3(string $str): string
     {
         // if number is in exponent form
+        /** @var $match string[] */
         if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match)) {
             $parts = explode(".", $match[1]);
             $m = ltrim($parts[0], "0");
@@ -242,6 +242,7 @@ class Real extends Element
      */
     private static function _nr3ToDecimal(string $str): float
     {
+        /** @var $match string[] */
         if (!preg_match(self::NR3_REGEX, $str, $match)) {
             throw new \UnexpectedValueException(
                 "'$str' is not a valid NR3 form real.");

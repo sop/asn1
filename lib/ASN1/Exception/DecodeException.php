@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Exception;
@@ -9,5 +8,4 @@ namespace ASN1\Exception;
  */
 class DecodeException extends \RuntimeException
 {
-
 }

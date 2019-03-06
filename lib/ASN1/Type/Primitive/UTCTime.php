@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -63,13 +62,14 @@ class UTCTime extends TimeType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = substr($data, $idx, $length);
         $idx += $length;
+        /** @var $match string[] */
         if (!preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException("Invalid UTCTime format.");
         }
@@ -80,7 +80,7 @@ class UTCTime extends TimeType
         if (!$dt) {
             throw new DecodeException(
                 "Failed to decode UTCTime: " .
-                     self::_getLastDateTimeImmutableErrorsStr());
+                self::_getLastDateTimeImmutableErrorsStr());
         }
         $offset = $idx;
         return new self($dt);

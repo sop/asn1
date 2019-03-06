@@ -92,8 +92,8 @@ abstract class Structure extends Element implements
      * @see \ASN1\Element::_decodeFromDER()
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         if (!$identifier->isConstructed()) {

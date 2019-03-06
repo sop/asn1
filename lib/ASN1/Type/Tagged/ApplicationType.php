@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Tagged;
@@ -17,8 +16,8 @@ class ApplicationType extends DERTaggedType
      *
      * {@inheritdoc}
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $type = new self($identifier, $data, $idx);

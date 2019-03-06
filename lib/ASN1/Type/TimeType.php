@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type;
@@ -55,7 +54,7 @@ abstract class TimeType extends Element
         } catch (\Exception $e) {
             throw new \RuntimeException(
                 "Failed to create DateTime: " .
-                     self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
+                self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
         }
     }
     

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -80,7 +79,8 @@ class BitString extends StringType
         // if tested bit is last octet's unused bit
         if ($oi == strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
-                throw new \OutOfBoundsException("Index refers to an unused bit.");
+                throw new \OutOfBoundsException(
+                    "Index refers to an unused bit.");
             }
         }
         $byte = $this->_string[$oi];
@@ -178,8 +178,8 @@ class BitString extends StringType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);

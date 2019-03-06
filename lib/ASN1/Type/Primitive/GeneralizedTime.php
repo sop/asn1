@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -91,13 +90,14 @@ class GeneralizedTime extends TimeType
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();
         $str = substr($data, $idx, $length);
         $idx += $length;
+        /** @var $match string[] */
         if (!preg_match(self::REGEX, $str, $match)) {
             throw new DecodeException("Invalid GeneralizedTime format.");
         }
@@ -114,13 +114,13 @@ class GeneralizedTime extends TimeType
             $frac = 0;
         }
         $time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
-             self::TZ_UTC;
+            self::TZ_UTC;
         $dt = \DateTimeImmutable::createFromFormat("!YmdHis.uT", $time,
             self::_createTimeZone(self::TZ_UTC));
         if (!$dt) {
             throw new DecodeException(
                 "Failed to decode GeneralizedTime: " .
-                     self::_getLastDateTimeImmutableErrorsStr());
+                self::_getLastDateTimeImmutableErrorsStr());
         }
         $offset = $idx;
         return new self($dt);

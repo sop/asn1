@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Tagged;
@@ -51,7 +50,8 @@ class DERTaggedType extends TaggedType implements
      * @param string $data
      * @param int $offset Offset to next byte after identifier
      */
-    public function __construct(Identifier $identifier, string $data, int $offset)
+    public function __construct(Identifier $identifier, string $data,
+        int $offset)
     {
         $this->_identifier = $identifier;
         $this->_data = $data;

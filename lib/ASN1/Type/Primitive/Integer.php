@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace ASN1\Type\Primitive;
@@ -54,7 +53,7 @@ class Integer extends Element
     
     /**
      * Get the number as an integer type.
-     * 
+     *
      * @return int
      */
     public function intNumber(): int
@@ -132,8 +131,8 @@ class Integer extends Element
      * {@inheritdoc}
      * @return self
      */
-    protected static function _decodeFromDER(Identifier $identifier, string $data,
-        int &$offset): ElementBase
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx)->intLength();

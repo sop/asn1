@@ -5,20 +5,18 @@
 	"license": "MIT",
 	"type": "library",
 	"keywords": ["asn1", "asn.1", "x690", "x.690", "der"],
-	"authors": [
-		{
-			"name": "Joni Eskelinen",
-			"email": "jonieske@gmail.com",
-			"role": "Developer"
-		}
-	],
+	"authors": [{
+		"name": "Joni Eskelinen",
+		"email": "jonieske@gmail.com",
+		"role": "Developer"
+	}],
 	"require": {
 		"php": ">=7.0",
 		"ext-gmp": "*",
 		"ext-mbstring": "*"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^6.4"
+		"phpunit/phpunit": "^6.5"
 	},
 	"autoload": {
 		"psr-4": {
