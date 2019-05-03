@@ -1,21 +1,25 @@
 <?php
-
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Element;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Primitive\NullType;
 
 /**
+ *
  * @group element
  */
 class ElementTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     */
     public function testUnknownTagToName()
     {
         $this->assertEquals("TAG 100", Element::tagToName(100));
     }
     
+    /**
+     */
     public function testIsTypeUniversalInvalidClass()
     {
         $el = new NullType();
@@ -26,12 +30,16 @@ class ElementTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($el->isType(Element::TYPE_BOOLEAN));
     }
     
+    /**
+     */
     public function testIsPseudotypeFail()
     {
         $el = new NullType();
         $this->assertFalse($el->isType(-3));
     }
     
+    /**
+     */
     public function testAsElement()
     {
         $el = new NullType();
@@ -40,6 +48,7 @@ class ElementTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @depends testAsElement
      *
      * @param Element $el
@@ -48,5 +57,22 @@ class ElementTest extends PHPUnit_Framework_TestCase
     {
         $type = $el->asUnspecified();
         $this->assertInstanceOf(UnspecifiedType::class, $type);
+    }
+    
+    /**
+     */
+    public function testIsIndefinite()
+    {
+        $el = Element::fromDER(hex2bin('308005000000'))->asElement();
+        $this->assertTrue($el->hasIndefiniteLength());
+    }
+    
+    /**
+     */
+    public function testSetDefinite()
+    {
+        $el = Element::fromDER(hex2bin('308005000000'))->asElement();
+        $el = $el->withIndefiniteLength(false);
+        $this->assertEquals(hex2bin('30020500'), $el->toDER());
     }
 }

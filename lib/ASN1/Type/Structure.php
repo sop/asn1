@@ -95,13 +95,36 @@ abstract class Structure extends Element implements
     protected static function _decodeFromDER(Identifier $identifier,
         string $data, int &$offset): ElementBase
     {
-        $idx = $offset;
         if (!$identifier->isConstructed()) {
             throw new DecodeException(
                 "Structured element must have constructed bit set.");
         }
+        $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
-        $end = $idx + $length->intLength();
+        if ($length->isIndefinite()) {
+            $type = self::_decodeIndefiniteLength($data, $idx);
+        } else {
+            $type = self::_decodeDefiniteLength($data, $idx,
+                $length->intLength());
+        }
+        $offset = $idx;
+        return $type;
+    }
+    
+    /**
+     * Decode elements for a definite length.
+     *
+     * @param string $data DER data
+     * @param int $offset Offset to data
+     * @param int $length Number of bytes to decode
+     * @throws DecodeException
+     * @return ElementBase
+     */
+    private static function _decodeDefiniteLength(string $data, int &$offset,
+        int $length): ElementBase
+    {
+        $idx = $offset;
+        $end = $idx + $length;
         $elements = [];
         while ($idx < $end) {
             $elements[] = Element::fromDER($data, $idx);
@@ -114,6 +137,36 @@ abstract class Structure extends Element implements
         $offset = $idx;
         // return instance by static late binding
         return new static(...$elements);
+    }
+    
+    /**
+     * Decode elements for an indefinite length.
+     *
+     * @param string $data DER data
+     * @param int $offset Offset to data
+     * @throws DecodeException
+     * @return ElementBase
+     */
+    private static function _decodeIndefiniteLength(string $data, int &$offset): ElementBase
+    {
+        $idx = $offset;
+        $elements = [];
+        $end = strlen($data);
+        while (true) {
+            if ($idx >= $end) {
+                throw new DecodeException(
+                    'Unexpected end of data while decoding indefinite length structure.');
+            }
+            $el = Element::fromDER($data, $idx);
+            if ($el->isType(self::TYPE_EOC)) {
+                break;
+            }
+            $elements[] = $el;
+        }
+        $offset = $idx;
+        $type = new static(...$elements);
+        $type->_indefiniteLength = true;
+        return $type;
     }
     
     /**
@@ -130,8 +183,12 @@ abstract class Structure extends Element implements
         if (!$identifier->isConstructed()) {
             throw new DecodeException("Element is not constructed.");
         }
-        $length = Length::expectFromDER($data, $offset)->intLength();
-        $end = $offset + $length;
+        $length = Length::expectFromDER($data, $offset);
+        if ($length->isIndefinite()) {
+            throw new DecodeException(
+                'Explode not implemented for indefinite length encoding.');
+        }
+        $end = $offset + $length->intLength();
         $parts = [];
         while ($offset < $end) {
             // start of the element

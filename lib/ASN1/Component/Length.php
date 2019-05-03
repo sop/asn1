@@ -54,7 +54,8 @@ class Length implements Encodable
         $idx = $offset ?? 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
-            throw new DecodeException("Invalid offset.");
+            throw new DecodeException(
+                "Unexpected end of data while decoding length.");
         }
         $indefinite = false;
         $byte = ord($data[$idx++]);
@@ -66,7 +67,8 @@ class Length implements Encodable
                 $indefinite = true;
             } else {
                 if ($idx + $length > $datalen) {
-                    throw new DecodeException("Too many length octets.");
+                    throw new DecodeException(
+                        "Unexpected end of data while decoding long form length.");
                 }
                 $length = self::_decodeLongFormLength($length, $data, $idx);
             }
@@ -109,6 +111,9 @@ class Length implements Encodable
      * Throws an exception if length doesn't match with expected or if data
      * doesn't contain enough bytes.
      *
+     * Requirement of definite length is relaxed contrary to the specification
+     * (sect. 10.1).
+     *
      * @see self::fromDER
      * @param string $data DER data
      * @param int $offset Reference to the offset variable
@@ -121,18 +126,21 @@ class Length implements Encodable
     {
         $idx = $offset;
         $length = self::fromDER($data, $idx);
-        // DER encoding must have definite length (spec 10.1)
-        if ($length->isIndefinite()) {
-            throw new DecodeException("DER encoding must have definite length.");
-        }
         // if certain length was expected
-        if (isset($expected) && $expected != $length->intLength()) {
-            throw new DecodeException(
-                sprintf("Expected length %d, got %d.", $expected,
-                    $length->intLength()));
+        if (isset($expected)) {
+            if ($length->isIndefinite()) {
+                throw new DecodeException('Expected length %d, got indefinite.',
+                    $expected);
+            }
+            if ($expected != $length->intLength()) {
+                throw new DecodeException(
+                    sprintf("Expected length %d, got %d.", $expected,
+                        $length->intLength()));
+            }
         }
         // check that enough data is available
-        if (strlen($data) < $idx + $length->intLength()) {
+        if (!$length->isIndefinite() &&
+            strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
                 sprintf("Length %d overflows data, %d bytes left.",
                     $length->intLength(), strlen($data) - $idx));

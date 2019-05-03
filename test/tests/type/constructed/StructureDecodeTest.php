@@ -1,13 +1,14 @@
 <?php
-
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use ASN1\Type\Structure;
+use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Constructed\Set;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Tagged\DERTaggedType;
 
 /**
+ *
  * @group decode
  * @group structure
  */
@@ -15,6 +16,7 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test too short length
+     *
      * @expectedException ASN1\Exception\DecodeException
      */
     public function testTooShort()
@@ -24,6 +26,7 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
     
     /**
      * Test too long length
+     *
      * @expectedException ASN1\Exception\DecodeException
      */
     public function testTooLong()
@@ -33,6 +36,7 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
     
     /**
      * Test when structure doesn't have constructed flag
+     *
      * @expectedException ASN1\Exception\DecodeException
      */
     public function testNotConstructed()
@@ -40,6 +44,8 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
         Structure::fromDER("\x10\x0");
     }
     
+    /**
+     */
     public function testImplicitlyTaggedExists()
     {
         // null, tag 0, null
@@ -47,6 +53,8 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($set->hasTagged(0));
     }
     
+    /**
+     */
     public function testImplicitlyTaggedFetch()
     {
         // null, tag 1, null
@@ -54,6 +62,8 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DERTaggedType::class, $set->getTagged(1));
     }
     
+    /**
+     */
     public function testExplicitlyTaggedExists()
     {
         // null, tag 0 (null), null
@@ -61,6 +71,8 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($set->hasTagged(0));
     }
     
+    /**
+     */
     public function testExplicitlyTaggedFetch()
     {
         // null, tag 1 (null), null
@@ -74,6 +86,7 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     *
      * @expectedException LogicException
      */
     public function testInvalidTag()
@@ -81,5 +94,23 @@ class StructureDecodeTest extends PHPUnit_Framework_TestCase
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
         $set->getTagged(1);
+    }
+    
+    /**
+     */
+    public function testIndefinite()
+    {
+        $seq = Sequence::fromDER(hex2bin('30800201010000'));
+        $this->assertInstanceOf(Sequence::class, $seq);
+    }
+    
+    /**
+     *
+     * @expectedException ASN1\Exception\DecodeException
+     * @expectedExceptionMessageRegExp /^Unexpected end of data while decoding indefinite length structure/
+     */
+    public function testIndefiniteUnexpectedEnd()
+    {
+        Sequence::fromDER(hex2bin('3080020101'));
     }
 }

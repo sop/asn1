@@ -5,7 +5,6 @@ namespace ASN1\Type;
 
 use ASN1\Element;
 use ASN1\Component\Identifier;
-use ASN1\Component\Length;
 use ASN1\Feature\ElementBase;
 use ASN1\Type\Tagged\DERTaggedType;
 use ASN1\Type\Tagged\ExplicitTagging;
@@ -23,11 +22,7 @@ abstract class TaggedType extends Element
     protected static function _decodeFromDER(Identifier $identifier,
         string $data, int &$offset): ElementBase
     {
-        $idx = $offset;
-        $type = new DERTaggedType($identifier, $data, $idx);
-        $length = Length::expectFromDER($data, $idx)->intLength();
-        $offset = $idx + $length;
-        return $type;
+        return DERTaggedType::_decodeFromDER($identifier, $data, $offset);
     }
     
     /**

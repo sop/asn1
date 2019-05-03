@@ -60,6 +60,7 @@ abstract class Element implements ElementBase
      * @var array
      */
     const MAP_TAG_TO_CLASS = [ /* @formatter:off */
+        self::TYPE_EOC => Primitive\EOC::class,
         self::TYPE_BOOLEAN => Primitive\Boolean::class,
         self::TYPE_INTEGER => Primitive\Integer::class,
         self::TYPE_BIT_STRING => Primitive\BitString::class,
@@ -157,6 +158,13 @@ abstract class Element implements ElementBase
     protected $_typeTag;
     
     /**
+     * Whether type shall be encoded with indefinite length.
+     *
+     * @var bool
+     */
+    protected $_indefiniteLength = false;
+    
+    /**
      *
      * @see \ASN1\Feature\ElementBase::typeClass()
      * @return int
@@ -211,8 +219,8 @@ abstract class Element implements ElementBase
      */
     public static function fromDER(string $data, int &$offset = null): ElementBase
     {
-        // decode identifier
         $idx = $offset ?? 0;
+        // decode identifier
         $identifier = Identifier::fromDER($data, $idx);
         // determine class that implements type specific decoding
         $cls = self::_determineImplClass($identifier);
@@ -253,8 +261,15 @@ abstract class Element implements ElementBase
             $this->isConstructed() ? Identifier::CONSTRUCTED : Identifier::PRIMITIVE,
             $this->_typeTag);
         $content = $this->_encodedContentDER();
-        $length = new Length(strlen($content));
-        return $identifier->toDER() . $length->toDER() . $content;
+        if ($this->_indefiniteLength) {
+            $length = new Length(0, true);
+            $eoc = new Primitive\EOC();
+            return $identifier->toDER() . $length->toDER() . $content .
+                $eoc->toDER();
+        } else {
+            $length = new Length(strlen($content));
+            return $identifier->toDER() . $length->toDER() . $content;
+        }
     }
     
     /**
@@ -366,6 +381,30 @@ abstract class Element implements ElementBase
                 sprintf("Tag %d expected, got %d.", $tag, $this->tag()));
         }
         return $this;
+    }
+    
+    /**
+     * Whether element has indefinite length.
+     *
+     * @return bool
+     */
+    public function hasIndefiniteLength(): bool
+    {
+        return $this->_indefiniteLength;
+    }
+    
+    /**
+     * Get self with indefinite length encoding set.
+     *
+     * @param bool $indefinite True for indefinite length, false for definite
+     *        length
+     * @return self
+     */
+    public function withIndefiniteLength(bool $indefinite = true): self
+    {
+        $obj = clone $this;
+        $obj->_indefiniteLength = $indefinite;
+        return $obj;
     }
     
     /**
