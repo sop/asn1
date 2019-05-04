@@ -14,6 +14,7 @@ use ASN1\Type\TaggedType;
 use ASN1\Type\TimeType;
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Tagged\ApplicationType;
+use ASN1\Type\Tagged\ContextSpecificType;
 use ASN1\Type\Tagged\PrivateType;
 
 /**
@@ -439,7 +440,7 @@ abstract class Element implements ElementBase
             case Identifier::CLASS_UNIVERSAL:
                 return self::_determineUniversalImplClass($identifier->intTag());
             case Identifier::CLASS_CONTEXT_SPECIFIC:
-                return TaggedType::class;
+                return ContextSpecificType::class;
             case Identifier::CLASS_APPLICATION:
                 return ApplicationType::class;
             case Identifier::CLASS_PRIVATE:

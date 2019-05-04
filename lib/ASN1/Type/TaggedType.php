@@ -5,8 +5,6 @@ namespace ASN1\Type;
 
 use ASN1\Element;
 use ASN1\Component\Identifier;
-use ASN1\Feature\ElementBase;
-use ASN1\Type\Tagged\DERTaggedType;
 use ASN1\Type\Tagged\ExplicitTagging;
 use ASN1\Type\Tagged\ImplicitTagging;
 
@@ -15,16 +13,6 @@ use ASN1\Type\Tagged\ImplicitTagging;
  */
 abstract class TaggedType extends Element
 {
-    /**
-     *
-     * {@inheritdoc}
-     */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
-        return DERTaggedType::_decodeFromDER($identifier, $data, $offset);
-    }
-    
     /**
      * Check whether element supports explicit tagging.
      *
