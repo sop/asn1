@@ -1,47 +1,46 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Type\TimeType;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\GeneralizedTime;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Primitive\GeneralizedTime;
+use Sop\ASN1\Type\TimeType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group time
+ *
+ * @internal
  */
-class TimeTypeTest extends PHPUnit_Framework_TestCase
+class TimeTypeTest extends TestCase
 {
     public function testFromString()
     {
-        $el = GeneralizedTime::fromString("Mon Jan 2 15:04:05 MST 2006");
+        $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
         $this->assertInstanceOf(TimeType::class, $el);
         return $el;
     }
-    
+
     public function testFromStringWithTz()
     {
-        $el = GeneralizedTime::fromString("Mon Jan 2 15:04:05 MST 2006",
-            "Europe/Helsinki");
+        $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006',
+            'Europe/Helsinki');
         $this->assertInstanceOf(TimeType::class, $el);
     }
-    
-    /**
-     * @expectedException RuntimeException
-     */
+
     public function testFromInvalidStringFail()
     {
-        GeneralizedTime::fromString("fail");
+        $this->expectException(RuntimeException::class);
+        GeneralizedTime::fromString('fail');
     }
-    
-    /**
-     * @expectedException RuntimeException
-     */
+
     public function testFromStringWithInvalidTzFail()
     {
-        GeneralizedTime::fromString("Mon Jan 2 15:04:05 MST 2006", "nope");
+        $this->expectException(RuntimeException::class);
+        GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006', 'nope');
     }
-    
+
     /**
      * @depends testFromString
      *

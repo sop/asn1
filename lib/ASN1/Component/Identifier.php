@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Component;
+namespace Sop\ASN1\Component;
 
-use ASN1\Exception\DecodeException;
-use ASN1\Feature\Encodable;
-use ASN1\Util\BigInt;
+use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Feature\Encodable;
+use Sop\ASN1\Util\BigInt;
 
 /**
  * Class to represent BER/DER identifier octets.
@@ -17,7 +18,7 @@ class Identifier implements Encodable
     const CLASS_APPLICATION = 0b01;
     const CLASS_CONTEXT_SPECIFIC = 0b10;
     const CLASS_PRIVATE = 0b11;
-    
+
     /**
      * Mapping from type class to human readable name.
      *
@@ -25,45 +26,44 @@ class Identifier implements Encodable
      *
      * @var array
      */
-    const MAP_CLASS_TO_NAME = [ /* @formatter:off */
-        self::CLASS_UNIVERSAL => "UNIVERSAL", 
-        self::CLASS_APPLICATION => "APPLICATION", 
-        self::CLASS_CONTEXT_SPECIFIC => "CONTEXT SPECIFIC", 
-        self::CLASS_PRIVATE => "PRIVATE",
-        /* @formatter:on */
+    const MAP_CLASS_TO_NAME = [
+        self::CLASS_UNIVERSAL => 'UNIVERSAL',
+        self::CLASS_APPLICATION => 'APPLICATION',
+        self::CLASS_CONTEXT_SPECIFIC => 'CONTEXT SPECIFIC',
+        self::CLASS_PRIVATE => 'PRIVATE',
     ];
-    
+
     // P/C enumerations
     const PRIMITIVE = 0b0;
     const CONSTRUCTED = 0b1;
-    
+
     /**
      * Type class.
      *
      * @var int
      */
     private $_class;
-    
+
     /**
      * Primitive or Constructed.
      *
      * @var int
      */
     private $_pc;
-    
+
     /**
      * Content type tag.
      *
      * @var BigInt
      */
     private $_tag;
-    
+
     /**
      * Constructor.
      *
-     * @param int $class Type class
-     * @param int $pc Primitive / Constructed
-     * @param int|string $tag Type tag number
+     * @param int        $class Type class
+     * @param int        $pc    Primitive / Constructed
+     * @param int|string $tag   Type tag number
      */
     public function __construct(int $class, int $pc, $tag)
     {
@@ -71,16 +71,18 @@ class Identifier implements Encodable
         $this->_pc = 0b1 & $pc;
         $this->_tag = new BigInt($tag);
     }
-    
+
     /**
      * Decode identifier component from DER data.
      *
-     * @param string $data DER encoded data
-     * @param int|null $offset Reference to the variable that contains offset
-     *        into the data where to start parsing. Variable is updated to
-     *        the offset next to the parsed identifier. If null, start from
-     *        offset 0.
+     * @param string   $data   DER encoded data
+     * @param null|int $offset Reference to the variable that contains offset
+     *                         into the data where to start parsing.
+     *                         Variable is updated to the offset next to the
+     *                         parsed identifier. If null, start from offset 0.
+     *
      * @throws DecodeException If decoding fails
+     *
      * @return self
      */
     public static function fromDER(string $data, int &$offset = null): Identifier
@@ -88,7 +90,7 @@ class Identifier implements Encodable
         $idx = $offset ?? 0;
         $datalen = strlen($data);
         if ($idx >= $datalen) {
-            throw new DecodeException("Invalid offset.");
+            throw new DecodeException('Invalid offset.');
         }
         $byte = ord($data[$idx++]);
         // bits 8 and 7 (class)
@@ -107,40 +109,9 @@ class Identifier implements Encodable
         }
         return new self($class, $pc, $tag);
     }
-    
+
     /**
-     * Parse long form tag.
-     *
-     * @param string $data DER data
-     * @param int $offset Reference to the variable containing offset to data
-     * @throws DecodeException If decoding fails
-     * @return string Tag number
-     */
-    private static function _decodeLongFormTag(string $data, int &$offset): string
-    {
-        $datalen = strlen($data);
-        $tag = gmp_init(0, 10);
-        while (true) {
-            if ($offset >= $datalen) {
-                throw new DecodeException(
-                    "Unexpected end of data while decoding" .
-                    " long form identifier.");
-            }
-            $byte = ord($data[$offset++]);
-            $tag <<= 7;
-            $tag |= 0x7f & $byte;
-            // last byte has bit 8 set to zero
-            if (!(0x80 & $byte)) {
-                break;
-            }
-        }
-        return gmp_strval($tag, 10);
-    }
-    
-    /**
-     *
-     * @see Encodable::toDER()
-     * @return string
+     * {@inheritdoc}
      */
     public function toDER(): string
     {
@@ -149,7 +120,9 @@ class Identifier implements Encodable
         $tag = $this->_tag->gmpObj();
         if ($tag < 0x1f) {
             $bytes[] = $byte | $tag;
-        } else { // long-form identifier
+        }
+        // long-form identifier
+        else {
             $bytes[] = $byte | 0x1f;
             $octets = [];
             for (; $tag > 0; $tag >>= 7) {
@@ -161,9 +134,9 @@ class Identifier implements Encodable
                 $bytes[] = $octet;
             }
         }
-        return pack("C*", ...$bytes);
+        return pack('C*', ...$bytes);
     }
-    
+
     /**
      * Get class of the type.
      *
@@ -173,7 +146,7 @@ class Identifier implements Encodable
     {
         return $this->_class;
     }
-    
+
     /**
      * Get P/C.
      *
@@ -183,7 +156,7 @@ class Identifier implements Encodable
     {
         return $this->_pc;
     }
-    
+
     /**
      * Get the tag number.
      *
@@ -193,7 +166,7 @@ class Identifier implements Encodable
     {
         return $this->_tag->base10();
     }
-    
+
     /**
      * Get the tag as an integer.
      *
@@ -203,7 +176,7 @@ class Identifier implements Encodable
     {
         return $this->_tag->intVal();
     }
-    
+
     /**
      * Check whether type is of an universal class.
      *
@@ -211,9 +184,9 @@ class Identifier implements Encodable
      */
     public function isUniversal(): bool
     {
-        return self::CLASS_UNIVERSAL == $this->_class;
+        return self::CLASS_UNIVERSAL === $this->_class;
     }
-    
+
     /**
      * Check whether type is of an application class.
      *
@@ -221,9 +194,9 @@ class Identifier implements Encodable
      */
     public function isApplication(): bool
     {
-        return self::CLASS_APPLICATION == $this->_class;
+        return self::CLASS_APPLICATION === $this->_class;
     }
-    
+
     /**
      * Check whether type is of a context specific class.
      *
@@ -231,9 +204,9 @@ class Identifier implements Encodable
      */
     public function isContextSpecific(): bool
     {
-        return self::CLASS_CONTEXT_SPECIFIC == $this->_class;
+        return self::CLASS_CONTEXT_SPECIFIC === $this->_class;
     }
-    
+
     /**
      * Check whether type is of a private class.
      *
@@ -241,9 +214,9 @@ class Identifier implements Encodable
      */
     public function isPrivate(): bool
     {
-        return self::CLASS_PRIVATE == $this->_class;
+        return self::CLASS_PRIVATE === $this->_class;
     }
-    
+
     /**
      * Check whether content is primitive type.
      *
@@ -251,9 +224,9 @@ class Identifier implements Encodable
      */
     public function isPrimitive(): bool
     {
-        return self::PRIMITIVE == $this->_pc;
+        return self::PRIMITIVE === $this->_pc;
     }
-    
+
     /**
      * Check hether content is constructed type.
      *
@@ -261,13 +234,14 @@ class Identifier implements Encodable
      */
     public function isConstructed(): bool
     {
-        return self::CONSTRUCTED == $this->_pc;
+        return self::CONSTRUCTED === $this->_pc;
     }
-    
+
     /**
      * Get self with given type class.
      *
      * @param int $class One of <code>CLASS_*</code> enumerations
+     *
      * @return self
      */
     public function withClass(int $class): Identifier
@@ -276,11 +250,12 @@ class Identifier implements Encodable
         $obj->_class = 0b11 & $class;
         return $obj;
     }
-    
+
     /**
      * Get self with given type tag.
      *
      * @param int|string $tag Tag number
+     *
      * @return self
      */
     public function withTag($tag): Identifier
@@ -289,18 +264,50 @@ class Identifier implements Encodable
         $obj->_tag = new BigInt($tag);
         return $obj;
     }
-    
+
     /**
      * Get human readable name of the type class.
      *
      * @param int $class
+     *
      * @return string
      */
     public static function classToName(int $class): string
     {
         if (!array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
-            return "CLASS $class";
+            return "CLASS ${class}";
         }
         return self::MAP_CLASS_TO_NAME[$class];
+    }
+
+    /**
+     * Parse long form tag.
+     *
+     * @param string $data   DER data
+     * @param int    $offset Reference to the variable containing offset to data
+     *
+     * @throws DecodeException If decoding fails
+     *
+     * @return string Tag number
+     */
+    private static function _decodeLongFormTag(string $data, int &$offset): string
+    {
+        $datalen = strlen($data);
+        $tag = gmp_init(0, 10);
+        while (true) {
+            if ($offset >= $datalen) {
+                throw new DecodeException(
+                    'Unexpected end of data while decoding' .
+                    ' long form identifier.');
+            }
+            $byte = ord($data[$offset++]);
+            $tag <<= 7;
+            $tag |= 0x7f & $byte;
+            // last byte has bit 8 set to zero
+            if (!(0x80 & $byte)) {
+                break;
+            }
+        }
+        return gmp_strval($tag, 10);
     }
 }

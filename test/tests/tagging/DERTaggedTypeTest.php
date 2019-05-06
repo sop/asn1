@@ -1,16 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\TaggedType;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Tagged\DERTaggedType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Tagged\DERTaggedType;
+use Sop\ASN1\Type\TaggedType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group tagging
+ *
+ * @internal
  */
-class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
+class DERTaggedTypeTest extends TestCase
 {
     public function testCreate()
     {
@@ -18,7 +21,7 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DERTaggedType::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,7 +32,7 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
         $der = $el->toDER();
         $this->assertEquals("\xa0\x2\x5\x0", $der);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -39,7 +42,7 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectExplicit());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -49,7 +52,7 @@ class DERTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectImplicit());
     }
-    
+
     /**
      * @depends testCreate
      *

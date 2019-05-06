@@ -1,18 +1,21 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\DERData;
-use ASN1\Element;
-use ASN1\Component\Identifier;
-use ASN1\Type\Constructed\Sequence;
-use ASN1\Type\Primitive\Boolean;
-use ASN1\Type\Primitive\OctetString;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\DERData;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\Boolean;
+use Sop\ASN1\Type\Primitive\OctetString;
 
 /**
  * @group der-data
+ *
+ * @internal
  */
-class DERDataTest extends PHPUnit_Framework_TestCase
+class DERDataTest extends TestCase
 {
     public function testCreate()
     {
@@ -20,7 +23,7 @@ class DERDataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Element::TYPE_NULL, $el->tag());
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -30,7 +33,7 @@ class DERDataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Identifier::CLASS_UNIVERSAL, $el->typeClass());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -40,7 +43,7 @@ class DERDataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($el->isConstructed());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -50,38 +53,38 @@ class DERDataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals("\x5\x0", $el->toDER());
     }
-    
+
     public function testEncodeIntoSequence()
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el);
         $this->assertEquals("\x30\x2\x5\x0", $seq->toDER());
     }
-    
+
     public function testEncodeIntoSequenceWithOther()
     {
         $el = new DERData("\x5\x0");
         $seq = new Sequence($el, new Boolean(true));
         $this->assertEquals("\x30\x5\x5\x0\x1\x1\xff", $seq->toDER());
     }
-    
+
     public function testEncodedContentEmpty()
     {
         $el = new DERData("\x5\x0");
         $cls = new ReflectionClass($el);
-        $mtd = $cls->getMethod("_encodedContentDER");
+        $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        $this->assertEquals("", $content);
+        $this->assertEquals('', $content);
     }
-    
+
     public function testEncodedContentValue()
     {
-        $el = new DERData((new OctetString("test"))->toDER());
+        $el = new DERData((new OctetString('test'))->toDER());
         $cls = new ReflectionClass($el);
-        $mtd = $cls->getMethod("_encodedContentDER");
+        $mtd = $cls->getMethod('_encodedContentDER');
         $mtd->setAccessible(true);
         $content = $mtd->invoke($el);
-        $this->assertEquals("test", $content);
+        $this->assertEquals('test', $content);
     }
 }

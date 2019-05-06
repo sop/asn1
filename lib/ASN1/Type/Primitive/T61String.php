@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Type\PrimitiveString;
-use ASN1\Type\UniversalClass;
+use Sop\ASN1\Type\PrimitiveString;
+use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements <i>T61String</i> type.
@@ -12,7 +13,7 @@ use ASN1\Type\UniversalClass;
 class T61String extends PrimitiveString
 {
     use UniversalClass;
-    
+
     /**
      * Constructor.
      *
@@ -23,9 +24,8 @@ class T61String extends PrimitiveString
         $this->_typeTag = self::TYPE_T61_STRING;
         parent::__construct($string);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _validateString(string $string): bool

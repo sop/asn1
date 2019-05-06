@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Type\PrimitiveString;
-use ASN1\Type\UniversalClass;
+use Sop\ASN1\Type\PrimitiveString;
+use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements <i>IA5String</i> type.
@@ -12,7 +13,7 @@ use ASN1\Type\UniversalClass;
 class IA5String extends PrimitiveString
 {
     use UniversalClass;
-    
+
     /**
      * Constructor.
      *
@@ -23,13 +24,12 @@ class IA5String extends PrimitiveString
         $this->_typeTag = self::TYPE_IA5_STRING;
         parent::__construct($string);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _validateString(string $string): bool
     {
-        return preg_match('/[^\x01-\x7f]/', $string) == 0;
+        return 0 == preg_match('/[^\x01-\x7f]/', $string);
     }
 }

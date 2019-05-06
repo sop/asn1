@@ -1,11 +1,9 @@
 language: php
 php:
-    - "7.0"
-    - "7.1"
     - "7.2"
     - "7.3"
 before_script:
     - "composer install"
-    - "composer require satooshi/php-coveralls"
+    - "composer require php-coveralls/php-coveralls"
 after_success:
-    - "travis_retry php vendor/bin/coveralls -v"
+    - "travis_retry php vendor/bin/php-coveralls -v"

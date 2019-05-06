@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type;
+namespace Sop\ASN1\Type;
 
-use ASN1\Element;
-use ASN1\Component\Identifier;
-use ASN1\Feature\ElementBase;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Element;
+use Sop\ASN1\Feature\ElementBase;
 
 /**
  * Decorator class to wrap an element without already knowing the specific
@@ -22,7 +23,7 @@ class UnspecifiedType implements ElementBase
      * @var Element
      */
     private $_element;
-    
+
     /**
      * Constructor.
      *
@@ -32,22 +33,41 @@ class UnspecifiedType implements ElementBase
     {
         $this->_element = $el;
     }
-    
+
+    /**
+     * Compatibility method to dispatch calls to the wrapped element.
+     *
+     * @todo Remove
+     *
+     * @deprecated Use <code>as*</code> accessor methods to ensure strict type
+     *
+     * @param string $mtd  Method name
+     * @param array  $args Arguments
+     *
+     * @return mixed
+     */
+    public function __call($mtd, array $args)
+    {
+        return call_user_func_array([$this->_element, $mtd], $args);
+    }
+
     /**
      * Initialize from DER data.
      *
      * @param string $data DER encoded data
+     *
      * @return self
      */
     public static function fromDER(string $data): self
     {
         return Element::fromDER($data)->asUnspecified();
     }
-    
+
     /**
      * Initialize from ElementBase interface.
      *
      * @param ElementBase $el
+     *
      * @return self
      */
     public static function fromElementBase(ElementBase $el): self
@@ -58,71 +78,62 @@ class UnspecifiedType implements ElementBase
         }
         return new self($el->asElement());
     }
-    
-    /**
-     * Compatibility method to dispatch calls to the wrapped element.
-     *
-     * @deprecated Use <code>as*</code> accessor methods to ensure strict type
-     * @param string $mtd Method name
-     * @param array $args Arguments
-     * @return mixed
-     */
-    public function __call($mtd, array $args)
-    {
-        return call_user_func_array([$this->_element, $mtd], $args);
-    }
-    
+
     /**
      * Get the wrapped element as a context specific tagged type.
      *
      * @throws \UnexpectedValueException If the element is not tagged
+     *
      * @return TaggedType
      */
     public function asTagged(): TaggedType
     {
         if (!$this->_element instanceof TaggedType) {
             throw new \UnexpectedValueException(
-                "Tagged element expected, got " . $this->_typeDescriptorString());
+                'Tagged element expected, got ' . $this->_typeDescriptorString());
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an application specific type.
      *
      * @throws \UnexpectedValueException If element is not application specific
-     * @return \ASN1\Type\Tagged\ApplicationType
+     *
+     * @return \Sop\ASN1\Type\Tagged\ApplicationType
      */
     public function asApplication(): Tagged\ApplicationType
     {
         if (!$this->_element instanceof Tagged\ApplicationType) {
             throw new \UnexpectedValueException(
-                "Application type expected, got " .
+                'Application type expected, got ' .
                 $this->_typeDescriptorString());
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a private tagged type.
      *
      * @throws \UnexpectedValueException If element is not using private tagging
-     * @return \ASN1\Type\Tagged\PrivateType
+     *
+     * @return \Sop\ASN1\Type\Tagged\PrivateType
      */
     public function asPrivate(): Tagged\PrivateType
     {
         if (!$this->_element instanceof Tagged\PrivateType) {
             throw new \UnexpectedValueException(
-                "Private type expected, got " . $this->_typeDescriptorString());
+                'Private type expected, got ' . $this->_typeDescriptorString());
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a boolean type.
      *
      * @throws \UnexpectedValueException If the element is not a boolean
-     * @return \ASN1\Type\Primitive\Boolean
+     *
+     * @return \Sop\ASN1\Type\Primitive\Boolean
      */
     public function asBoolean(): Primitive\Boolean
     {
@@ -132,12 +143,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an integer type.
      *
      * @throws \UnexpectedValueException If the element is not an integer
-     * @return \ASN1\Type\Primitive\Integer
+     *
+     * @return \Sop\ASN1\Type\Primitive\Integer
      */
     public function asInteger(): Primitive\Integer
     {
@@ -147,12 +159,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a bit string type.
      *
      * @throws \UnexpectedValueException If the element is not a bit string
-     * @return \ASN1\Type\Primitive\BitString
+     *
+     * @return \Sop\ASN1\Type\Primitive\BitString
      */
     public function asBitString(): Primitive\BitString
     {
@@ -162,12 +175,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an octet string type.
      *
      * @throws \UnexpectedValueException If the element is not an octet string
-     * @return \ASN1\Type\Primitive\OctetString
+     *
+     * @return \Sop\ASN1\Type\Primitive\OctetString
      */
     public function asOctetString(): Primitive\OctetString
     {
@@ -177,12 +191,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a null type.
      *
      * @throws \UnexpectedValueException If the element is not a null
-     * @return \ASN1\Type\Primitive\NullType
+     *
+     * @return \Sop\ASN1\Type\Primitive\NullType
      */
     public function asNull(): Primitive\NullType
     {
@@ -192,13 +207,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an object identifier type.
      *
      * @throws \UnexpectedValueException If the element is not an object
-     *         identifier
-     * @return \ASN1\Type\Primitive\ObjectIdentifier
+     *                                   identifier
+     *
+     * @return \Sop\ASN1\Type\Primitive\ObjectIdentifier
      */
     public function asObjectIdentifier(): Primitive\ObjectIdentifier
     {
@@ -209,13 +225,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an object descriptor type.
      *
      * @throws \UnexpectedValueException If the element is not an object
-     *         descriptor
-     * @return \ASN1\Type\Primitive\ObjectDescriptor
+     *                                   descriptor
+     *
+     * @return \Sop\ASN1\Type\Primitive\ObjectDescriptor
      */
     public function asObjectDescriptor(): Primitive\ObjectDescriptor
     {
@@ -226,12 +243,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a real type.
      *
      * @throws \UnexpectedValueException If the element is not a real
-     * @return \ASN1\Type\Primitive\Real
+     *
+     * @return \Sop\ASN1\Type\Primitive\Real
      */
     public function asReal(): Primitive\Real
     {
@@ -241,12 +259,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an enumerated type.
      *
      * @throws \UnexpectedValueException If the element is not an enumerated
-     * @return \ASN1\Type\Primitive\Enumerated
+     *
+     * @return \Sop\ASN1\Type\Primitive\Enumerated
      */
     public function asEnumerated(): Primitive\Enumerated
     {
@@ -256,12 +275,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a UTF8 string type.
      *
      * @throws \UnexpectedValueException If the element is not a UTF8 string
-     * @return \ASN1\Type\Primitive\UTF8String
+     *
+     * @return \Sop\ASN1\Type\Primitive\UTF8String
      */
     public function asUTF8String(): Primitive\UTF8String
     {
@@ -271,12 +291,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a relative OID type.
      *
      * @throws \UnexpectedValueException If the element is not a relative OID
-     * @return \ASN1\Type\Primitive\RelativeOID
+     *
+     * @return \Sop\ASN1\Type\Primitive\RelativeOID
      */
     public function asRelativeOID(): Primitive\RelativeOID
     {
@@ -286,12 +307,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a sequence type.
      *
      * @throws \UnexpectedValueException If the element is not a sequence
-     * @return \ASN1\Type\Constructed\Sequence
+     *
+     * @return \Sop\ASN1\Type\Constructed\Sequence
      */
     public function asSequence(): Constructed\Sequence
     {
@@ -301,12 +323,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a set type.
      *
      * @throws \UnexpectedValueException If the element is not a set
-     * @return \ASN1\Type\Constructed\Set
+     *
+     * @return \Sop\ASN1\Type\Constructed\Set
      */
     public function asSet(): Constructed\Set
     {
@@ -316,12 +339,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a numeric string type.
      *
      * @throws \UnexpectedValueException If the element is not a numeric string
-     * @return \ASN1\Type\Primitive\NumericString
+     *
+     * @return \Sop\ASN1\Type\Primitive\NumericString
      */
     public function asNumericString(): Primitive\NumericString
     {
@@ -331,13 +355,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a printable string type.
      *
      * @throws \UnexpectedValueException If the element is not a printable
-     *         string
-     * @return \ASN1\Type\Primitive\PrintableString
+     *                                   string
+     *
+     * @return \Sop\ASN1\Type\Primitive\PrintableString
      */
     public function asPrintableString(): Primitive\PrintableString
     {
@@ -347,12 +372,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a T61 string type.
      *
      * @throws \UnexpectedValueException If the element is not a T61 string
-     * @return \ASN1\Type\Primitive\T61String
+     *
+     * @return \Sop\ASN1\Type\Primitive\T61String
      */
     public function asT61String(): Primitive\T61String
     {
@@ -362,12 +388,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a videotex string type.
      *
      * @throws \UnexpectedValueException If the element is not a videotex string
-     * @return \ASN1\Type\Primitive\VideotexString
+     *
+     * @return \Sop\ASN1\Type\Primitive\VideotexString
      */
     public function asVideotexString(): Primitive\VideotexString
     {
@@ -377,12 +404,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a IA5 string type.
      *
      * @throws \UnexpectedValueException If the element is not a IA5 string
-     * @return \ASN1\Type\Primitive\IA5String
+     *
+     * @return \Sop\ASN1\Type\Primitive\IA5String
      */
     public function asIA5String(): Primitive\IA5String
     {
@@ -392,12 +420,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as an UTC time type.
      *
      * @throws \UnexpectedValueException If the element is not a UTC time
-     * @return \ASN1\Type\Primitive\UTCTime
+     *
+     * @return \Sop\ASN1\Type\Primitive\UTCTime
      */
     public function asUTCTime(): Primitive\UTCTime
     {
@@ -407,13 +436,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a generalized time type.
      *
      * @throws \UnexpectedValueException If the element is not a generalized
-     *         time
-     * @return \ASN1\Type\Primitive\GeneralizedTime
+     *                                   time
+     *
+     * @return \Sop\ASN1\Type\Primitive\GeneralizedTime
      */
     public function asGeneralizedTime(): Primitive\GeneralizedTime
     {
@@ -423,12 +453,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a graphic string type.
      *
      * @throws \UnexpectedValueException If the element is not a graphic string
-     * @return \ASN1\Type\Primitive\GraphicString
+     *
+     * @return \Sop\ASN1\Type\Primitive\GraphicString
      */
     public function asGraphicString(): Primitive\GraphicString
     {
@@ -438,12 +469,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a visible string type.
      *
      * @throws \UnexpectedValueException If the element is not a visible string
-     * @return \ASN1\Type\Primitive\VisibleString
+     *
+     * @return \Sop\ASN1\Type\Primitive\VisibleString
      */
     public function asVisibleString(): Primitive\VisibleString
     {
@@ -453,12 +485,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a general string type.
      *
      * @throws \UnexpectedValueException If the element is not general string
-     * @return \ASN1\Type\Primitive\GeneralString
+     *
+     * @return \Sop\ASN1\Type\Primitive\GeneralString
      */
     public function asGeneralString(): Primitive\GeneralString
     {
@@ -468,13 +501,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a universal string type.
      *
      * @throws \UnexpectedValueException If the element is not a universal
-     *         string
-     * @return \ASN1\Type\Primitive\UniversalString
+     *                                   string
+     *
+     * @return \Sop\ASN1\Type\Primitive\UniversalString
      */
     public function asUniversalString(): Primitive\UniversalString
     {
@@ -484,13 +518,14 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a character string type.
      *
      * @throws \UnexpectedValueException If the element is not a character
-     *         string
-     * @return \ASN1\Type\Primitive\CharacterString
+     *                                   string
+     *
+     * @return \Sop\ASN1\Type\Primitive\CharacterString
      */
     public function asCharacterString(): Primitive\CharacterString
     {
@@ -500,12 +535,13 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as a BMP string type.
      *
      * @throws \UnexpectedValueException If the element is not a bmp string
-     * @return \ASN1\Type\Primitive\BMPString
+     *
+     * @return \Sop\ASN1\Type\Primitive\BMPString
      */
     public function asBMPString(): Primitive\BMPString
     {
@@ -515,11 +551,12 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as any string type.
      *
      * @throws \UnexpectedValueException If the element is not a string
+     *
      * @return StringType
      */
     public function asString(): StringType
@@ -530,11 +567,12 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
     /**
      * Get the wrapped element as any time type.
      *
      * @throws \UnexpectedValueException If the element is not a time
+     *
      * @return TimeType
      */
     public function asTime(): TimeType
@@ -545,19 +583,114 @@ class UnspecifiedType implements ElementBase
         }
         return $this->_element;
     }
-    
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toDER(): string
+    {
+        return $this->_element->toDER();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function typeClass(): int
+    {
+        return $this->_element->typeClass();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isConstructed(): bool
+    {
+        return $this->_element->isConstructed();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function tag(): int
+    {
+        return $this->_element->tag();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isType(int $tag): bool
+    {
+        return $this->_element->isType($tag);
+    }
+
+    /**
+     * @todo Remove
+     *
+     * @deprecated use any <code>as*</code> accessor method first to ensure
+     *             type strictness
+     * @see \Sop\ASN1\Feature\ElementBase::expectType()
+     *
+     * @return ElementBase
+     */
+    public function expectType(int $tag): ElementBase
+    {
+        return $this->_element->expectType($tag);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isTagged(): bool
+    {
+        return $this->_element->isTagged();
+    }
+
+    /**
+     * @todo Remove
+     *
+     * @deprecated use any <code>as*</code> accessor method first to ensure
+     *             type strictness
+     * @see \Sop\ASN1\Feature\ElementBase::expectTagged()
+     *
+     * @param null|mixed $tag
+     *
+     * @return TaggedType
+     */
+    public function expectTagged(?int $tag = null): TaggedType
+    {
+        return $this->_element->expectTagged($tag);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function asElement(): Element
+    {
+        return $this->_element;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function asUnspecified(): UnspecifiedType
+    {
+        return $this;
+    }
+
     /**
      * Generate message for exceptions thrown by <code>as*</code> methods.
      *
      * @param int $tag Type tag of the expected element
+     *
      * @return string
      */
     private function _generateExceptionMessage(int $tag): string
     {
-        return sprintf("%s expected, got %s.", Element::tagToName($tag),
+        return sprintf('%s expected, got %s.', Element::tagToName($tag),
             $this->_typeDescriptorString());
     }
-    
+
     /**
      * Get textual description of the wrapped element for debugging purposes.
      *
@@ -567,114 +700,9 @@ class UnspecifiedType implements ElementBase
     {
         $type_cls = $this->_element->typeClass();
         $tag = $this->_element->tag();
-        if ($type_cls == Identifier::CLASS_UNIVERSAL) {
+        if (Identifier::CLASS_UNIVERSAL == $type_cls) {
             return Element::tagToName($tag);
         }
-        return Identifier::classToName($type_cls) . " TAG $tag";
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\Encodable::toDER()
-     * @return string
-     */
-    public function toDER(): string
-    {
-        return $this->_element->toDER();
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::typeClass()
-     * @return int
-     */
-    public function typeClass(): int
-    {
-        return $this->_element->typeClass();
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::isConstructed()
-     * @return bool
-     */
-    public function isConstructed(): bool
-    {
-        return $this->_element->isConstructed();
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::tag()
-     * @return int
-     */
-    public function tag(): int
-    {
-        return $this->_element->tag();
-    }
-    
-    /**
-     *
-     * {@inheritdoc}
-     * @see \ASN1\Feature\ElementBase::isType()
-     * @return bool
-     */
-    public function isType(int $tag): bool
-    {
-        return $this->_element->isType($tag);
-    }
-    
-    /**
-     *
-     * @deprecated Use any <code>as*</code> accessor method first to ensure
-     *             type strictness.
-     * @see \ASN1\Feature\ElementBase::expectType()
-     * @return ElementBase
-     */
-    public function expectType(int $tag): ElementBase
-    {
-        return $this->_element->expectType($tag);
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::isTagged()
-     * @return bool
-     */
-    public function isTagged(): bool
-    {
-        return $this->_element->isTagged();
-    }
-    
-    /**
-     *
-     * @deprecated Use any <code>as*</code> accessor method first to ensure
-     *             type strictness.
-     * @see \ASN1\Feature\ElementBase::expectTagged()
-     * @return TaggedType
-     */
-    public function expectTagged($tag = null): TaggedType
-    {
-        return $this->_element->expectTagged($tag);
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::asElement()
-     * @return Element
-     */
-    public function asElement(): Element
-    {
-        return $this->_element;
-    }
-    
-    /**
-     *
-     * {@inheritdoc}
-     * @return UnspecifiedType
-     */
-    public function asUnspecified(): UnspecifiedType
-    {
-        return $this;
+        return Identifier::classToName($type_cls) . " TAG ${tag}";
     }
 }

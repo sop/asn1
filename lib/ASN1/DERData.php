@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1;
+namespace Sop\ASN1;
 
-use ASN1\Component\Identifier;
-use ASN1\Component\Length;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Component\Length;
 
 /**
  * Container for raw DER encoded data.
@@ -16,79 +17,73 @@ class DERData extends Element
     /**
      * DER encoded data.
      *
-     * @var string $_der
+     * @var string
      */
     protected $_der;
-    
+
     /**
      * Identifier of the underlying type.
      *
-     * @var Identifier $_identifier
+     * @var Identifier
      */
     protected $_identifier;
-    
+
     /**
      * Offset to the content in DER data.
      *
-     * @var int $_contentOffset
+     * @var int
      */
     protected $_contentOffset = 0;
-    
+
     /**
      * Constructor.
      *
      * @param string $data DER encoded data
-     * @throws \ASN1\Exception\DecodeException If data does not adhere to DER
+     *
+     * @throws \Sop\ASN1\Exception\DecodeException If data does not adhere to DER
      */
     public function __construct(string $data)
     {
         $this->_identifier = Identifier::fromDER($data, $this->_contentOffset);
+        // check that length encoding is valid
         Length::expectFromDER($data, $this->_contentOffset);
         $this->_der = $data;
         $this->_typeTag = $this->_identifier->intTag();
     }
-    
+
     /**
-     *
-     * @see \ASN1\Element::typeClass()
-     * @return int
+     * {@inheritdoc}
      */
     public function typeClass(): int
     {
         return $this->_identifier->typeClass();
     }
-    
+
     /**
-     *
-     * @see \ASN1\Element::isConstructed()
-     * @return bool
+     * {@inheritdoc}
      */
     public function isConstructed(): bool
     {
         return $this->_identifier->isConstructed();
     }
-    
+
     /**
-     *
-     * @see \ASN1\Element::_encodedContentDER()
-     * @return string
+     * {@inheritdoc}
+     */
+    public function toDER(): string
+    {
+        return $this->_der;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     protected function _encodedContentDER(): string
     {
         // if there's no content payload
         if (strlen($this->_der) == $this->_contentOffset) {
-            return "";
+            return '';
         }
         return substr($this->_der, $this->_contentOffset);
-    }
-    
-    /**
-     *
-     * @see \ASN1\Element::toDER()
-     * @return string
-     */
-    public function toDER(): string
-    {
-        return $this->_der;
     }
 }

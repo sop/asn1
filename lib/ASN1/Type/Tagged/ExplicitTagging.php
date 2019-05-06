@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Tagged;
+namespace Sop\ASN1\Type\Tagged;
 
-use ASN1\Feature\ElementBase;
-use ASN1\Type\UnspecifiedType;
+use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * Interface for classes providing explicit tagging.
@@ -17,9 +18,13 @@ interface ExplicitTagging extends ElementBase
      * <strong>NOTE!</strong> Expectation checking is deprecated and shall be
      * done with <code>UnspecifiedType</code>.
      *
-     * @param int|null $expectedTag Expected tag of the underlying type
+     * @todo Remove expectation checking
+     *
+     * @param null|int $expectedTag Expected tag of the underlying type
+     *
      * @throws \UnexpectedValueException If expectation fails
-     * @return \ASN1\Type\UnspecifiedType
+     *
+     * @return \Sop\ASN1\Type\UnspecifiedType
      */
-    public function explicit($expectedTag = null): UnspecifiedType;
+    public function explicit(?int $expectedTag = null): UnspecifiedType;
 }

@@ -1,25 +1,28 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Primitive\RelativeOID;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\RelativeOID;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group oid
+ *
+ * @internal
  */
-class RelativeOIDTest extends PHPUnit_Framework_TestCase
+class RelativeOIDTest extends TestCase
 {
     public function testCreate()
     {
-        $el = new RelativeOID("1.3.6.1.3");
+        $el = new RelativeOID('1.3.6.1.3');
         $this->assertInstanceOf(RelativeOID::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,24 +32,26 @@ class RelativeOIDTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_RELATIVE_OID, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return RelativeOID
      */
     public function testDecode(string $data): RelativeOID
@@ -55,7 +60,7 @@ class RelativeOIDTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(RelativeOID::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,7 +72,7 @@ class RelativeOIDTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -78,13 +83,11 @@ class RelativeOIDTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(RelativeOID::class, $wrap->asRelativeOID());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asRelativeOID();
     }
 }

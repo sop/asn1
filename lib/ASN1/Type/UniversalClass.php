@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type;
+namespace Sop\ASN1\Type;
 
-use ASN1\Component\Identifier;
+use Sop\ASN1\Component\Identifier;
 
 /**
  * Trait for types of universal class.
@@ -11,8 +12,8 @@ use ASN1\Component\Identifier;
 trait UniversalClass
 {
     /**
+     * @see \Sop\ASN1\Feature\ElementBase::typeClass()
      *
-     * @see \ASN1\Element::typeClass()
      * @return int
      */
     public function typeClass(): int

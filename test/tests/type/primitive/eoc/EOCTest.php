@@ -1,18 +1,20 @@
 <?php
+
 declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\Primitive\EOC;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\EOC;
 
 /**
- *
  * @group type
  * @group eoc
+ *
+ * @internal
  */
-class EOCTest extends PHPUnit_Framework_TestCase
+class EOCTest extends TestCase
 {
     /**
-     *
      * @return Element
      */
     public function testCreate(): Element
@@ -21,9 +23,8 @@ class EOCTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(EOC::class, $el);
         return $el;
     }
-    
+
     /**
-     *
      * @depends testCreate
      *
      * @param Element $el
@@ -32,26 +33,26 @@ class EOCTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_EOC, $el->tag());
     }
-    
+
     /**
-     *
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
-     *
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return EOC
      */
     public function testDecode($data): EOC
@@ -60,9 +61,8 @@ class EOCTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(EOC::class, $el);
         return $el;
     }
-    
+
     /**
-     *
      * @depends testCreate
      * @depends testDecode
      *

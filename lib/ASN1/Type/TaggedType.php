@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type;
+namespace Sop\ASN1\Type;
 
-use ASN1\Element;
-use ASN1\Component\Identifier;
-use ASN1\Type\Tagged\ExplicitTagging;
-use ASN1\Type\Tagged\ImplicitTagging;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Tagged\ExplicitTagging;
+use Sop\ASN1\Type\Tagged\ImplicitTagging;
 
 /**
  * Base class for context-specific types.
@@ -16,11 +17,13 @@ abstract class TaggedType extends Element
     /**
      * Check whether element supports explicit tagging.
      *
-     * @param int|null $expectedTag Optional outer tag expectation
+     * @param null|int $expectedTag Optional outer tag expectation
+     *
      * @throws \UnexpectedValueException If expectation fails
+     *
      * @return ExplicitTagging
      */
-    public function expectExplicit($expectedTag = null): ExplicitTagging
+    public function expectExplicit(?int $expectedTag = null): ExplicitTagging
     {
         $el = $this;
         if (!$el instanceof ExplicitTagging) {
@@ -32,27 +35,31 @@ abstract class TaggedType extends Element
         }
         return $el;
     }
-    
+
     /**
      * Get the wrapped inner element employing explicit tagging.
      *
-     * @param int|null $expectedTag Optional outer tag expectation
+     * @param null|int $expectedTag Optional outer tag expectation
+     *
      * @throws \UnexpectedValueException If expectation fails
+     *
      * @return UnspecifiedType
      */
-    public function asExplicit($expectedTag = null): UnspecifiedType
+    public function asExplicit(?int $expectedTag = null): UnspecifiedType
     {
         return $this->expectExplicit($expectedTag)->explicit();
     }
-    
+
     /**
      * Check whether element supports implicit tagging.
      *
-     * @param int|null $expectedTag Optional outer tag expectation
+     * @param null|int $expectedTag Optional outer tag expectation
+     *
      * @throws \UnexpectedValueException If expectation fails
+     *
      * @return ImplicitTagging
      */
-    public function expectImplicit($expectedTag = null): ImplicitTagging
+    public function expectImplicit(?int $expectedTag = null): ImplicitTagging
     {
         $el = $this;
         if (!$el instanceof ImplicitTagging) {
@@ -64,17 +71,19 @@ abstract class TaggedType extends Element
         }
         return $el;
     }
-    
+
     /**
      * Get the wrapped inner element employing implicit tagging.
      *
-     * @param int $tag Type tag of the inner element
-     * @param int|null $expectedTag Optional outer tag expectation
-     * @param int $expectedClass Optional inner type class expectation
+     * @param int      $tag           Type tag of the inner element
+     * @param null|int $expectedTag   Optional outer tag expectation
+     * @param int      $expectedClass Optional inner type class expectation
+     *
      * @throws \UnexpectedValueException If expectation fails
+     *
      * @return UnspecifiedType
      */
-    public function asImplicit(int $tag, $expectedTag = null,
+    public function asImplicit(int $tag, ?int $expectedTag = null,
         int $expectedClass = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         return $this->expectImplicit($expectedTag)->implicit($tag,

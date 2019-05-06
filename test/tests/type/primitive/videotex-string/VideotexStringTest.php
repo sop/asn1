@@ -1,25 +1,28 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Primitive\VideotexString;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\VideotexString;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group videotex-string
+ *
+ * @internal
  */
-class VideotexStringTest extends PHPUnit_Framework_TestCase
+class VideotexStringTest extends TestCase
 {
     public function testCreate()
     {
-        $el = new VideotexString("");
+        $el = new VideotexString('');
         $this->assertInstanceOf(VideotexString::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,24 +32,26 @@ class VideotexStringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_VIDEOTEX_STRING, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return VideotexString
      */
     public function testDecode(string $data): VideotexString
@@ -55,7 +60,7 @@ class VideotexStringTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(VideotexString::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,7 +72,7 @@ class VideotexStringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -78,13 +83,11 @@ class VideotexStringTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(VideotexString::class, $wrap->asVideotexString());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asVideotexString();
     }
 }

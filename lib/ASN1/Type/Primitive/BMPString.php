@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Type\PrimitiveString;
-use ASN1\Type\UniversalClass;
+use Sop\ASN1\Type\PrimitiveString;
+use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements <i>BMPString</i> type.
@@ -15,7 +16,7 @@ use ASN1\Type\UniversalClass;
 class BMPString extends PrimitiveString
 {
     use UniversalClass;
-    
+
     /**
      * Constructor.
      *
@@ -26,15 +27,14 @@ class BMPString extends PrimitiveString
         $this->_typeTag = self::TYPE_BMP_STRING;
         parent::__construct($string);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _validateString(string $string): bool
     {
         // UCS-2 has fixed with of 2 octets (16 bits)
-        if (strlen($string) % 2 !== 0) {
+        if (0 !== strlen($string) % 2) {
             return false;
         }
         return true;

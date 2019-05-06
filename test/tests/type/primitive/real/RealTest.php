@@ -1,25 +1,28 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Primitive\Real;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\Real;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group real
+ *
+ * @internal
  */
-class RealTest extends PHPUnit_Framework_TestCase
+class RealTest extends TestCase
 {
     public function testCreate()
     {
-        $el = new Real("314.E-2");
+        $el = new Real('314.E-2');
         $this->assertInstanceOf(Real::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,25 +32,27 @@ class RealTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_REAL, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
-     * @return Real
+     *
+     * @return float
      */
     public function testDecode(string $data): Real
     {
@@ -55,7 +60,7 @@ class RealTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Real::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,7 +72,7 @@ class RealTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
+
     /**
      * @dataProvider provideFromFloat
      *
@@ -79,11 +84,10 @@ class RealTest extends PHPUnit_Framework_TestCase
         $recoded = Real::fromDER($real->toDER());
         $this->assertEquals($number, $recoded->float());
     }
-    
+
     public function provideFromFloat(): array
     {
         return [
-            /* @formatter:off */
             [0],
             [1],
             [-1],
@@ -97,31 +101,26 @@ class RealTest extends PHPUnit_Framework_TestCase
             [-M_PI],
             [M_E],
             [-M_E],
-            /* @formatter:on */
         ];
     }
-    
-    /**
-     * @expectedException InvalidArgumentException
-     */
+
     public function testInvalidFormatFail()
     {
-        new Real("fail");
+        $this->expectException(InvalidArgumentException::class);
+        new Real('fail');
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testNR3ToDecimalInvalidFormatFail()
     {
         $real = new Real(Real::NR3_ZERO);
         $cls = new ReflectionClass($real);
-        $prop = $cls->getProperty("_number");
+        $prop = $cls->getProperty('_number');
         $prop->setAccessible(true);
-        $prop->setValue($real, "fail");
+        $prop->setValue($real, 'fail');
+        $this->expectException(UnexpectedValueException::class);
         $real->float();
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -132,13 +131,11 @@ class RealTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Real::class, $wrap->asReal());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asReal();
     }
 }

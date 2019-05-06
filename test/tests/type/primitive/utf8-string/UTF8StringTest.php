@@ -1,25 +1,28 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Primitive\UTF8String;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Primitive\UTF8String;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group utf8-string
+ *
+ * @internal
  */
-class UTF8StringTest extends PHPUnit_Framework_TestCase
+class UTF8StringTest extends TestCase
 {
     public function testCreate()
     {
-        $el = new UTF8String("");
+        $el = new UTF8String('');
         $this->assertInstanceOf(UTF8String::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,24 +32,26 @@ class UTF8StringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_UTF8_STRING, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return UTF8String
      */
     public function testDecode($data): UTF8String
@@ -55,7 +60,7 @@ class UTF8StringTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(UTF8String::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,15 +72,13 @@ class UTF8StringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
-    /**
-     * @expectedException InvalidArgumentException
-     */
+
     public function testInvalidString()
     {
-        new UTF8String(hex2bin("ff"));
+        $this->expectException(InvalidArgumentException::class);
+        new UTF8String(hex2bin('ff'));
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -86,13 +89,11 @@ class UTF8StringTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(UTF8String::class, $wrap->asUTF8String());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asUTF8String();
     }
 }

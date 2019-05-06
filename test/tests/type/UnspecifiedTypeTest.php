@@ -2,14 +2,18 @@
 
 declare(strict_types = 1);
 
-use ASN1\DERData;
-use ASN1\Element;
-use ASN1\Feature\ElementBase;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Tagged\ImplicitlyTaggedType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\DERData;
+use Sop\ASN1\Element;
+use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
+use Sop\ASN1\Type\UnspecifiedType;
 
-class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
+/**
+ * @internal
+ */
+class UnspecifiedTypeTest extends TestCase
 {
     public function testAsElement()
     {
@@ -17,26 +21,26 @@ class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ElementBase::class, $wrap->asElement());
         return $wrap;
     }
-    
+
     public function testAsUnspecified()
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->assertInstanceOf(UnspecifiedType::class, $wrap->asUnspecified());
     }
-    
+
     public function testFromElementBase()
     {
         $el = new NullType();
         $wrap = UnspecifiedType::fromElementBase($el);
         $this->assertInstanceOf(UnspecifiedType::class, $wrap);
     }
-    
+
     public function testFromDER()
     {
         $el = UnspecifiedType::fromDER("\x5\0")->asNull();
         $this->assertInstanceOf(NullType::class, $el);
     }
-    
+
     /**
      * @depends testAsElement
      */
@@ -45,79 +49,71 @@ class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
         $wrap = UnspecifiedType::fromElementBase($type);
         $this->assertInstanceOf(UnspecifiedType::class, $wrap);
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testAsTaggedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asTagged();
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testAsStringFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asString();
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testAsTimeFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asTime();
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testPrivateTypeFail()
     {
         $el = new DERData("\xdf\x7f\x0");
         $wrap = new UnspecifiedType($el);
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asNull();
     }
-    
+
     public function testToDER()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertEquals($el->toDER(), $wrap->toDER());
     }
-    
+
     public function testTypeClass()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertEquals($el->typeClass(), $wrap->typeClass());
     }
-    
+
     public function testIsConstructed()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertEquals($el->isConstructed(), $wrap->isConstructed());
     }
-    
+
     public function testTag()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertEquals($el->tag(), $wrap->tag());
     }
-    
+
     public function testIsType()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertTrue($wrap->isType(Element::TYPE_NULL));
     }
-    
+
     public function testExpectType()
     {
         $el = new NullType();
@@ -125,14 +121,14 @@ class UnspecifiedTypeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ElementBase::class,
             $wrap->expectType(Element::TYPE_NULL));
     }
-    
+
     public function testIsTagged()
     {
         $el = new NullType();
         $wrap = new UnspecifiedType($el);
         $this->assertEquals($el->isTagged(), $wrap->isTagged());
     }
-    
+
     public function testExpectTagged()
     {
         $el = new ImplicitlyTaggedType(0, new NullType());

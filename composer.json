@@ -1,26 +1,34 @@
 {
-	"name": "sop/asn1",
-	"description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
-	"homepage": "https://github.com/sop/asn1",
-	"license": "MIT",
-	"type": "library",
-	"keywords": ["asn1", "asn.1", "x690", "x.690", "der"],
-	"authors": [{
-		"name": "Joni Eskelinen",
-		"email": "jonieske@gmail.com",
-		"role": "Developer"
-	}],
-	"require": {
-		"php": ">=7.0",
-		"ext-gmp": "*",
-		"ext-mbstring": "*"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^6.5"
-	},
-	"autoload": {
-		"psr-4": {
-			"ASN1\\": "lib/ASN1/"
-		}
-	}
+    "name": "sop/asn1",
+    "description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
+    "homepage": "https://github.com/sop/asn1",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "asn1",
+        "asn.1",
+        "x690",
+        "x.690",
+        "der"
+    ],
+    "authors": [
+        {
+            "name": "Joni Eskelinen",
+            "email": "jonieske@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-gmp": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sop\\ASN1\\": "lib/ASN1/"
+        }
+    }
 }

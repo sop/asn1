@@ -1,34 +1,34 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Type\Primitive\NullType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Type\Primitive\NullType;
 
 /**
  * @group decode
  * @group null
+ *
+ * @internal
  */
-class NullDecodeTest extends PHPUnit_Framework_TestCase
+class NullDecodeTest extends TestCase
 {
     public function testType()
     {
         $el = NullType::fromDER("\x5\0");
         $this->assertInstanceOf(NullType::class, $el);
     }
-    
-    /**
-     * @expectedException ASN1\Exception\DecodeException
-     */
+
     public function testInvalidLength()
     {
+        $this->expectException(DecodeException::class);
         NullType::fromDER("\x5\x1\x0");
     }
-    
-    /**
-     * @expectedException ASN1\Exception\DecodeException
-     */
+
     public function testNotPrimitive()
     {
+        $this->expectException(DecodeException::class);
         NullType::fromDER("\x25\x0");
     }
 }

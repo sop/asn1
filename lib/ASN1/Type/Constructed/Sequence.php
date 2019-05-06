@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Constructed;
+namespace Sop\ASN1\Type\Constructed;
 
-use ASN1\Element;
-use ASN1\Type\Structure;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Structure;
 
 /**
  * Implements <i>SEQUENCE</i> and <i>SEQUENCE OF</i> types.

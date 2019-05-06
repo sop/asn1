@@ -1,21 +1,22 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1;
+namespace Sop\ASN1;
 
-use ASN1\Component\Identifier;
-use ASN1\Component\Length;
-use ASN1\Exception\DecodeException;
-use ASN1\Feature\ElementBase;
-use ASN1\Type\Constructed;
-use ASN1\Type\Primitive;
-use ASN1\Type\StringType;
-use ASN1\Type\TaggedType;
-use ASN1\Type\TimeType;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Tagged\ApplicationType;
-use ASN1\Type\Tagged\ContextSpecificType;
-use ASN1\Type\Tagged\PrivateType;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Component\Length;
+use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\Constructed;
+use Sop\ASN1\Type\Primitive;
+use Sop\ASN1\Type\StringType;
+use Sop\ASN1\Type\Tagged\ApplicationType;
+use Sop\ASN1\Type\Tagged\ContextSpecificType;
+use Sop\ASN1\Type\Tagged\PrivateType;
+use Sop\ASN1\Type\TaggedType;
+use Sop\ASN1\Type\TimeType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * Base class for all ASN.1 type elements.
@@ -52,7 +53,7 @@ abstract class Element implements ElementBase
     const TYPE_UNIVERSAL_STRING = 0x1c;
     const TYPE_CHARACTER_STRING = 0x1d;
     const TYPE_BMP_STRING = 0x1e;
-    
+
     /**
      * Mapping from universal type tag to implementation class name.
      *
@@ -60,7 +61,7 @@ abstract class Element implements ElementBase
      *
      * @var array
      */
-    const MAP_TAG_TO_CLASS = [ /* @formatter:off */
+    const MAP_TAG_TO_CLASS = [
         self::TYPE_EOC => Primitive\EOC::class,
         self::TYPE_BOOLEAN => Primitive\Boolean::class,
         self::TYPE_INTEGER => Primitive\Integer::class,
@@ -87,10 +88,9 @@ abstract class Element implements ElementBase
         self::TYPE_GENERAL_STRING => Primitive\GeneralString::class,
         self::TYPE_UNIVERSAL_STRING => Primitive\UniversalString::class,
         self::TYPE_CHARACTER_STRING => Primitive\CharacterString::class,
-        self::TYPE_BMP_STRING => Primitive\BMPString::class
-        /* @formatter:on */
+        self::TYPE_BMP_STRING => Primitive\BMPString::class,
     ];
-    
+
     /**
      * Pseudotype for all string types.
      *
@@ -99,7 +99,7 @@ abstract class Element implements ElementBase
      * @var int
      */
     const TYPE_STRING = -1;
-    
+
     /**
      * Pseudotype for all time types.
      *
@@ -108,7 +108,7 @@ abstract class Element implements ElementBase
      * @var int
      */
     const TYPE_TIME = -2;
-    
+
     /**
      * Mapping from universal type tag to human readable name.
      *
@@ -116,106 +116,77 @@ abstract class Element implements ElementBase
      *
      * @var array
      */
-    const MAP_TYPE_TO_NAME = [ /* @formatter:off */
-        self::TYPE_EOC => "EOC",
-        self::TYPE_BOOLEAN => "BOOLEAN",
-        self::TYPE_INTEGER => "INTEGER",
-        self::TYPE_BIT_STRING => "BIT STRING",
-        self::TYPE_OCTET_STRING => "OCTET STRING",
-        self::TYPE_NULL => "NULL",
-        self::TYPE_OBJECT_IDENTIFIER => "OBJECT IDENTIFIER",
-        self::TYPE_OBJECT_DESCRIPTOR => "ObjectDescriptor",
-        self::TYPE_EXTERNAL => "EXTERNAL",
-        self::TYPE_REAL => "REAL",
-        self::TYPE_ENUMERATED => "ENUMERATED",
-        self::TYPE_EMBEDDED_PDV => "EMBEDDED PDV",
-        self::TYPE_UTF8_STRING => "UTF8String",
-        self::TYPE_RELATIVE_OID => "RELATIVE-OID",
-        self::TYPE_SEQUENCE => "SEQUENCE",
-        self::TYPE_SET => "SET",
-        self::TYPE_NUMERIC_STRING => "NumericString",
-        self::TYPE_PRINTABLE_STRING => "PrintableString",
-        self::TYPE_T61_STRING => "T61String",
-        self::TYPE_VIDEOTEX_STRING => "VideotexString",
-        self::TYPE_IA5_STRING => "IA5String",
-        self::TYPE_UTC_TIME => "UTCTime",
-        self::TYPE_GENERALIZED_TIME => "GeneralizedTime",
-        self::TYPE_GRAPHIC_STRING => "GraphicString",
-        self::TYPE_VISIBLE_STRING => "VisibleString",
-        self::TYPE_GENERAL_STRING => "GeneralString",
-        self::TYPE_UNIVERSAL_STRING => "UniversalString",
-        self::TYPE_CHARACTER_STRING => "CHARACTER STRING",
-        self::TYPE_BMP_STRING => "BMPString",
-        self::TYPE_STRING => "Any String",
-        self::TYPE_TIME => "Any Time"
-        /* @formatter:on */
+    const MAP_TYPE_TO_NAME = [
+        self::TYPE_EOC => 'EOC',
+        self::TYPE_BOOLEAN => 'BOOLEAN',
+        self::TYPE_INTEGER => 'INTEGER',
+        self::TYPE_BIT_STRING => 'BIT STRING',
+        self::TYPE_OCTET_STRING => 'OCTET STRING',
+        self::TYPE_NULL => 'NULL',
+        self::TYPE_OBJECT_IDENTIFIER => 'OBJECT IDENTIFIER',
+        self::TYPE_OBJECT_DESCRIPTOR => 'ObjectDescriptor',
+        self::TYPE_EXTERNAL => 'EXTERNAL',
+        self::TYPE_REAL => 'REAL',
+        self::TYPE_ENUMERATED => 'ENUMERATED',
+        self::TYPE_EMBEDDED_PDV => 'EMBEDDED PDV',
+        self::TYPE_UTF8_STRING => 'UTF8String',
+        self::TYPE_RELATIVE_OID => 'RELATIVE-OID',
+        self::TYPE_SEQUENCE => 'SEQUENCE',
+        self::TYPE_SET => 'SET',
+        self::TYPE_NUMERIC_STRING => 'NumericString',
+        self::TYPE_PRINTABLE_STRING => 'PrintableString',
+        self::TYPE_T61_STRING => 'T61String',
+        self::TYPE_VIDEOTEX_STRING => 'VideotexString',
+        self::TYPE_IA5_STRING => 'IA5String',
+        self::TYPE_UTC_TIME => 'UTCTime',
+        self::TYPE_GENERALIZED_TIME => 'GeneralizedTime',
+        self::TYPE_GRAPHIC_STRING => 'GraphicString',
+        self::TYPE_VISIBLE_STRING => 'VisibleString',
+        self::TYPE_GENERAL_STRING => 'GeneralString',
+        self::TYPE_UNIVERSAL_STRING => 'UniversalString',
+        self::TYPE_CHARACTER_STRING => 'CHARACTER STRING',
+        self::TYPE_BMP_STRING => 'BMPString',
+        self::TYPE_STRING => 'Any String',
+        self::TYPE_TIME => 'Any Time',
     ];
-    
+
     /**
      * Element's type tag.
      *
      * @var int
      */
     protected $_typeTag;
-    
+
     /**
      * Whether type shall be encoded with indefinite length.
      *
      * @var bool
      */
     protected $_indefiniteLength = false;
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::typeClass()
-     * @return int
+     * {@inheritdoc}
      */
     abstract public function typeClass(): int;
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::isConstructed()
-     * @return bool
+     * {@inheritdoc}
      */
     abstract public function isConstructed(): bool;
-    
-    /**
-     * Get the content encoded in DER.
-     *
-     * Returns the DER encoded content without identifier and length header
-     * octets.
-     *
-     * @return string
-     */
-    abstract protected function _encodedContentDER(): string;
-    
-    /**
-     * Decode type-specific element from DER.
-     *
-     * @param Identifier $identifier Pre-parsed identifier
-     * @param string $data DER data
-     * @param int $offset Offset in data to the next byte after identifier
-     * @throws DecodeException If decoding fails
-     * @return ElementBase
-     */
-    protected static function _decodeFromDER(Identifier $identifier,
-        string $data, int &$offset): ElementBase
-    {
-        throw new \BadMethodCallException(
-            __METHOD__ . " must be implemented in derived class.");
-    }
-    
+
     /**
      * Decode element from DER data.
      *
-     * @param string $data DER encoded data
-     * @param int|null $offset Reference to the variable that contains offset
-     *        into the data where to start parsing. Variable is updated to
-     *        the offset next to the parsed element. If null, start from offset
-     *        0.
-     * @throws DecodeException If decoding fails
+     * @param string   $data   DER encoded data
+     * @param null|int $offset Reference to the variable that contains offset
+     *                         into the data where to start parsing.
+     *                         Variable is updated to the offset next to the
+     *                         parsed element. If null, start from offset 0.
+     *
+     * @throws DecodeException           If decoding fails
      * @throws \UnexpectedValueException If called in the context of an expected
-     *         type, but decoding yields another type
+     *                                   type, but decoding yields another type
+     *
      * @return ElementBase
      */
     public static function fromDER(string $data, int &$offset = null): ElementBase
@@ -231,7 +202,7 @@ abstract class Element implements ElementBase
         } catch (\LogicException $e) {
             // rethrow as a RuntimeException for unified exception handling
             throw new DecodeException(
-                sprintf("Error while decoding %s.",
+                sprintf('Error while decoding %s.',
                     self::tagToName($identifier->intTag())), 0, $e);
         }
         // if called in the context of a concrete class, check
@@ -240,7 +211,7 @@ abstract class Element implements ElementBase
         if (self::class != $called_class) {
             if (!$element instanceof $called_class) {
                 throw new \UnexpectedValueException(
-                    sprintf("%s expected, got %s.", $called_class,
+                    sprintf('%s expected, got %s.', $called_class,
                         get_class($element)));
             }
         }
@@ -250,11 +221,9 @@ abstract class Element implements ElementBase
         }
         return $element;
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\Encodable::toDER()
-     * @return string
+     * {@inheritdoc}
      */
     public function toDER(): string
     {
@@ -267,31 +236,26 @@ abstract class Element implements ElementBase
             $eoc = new Primitive\EOC();
             return $identifier->toDER() . $length->toDER() . $content .
                 $eoc->toDER();
-        } else {
-            $length = new Length(strlen($content));
-            return $identifier->toDER() . $length->toDER() . $content;
         }
+        $length = new Length(strlen($content));
+        return $identifier->toDER() . $length->toDER() . $content;
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::tag()
-     * @return int
+     * {@inheritdoc}
      */
     public function tag(): int
     {
         return $this->_typeTag;
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::isType()
-     * @return bool
+     * {@inheritdoc}
      */
     public function isType(int $tag): bool
     {
         // if element is context specific
-        if ($this->typeClass() == Identifier::CLASS_CONTEXT_SPECIFIC) {
+        if (Identifier::CLASS_CONTEXT_SPECIFIC === $this->typeClass()) {
             return false;
         }
         // negative tags identify an abstract pseudotype
@@ -300,90 +264,45 @@ abstract class Element implements ElementBase
         }
         return $this->_isConcreteType($tag);
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::expectType()
-     * @return ElementBase
+     * {@inheritdoc}
      */
     public function expectType(int $tag): ElementBase
     {
         if (!$this->isType($tag)) {
             throw new \UnexpectedValueException(
-                sprintf("%s expected, got %s.", self::tagToName($tag),
+                sprintf('%s expected, got %s.', self::tagToName($tag),
                     $this->_typeDescriptorString()));
         }
         return $this;
     }
-    
+
     /**
-     * Check whether the element is a concrete type of a given tag.
-     *
-     * @param int $tag
-     * @return bool
-     */
-    private function _isConcreteType(int $tag): bool
-    {
-        // if tag doesn't match
-        if ($this->tag() != $tag) {
-            return false;
-        }
-        // if type is universal check that instance is of a correct class
-        if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
-            $cls = self::_determineUniversalImplClass($tag);
-            if (!$this instanceof $cls) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Check whether the element is a pseudotype.
-     *
-     * @param int $tag
-     * @return bool
-     */
-    private function _isPseudoType(int $tag): bool
-    {
-        switch ($tag) {
-            case self::TYPE_STRING:
-                return $this instanceof StringType;
-            case self::TYPE_TIME:
-                return $this instanceof TimeType;
-        }
-        return false;
-    }
-    
-    /**
-     *
-     * @see \ASN1\Feature\ElementBase::isTagged()
-     * @return bool
+     * {@inheritdoc}
      */
     public function isTagged(): bool
     {
         return $this instanceof TaggedType;
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::expectTagged()
-     * @return TaggedType
+     * {@inheritdoc}
      */
-    public function expectTagged($tag = null): TaggedType
+    public function expectTagged(?int $tag = null): TaggedType
     {
         if (!$this->isTagged()) {
             throw new \UnexpectedValueException(
-                sprintf("Context specific element expected, got %s.",
+                sprintf('Context specific element expected, got %s.',
                     Identifier::classToName($this->typeClass())));
         }
-        if (isset($tag) && $this->tag() != $tag) {
+        if (isset($tag) && $this->tag() !== $tag) {
             throw new \UnexpectedValueException(
-                sprintf("Tag %d expected, got %d.", $tag, $this->tag()));
+                sprintf('Tag %d expected, got %d.', $tag, $this->tag()));
         }
         return $this;
     }
-    
+
     /**
      * Whether element has indefinite length.
      *
@@ -393,12 +312,13 @@ abstract class Element implements ElementBase
     {
         return $this->_indefiniteLength;
     }
-    
+
     /**
      * Get self with indefinite length encoding set.
      *
      * @param bool $indefinite True for indefinite length, false for definite
-     *        length
+     *                         length
+     *
      * @return self
      */
     public function withIndefiniteLength(bool $indefinite = true): self
@@ -407,17 +327,15 @@ abstract class Element implements ElementBase
         $obj->_indefiniteLength = $indefinite;
         return $obj;
     }
-    
+
     /**
-     *
-     * @see \ASN1\Feature\ElementBase::asElement()
-     * @return Element
+     * {@inheritdoc}
      */
     final public function asElement(): Element
     {
         return $this;
     }
-    
+
     /**
      * Get element decorated with UnspecifiedType object.
      *
@@ -427,11 +345,55 @@ abstract class Element implements ElementBase
     {
         return new UnspecifiedType($this);
     }
-    
+
+    /**
+     * Get human readable name for an universal tag.
+     *
+     * @param int $tag
+     *
+     * @return string
+     */
+    public static function tagToName(int $tag): string
+    {
+        if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
+            return "TAG ${tag}";
+        }
+        return self::MAP_TYPE_TO_NAME[$tag];
+    }
+
+    /**
+     * Get the content encoded in DER.
+     *
+     * Returns the DER encoded content without identifier and length header
+     * octets.
+     *
+     * @return string
+     */
+    abstract protected function _encodedContentDER(): string;
+
+    /**
+     * Decode type-specific element from DER.
+     *
+     * @param Identifier $identifier Pre-parsed identifier
+     * @param string     $data       DER data
+     * @param int        $offset     Offset in data to the next byte after identifier
+     *
+     * @throws DecodeException If decoding fails
+     *
+     * @return ElementBase
+     */
+    protected static function _decodeFromDER(Identifier $identifier,
+        string $data, int &$offset): ElementBase
+    {
+        throw new \BadMethodCallException(
+            __METHOD__ . ' must be implemented in derived class.');
+    }
+
     /**
      * Determine the class that implements the type.
      *
      * @param Identifier $identifier
+     *
      * @return string Class name
      */
     protected static function _determineImplClass(Identifier $identifier): string
@@ -447,27 +409,29 @@ abstract class Element implements ElementBase
                 return PrivateType::class;
         }
         throw new \UnexpectedValueException(
-            sprintf("%s %d not implemented.",
+            sprintf('%s %d not implemented.',
                 Identifier::classToName($identifier->typeClass()),
                 $identifier->tag()));
     }
-    
+
     /**
      * Determine the class that implements an universal type of the given tag.
      *
      * @param int $tag
+     *
      * @throws \UnexpectedValueException
+     *
      * @return string Class name
      */
     protected static function _determineUniversalImplClass(int $tag): string
     {
         if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
-                "Universal tag $tag not implemented.");
+                "Universal tag ${tag} not implemented.");
         }
         return self::MAP_TAG_TO_CLASS[$tag];
     }
-    
+
     /**
      * Get textual description of the type for debugging purposes.
      *
@@ -475,24 +439,51 @@ abstract class Element implements ElementBase
      */
     protected function _typeDescriptorString(): string
     {
-        if ($this->typeClass() == Identifier::CLASS_UNIVERSAL) {
+        if (Identifier::CLASS_UNIVERSAL == $this->typeClass()) {
             return self::tagToName($this->_typeTag);
         }
-        return sprintf("%s TAG %d", Identifier::classToName($this->typeClass()),
+        return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()),
             $this->_typeTag);
     }
-    
+
     /**
-     * Get human readable name for an universal tag.
+     * Check whether the element is a concrete type of a given tag.
      *
      * @param int $tag
-     * @return string
+     *
+     * @return bool
      */
-    public static function tagToName(int $tag): string
+    private function _isConcreteType(int $tag): bool
     {
-        if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
-            return "TAG $tag";
+        // if tag doesn't match
+        if ($this->tag() != $tag) {
+            return false;
         }
-        return self::MAP_TYPE_TO_NAME[$tag];
+        // if type is universal check that instance is of a correct class
+        if (Identifier::CLASS_UNIVERSAL == $this->typeClass()) {
+            $cls = self::_determineUniversalImplClass($tag);
+            if (!$this instanceof $cls) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check whether the element is a pseudotype.
+     *
+     * @param int $tag
+     *
+     * @return bool
+     */
+    private function _isPseudoType(int $tag): bool
+    {
+        switch ($tag) {
+            case self::TYPE_STRING:
+                return $this instanceof StringType;
+            case self::TYPE_TIME:
+                return $this instanceof TimeType;
+        }
+        return false;
     }
 }

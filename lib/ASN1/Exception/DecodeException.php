@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Exception;
+namespace Sop\ASN1\Exception;
 
 /**
  * Exception thrown on decoding errors.

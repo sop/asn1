@@ -1,18 +1,21 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\TaggedType;
-use ASN1\Type\Primitive\NullType;
-use ASN1\Type\Tagged\ExplicitTagging;
-use ASN1\Type\Tagged\ExplicitlyTaggedType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use Sop\ASN1\Type\Tagged\ExplicitTagging;
+use Sop\ASN1\Type\TaggedType;
 
 /**
  * @group tagging
  * @group explicit-tag
+ *
+ * @internal
  */
-class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
+class ExplicitlyTaggedTypeTest extends TestCase
 {
     public function testCreate()
     {
@@ -20,7 +23,7 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ExplicitTagging::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -32,7 +35,7 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
             $el->explicit()
                 ->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -44,18 +47,18 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
             $el->explicit(Element::TYPE_NULL)
                 ->asNull());
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param ExplicitTagging $el
      */
     public function testExpectationFail(ExplicitTagging $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->explicit(Element::TYPE_BOOLEAN);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -65,7 +68,7 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectTagged());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -75,18 +78,18 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(TaggedType::class, $el->expectTagged(1));
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param ExplicitlyTaggedType $el
      */
     public function testExpectTagFail(ExplicitlyTaggedType $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->expectTagged(2);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -96,18 +99,18 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit());
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param TaggedType $el
      */
     public function testExpectImplicitFail(TaggedType $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->expectImplicit();
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -117,29 +120,29 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(ExplicitTagging::class, $el->expectExplicit(1));
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param TaggedType $el
      */
     public function testExpectExplicitWithInvalidTagFail(TaggedType $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->expectExplicit(2);
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param TaggedType $el
      */
     public function testExpectTypeFails(TaggedType $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->expectType(Element::TYPE_NULL);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -151,15 +154,15 @@ class ExplicitlyTaggedTypeTest extends PHPUnit_Framework_TestCase
             $el->asExplicit(1)
                 ->asNull());
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException UnexpectedValueException
      *
      * @param TaggedType $el
      */
     public function testAsExplicitFail(TaggedType $el)
     {
+        $this->expectException(UnexpectedValueException::class);
         $el->asExplicit(2);
     }
 }

@@ -1,14 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Type\Primitive\Enumerated;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Primitive\Enumerated;
 
 /**
  * @group encode
  * @group enumerated
+ *
+ * @internal
  */
-class EnumeratedEncodeTest extends PHPUnit_Framework_TestCase
+class EnumeratedEncodeTest extends TestCase
 {
     public function testEncode()
     {

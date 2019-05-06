@@ -1,40 +1,42 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\StringType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Type\StringType;
 
 /**
  * @group decode
  * @group string
+ *
+ * @internal
  */
-class StringTypeDecodeTest extends PHPUnit_Framework_TestCase
+class StringTypeDecodeTest extends TestCase
 {
     public function testType()
     {
         $el = StringType::fromDER("\x13\x0");
         $this->assertInstanceOf(StringType::class, $el);
     }
-    
+
     public function testValue()
     {
         $el = StringType::fromDER("\x13\x0bHello World");
-        $this->assertEquals("Hello World", $el->string());
+        $this->assertEquals('Hello World', $el->string());
     }
-    
+
     public function testExpectation()
     {
         $el = StringType::fromDER("\x13\x0bHello World");
         $this->assertInstanceOf(StringType::class,
             $el->expectType(Element::TYPE_STRING));
     }
-    
-    /**
-     * @expectedException ASN1\Exception\DecodeException
-     */
+
     public function testConstructedFail()
     {
+        $this->expectException(DecodeException::class);
         StringType::fromDER("\x34\x0");
     }
 }

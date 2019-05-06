@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Util;
+namespace Sop\ASN1\Util;
 
-use ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\BitString;
 
 /**
  * Class to handle a bit string as a field of flags.
@@ -13,28 +14,29 @@ class Flags
     /**
      * Flag octets.
      *
-     * @var string $_flags
+     * @var string
      */
     protected $_flags;
-    
+
     /**
      * Number of flags.
      *
-     * @var int $_width
+     * @var int
      */
     protected $_width;
-    
+
     /**
      * Constructor.
      *
      * @param int|string $flags Flags
-     * @param int $width The number of flags. If width is larger than number of
-     *        bits in $flags, zeroes are prepended to flag field.
+     * @param int        $width The number of flags. If width is larger than
+     *                          number of bits in $flags, zeroes are prepended
+     *                          to flag field.
      */
     public function __construct($flags, int $width)
     {
         if (!$width) {
-            $this->_flags = "";
+            $this->_flags = '';
         } else {
             // calculate number of unused bits in last octet
             $last_octet_bits = $width % 8;
@@ -46,23 +48,24 @@ class Flags
             // shift towards MSB if needed
             $data = gmp_export($num << $unused_bits, 1,
                 GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-            $octets = unpack("C*", $data);
+            $octets = unpack('C*', $data);
             $bits = count($octets) * 8;
             // pad with zeroes
             while ($bits < $width) {
                 array_unshift($octets, 0);
                 $bits += 8;
             }
-            $this->_flags = pack("C*", ...$octets);
+            $this->_flags = pack('C*', ...$octets);
         }
         $this->_width = $width;
     }
-    
+
     /**
      * Initialize from BitString.
      *
      * @param BitString $bs
-     * @param int $width
+     * @param int       $width
+     *
      * @return self
      */
     public static function fromBitString(BitString $bs, int $width): self
@@ -75,19 +78,22 @@ class Flags
         }
         return new self(gmp_strval($num, 10), $width);
     }
-    
+
     /**
      * Check whether a bit at given index is set.
+     *
      * Index 0 is the leftmost bit.
      *
      * @param int $idx
+     *
      * @throws \OutOfBoundsException
+     *
      * @return bool
      */
     public function test(int $idx): bool
     {
         if ($idx >= $this->_width) {
-            throw new \OutOfBoundsException("Index is out of bounds.");
+            throw new \OutOfBoundsException('Index is out of bounds.');
         }
         // octet index
         $oi = (int) floor($idx / 8);
@@ -98,9 +104,10 @@ class Flags
         $mask = 0x01 << (7 - $bi);
         return (ord($byte) & $mask) > 0;
     }
-    
+
     /**
      * Get flags as an octet string.
+     *
      * Zeroes are appended to the last octet if width is not divisible by 8.
      *
      * @return string
@@ -109,7 +116,7 @@ class Flags
     {
         return $this->_flags;
     }
-    
+
     /**
      * Get flags as a base 10 integer.
      *
@@ -123,7 +130,7 @@ class Flags
         $num >>= $unused_bits;
         return gmp_strval($num, 10);
     }
-    
+
     /**
      * Get flags as an integer.
      *
@@ -134,9 +141,10 @@ class Flags
         $num = new BigInt($this->number());
         return $num->intVal();
     }
-    
+
     /**
      * Get flags as a BitString.
+     *
      * Unused bits are set accordingly. Trailing zeroes are not stripped.
      *
      * @return BitString

@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
 /**
  * Implements <i>ENUMERATED</i> type.

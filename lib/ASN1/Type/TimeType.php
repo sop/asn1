@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type;
+namespace Sop\ASN1\Type;
 
-use ASN1\Element;
+use Sop\ASN1\Element;
 
 /**
  * Base class for all types representing a point in time.
@@ -15,15 +16,15 @@ abstract class TimeType extends Element
      *
      * @var string
      */
-    const TZ_UTC = "UTC";
-    
+    const TZ_UTC = 'UTC';
+
     /**
      * Date and time.
      *
-     * @var \DateTimeImmutable $_dateTime
+     * @var \DateTimeImmutable
      */
     protected $_dateTime;
-    
+
     /**
      * Constructor.
      *
@@ -33,17 +34,20 @@ abstract class TimeType extends Element
     {
         $this->_dateTime = $dt;
     }
-    
+
     /**
      * Initialize from datetime string.
      *
-     * @link http://php.net/manual/en/datetime.formats.php
-     * @param string $time Time string
-     * @param string|null $tz Timezone, if null use default.
+     * @see http://php.net/manual/en/datetime.formats.php
+     *
+     * @param string      $time Time string
+     * @param null|string $tz   timezone, if null use default
+     *
      * @throws \RuntimeException
+     *
      * @return self
      */
-    public static function fromString(string $time, string $tz = null): self
+    public static function fromString(string $time, ?string $tz = null): self
     {
         try {
             if (!isset($tz)) {
@@ -53,11 +57,11 @@ abstract class TimeType extends Element
                 new \DateTimeImmutable($time, self::_createTimeZone($tz)));
         } catch (\Exception $e) {
             throw new \RuntimeException(
-                "Failed to create DateTime: " .
+                'Failed to create DateTime: ' .
                 self::_getLastDateTimeImmutableErrorsStr(), 0, $e);
         }
     }
-    
+
     /**
      * Get the date and time.
      *
@@ -67,12 +71,14 @@ abstract class TimeType extends Element
     {
         return $this->_dateTime;
     }
-    
+
     /**
      * Create DateTimeZone object from string.
      *
      * @param string $tz
+     *
      * @throws \UnexpectedValueException If timezone is invalid
+     *
      * @return \DateTimeZone
      */
     protected static function _createTimeZone(string $tz): \DateTimeZone
@@ -80,10 +86,10 @@ abstract class TimeType extends Element
         try {
             return new \DateTimeZone($tz);
         } catch (\Exception $e) {
-            throw new \UnexpectedValueException("Invalid timezone.", 0, $e);
+            throw new \UnexpectedValueException('Invalid timezone.', 0, $e);
         }
     }
-    
+
     /**
      * Get last error caused by DateTimeImmutable.
      *
@@ -91,7 +97,7 @@ abstract class TimeType extends Element
      */
     protected static function _getLastDateTimeImmutableErrorsStr(): string
     {
-        $errors = \DateTimeImmutable::getLastErrors()["errors"];
-        return implode(", ", $errors);
+        $errors = \DateTimeImmutable::getLastErrors()['errors'];
+        return implode(', ', $errors);
     }
 }

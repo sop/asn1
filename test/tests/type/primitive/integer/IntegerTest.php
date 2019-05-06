@@ -2,16 +2,19 @@
 
 declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Primitive\NullType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group integer
+ *
+ * @internal
  */
-class IntegerTest extends PHPUnit_Framework_TestCase
+class IntegerTest extends TestCase
 {
     public function testCreate()
     {
@@ -19,7 +22,7 @@ class IntegerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Integer::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,33 +32,35 @@ class IntegerTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_INTEGER, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
-     * @return \ASN1\Type\Primitive\Integer
+     *
+     * @return \Sop\ASN1\Type\Primitive\Integer
      */
-    public function testDecode(string $data): \ASN1\Type\Primitive\Integer
+    public function testDecode(string $data): Integer
     {
         $el = Integer::fromDER($data);
         $this->assertInstanceOf(Integer::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,7 +72,7 @@ class IntegerTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -78,16 +83,14 @@ class IntegerTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Integer::class, $wrap->asInteger());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asInteger();
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -97,15 +100,13 @@ class IntegerTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1, $el->intNumber());
     }
-    
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage Integer overflow.
-     */
+
     public function testIntNumberOverflow()
     {
         $num = gmp_init(PHP_INT_MAX, 10) + 1;
         $int = new Integer(gmp_strval($num, 10));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Integer overflow.');
         $int->intNumber();
     }
 }

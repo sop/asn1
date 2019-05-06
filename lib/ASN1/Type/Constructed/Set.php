@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Constructed;
+namespace Sop\ASN1\Type\Constructed;
 
-use ASN1\Element;
-use ASN1\Type\Structure;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Structure;
 
 /**
  * Implements <i>SET</i> and <i>SET OF</i> types.
@@ -21,9 +22,10 @@ class Set extends Structure
         $this->_typeTag = self::TYPE_SET;
         parent::__construct(...$elements);
     }
-    
+
     /**
      * Sort by canonical ascending order.
+     * 
      * Used for DER encoding of SET type.
      *
      * @return self
@@ -43,9 +45,10 @@ class Set extends Structure
             });
         return $obj;
     }
-    
+
     /**
      * Sort by encoding ascending order.
+     * 
      * Used for DER encoding of SET OF type.
      *
      * @return self

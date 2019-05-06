@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Component\Identifier;
-use ASN1\Component\Length;
-use ASN1\Feature\ElementBase;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Component\Length;
+use Sop\ASN1\Feature\ElementBase;
 
 /**
  * Implements <i>RELATIVE-OID</i> type.
@@ -23,20 +24,17 @@ class RelativeOID extends ObjectIdentifier
         $this->_subids = self::_explodeDottedOID($oid);
         $this->_typeTag = self::TYPE_RELATIVE_OID;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _encodedContentDER(): string
     {
         return self::_encodeSubIDs(...$this->_subids);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
-     * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier,
         string $data, int &$offset): ElementBase

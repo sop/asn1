@@ -1,21 +1,24 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Type\Primitive\Enumerated;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Primitive\Enumerated;
 
 /**
  * @group decode
  * @group enumerated
+ *
+ * @internal
  */
-class EnumeratedDecodeTest extends PHPUnit_Framework_TestCase
+class EnumeratedDecodeTest extends TestCase
 {
     public function testType()
     {
         $el = Enumerated::fromDER("\x0a\x1\x0");
         $this->assertInstanceOf(Enumerated::class, $el);
     }
-    
+
     public function testValue()
     {
         $el = Enumerated::fromDER("\x0a\x1\x1");

@@ -1,14 +1,17 @@
 <?php
+
 declare(strict_types = 1);
 
-use ASN1\Type\Primitive\EOC;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Primitive\EOC;
 
 /**
- *
  * @group encode
  * @group eoc
+ *
+ * @internal
  */
-class EOCEncodeTest extends PHPUnit_Framework_TestCase
+class EOCEncodeTest extends TestCase
 {
     public function testEncode()
     {

@@ -1,26 +1,29 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\TimeType;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\GeneralizedTime;
-use ASN1\Type\Primitive\NullType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\GeneralizedTime;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\TimeType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group generalized-time
+ *
+ * @internal
  */
-class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
+class GeneralizedTimeTest extends TestCase
 {
     public function testCreate()
     {
-        $el = GeneralizedTime::fromString("Mon Jan 2 15:04:05 MST 2006");
+        $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
         $this->assertInstanceOf(GeneralizedTime::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -30,24 +33,26 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_GENERALIZED_TIME, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return GeneralizedTime
      */
     public function testDecode(string $data): GeneralizedTime
@@ -56,7 +61,7 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(GeneralizedTime::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -70,7 +75,7 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
             ->getTimestamp(), $el->dateTime()
             ->getTimestamp());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -82,16 +87,14 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(GeneralizedTime::class,
             $wrap->asGeneralizedTime());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asGeneralizedTime();
     }
-    
+
     /**
      * @depends testCreate
      *

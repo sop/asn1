@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Component\Identifier;
-use ASN1\Component\Length;
-use ASN1\Exception\DecodeException;
-use ASN1\Feature\ElementBase;
-use ASN1\Type\PrimitiveType;
-use ASN1\Type\StringType;
-use ASN1\Type\UniversalClass;
+use Sop\ASN1\Component\Identifier;
+use Sop\ASN1\Component\Length;
+use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\PrimitiveType;
+use Sop\ASN1\Type\StringType;
+use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements <i>BIT STRING</i> type.
@@ -18,19 +19,19 @@ class BitString extends StringType
 {
     use UniversalClass;
     use PrimitiveType;
-    
+
     /**
      * Number of unused bits in the last octet.
      *
-     * @var int $_unusedBits
+     * @var int
      */
     protected $_unusedBits;
-    
+
     /**
      * Constructor.
      *
-     * @param string $string Content octets
-     * @param int $unused_bits Number of unused bits in the last octet
+     * @param string $string      Content octets
+     * @param int    $unused_bits Number of unused bits in the last octet
      */
     public function __construct(string $string, int $unused_bits = 0)
     {
@@ -38,7 +39,7 @@ class BitString extends StringType
         parent::__construct($string);
         $this->_unusedBits = $unused_bits;
     }
-    
+
     /**
      * Get the number of bits in the string.
      *
@@ -48,7 +49,7 @@ class BitString extends StringType
     {
         return strlen($this->_string) * 8 - $this->_unusedBits;
     }
-    
+
     /**
      * Get the number of unused bits in the last octet of the string.
      *
@@ -58,12 +59,13 @@ class BitString extends StringType
     {
         return $this->_unusedBits;
     }
-    
+
     /**
      * Test whether bit is set.
      *
      * @param int $idx Bit index.
-     *        Most significant bit of the first octet is index 0.
+     *                 Most significant bit of the first octet is index 0.
+     *
      * @return bool
      */
     public function testBit(int $idx): bool
@@ -72,7 +74,7 @@ class BitString extends StringType
         $oi = (int) floor($idx / 8);
         // if octet is outside range
         if ($oi < 0 || $oi >= strlen($this->_string)) {
-            throw new \OutOfBoundsException("Index is out of bounds.");
+            throw new \OutOfBoundsException('Index is out of bounds.');
         }
         // bit index
         $bi = $idx % 8;
@@ -80,7 +82,7 @@ class BitString extends StringType
         if ($oi == strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
                 throw new \OutOfBoundsException(
-                    "Index refers to an unused bit.");
+                    'Index refers to an unused bit.');
             }
         }
         $byte = $this->_string[$oi];
@@ -88,22 +90,24 @@ class BitString extends StringType
         $mask = 0x01 << (7 - $bi);
         return (ord($byte) & $mask) > 0;
     }
-    
+
     /**
      * Get range of bits.
      *
-     * @param int $start Index of first bit
+     * @param int $start  Index of first bit
      * @param int $length Number of bits in range
+     *
      * @throws \OutOfBoundsException
+     *
      * @return string Integer of $length bits
      */
     public function range(int $start, int $length): string
     {
         if (!$length) {
-            return "0";
+            return '0';
         }
         if ($start + $length > $this->numBits()) {
-            throw new \OutOfBoundsException("Not enough bits.");
+            throw new \OutOfBoundsException('Not enough bits.');
         }
         $bits = gmp_init(0);
         $idx = $start;
@@ -118,7 +122,7 @@ class BitString extends StringType
         }
         return gmp_strval($bits, 10);
     }
-    
+
     /**
      * Get a copy of the bit string with trailing zeroes removed.
      *
@@ -128,13 +132,13 @@ class BitString extends StringType
     {
         // if bit string was empty
         if (!strlen($this->_string)) {
-            return new self("");
+            return new self('');
         }
         $bits = $this->_string;
         // count number of empty trailing octets
         $unused_octets = 0;
         for ($idx = strlen($bits) - 1; $idx >= 0; --$idx, ++$unused_octets) {
-            if ($bits[$idx] != "\x0") {
+            if ("\x0" != $bits[$idx]) {
                 break;
             }
         }
@@ -144,20 +148,19 @@ class BitString extends StringType
         }
         // if bit string was full of zeroes
         if (!strlen($bits)) {
-            return new self("");
+            return new self('');
         }
         // count number of trailing zeroes in the last octet
         $unused_bits = 0;
         $byte = ord($bits[strlen($bits) - 1]);
         while (!($byte & 0x01)) {
-            $unused_bits++;
+            ++$unused_bits;
             $byte >>= 1;
         }
         return new self($bits, $unused_bits);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _encodedContentDER(): string
@@ -172,11 +175,9 @@ class BitString extends StringType
         }
         return $der;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
-     * @return self
      */
     protected static function _decodeFromDER(Identifier $identifier,
         string $data, int &$offset): ElementBase
@@ -184,12 +185,12 @@ class BitString extends StringType
         $idx = $offset;
         $length = Length::expectFromDER($data, $idx);
         if ($length->intLength() < 1) {
-            throw new DecodeException("Bit string length must be at least 1.");
+            throw new DecodeException('Bit string length must be at least 1.');
         }
         $unused_bits = ord($data[$idx++]);
         if ($unused_bits > 7) {
             throw new DecodeException(
-                "Unused bits in a bit string must be less than 8.");
+                'Unused bits in a bit string must be less than 8.');
         }
         $str_len = $length->intLength() - 1;
         if ($str_len) {
@@ -198,11 +199,11 @@ class BitString extends StringType
                 $mask = (1 << $unused_bits) - 1;
                 if (ord($str[strlen($str) - 1]) & $mask) {
                     throw new DecodeException(
-                        "DER encoded bit string must have zero padding.");
+                        'DER encoded bit string must have zero padding.');
                 }
             }
         } else {
-            $str = "";
+            $str = '';
         }
         $offset = $idx + $str_len;
         return new self($str, $unused_bits);

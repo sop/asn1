@@ -1,17 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Primitive\Enumerated;
-use ASN1\Type\Primitive\NullType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Primitive\Enumerated;
+use Sop\ASN1\Type\Primitive\NullType;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group type
  * @group enumerated
+ *
+ * @internal
  */
-class EnumeratedTest extends PHPUnit_Framework_TestCase
+class EnumeratedTest extends TestCase
 {
     public function testCreate()
     {
@@ -19,7 +22,7 @@ class EnumeratedTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Enumerated::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,24 +32,26 @@ class EnumeratedTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_ENUMERATED, $el->tag());
     }
-    
+
     /**
      * @depends testCreate
      *
      * @param Element $el
+     *
      * @return string
      */
     public function testEncode(Element $el): string
     {
         $der = $el->toDER();
-        $this->assertInternalType("string", $der);
+        $this->assertIsString($der);
         return $der;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param string $data
+     *
      * @return Enumerated
      */
     public function testDecode(string $data): Enumerated
@@ -55,7 +60,7 @@ class EnumeratedTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Enumerated::class, $el);
         return $el;
     }
-    
+
     /**
      * @depends testCreate
      * @depends testDecode
@@ -67,7 +72,7 @@ class EnumeratedTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -78,13 +83,11 @@ class EnumeratedTest extends PHPUnit_Framework_TestCase
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(Enumerated::class, $wrap->asEnumerated());
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
+        $this->expectException(UnexpectedValueException::class);
         $wrap->asEnumerated();
     }
 }

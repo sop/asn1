@@ -1,14 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-use ASN1\Type\Primitive\NullType;
+use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Primitive\NullType;
 
 /**
  * @group encode
  * @group null
+ *
+ * @internal
  */
-class NullEncodeTest extends PHPUnit_Framework_TestCase
+class NullEncodeTest extends TestCase
 {
     public function testEncode()
     {

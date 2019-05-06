@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types = 1);
 
-namespace ASN1\Type\Primitive;
+namespace Sop\ASN1\Type\Primitive;
 
-use ASN1\Type\PrimitiveString;
-use ASN1\Type\UniversalClass;
+use Sop\ASN1\Type\PrimitiveString;
+use Sop\ASN1\Type\UniversalClass;
 
 class CharacterString extends PrimitiveString
 {
     use UniversalClass;
-    
+
     /**
      * Constructor.
      *
