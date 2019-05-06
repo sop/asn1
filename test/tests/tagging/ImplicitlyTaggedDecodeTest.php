@@ -82,10 +82,10 @@ class ImplicitlyTaggedDecodeTest extends TestCase
     {
         $el = TaggedType::fromDER("\xa1\x2\x82\x0");
         $this->assertEquals(1, $el->tag());
-        $el = $el->implicit(Element::TYPE_SEQUENCE);
+        $el = $el->implicit(Element::TYPE_SEQUENCE)->asSequence();
         $this->assertEquals(2, $el->at(0)
             ->tag());
-        $el = $el->at(0)->implicit(Element::TYPE_NULL);
+        $el = $el->at(0)->asTagged()->implicit(Element::TYPE_NULL);
         $this->assertEquals(Element::TYPE_NULL, $el->tag());
     }
 }

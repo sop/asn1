@@ -112,14 +112,10 @@ class DERTaggedType extends TaggedType implements ExplicitTagging, ImplicitTaggi
     /**
      * {@inheritdoc}
      */
-    public function explicit(?int $expectedTag = null): UnspecifiedType
+    public function explicit(): UnspecifiedType
     {
         $idx = $this->_valueOffset;
-        $element = Element::fromDER($this->_data, $idx);
-        if (isset($expectedTag)) {
-            $element->expectType($expectedTag);
-        }
-        return $element->asUnspecified();
+        return Element::fromDER($this->_data, $idx)->asUnspecified();
     }
 
     /**

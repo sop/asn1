@@ -238,30 +238,20 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * Get the element at the given index, optionally checking that the element
      * has a given tag.
      *
-     * <strong>NOTE!</strong> Expectation checking is deprecated and should be
-     * done with <code>UnspecifiedType</code>.
-     *
-     * @todo Remove
-     *
-     * @param int      $idx         Index 0..n
-     * @param null|int $expectedTag Optional type tag expectation
+     * @param int $idx Index 0..n
      *
      * @throws \OutOfBoundsException     If element doesn't exists
      * @throws \UnexpectedValueException If expectation fails
      *
      * @return UnspecifiedType
      */
-    public function at(int $idx, ?int $expectedTag = null): UnspecifiedType
+    public function at(int $idx): UnspecifiedType
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
                 "Structure doesn't have an element at index ${idx}.");
         }
-        $element = $this->_elements[$idx];
-        if (isset($expectedTag)) {
-            $element->expectType($expectedTag);
-        }
-        return new UnspecifiedType($element);
+        return new UnspecifiedType($this->_elements[$idx]);
     }
 
     /**

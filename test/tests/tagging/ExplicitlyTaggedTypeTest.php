@@ -39,29 +39,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
     /**
      * @depends testCreate
      *
-     * @param ExplicitTagging $el
-     */
-    public function testExpectation(ExplicitTagging $el)
-    {
-        $this->assertInstanceOf(NullType::class,
-            $el->explicit(Element::TYPE_NULL)
-                ->asNull());
-    }
-
-    /**
-     * @depends testCreate
-     *
-     * @param ExplicitTagging $el
-     */
-    public function testExpectationFail(ExplicitTagging $el)
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $el->explicit(Element::TYPE_BOOLEAN);
-    }
-
-    /**
-     * @depends testCreate
-     *
      * @param ExplicitlyTaggedType $el
      */
     public function testExpectTagged(ExplicitlyTaggedType $el)

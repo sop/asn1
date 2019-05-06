@@ -138,17 +138,6 @@ class SequenceTest extends TestCase
      *
      * @param Sequence $seq
      */
-    public function testAtExpectationFail(Sequence $seq)
-    {
-        $this->expectException(UnexpectedValueException::class);
-        $seq->at(1, Element::TYPE_NULL);
-    }
-
-    /**
-     * @depends testCreate
-     *
-     * @param Sequence $seq
-     */
     public function testAtOOB(Sequence $seq)
     {
         $this->expectException(OutOfBoundsException::class);

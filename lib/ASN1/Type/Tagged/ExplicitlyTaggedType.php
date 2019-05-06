@@ -42,11 +42,8 @@ class ExplicitlyTaggedType extends TaggedTypeWrap implements ExplicitTagging
     /**
      * {@inheritdoc}
      */
-    public function explicit(?int $expectedTag = null): UnspecifiedType
+    public function explicit(): UnspecifiedType
     {
-        if (isset($expectedTag)) {
-            $this->_element->expectType($expectedTag);
-        }
         return $this->_element->asUnspecified();
     }
 

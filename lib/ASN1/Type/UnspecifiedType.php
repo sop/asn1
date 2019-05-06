@@ -35,23 +35,6 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * Compatibility method to dispatch calls to the wrapped element.
-     *
-     * @todo Remove
-     *
-     * @deprecated Use <code>as*</code> accessor methods to ensure strict type
-     *
-     * @param string $mtd  Method name
-     * @param array  $args Arguments
-     *
-     * @return mixed
-     */
-    public function __call($mtd, array $args)
-    {
-        return call_user_func_array([$this->_element, $mtd], $args);
-    }
-
-    /**
      * Initialize from DER data.
      *
      * @param string $data DER encoded data
@@ -625,13 +608,9 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * @todo Remove
+     * {@inheritdoc}
      *
-     * @deprecated use any <code>as*</code> accessor method first to ensure
-     *             type strictness
-     * @see \Sop\ASN1\Feature\ElementBase::expectType()
-     *
-     * @return ElementBase
+     * Consider using any of the <code>as*</code> accessor methods instead.
      */
     public function expectType(int $tag): ElementBase
     {
@@ -647,15 +626,11 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * @todo Remove
+     * {@inheritdoc}
      *
-     * @deprecated use any <code>as*</code> accessor method first to ensure
-     *             type strictness
-     * @see \Sop\ASN1\Feature\ElementBase::expectTagged()
-     *
-     * @param null|mixed $tag
-     *
-     * @return TaggedType
+     * Consider using <code>asTagged()</code> method instead and chaining
+     * with <code>TaggedType::asExplicit()</code> or
+     * <code>TaggedType::asImplicit()</code>.
      */
     public function expectTagged(?int $tag = null): TaggedType
     {

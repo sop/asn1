@@ -49,21 +49,6 @@ class ExplicitlyTaggedDecodeTest extends TestCase
                 ->tag());
     }
 
-    public function testInnerTypeExpected()
-    {
-        $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->assertEquals(Element::TYPE_NULL,
-            $el->explicit(Element::TYPE_NULL)
-                ->tag());
-    }
-
-    public function testInnerTypeExpectationFail()
-    {
-        $el = TaggedType::fromDER("\xa0\x2\x5\x0");
-        $this->expectException(UnexpectedValueException::class);
-        $el->explicit(Element::TYPE_BOOLEAN);
-    }
-
     public function testNestedTagging()
     {
         $el = TaggedType::fromDER("\xa1\x4\xa2\x2\x5\x0");
@@ -72,6 +57,7 @@ class ExplicitlyTaggedDecodeTest extends TestCase
             ->tag());
         $this->assertEquals(Element::TYPE_NULL,
             $el->explicit()
+                ->asTagged()
                 ->explicit()
                 ->tag());
     }
