@@ -261,7 +261,7 @@ class Real extends Element
         } elseif ($e < 0) {
             // pad with leading zeroes
             if (strlen($m) < abs($e)) {
-                $m = str_repeat('0', abs($e) - strlen($m)) . $m;
+                $m = str_repeat('0', intval(abs($e)) - strlen($m)) . $m;
             }
             // insert decimal point
             $num = substr($m, 0, $e) . '.' . substr($m, $e);
