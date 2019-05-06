@@ -49,6 +49,7 @@ class Flags
             $data = gmp_export($num << $unused_bits, 1,
                 GMP_MSW_FIRST | GMP_BIG_ENDIAN);
             $octets = unpack('C*', $data);
+            assert(is_array($octets), new \RuntimeException('unpack() failed'));
             $bits = count($octets) * 8;
             // pad with zeroes
             while ($bits < $width) {
