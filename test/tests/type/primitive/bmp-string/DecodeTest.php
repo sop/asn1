@@ -23,7 +23,7 @@ class BMPStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d\0!";
-        $el = BMPString::fromDER("\x1e\x18${str}");
+        $el = BMPString::fromDER("\x1e\x18{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -32,6 +32,6 @@ class BMPStringDecodeTest extends TestCase
         // last character is not 2 octets
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d!";
         $this->expectException(DecodeException::class);
-        BMPString::fromDER("\x1e\x17${str}");
+        BMPString::fromDER("\x1e\x17{$str}");
     }
 }

@@ -23,7 +23,7 @@ class GeneralizedTimeEncodeTest extends TestCase
     public function testFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "${ts}.5",
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.5",
             new \DateTimeZone('UTC'));
         $el = new GeneralizedTime($dt);
         $this->assertEquals("\x18\x11" . '20060102220405.5Z', $el->toDER());
@@ -32,7 +32,7 @@ class GeneralizedTimeEncodeTest extends TestCase
     public function testMultipleFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "${ts}.99999",
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999",
             new \DateTimeZone('UTC'));
         $el = new GeneralizedTime($dt);
         $this->assertEquals("\x18\x15" . '20060102220405.99999Z', $el->toDER());
@@ -41,7 +41,7 @@ class GeneralizedTimeEncodeTest extends TestCase
     public function testSmallFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "${ts}.000001",
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.000001",
             new \DateTimeZone('UTC'));
         $el = new GeneralizedTime($dt);
         $this->assertEquals("\x18\x16" . '20060102220405.000001Z', $el->toDER());

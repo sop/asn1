@@ -678,6 +678,6 @@ class UnspecifiedType implements ElementBase
         if (Identifier::CLASS_UNIVERSAL == $type_cls) {
             return Element::tagToName($tag);
         }
-        return Identifier::classToName($type_cls) . " TAG ${tag}";
+        return Identifier::classToName($type_cls) . " TAG {$tag}";
     }
 }

@@ -127,7 +127,7 @@ class ObjectIdentifier extends Element
                 $n = @gmp_init($subid, 10);
                 if (false === $n) {
                     throw new \UnexpectedValueException(
-                        "'${subid}' is not a number.");
+                        "'{$subid}' is not a number.");
                 }
                 $subids[] = $n;
             }

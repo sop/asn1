@@ -22,7 +22,7 @@ class GeneralStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = GeneralString::fromDER("\x1b\x0c${str}");
+        $el = GeneralString::fromDER("\x1b\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 }

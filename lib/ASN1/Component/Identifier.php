@@ -275,7 +275,7 @@ class Identifier implements Encodable
     public static function classToName(int $class): string
     {
         if (!array_key_exists($class, self::MAP_CLASS_TO_NAME)) {
-            return "CLASS ${class}";
+            return "CLASS {$class}";
         }
         return self::MAP_CLASS_TO_NAME[$class];
     }

@@ -23,7 +23,7 @@ class VisibleStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = VisibleString::fromDER("\x1a\x0c${str}");
+        $el = VisibleString::fromDER("\x1a\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class VisibleStringDecodeTest extends TestCase
     {
         $str = "Hello\nWorld!";
         $this->expectException(DecodeException::class);
-        VisibleString::fromDER("\x1a\x0c${str}");
+        VisibleString::fromDER("\x1a\x0c{$str}");
     }
 }

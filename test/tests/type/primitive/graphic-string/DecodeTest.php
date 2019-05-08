@@ -22,7 +22,7 @@ class GraphicStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = GraphicString::fromDER("\x19\x0c${str}");
+        $el = GraphicString::fromDER("\x19\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 }

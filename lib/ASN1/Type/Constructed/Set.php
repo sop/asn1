@@ -25,7 +25,7 @@ class Set extends Structure
 
     /**
      * Sort by canonical ascending order.
-     * 
+     *
      * Used for DER encoding of SET type.
      *
      * @return self
@@ -48,7 +48,7 @@ class Set extends Structure
 
     /**
      * Sort by encoding ascending order.
-     * 
+     *
      * Used for DER encoding of SET OF type.
      *
      * @return self

@@ -22,7 +22,7 @@ class CharacterStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = CharacterString::fromDER("\x1d\x0c${str}");
+        $el = CharacterString::fromDER("\x1d\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 }

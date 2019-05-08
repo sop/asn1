@@ -23,7 +23,7 @@ class UniversalStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0l\0\0\0o";
-        $el = UniversalString::fromDER("\x1c\x14${str}");
+        $el = UniversalString::fromDER("\x1c\x14{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class UniversalStringDecodeTest extends TestCase
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0lo";
         $this->expectException(DecodeException::class);
-        UniversalString::fromDER("\x1c\x17${str}");
+        UniversalString::fromDER("\x1c\x17{$str}");
     }
 }

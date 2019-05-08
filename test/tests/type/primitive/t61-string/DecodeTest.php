@@ -22,7 +22,7 @@ class T61StringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = T61String::fromDER("\x14\x0c${str}");
+        $el = T61String::fromDER("\x14\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 }

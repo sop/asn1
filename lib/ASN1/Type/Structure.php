@@ -121,7 +121,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have element at index ${idx}.");
+                "Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
         $obj->_elements[$idx] = $el;
@@ -141,7 +141,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function withInserted(int $idx, Element $el): self
     {
         if (count($this->_elements) < $idx || $idx < 0) {
-            throw new \OutOfBoundsException("Index ${idx} is out of bounds.");
+            throw new \OutOfBoundsException("Index {$idx} is out of bounds.");
         }
         $obj = clone $this;
         array_splice($obj->_elements, $idx, 0, [$el]);
@@ -189,7 +189,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have element at index ${idx}.");
+                "Structure doesn't have element at index {$idx}.");
         }
         $obj = clone $this;
         array_splice($obj->_elements, $idx, 1);
@@ -249,7 +249,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     {
         if (!isset($this->_elements[$idx])) {
             throw new \OutOfBoundsException(
-                "Structure doesn't have an element at index ${idx}.");
+                "Structure doesn't have an element at index {$idx}.");
         }
         return new UnspecifiedType($this->_elements[$idx]);
     }
@@ -288,7 +288,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     public function getTagged(int $tag): TaggedType
     {
         if (!$this->hasTagged($tag)) {
-            throw new \LogicException("No tagged element for tag ${tag}.");
+            throw new \LogicException("No tagged element for tag {$tag}.");
         }
         return $this->_taggedMap[$tag];
     }

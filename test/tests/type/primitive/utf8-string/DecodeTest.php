@@ -23,7 +23,7 @@ class UTF8StringDecodeTest extends TestCase
     public function testValue()
     {
         $str = '⠠⠓⠑⠇⠇⠕ ⠠⠺⠕⠗⠇⠙!';
-        $el = UTF8String::fromDER("\x0c\x26${str}");
+        $el = UTF8String::fromDER("\x0c\x26{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class UTF8StringDecodeTest extends TestCase
     {
         $str = "Hello W\x94rld!";
         $this->expectException(DecodeException::class);
-        UTF8String::fromDER("\x0c\x0c${str}");
+        UTF8String::fromDER("\x0c\x0c{$str}");
     }
 }

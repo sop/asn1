@@ -22,7 +22,7 @@ class VideotexStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = VideotexString::fromDER("\x15\x0c${str}");
+        $el = VideotexString::fromDER("\x15\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 }

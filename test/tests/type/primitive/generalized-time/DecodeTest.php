@@ -31,7 +31,7 @@ class GeneralizedTimeDecodeTest extends TestCase
     public function testFractions()
     {
         $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
-        $dt = \DateTimeImmutable::createFromFormat('U.u', "${ts}.99999",
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.99999",
             new \DateTimeZone('UTC'));
         $el = GeneralizedTime::fromDER("\x18\x15" . '20060102220405.99999Z');
         $this->assertEquals($dt->format('c u'),

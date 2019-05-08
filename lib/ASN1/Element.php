@@ -356,7 +356,7 @@ abstract class Element implements ElementBase
     public static function tagToName(int $tag): string
     {
         if (!array_key_exists($tag, self::MAP_TYPE_TO_NAME)) {
-            return "TAG ${tag}";
+            return "TAG {$tag}";
         }
         return self::MAP_TYPE_TO_NAME[$tag];
     }
@@ -427,7 +427,7 @@ abstract class Element implements ElementBase
     {
         if (!array_key_exists($tag, self::MAP_TAG_TO_CLASS)) {
             throw new \UnexpectedValueException(
-                "Universal tag ${tag} not implemented.");
+                "Universal tag {$tag} not implemented.");
         }
         return self::MAP_TAG_TO_CLASS[$tag];
     }

@@ -23,7 +23,7 @@ class PrintableStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World.';
-        $el = PrintableString::fromDER("\x13\x0c${str}");
+        $el = PrintableString::fromDER("\x13\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class PrintableStringDecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $this->expectException(DecodeException::class);
-        PrintableString::fromDER("\x13\x0c${str}");
+        PrintableString::fromDER("\x13\x0c{$str}");
     }
 }

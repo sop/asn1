@@ -23,7 +23,7 @@ class IA5StringDecodeTest extends TestCase
     public function testValue()
     {
         $str = 'Hello World!';
-        $el = IA5String::fromDER("\x16\x0c${str}");
+        $el = IA5String::fromDER("\x16\x0c{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class IA5StringDecodeTest extends TestCase
     {
         $str = "H\xebll\xf8 W\xf6rld!";
         $this->expectException(DecodeException::class);
-        IA5String::fromDER("\x16\x0c${str}");
+        IA5String::fromDER("\x16\x0c{$str}");
     }
 }

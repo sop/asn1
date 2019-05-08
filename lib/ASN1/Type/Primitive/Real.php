@@ -68,7 +68,7 @@ class Real extends Element
         $this->_typeTag = self::TYPE_REAL;
         if (!self::_validateNumber($number)) {
             throw new \InvalidArgumentException(
-                "'${number}' is not a valid NR3 form real.");
+                "'{$number}' is not a valid NR3 form real.");
         }
         $this->_number = $number;
     }
@@ -248,7 +248,7 @@ class Real extends Element
         /** @var string[] $match */
         if (!preg_match(self::NR3_REGEX, $str, $match)) {
             throw new \UnexpectedValueException(
-                "'${str}' is not a valid NR3 form real.");
+                "'{$str}' is not a valid NR3 form real.");
         }
         $m = $match[2];
         // if number started with minus sign
@@ -270,7 +270,7 @@ class Real extends Element
         }
         // if number is negative
         if ($inv) {
-            $num = "-${num}";
+            $num = "-{$num}";
         }
         return floatval($num);
     }

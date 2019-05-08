@@ -23,7 +23,7 @@ class NumericStringDecodeTest extends TestCase
     public function testValue()
     {
         $str = '123 456 789 0';
-        $el = NumericString::fromDER("\x12\x0d${str}");
+        $el = NumericString::fromDER("\x12\x0d{$str}");
         $this->assertEquals($str, $el->string());
     }
 
@@ -31,6 +31,6 @@ class NumericStringDecodeTest extends TestCase
     {
         $str = '123-456-789-0';
         $this->expectException(DecodeException::class);
-        NumericString::fromDER("\x12\x0d${str}");
+        NumericString::fromDER("\x12\x0d{$str}");
     }
 }

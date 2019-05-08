@@ -77,7 +77,7 @@ class GeneralizedTime extends TimeType
             $frac = $dt->format('u');
             if (0 != $frac) {
                 $frac = rtrim($frac, '0');
-                $this->_formatted .= ".${frac}";
+                $this->_formatted .= ".{$frac}";
             }
             // timezone
             $this->_formatted .= 'Z';
