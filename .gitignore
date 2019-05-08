@@ -9,7 +9,7 @@
 
 # build files
 /build/
-/.phpunit.result.cache
+/.*.cache
 
 # Composer
 /vendor/
