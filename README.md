@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=master)](https://travis-ci.org/sop/asn1)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sop/asn1/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=master)](https://coveralls.io/github/sop/asn1?branch=master)
-[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=php70)](https://travis-ci.org/sop/asn1)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=php70)](https://scrutinizer-ci.com/g/sop/asn1/?branch=php70)
+[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=php70)](https://coveralls.io/github/sop/asn1?branch=php70)
+[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/php70/LICENSE)
 
 # [ASN.1](https://sop.github.io/asn1/)
 
