@@ -8,7 +8,9 @@ use ASN1\Component\Length;
 use ASN1\Exception\DecodeException;
 use ASN1\Feature\ElementBase;
 use ASN1\Type\Constructed;
+use ASN1\Type\Constructed\ConstructedString;
 use ASN1\Type\Primitive;
+use ASN1\Type\PrimitiveString;
 use ASN1\Type\StringType;
 use ASN1\Type\TaggedType;
 use ASN1\Type\TimeType;
@@ -438,7 +440,13 @@ abstract class Element implements ElementBase
     {
         switch ($identifier->typeClass()) {
             case Identifier::CLASS_UNIVERSAL:
-                return self::_determineUniversalImplClass($identifier->intTag());
+                $cls = self::_determineUniversalImplClass($identifier->intTag());
+                // constructed strings may be present in BER
+                if ($identifier->isConstructed() &&
+                    is_subclass_of($cls, PrimitiveString::class)) {
+                    $cls = ConstructedString::class;
+                }
+                return $cls;
             case Identifier::CLASS_CONTEXT_SPECIFIC:
                 return ContextSpecificType::class;
             case Identifier::CLASS_APPLICATION:

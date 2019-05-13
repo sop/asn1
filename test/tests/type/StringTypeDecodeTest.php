@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 use ASN1\Element;
 use ASN1\Type\StringType;
+use ASN1\Exception\DecodeException;
+use ASN1\Type\PrimitiveString;
+use ASN1\Component\Identifier;
 
 /**
  * @group decode
@@ -31,10 +34,18 @@ class StringTypeDecodeTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException ASN1\Exception\DecodeException
+     * Cover case where primitive string encoding is not primitive.
      */
     public function testConstructedFail()
     {
-        StringType::fromDER("\x34\x0");
+        $cls = new ReflectionClass(PrimitiveString::class);
+        $mtd = $cls->getMethod('_decodeFromDER');
+        $mtd->setAccessible(true);
+        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL,
+            Identifier::CONSTRUCTED, Element::TYPE_OCTET_STRING);
+        $offset = 0;
+        $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('must be primitive');
+        $mtd->invokeArgs(null, [$identifier, "\x34\x0", &$offset]);
     }
 }
