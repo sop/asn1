@@ -18,9 +18,11 @@ class ConstructedString extends Structure
     /**
      * Constructor.
      *
+     * @internal Use create()
+     *
      * @param Element ...$elements Any number of elements
      */
-    protected function __construct(Element ...$elements)
+    public function __construct(Element ...$elements)
     {
         parent::__construct(...$elements);
     }
