@@ -3,8 +3,10 @@
 declare(strict_types = 1);
 
 use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\StringType;
 
 /**
@@ -34,9 +36,19 @@ class StringTypeDecodeTest extends TestCase
             $el->expectType(Element::TYPE_STRING));
     }
 
+    /**
+     * Cover case where primitive string encoding is not primitive.
+     */
     public function testConstructedFail()
     {
+        $cls = new ReflectionClass(PrimitiveString::class);
+        $mtd = $cls->getMethod('_decodeFromDER');
+        $mtd->setAccessible(true);
+        $identifier = new Identifier(Identifier::CLASS_UNIVERSAL,
+            Identifier::CONSTRUCTED, Element::TYPE_OCTET_STRING);
+        $offset = 0;
         $this->expectException(DecodeException::class);
-        StringType::fromDER("\x34\x0");
+        $this->expectExceptionMessage('must be primitive');
+        $mtd->invokeArgs(null, [$identifier, "\x34\x0", &$offset]);
     }
 }
