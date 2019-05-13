@@ -86,4 +86,14 @@ class ConstructedStringTest extends TestCase
     {
         $this->assertEquals(['Hello', 'World'], $cs->strings());
     }
+
+    /**
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
+    public function testConcatenated(ConstructedString $cs)
+    {
+        $this->assertEquals('HelloWorld', $cs->concatenated());
+    }
 }

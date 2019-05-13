@@ -51,6 +51,16 @@ class ConstructedString extends Structure
     }
 
     /**
+     * Get the contained strings concatenated together.
+     *
+     * @return string
+     */
+    public function concatenated(): string
+    {
+        return implode('', $this->strings());
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @return self
