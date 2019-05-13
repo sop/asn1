@@ -5,6 +5,7 @@ namespace ASN1\Type;
 
 use ASN1\Component\Identifier;
 use ASN1\Component\Length;
+use ASN1\Element;
 use ASN1\Exception\DecodeException;
 use ASN1\Feature\ElementBase;
 
@@ -14,7 +15,7 @@ use ASN1\Feature\ElementBase;
 abstract class PrimitiveString extends StringType
 {
     use PrimitiveType;
-    
+
     /**
      *
      * @see \ASN1\Element::_encodedContentDER()
@@ -24,7 +25,7 @@ abstract class PrimitiveString extends StringType
     {
         return $this->_string;
     }
-    
+
     /**
      *
      * {@inheritdoc}
@@ -36,9 +37,29 @@ abstract class PrimitiveString extends StringType
     {
         $idx = $offset;
         if (!$identifier->isPrimitive()) {
-            throw new DecodeException("DER encoded string must be primitive.");
+            $length = Length::expectFromDER($data, $idx);
+
+            /*
+             * A primitive string is not a constructed type by definition.
+             * Alas, if it is encoded as constructed type (0x24), we expect that
+             * some primitive OCTET_STRINGs follow. So loop over them, create a
+             * concatenated big string and return it.
+             */
+            if ($length->isIndefinite()) {
+                $str = '';
+                do {
+                    $offset  = $idx;
+                    $element = Element::fromDER($data, $offset);
+                    if ($element instanceof PrimitiveString) {
+                        $str .= $element->string();
+                        $idx = $offset;
+                    }
+                } while ($element instanceof PrimitiveString);
+                return new static($str);
+            }
+        } else {
+            $length = Length::expectFromDER($data, $idx)->intLength();
         }
-        $length = Length::expectFromDER($data, $idx)->intLength();
         $str = $length ? substr($data, $idx, $length) : "";
         // substr should never return false, since length is
         // checked by Length::expectFromDER.
