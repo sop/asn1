@@ -5,11 +5,12 @@ declare(strict_types = 1);
 namespace Sop\ASN1\Type;
 
 use Sop\ASN1\Element;
+use Sop\ASN1\Feature\Stringable;
 
 /**
  * Base class for all string types.
  */
-abstract class StringType extends Element
+abstract class StringType extends Element implements Stringable
 {
     /**
      * String value.
@@ -33,6 +34,16 @@ abstract class StringType extends Element
                     self::tagToName($this->_typeTag)));
         }
         $this->_string = $string;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->string();
     }
 
     /**

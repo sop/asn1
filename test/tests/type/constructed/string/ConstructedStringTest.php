@@ -5,8 +5,10 @@ declare(strict_types = 1);
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Element;
 use Sop\ASN1\Type\Constructed\ConstructedString;
-use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\UnspecifiedType;
 
 /**
  * @group structure
@@ -18,7 +20,7 @@ class ConstructedStringTest extends TestCase
 {
     public function testCreate()
     {
-        $cs = ConstructedString::create(
+        $cs = ConstructedString::createWithTag(
             Element::TYPE_OCTET_STRING,
             new OctetString('Hello'),
             new OctetString('World')
@@ -56,7 +58,7 @@ class ConstructedStringTest extends TestCase
      *
      * @param string $data
      *
-     * @return Sequence
+     * @return ConstructedString
      */
     public function testDecode(string $data): ConstructedString
     {
@@ -92,8 +94,57 @@ class ConstructedStringTest extends TestCase
      *
      * @param ConstructedString $cs
      */
-    public function testConcatenated(ConstructedString $cs)
+    public function testStringable(ConstructedString $cs)
     {
-        $this->assertEquals('HelloWorld', $cs->concatenated());
+        $this->assertEquals('HelloWorld', $cs->string());
+        $this->assertEquals('HelloWorld', strval($cs));
+    }
+
+    /**
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
+    public function testIsType(ConstructedString $cs)
+    {
+        $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
+    }
+
+    /**
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
+    public function testUnspecified(ConstructedString $cs)
+    {
+        $ut = new UnspecifiedType($cs);
+        $this->assertInstanceOf(ConstructedString::class, $ut->asConstructedString());
+    }
+
+    public function testUnspecifiedFail()
+    {
+        $ut = new UnspecifiedType(new NullType());
+        $this->expectException(\UnexpectedValueException::class);
+        $ut->asConstructedString();
+    }
+
+    public function testCreateFromElements()
+    {
+        $cs = ConstructedString::create(new OctetString('Hello'),
+            new OctetString('World'));
+        $this->assertInstanceOf(ConstructedString::class, $cs);
+    }
+
+    public function testCreateNoElementsFail()
+    {
+        $this->expectException(\LogicException::class);
+        ConstructedString::create();
+    }
+
+    public function testCreateMixedElementsFail()
+    {
+        $this->expectException(\LogicException::class);
+        ConstructedString::create(new OctetString('Hello'),
+            new BitString('World'));
     }
 }

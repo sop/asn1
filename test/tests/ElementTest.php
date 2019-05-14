@@ -32,7 +32,7 @@ class ElementTest extends TestCase
     public function testIsPseudotypeFail()
     {
         $el = new NullType();
-        $this->assertFalse($el->isType(-3));
+        $this->assertFalse($el->isType(-99));
     }
 
     public function testAsElement()

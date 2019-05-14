@@ -20,4 +20,10 @@ class StringTypeTest extends TestCase
         $wrap = new UnspecifiedType(new OctetString(''));
         $this->assertInstanceOf(StringType::class, $wrap->asString());
     }
+
+    public function testStringable()
+    {
+        $s = new OctetString('test');
+        $this->assertEquals('test', strval($s));
+    }
 }
