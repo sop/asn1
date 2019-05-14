@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use ASN1\Element;
+use ASN1\Exception\DecodeException;
 use ASN1\Type\Structure;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Boolean;
@@ -80,6 +81,15 @@ class StructureTest extends PHPUnit_Framework_TestCase
     {
         $el = new NullType();
         $der = $el->toDER();
+        Structure::explodeDER($der);
+    }
+    
+    public function testExplodeIndefiniteFail()
+    {
+        $el = new Sequence(new NullType());
+        $el = $el->withIndefiniteLength();
+        $der = $el->toDER();
+        $this->expectException(DecodeException::class);
         Structure::explodeDER($der);
     }
     
