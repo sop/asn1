@@ -224,7 +224,7 @@ class Length implements Encodable
         int &$offset): string
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
-        if (127 == $length) {
+        if (127 === $length) {
             throw new DecodeException('Invalid number of length octets.');
         }
         $num = gmp_init(0, 10);

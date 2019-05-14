@@ -48,7 +48,7 @@ class ImplicitlyTaggedType extends TaggedTypeWrap implements ImplicitTagging
         int $tag, int $class = Identifier::CLASS_UNIVERSAL): UnspecifiedType
     {
         $this->_element->expectType($tag);
-        if ($this->_element->typeClass() != $class) {
+        if ($this->_element->typeClass() !== $class) {
             throw new \UnexpectedValueException(
                 sprintf('Type class %s expected, got %s.',
                     Identifier::classToName($class),

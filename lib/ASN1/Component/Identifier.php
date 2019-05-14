@@ -101,7 +101,7 @@ class Identifier implements Encodable
         // bits 5 to 1 (tag number)
         $tag = (0b00011111 & $byte);
         // long-form identifier
-        if (0x1f == $tag) {
+        if (0x1f === $tag) {
             $tag = self::_decodeLongFormTag($data, $idx);
         }
         if (isset($offset)) {

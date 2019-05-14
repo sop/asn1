@@ -79,7 +79,7 @@ class BitString extends StringType
         // bit index
         $bi = $idx % 8;
         // if tested bit is last octet's unused bit
-        if ($oi == strlen($this->_string) - 1) {
+        if ($oi === strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
                 throw new \OutOfBoundsException(
                     'Index refers to an unused bit.');
@@ -138,7 +138,7 @@ class BitString extends StringType
         // count number of empty trailing octets
         $unused_octets = 0;
         for ($idx = strlen($bits) - 1; $idx >= 0; --$idx, ++$unused_octets) {
-            if ("\x0" != $bits[$idx]) {
+            if ("\x0" !== $bits[$idx]) {
                 break;
             }
         }

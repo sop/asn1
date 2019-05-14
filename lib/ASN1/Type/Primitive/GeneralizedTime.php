@@ -75,7 +75,7 @@ class GeneralizedTime extends TimeType
             $this->_formatted = $dt->format('YmdHis');
             // if fractions were used
             $frac = $dt->format('u');
-            if (0 != $frac) {
+            if (0 !== intval($frac)) {
                 $frac = rtrim($frac, '0');
                 $this->_formatted .= ".{$frac}";
             }

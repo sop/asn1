@@ -220,7 +220,7 @@ abstract class Element implements ElementBase
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
         $called_class = get_called_class();
-        if (self::class != $called_class) {
+        if (self::class !== $called_class) {
             if (!$element instanceof $called_class) {
                 throw new \UnexpectedValueException(
                     sprintf('%s expected, got %s.', $called_class,
@@ -457,7 +457,7 @@ abstract class Element implements ElementBase
      */
     protected function _typeDescriptorString(): string
     {
-        if (Identifier::CLASS_UNIVERSAL == $this->typeClass()) {
+        if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
             return self::tagToName($this->_typeTag);
         }
         return sprintf('%s TAG %d', Identifier::classToName($this->typeClass()),
@@ -474,11 +474,11 @@ abstract class Element implements ElementBase
     private function _isConcreteType(int $tag): bool
     {
         // if tag doesn't match
-        if ($this->tag() != $tag) {
+        if ($this->tag() !== $tag) {
             return false;
         }
         // if type is universal check that instance is of a correct class
-        if (Identifier::CLASS_UNIVERSAL == $this->typeClass()) {
+        if (Identifier::CLASS_UNIVERSAL === $this->typeClass()) {
             $cls = self::_determineUniversalImplClass($tag);
             if (!$this instanceof $cls) {
                 return false;

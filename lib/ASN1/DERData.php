@@ -81,7 +81,7 @@ class DERData extends Element
     protected function _encodedContentDER(): string
     {
         // if there's no content payload
-        if (strlen($this->_der) == $this->_contentOffset) {
+        if (strlen($this->_der) === $this->_contentOffset) {
             return '';
         }
         return substr($this->_der, $this->_contentOffset);

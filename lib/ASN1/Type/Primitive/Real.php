@@ -102,7 +102,7 @@ class Real extends Element
     {
         /* if the real value is the value zero, there shall be no contents
          octets in the encoding. (X.690 07-2002, section 8.5.2) */
-        if (self::NR3_ZERO == $this->_number) {
+        if (self::NR3_ZERO === $this->_number) {
             return '';
         }
         // encode in NR3 decimal encoding
@@ -125,7 +125,7 @@ class Real extends Element
             $byte = ord($bytes[0]);
             if (0x80 & $byte) { // bit 8 = 1
                 $obj = self::_decodeBinaryEncoding($bytes);
-            } elseif (0x00 == $byte >> 6) { // bit 8 = 0, bit 7 = 0
+            } elseif (0x00 === $byte >> 6) { // bit 8 = 0, bit 7 = 0
                 $obj = self::_decodeDecimalEncoding($bytes);
             } else { // bit 8 = 0, bit 7 = 1
                 $obj = self::_decodeSpecialRealValue($bytes);
@@ -156,7 +156,7 @@ class Real extends Element
     protected static function _decodeDecimalEncoding(string $data): self
     {
         $nr = ord($data[0]) & 0x03;
-        if (0x03 != $nr) {
+        if (0x03 !== $nr) {
             throw new \RuntimeException('Only NR3 form supported.');
         }
         $str = substr($data, 1);
@@ -170,15 +170,15 @@ class Real extends Element
      */
     protected static function _decodeSpecialRealValue(string $data)
     {
-        if (1 != strlen($data)) {
+        if (1 !== strlen($data)) {
             throw new DecodeException(
                 'SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
-        if (0x40 == $byte) { // positive infinity
+        if (0x40 === $byte) { // positive infinity
             throw new \RuntimeException('PLUS-INFINITY not supported.');
         }
-        if (0x41 == $byte) { // negative infinity
+        if (0x41 === $byte) { // negative infinity
             throw new \RuntimeException('MINUS-INFINITY not supported.');
         }
         throw new DecodeException('Invalid SpecialRealValue encoding.');
@@ -200,7 +200,7 @@ class Real extends Element
             $m = ltrim($parts[0], '0');
             $e = intval($match[2]);
             // if mantissa had decimals
-            if (2 == count($parts)) {
+            if (2 === count($parts)) {
                 $d = rtrim($parts[1], '0');
                 $e -= strlen($d);
                 $m .= $d;
@@ -210,7 +210,7 @@ class Real extends Element
             $parts = explode('.', $str);
             $m = ltrim($parts[0], '0');
             // if number had decimals
-            if (2 == count($parts)) {
+            if (2 === count($parts)) {
                 // exponent is negative number of the decimals
                 $e = -strlen($parts[1]);
                 // append decimals to the mantissa
@@ -226,7 +226,7 @@ class Real extends Element
         }
         /* if exponent is zero, it must be prefixed with a "+" sign
          (X.690 07-2002, section 11.3.2.6) */
-        if (0 == $e) {
+        if (0 === $e) {
             $es = '+';
         } else {
             $es = $e < 0 ? '-' : '';
@@ -252,7 +252,7 @@ class Real extends Element
         }
         $m = $match[2];
         // if number started with minus sign
-        $inv = '-' == $match[1];
+        $inv = '-' === $match[1];
         $e = intval($match[3]);
         // positive exponent
         if ($e > 0) {
