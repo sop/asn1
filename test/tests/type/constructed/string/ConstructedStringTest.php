@@ -105,7 +105,7 @@ class ConstructedStringTest extends TestCase
      *
      * @param ConstructedString $cs
      */
-    public function testIsType(ConstructedString $cs)
+    public function testIsPseudoType(ConstructedString $cs)
     {
         $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
     }
@@ -133,6 +133,15 @@ class ConstructedStringTest extends TestCase
         $cs = ConstructedString::create(new OctetString('Hello'),
             new OctetString('World'));
         $this->assertInstanceOf(ConstructedString::class, $cs);
+        return $cs;
+    }
+
+    /**
+     * @depends testCreateFromElements
+     */
+    public function testFromElementsTag(ConstructedString $cs)
+    {
+        $this->assertEquals(Element::TYPE_OCTET_STRING, $cs->tag());
     }
 
     public function testCreateNoElementsFail()
