@@ -13,6 +13,16 @@ use Sop\ASN1\Type\Structure;
 
 /**
  * Implements constructed type of simple strings.
+ *
+ * Constructed strings only exist in BER encodings, and often with
+ * indefinite length. Generally constructed string must contain only elements
+ * that have the same type tag as the constructing element.
+ * For example:
+ *      OCTET STRING (cons) {
+ *          OCTET STRING (prim) "ABC"
+ *          OCTET STRING (prim) "DEF"
+ *      }
+ * Canonically this corresponds to a payload of "ABCDEF" string.
  */
 class ConstructedString extends Structure implements Stringable
 {
@@ -96,6 +106,8 @@ class ConstructedString extends Structure implements Stringable
 
     /**
      * Get the contained strings concatenated together.
+     *
+     * NOTE: It's unclear how bit strings with unused bits should be concatentated.
      *
      * @return string
      */

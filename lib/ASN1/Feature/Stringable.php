@@ -11,7 +11,7 @@ interface Stringable
 {
     /**
      * Convert object to string.
-     * 
+     *
      * @return string
      */
     public function __toString(): string;

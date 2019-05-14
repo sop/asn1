@@ -58,8 +58,7 @@ interface ElementBase extends Encodable
      *
      * @param int $tag Type tag
      *
-     * @throws \UnexpectedValueException If the element type differs from the
-     *                                   expected
+     * @throws \UnexpectedValueException If the element type differs from the expected
      *
      * @return ElementBase
      */

@@ -89,8 +89,7 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Tagged\ApplicationType) {
             throw new \UnexpectedValueException(
-                'Application type expected, got ' .
-                $this->_typeDescriptorString());
+                'Application type expected, got ' . $this->_typeDescriptorString());
         }
         return $this->_element;
     }
@@ -194,8 +193,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as an object identifier type.
      *
-     * @throws \UnexpectedValueException If the element is not an object
-     *                                   identifier
+     * @throws \UnexpectedValueException If the element is not an object identifier
      *
      * @return \Sop\ASN1\Type\Primitive\ObjectIdentifier
      */
@@ -203,8 +201,7 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\ObjectIdentifier) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(
-                    Element::TYPE_OBJECT_IDENTIFIER));
+                $this->_generateExceptionMessage(Element::TYPE_OBJECT_IDENTIFIER));
         }
         return $this->_element;
     }
@@ -212,8 +209,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as an object descriptor type.
      *
-     * @throws \UnexpectedValueException If the element is not an object
-     *                                   descriptor
+     * @throws \UnexpectedValueException If the element is not an object descriptor
      *
      * @return \Sop\ASN1\Type\Primitive\ObjectDescriptor
      */
@@ -221,8 +217,7 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Primitive\ObjectDescriptor) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(
-                    Element::TYPE_OBJECT_DESCRIPTOR));
+                $this->_generateExceptionMessage(Element::TYPE_OBJECT_DESCRIPTOR));
         }
         return $this->_element;
     }
@@ -423,8 +418,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as a generalized time type.
      *
-     * @throws \UnexpectedValueException If the element is not a generalized
-     *                                   time
+     * @throws \UnexpectedValueException If the element is not a generalized time
      *
      * @return \Sop\ASN1\Type\Primitive\GeneralizedTime
      */
@@ -488,8 +482,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as a universal string type.
      *
-     * @throws \UnexpectedValueException If the element is not a universal
-     *                                   string
+     * @throws \UnexpectedValueException If the element is not a universal string
      *
      * @return \Sop\ASN1\Type\Primitive\UniversalString
      */
@@ -505,8 +498,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as a character string type.
      *
-     * @throws \UnexpectedValueException If the element is not a character
-     *                                   string
+     * @throws \UnexpectedValueException If the element is not a character string
      *
      * @return \Sop\ASN1\Type\Primitive\CharacterString
      */
@@ -546,8 +538,7 @@ class UnspecifiedType implements ElementBase
     {
         if (!$this->_element instanceof Constructed\ConstructedString) {
             throw new \UnexpectedValueException(
-                $this->_generateExceptionMessage(
-                    Element::TYPE_CONSTRUCTED_STRING));
+                $this->_generateExceptionMessage(Element::TYPE_CONSTRUCTED_STRING));
         }
         return $this->_element;
     }

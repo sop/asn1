@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace Sop\ASN1\Util;
 
+/**
+ * Class to wrap an integer of arbirtary length.
+ */
 class BigInt
 {
     /**

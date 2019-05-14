@@ -63,8 +63,7 @@ class BitString extends StringType
     /**
      * Test whether bit is set.
      *
-     * @param int $idx Bit index.
-     *                 Most significant bit of the first octet is index 0.
+     * @param int $idx Bit index. Most significant bit of the first octet is index 0.
      *
      * @return bool
      */

@@ -316,9 +316,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     }
 
     /**
-     * @see \Sop\ASN1\Element::_encodedContentDER()
-     *
-     * @return string
+     * {@inheritdoc}
      */
     protected function _encodedContentDER(): string
     {
@@ -331,8 +329,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
 
     /**
      * {@inheritdoc}
-     *
-     * @see \Sop\ASN1\Element::_decodeFromDER()
      *
      * @return self
      */

@@ -246,8 +246,7 @@ abstract class Element implements ElementBase
         if ($this->_indefiniteLength) {
             $length = new Length(0, true);
             $eoc = new Primitive\EOC();
-            return $identifier->toDER() . $length->toDER() . $content .
-                $eoc->toDER();
+            return $identifier->toDER() . $length->toDER() . $content . $eoc->toDER();
         }
         $length = new Length(strlen($content));
         return $identifier->toDER() . $length->toDER() . $content;
@@ -328,8 +327,7 @@ abstract class Element implements ElementBase
     /**
      * Get self with indefinite length encoding set.
      *
-     * @param bool $indefinite True for indefinite length, false for definite
-     *                         length
+     * @param bool $indefinite True for indefinite length, false for definite length
      *
      * @return self
      */
@@ -376,8 +374,7 @@ abstract class Element implements ElementBase
     /**
      * Get the content encoded in DER.
      *
-     * Returns the DER encoded content without identifier and length header
-     * octets.
+     * Returns the DER encoded content without identifier and length header octets.
      *
      * @return string
      */

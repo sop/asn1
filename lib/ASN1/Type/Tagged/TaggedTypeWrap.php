@@ -26,9 +26,7 @@ abstract class TaggedTypeWrap extends TaggedType
     protected $_class;
 
     /**
-     * @see \Sop\ASN1\Element::typeClass()
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function typeClass(): int
     {

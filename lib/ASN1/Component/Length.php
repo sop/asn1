@@ -213,8 +213,7 @@ class Length implements Encodable
      *
      * @param int    $length Number of octets
      * @param string $data   Data
-     * @param int    $offset reference to the variable containing offset to the
-     *                       data
+     * @param int    $offset reference to the variable containing offset to the data
      *
      * @throws DecodeException If decoding fails
      *
