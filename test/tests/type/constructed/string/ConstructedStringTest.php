@@ -111,6 +111,18 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
      *
      * @param ConstructedString $cs
      */
+    public function testStringable(ConstructedString $cs)
+    {
+        $this->assertEquals('HelloWorld', $cs->string());
+        $this->assertEquals('HelloWorld', strval($cs));
+    }
+    
+    /**
+     *
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
     public function testIsType(ConstructedString $cs)
     {
         $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));

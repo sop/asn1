@@ -4,11 +4,12 @@ declare(strict_types = 1);
 namespace ASN1\Type;
 
 use ASN1\Element;
+use ASN1\Feature\Stringable;
 
 /**
  * Base class for all string types.
  */
-abstract class StringType extends Element
+abstract class StringType extends Element implements Stringable
 {
     /**
      * String value.
@@ -39,6 +40,16 @@ abstract class StringType extends Element
      * @return string
      */
     public function string(): string
+    {
+        return $this->_string;
+    }
+    
+    /**
+     *
+     * @inheritdoc
+     * @return string
+     */
+    public function __toString(): string
     {
         return $this->_string;
     }

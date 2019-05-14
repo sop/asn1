@@ -6,13 +6,14 @@ namespace ASN1\Type\Constructed;
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Feature\ElementBase;
+use ASN1\Feature\Stringable;
 use ASN1\Type\StringType;
 use ASN1\Type\Structure;
 
 /**
  * Implements constructed type of simple strings.
  */
-class ConstructedString extends Structure
+class ConstructedString extends Structure implements Stringable
 {
     /**
      * Constructor.
@@ -85,6 +86,26 @@ class ConstructedString extends Structure
     public function concatenated(): string
     {
         return implode('', $this->strings());
+    }
+    
+    /**
+     * Get the contained strings concatenated together.
+     *
+     * @return string
+     */
+    public function string(): string
+    {
+        return $this->concatenated();
+    }
+    
+    /**
+     *
+     * @inheritdoc
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->concatenated();
     }
     
     /**
