@@ -17,7 +17,7 @@ class ConstructedStringEncodeTest extends PHPUnit_Framework_TestCase
      */
     public function testEncodeDefinite()
     {
-        $el = ConstructedString::create(Element::TYPE_OCTET_STRING);
+        $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING);
         $this->assertEquals(hex2bin('2400'), $el->toDER());
     }
     
@@ -25,7 +25,7 @@ class ConstructedStringEncodeTest extends PHPUnit_Framework_TestCase
      */
     public function testEncodeIndefinite()
     {
-        $el = ConstructedString::create(Element::TYPE_OCTET_STRING)->withIndefiniteLength();
+        $el = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING)->withIndefiniteLength();
         $this->assertEquals(hex2bin('24800000'), $el->toDER());
     }
 }

@@ -6,6 +6,7 @@ use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Constructed\ConstructedString;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\Primitive\BitString;
 
 /**
  *
@@ -22,7 +23,7 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $cs = ConstructedString::create(Element::TYPE_OCTET_STRING,
+        $cs = ConstructedString::createWithTag(Element::TYPE_OCTET_STRING,
             new OctetString('Hello'), new OctetString('World'))->withIndefiniteLength();
         $this->assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
@@ -135,5 +136,31 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
         $ut = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
         $ut->asConstructedString();
+    }
+    
+    /**
+     */
+    public function testCreateFromElements()
+    {
+        $cs = ConstructedString::create(new OctetString('Hello'),
+            new OctetString('World'));
+        $this->assertInstanceOf(ConstructedString::class, $cs);
+    }
+    
+    /**
+     */
+    public function testCreateNoElementsFail()
+    {
+        $this->expectException(\LogicException::class);
+        ConstructedString::create();
+    }
+    
+    /**
+     */
+    public function testCreateMixedElementsFail()
+    {
+        $this->expectException(\LogicException::class);
+        ConstructedString::create(new OctetString('Hello'),
+            new BitString('World'));
     }
 }

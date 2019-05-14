@@ -6,7 +6,7 @@ namespace ASN1\Type\Constructed;
 use ASN1\Element;
 use ASN1\Component\Identifier;
 use ASN1\Feature\ElementBase;
-use ASN1\Type\PrimitiveString;
+use ASN1\Type\StringType;
 use ASN1\Type\Structure;
 
 /**
@@ -27,12 +27,38 @@ class ConstructedString extends Structure
     }
     
     /**
-     * Create constructed string.
+     * Create from a list of string type elements
      *
-     * @param int $tag Type tag
-     * @param PrimitiveString ...$elements Any number of elements
+     * All strings must have the same type.
+     *
+     * @param StringType ...$elements
+     * @throws \LogicException
+     * @return self
      */
-    public static function create(int $tag, PrimitiveString ...$elements)
+    public static function create(StringType ...$elements): self
+    {
+        if (!count($elements)) {
+            throw new \LogicException(
+                'No elements, unable to determine type tag.');
+        }
+        $tag = $elements[0]->tag();
+        foreach ($elements as $el) {
+            if ($el->tag() !== $tag) {
+                throw new \LogicException(
+                    'All elements in constructed string must have the same type.');
+            }
+        }
+        return self::createWithTag($tag, ...$elements);
+    }
+    
+    /**
+     * Create from strings with a given type tag.
+     *
+     * @param int $tag Type tag for the constructed string element
+     * @param StringType ...$elements Any number of elements
+     * @return self
+     */
+    public static function createWithTag(int $tag, StringType ...$elements)
     {
         $el = new self(...$elements);
         $el->_typeTag = $tag;
@@ -46,10 +72,9 @@ class ConstructedString extends Structure
      */
     public function strings(): array
     {
-        return array_map(
-            function (PrimitiveString $el) {
-                return $el->string();
-            }, $this->_elements);
+        return array_map(function (StringType $el) {
+            return $el->string();
+        }, $this->_elements);
     }
     
     /**
