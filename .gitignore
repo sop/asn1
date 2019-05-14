@@ -1,15 +1,23 @@
-# eclipse project files
+# Eclipse project files
 /.settings/
 /.buildpath
 /.project
 /.pydevproject
 
-# build
-/build/
+# VS Code
+/.vscode
 
-# composer
+# build files
+/build/
+/.*.cache
+
+# Composer
 /vendor/
 /composer.lock
+
+# non-dist files
+/phpunit.xml
+/.php_cs
 
 # sandbox
 /demo/

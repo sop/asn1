@@ -1,13 +1,12 @@
 <?php
-
 declare(strict_types = 1);
 
 use ASN1\Element;
 use ASN1\Type\Constructed\ConstructedString;
-use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\OctetString;
 
 /**
+ *
  * @group structure
  * @group string
  *
@@ -15,18 +14,20 @@ use ASN1\Type\Primitive\OctetString;
  */
 class ConstructedStringTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     * @return ConstructedString
+     */
     public function testCreate()
     {
-        $cs = ConstructedString::create(
-            Element::TYPE_OCTET_STRING,
-            new OctetString('Hello'),
-            new OctetString('World')
-            )->withIndefiniteLength();
+        $cs = ConstructedString::create(Element::TYPE_OCTET_STRING,
+            new OctetString('Hello'), new OctetString('World'))->withIndefiniteLength();
         $this->assertInstanceOf(ConstructedString::class, $cs);
         return $cs;
     }
-
+    
     /**
+     *
      * @depends testCreate
      *
      * @param Element $el
@@ -35,8 +36,9 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Element::TYPE_OCTET_STRING, $el->tag());
     }
-
+    
     /**
+     *
      * @depends testCreate
      *
      * @param Element $el
@@ -49,8 +51,9 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $der);
         return $der;
     }
-
+    
     /**
+     *
      * @depends testEncode
      *
      * @param string $data
@@ -63,8 +66,9 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ConstructedString::class, $el);
         return $el;
     }
-
+    
     /**
+     *
      * @depends testCreate
      * @depends testDecode
      *
@@ -75,8 +79,9 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($ref, $el);
     }
-
+    
     /**
+     *
      * @depends testCreate
      *
      * @param ConstructedString $cs
@@ -85,8 +90,9 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(['Hello', 'World'], $cs->strings());
     }
-
+    
     /**
+     *
      * @depends testCreate
      *
      * @param ConstructedString $cs
