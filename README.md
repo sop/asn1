@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=master)](https://travis-ci.org/sop/asn1)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sop/asn1/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=master)](https://coveralls.io/github/sop/asn1?branch=master)
-[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=php72)](https://travis-ci.org/sop/asn1)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=php72)](https://scrutinizer-ci.com/g/sop/asn1/?branch=php72)
+[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=php72)](https://coveralls.io/github/sop/asn1?branch=php72)
+[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/php72/LICENSE)
 
 # [ASN.1](https://sop.github.io/asn1/)
 
@@ -10,9 +10,9 @@ Distinguished Encoding Rules (DER) encoding and decoding.
 
 ## Requirements
 
--   PHP >=7.2
--   gmp
--   mbstring
+- PHP >=7.2
+- gmp
+- mbstring
 
 ## Installation
 
@@ -88,15 +88,15 @@ Outputs:
 
 See the following for more practical real-world usage examples.
 
--   EC Private Key
-    -   [Decode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L70)
-    -   [Encode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L209)
--   X.501 Attribute
-    -   [Decode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L55)
-    -   [Encode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L113)
--   X.509 Certificate (`TBSCertificate` sequence)
-    -   [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
-    -   [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
+- EC Private Key
+  - [Decode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L70)
+  - [Encode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L209)
+- X.501 Attribute
+  - [Decode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L55)
+  - [Encode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L113)
+- X.509 Certificate (`TBSCertificate` sequence)
+  - [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
+  - [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
 
 ## License
 
