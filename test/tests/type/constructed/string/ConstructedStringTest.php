@@ -2,7 +2,9 @@
 declare(strict_types = 1);
 
 use ASN1\Element;
+use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Constructed\ConstructedString;
+use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\OctetString;
 
 /**
@@ -58,7 +60,7 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
      *
      * @param string $data
      *
-     * @return Sequence
+     * @return ConstructedString
      */
     public function testDecode(string $data): ConstructedString
     {
@@ -100,5 +102,38 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
     public function testConcatenated(ConstructedString $cs)
     {
         $this->assertEquals('HelloWorld', $cs->concatenated());
+    }
+    
+    /**
+     *
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
+    public function testIsType(ConstructedString $cs)
+    {
+        $this->assertTrue($cs->isType(Element::TYPE_CONSTRUCTED_STRING));
+    }
+    
+    /**
+     *
+     * @depends testCreate
+     *
+     * @param ConstructedString $cs
+     */
+    public function testUnspecified(ConstructedString $cs)
+    {
+        $ut = new UnspecifiedType($cs);
+        $this->assertInstanceOf(ConstructedString::class,
+            $ut->asConstructedString());
+    }
+    
+    /**
+     */
+    public function testUnspecifiedFail()
+    {
+        $ut = new UnspecifiedType(new NullType());
+        $this->expectException(\UnexpectedValueException::class);
+        $ut->asConstructedString();
     }
 }

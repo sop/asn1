@@ -517,6 +517,23 @@ class UnspecifiedType implements ElementBase
     }
     
     /**
+     * Get the wrapped element as a constructed string type.
+     *
+     * @throws \UnexpectedValueException If the element is not a constructed
+     *         string
+     * @return Constructed\ConstructedString
+     */
+    public function asConstructedString(): Constructed\ConstructedString
+    {
+        if (!$this->_element instanceof Constructed\ConstructedString) {
+            throw new \UnexpectedValueException(
+                $this->_generateExceptionMessage(
+                    Element::TYPE_CONSTRUCTED_STRING));
+        }
+        return $this->_element;
+    }
+    
+    /**
      * Get the wrapped element as any string type.
      *
      * @throws \UnexpectedValueException If the element is not a string

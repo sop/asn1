@@ -35,7 +35,7 @@ class ElementTest extends PHPUnit_Framework_TestCase
     public function testIsPseudotypeFail()
     {
         $el = new NullType();
-        $this->assertFalse($el->isType(-3));
+        $this->assertFalse($el->isType(-99));
     }
     
     /**

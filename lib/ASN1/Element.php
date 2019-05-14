@@ -112,6 +112,15 @@ abstract class Element implements ElementBase
     const TYPE_TIME = -2;
     
     /**
+     * Pseudotype for constructed strings.
+     *
+     * May be used as an expectation parameter.
+     *
+     * @var int
+     */
+    const TYPE_CONSTRUCTED_STRING = -3;
+    
+    /**
      * Mapping from universal type tag to human readable name.
      *
      * @internal
@@ -149,7 +158,8 @@ abstract class Element implements ElementBase
         self::TYPE_CHARACTER_STRING => "CHARACTER STRING",
         self::TYPE_BMP_STRING => "BMPString",
         self::TYPE_STRING => "Any String",
-        self::TYPE_TIME => "Any Time"
+        self::TYPE_TIME => "Any Time",
+        self::TYPE_CONSTRUCTED_STRING => "Constructed String"
         /* @formatter:on */
     ];
     
@@ -353,6 +363,8 @@ abstract class Element implements ElementBase
                 return $this instanceof StringType;
             case self::TYPE_TIME:
                 return $this instanceof TimeType;
+            case self::TYPE_CONSTRUCTED_STRING:
+                return $this instanceof ConstructedString;
         }
         return false;
     }
