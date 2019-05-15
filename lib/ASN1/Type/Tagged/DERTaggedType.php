@@ -15,9 +15,8 @@ use Sop\ASN1\Type\UnspecifiedType;
 /**
  * Intermediate class to store tagged DER data.
  *
- * <code>implicit($tag)</code> or <code>explicit()</code> method is used
- * to decode the actual element, which is only known by the abstract syntax
- * of data structure.
+ * `implicit($tag)` or `explicit()` method is used to decode the actual element,
+ * which is only known by the abstract syntax of data structure.
  *
  * May be encoded back to complete DER encoding.
  */

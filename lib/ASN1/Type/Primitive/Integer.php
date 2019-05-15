@@ -13,7 +13,7 @@ use Sop\ASN1\Type\UniversalClass;
 use Sop\ASN1\Util\BigInt;
 
 /**
- * Implements <i>INTEGER</i> type.
+ * Implements *INTEGER* type.
  */
 class Integer extends Element
 {

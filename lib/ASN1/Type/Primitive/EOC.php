@@ -13,7 +13,7 @@ use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>End-of-contents</i> type.
+ * Implements *End-of-contents* type.
  */
 class EOC extends Element
 {

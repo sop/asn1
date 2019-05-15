@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>T61String</i> type.
+ * Implements *T61String* type.
  */
 class T61String extends PrimitiveString
 {

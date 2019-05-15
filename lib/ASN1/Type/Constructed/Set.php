@@ -8,7 +8,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Structure;
 
 /**
- * Implements <i>SET</i> and <i>SET OF</i> types.
+ * Implements *SET* and *SET OF* types.
  */
 class Set extends Structure
 {

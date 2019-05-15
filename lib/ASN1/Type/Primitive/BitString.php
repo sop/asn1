@@ -13,7 +13,7 @@ use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>BIT STRING</i> type.
+ * Implements *BIT STRING* type.
  */
 class BitString extends StringType
 {

@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>BMPString</i> type.
+ * Implements *BMPString* type.
  *
  * BMP stands for Basic Multilingual Plane. This is generally an Unicode string
  * with UCS-2 encoding.

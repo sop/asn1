@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>ObjectDescriptor</i> type.
+ * Implements *ObjectDescriptor* type.
  */
 class ObjectDescriptor extends PrimitiveString
 {

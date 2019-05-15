@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Sop\ASN1\Type\Primitive;
 
 /**
- * Implements <i>ENUMERATED</i> type.
+ * Implements *ENUMERATED* type.
  */
 class Enumerated extends Integer
 {

@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>NumericString</i> type.
+ * Implements *NumericString* type.
  */
 class NumericString extends PrimitiveString
 {

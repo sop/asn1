@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>VideotexString</i> type.
+ * Implements *VideotexString* type.
  */
 class VideotexString extends PrimitiveString
 {

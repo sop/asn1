@@ -240,7 +240,7 @@ class Identifier implements Encodable
     /**
      * Get self with given type class.
      *
-     * @param int $class One of <code>CLASS_*</code> enumerations
+     * @param int $class One of `CLASS_*` enumerations
      *
      * @return self
      */

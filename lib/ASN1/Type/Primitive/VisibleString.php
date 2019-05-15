@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>VisibleString</i> type.
+ * Implements *VisibleString* type.
  */
 class VisibleString extends PrimitiveString
 {

@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>OCTET STRING</i> type.
+ * Implements *OCTET STRING* type.
  */
 class OctetString extends PrimitiveString
 {

@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>UniversalString</i> type.
+ * Implements *UniversalString* type.
  *
  * Universal string is an Unicode string with UCS-4 encoding.
  */

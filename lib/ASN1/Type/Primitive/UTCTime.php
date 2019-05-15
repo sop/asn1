@@ -13,7 +13,7 @@ use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>UTCTime</i> type.
+ * Implements *UTCTime* type.
  */
 class UTCTime extends TimeType
 {

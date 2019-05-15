@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>PrintableString</i> type.
+ * Implements *PrintableString* type.
  */
 class PrintableString extends PrimitiveString
 {

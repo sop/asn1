@@ -618,7 +618,7 @@ class UnspecifiedType implements ElementBase
     /**
      * {@inheritdoc}
      *
-     * Consider using any of the <code>as*</code> accessor methods instead.
+     * Consider using any of the `as*` accessor methods instead.
      */
     public function expectType(int $tag): ElementBase
     {
@@ -636,9 +636,8 @@ class UnspecifiedType implements ElementBase
     /**
      * {@inheritdoc}
      *
-     * Consider using <code>asTagged()</code> method instead and chaining
-     * with <code>TaggedType::asExplicit()</code> or
-     * <code>TaggedType::asImplicit()</code>.
+     * Consider using `asTagged()` method instead and chaining
+     * with `TaggedType::asExplicit()` or `TaggedType::asImplicit()`.
      */
     public function expectTagged(?int $tag = null): TaggedType
     {
@@ -662,7 +661,7 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * Generate message for exceptions thrown by <code>as*</code> methods.
+     * Generate message for exceptions thrown by `as*` methods.
      *
      * @param int $tag Type tag of the expected element
      *

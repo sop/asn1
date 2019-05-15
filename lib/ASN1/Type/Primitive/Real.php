@@ -13,7 +13,7 @@ use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>REAL</i> type.
+ * Implements *REAL* type.
  */
 class Real extends Element
 {

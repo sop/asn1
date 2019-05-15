@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>UTF8String</i> type.
+ * Implements *UTF8String* type.
  *
  * UTF8String is an Unicode string with UTF-8 encoding.
  */

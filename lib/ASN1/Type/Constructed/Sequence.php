@@ -8,7 +8,7 @@ use Sop\ASN1\Element;
 use Sop\ASN1\Type\Structure;
 
 /**
- * Implements <i>SEQUENCE</i> and <i>SEQUENCE OF</i> types.
+ * Implements *SEQUENCE* and *SEQUENCE OF* types.
  */
 class Sequence extends Structure
 {

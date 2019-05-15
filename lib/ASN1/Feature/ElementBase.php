@@ -16,7 +16,7 @@ interface ElementBase extends Encodable
     /**
      * Get the class of the ASN.1 type.
      *
-     * One of <code>Identifier::CLASS_*</code> constants.
+     * One of `Identifier::CLASS_*` constants.
      *
      * @return int
      */

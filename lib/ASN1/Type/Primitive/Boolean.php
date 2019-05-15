@@ -13,7 +13,7 @@ use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>BOOLEAN</i> type.
+ * Implements *BOOLEAN* type.
  */
 class Boolean extends Element
 {

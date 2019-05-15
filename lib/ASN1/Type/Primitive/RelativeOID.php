@@ -9,7 +9,7 @@ use Sop\ASN1\Component\Length;
 use Sop\ASN1\Feature\ElementBase;
 
 /**
- * Implements <i>RELATIVE-OID</i> type.
+ * Implements *RELATIVE-OID* type.
  */
 class RelativeOID extends ObjectIdentifier
 {

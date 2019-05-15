@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>GeneralString</i> type.
+ * Implements *GeneralString* type.
  */
 class GeneralString extends PrimitiveString
 {

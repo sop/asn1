@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>GraphicString</i> type.
+ * Implements *GraphicString* type.
  */
 class GraphicString extends PrimitiveString
 {

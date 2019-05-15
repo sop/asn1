@@ -8,7 +8,7 @@ use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>IA5String</i> type.
+ * Implements *IA5String* type.
  */
 class IA5String extends PrimitiveString
 {

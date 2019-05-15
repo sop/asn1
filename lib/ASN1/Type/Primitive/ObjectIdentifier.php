@@ -13,7 +13,7 @@ use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>OBJECT IDENTIFIER</i> type.
+ * Implements *OBJECT IDENTIFIER* type.
  */
 class ObjectIdentifier extends Element
 {

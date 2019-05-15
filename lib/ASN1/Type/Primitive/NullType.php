@@ -13,7 +13,7 @@ use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>NULL</i> type.
+ * Implements *NULL* type.
  */
 class NullType extends Element
 {

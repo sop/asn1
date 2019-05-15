@@ -13,7 +13,7 @@ use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
- * Implements <i>GeneralizedTime</i> type.
+ * Implements *GeneralizedTime* type.
  */
 class GeneralizedTime extends TimeType
 {
