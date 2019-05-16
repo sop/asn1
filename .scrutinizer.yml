@@ -19,6 +19,7 @@ build:
 filter:
     excluded_paths:
         - test/
+        - examples/
     dependency_paths:
         - vendor/
 checks:
