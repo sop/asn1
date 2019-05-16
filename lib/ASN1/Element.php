@@ -9,7 +9,6 @@ use ASN1\Exception\DecodeException;
 use ASN1\Feature\ElementBase;
 use ASN1\Type\Constructed;
 use ASN1\Type\Primitive;
-use ASN1\Type\PrimitiveString;
 use ASN1\Type\StringType;
 use ASN1\Type\TaggedType;
 use ASN1\Type\TimeType;
@@ -455,7 +454,7 @@ abstract class Element implements ElementBase
                 $cls = self::_determineUniversalImplClass($identifier->intTag());
                 // constructed strings may be present in BER
                 if ($identifier->isConstructed() &&
-                    is_subclass_of($cls, PrimitiveString::class)) {
+                    is_subclass_of($cls, StringType::class)) {
                     $cls = ConstructedString::class;
                 }
                 return $cls;
