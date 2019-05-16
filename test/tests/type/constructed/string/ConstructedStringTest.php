@@ -100,17 +100,6 @@ class ConstructedStringTest extends PHPUnit_Framework_TestCase
      *
      * @param ConstructedString $cs
      */
-    public function testConcatenated(ConstructedString $cs)
-    {
-        $this->assertEquals('HelloWorld', $cs->concatenated());
-    }
-    
-    /**
-     *
-     * @depends testCreate
-     *
-     * @param ConstructedString $cs
-     */
     public function testStringable(ConstructedString $cs)
     {
         $this->assertEquals('HelloWorld', $cs->string());

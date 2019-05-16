@@ -81,31 +81,25 @@ class ConstructedString extends Structure implements Stringable
     /**
      * Get the contained strings concatenated together.
      *
-     * @return string
-     */
-    public function concatenated(): string
-    {
-        return implode('', $this->strings());
-    }
-    
-    /**
-     * Get the contained strings concatenated together.
+     * NOTE: It's unclear how bit strings with unused bits should be
+     * concatentated.
      *
      * @return string
      */
     public function string(): string
     {
-        return $this->concatenated();
+        return implode('', $this->strings());
     }
     
     /**
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return string
      */
     public function __toString(): string
     {
-        return $this->concatenated();
+        return $this->string();
     }
     
     /**
