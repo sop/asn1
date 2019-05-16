@@ -11,7 +11,6 @@ use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\Constructed;
 use Sop\ASN1\Type\Constructed\ConstructedString;
 use Sop\ASN1\Type\Primitive;
-use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\Tagged\ApplicationType;
 use Sop\ASN1\Type\Tagged\ContextSpecificType;
@@ -412,7 +411,7 @@ abstract class Element implements ElementBase
                 $cls = self::_determineUniversalImplClass($identifier->intTag());
                 // constructed strings may be present in BER
                 if ($identifier->isConstructed() &&
-                    is_subclass_of($cls, PrimitiveString::class)) {
+                    is_subclass_of($cls, StringType::class)) {
                     $cls = ConstructedString::class;
                 }
                 return $cls;
