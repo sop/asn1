@@ -82,7 +82,7 @@ class StructureDecodeTest extends TestCase
     {
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $set->getTagged(1);
     }
 

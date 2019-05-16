@@ -73,7 +73,7 @@ abstract class TimeType extends Element
     }
 
     /**
-     * Create DateTimeZone object from string.
+     * Create `DateTimeZone` object from string.
      *
      * @param string $tz
      *
@@ -91,7 +91,7 @@ abstract class TimeType extends Element
     }
 
     /**
-     * Get last error caused by DateTimeImmutable.
+     * Get last error caused by `DateTimeImmutable`.
      *
      * @return string
      */

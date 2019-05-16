@@ -106,7 +106,7 @@ class RealTest extends TestCase
 
     public function testInvalidFormatFail()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new Real('fail');
     }
 
@@ -117,7 +117,7 @@ class RealTest extends TestCase
         $prop = $cls->getProperty('_number');
         $prop->setAccessible(true);
         $prop->setValue($real, 'fail');
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $real->float();
     }
 
@@ -135,7 +135,7 @@ class RealTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asReal();
     }
 }

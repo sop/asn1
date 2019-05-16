@@ -59,7 +59,7 @@ class BitStringDecodeTest extends TestCase
     public function testBitFail()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('unused bit');
         $el->testBit(12);
     }
@@ -70,7 +70,7 @@ class BitStringDecodeTest extends TestCase
     public function testBitFail2()
     {
         $el = BitString::fromDER("\x3\x3\x4\x08\x00");
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('out of bounds');
         $el->testBit(16);
     }

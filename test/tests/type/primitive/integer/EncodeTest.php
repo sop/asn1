@@ -27,13 +27,13 @@ class IntegerEncodeTest extends TestCase
 
     public function testInvalidNumber()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new Integer('one');
     }
 
     public function testEmpty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new Integer('');
     }
 

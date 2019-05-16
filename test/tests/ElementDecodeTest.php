@@ -30,19 +30,19 @@ class ElementDecodeTest extends TestCase
 
     public function testConcreteWrongClass()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         Boolean::fromDER("\x5\x0");
     }
 
     public function testUnimplementedFail()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         Element::fromDER("\x1f\x7f\x0");
     }
 
     public function testExpectTaggedFail()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         Element::fromDER("\x5\x0")->expectTagged();
     }
 
@@ -54,7 +54,7 @@ class ElementDecodeTest extends TestCase
         $identifier = new Identifier(Identifier::CLASS_UNIVERSAL,
             Identifier::PRIMITIVE, Element::TYPE_NULL);
         $offset = 0;
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(\BadMethodCallException::class);
         $mtd->invokeArgs(null, [$identifier, '', &$offset]);
     }
 
@@ -64,7 +64,7 @@ class ElementDecodeTest extends TestCase
         $mtd = $cls->getMethod('_determineImplClass');
         $mtd->setAccessible(true);
         $identifier = new ElementDecodeTest_IdentifierMockup(0, 0, 0);
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessageRegExp('/not implemented.$/');
         $mtd->invokeArgs(null, [$identifier]);
     }

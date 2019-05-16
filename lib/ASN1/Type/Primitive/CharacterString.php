@@ -7,6 +7,9 @@ namespace Sop\ASN1\Type\Primitive;
 use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\UniversalClass;
 
+/**
+ * Implements *CHARACTER STRING* type.
+ */
 class CharacterString extends PrimitiveString
 {
     use UniversalClass;

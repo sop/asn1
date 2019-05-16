@@ -32,7 +32,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     private $_taggedMap;
 
     /**
-     * Cache variable of elements wrapped into UnspecifiedType objects.
+     * Cache variable of elements wrapped into `UnspecifiedType` objects.
      *
      * @var null|UnspecifiedType[]
      */
@@ -304,7 +304,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     }
 
     /**
-     * Get an iterator for the UnspecifiedElement objects.
+     * Get an iterator for the `UnspecifiedElement` objects.
      *
      * @see \IteratorAggregate::getIterator()
      *
@@ -372,8 +372,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
             $elements[] = Element::fromDER($data, $idx);
             // check that element didn't overflow length
             if ($idx > $end) {
-                throw new DecodeException(
-                    "Structure's content overflows length.");
+                throw new DecodeException("Structure's content overflows length.");
             }
         }
         $offset = $idx;
@@ -391,8 +390,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @return ElementBase
      */
-    private static function _decodeIndefiniteLength(
-        string $data, int &$offset): ElementBase
+    private static function _decodeIndefiniteLength(string $data, int &$offset): ElementBase
     {
         $idx = $offset;
         $elements = [];

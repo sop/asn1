@@ -75,7 +75,7 @@ class UTF8StringTest extends TestCase
 
     public function testInvalidString()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new UTF8String(hex2bin('ff'));
     }
 
@@ -93,7 +93,7 @@ class UTF8StringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asUTF8String();
     }
 }

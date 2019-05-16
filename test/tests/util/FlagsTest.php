@@ -227,7 +227,7 @@ class FlagsTest extends TestCase
     public function testTestOOB()
     {
         $flags = new Flags(0, 8);
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $flags->test(8);
     }
 }

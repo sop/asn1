@@ -52,7 +52,7 @@ class BooleanTest extends TestCase
      *
      * @param string $data
      *
-     * @return \Sop\ASN1\Type\Primitive\Boolean
+     * @return Boolean
      */
     public function testDecode(string $data): Boolean
     {
@@ -87,7 +87,7 @@ class BooleanTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asBoolean();
     }
 }

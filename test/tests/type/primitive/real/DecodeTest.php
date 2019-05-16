@@ -17,14 +17,14 @@ class RealDecodeTest extends TestCase
     public function testBinaryEncodingFail()
     {
         $data = "\x9\x2\x80\x0";
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         Real::fromDER($data);
     }
 
     public function testNonNR3DecimalEncodingFail()
     {
         $data = "\x9\x02\x010";
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         Real::fromDER($data);
     }
 
@@ -38,14 +38,14 @@ class RealDecodeTest extends TestCase
     public function testSpecialEncodingPositiveINF()
     {
         $data = "\x9\x01\x40";
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         Real::fromDER($data);
     }
 
     public function testSpecialEncodingNegativeINF()
     {
         $data = "\x9\x01\x41";
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         Real::fromDER($data);
     }
 

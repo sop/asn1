@@ -10,7 +10,7 @@ use Sop\ASN1\Type\UniversalClass;
 /**
  * Implements *UTF8String* type.
  *
- * UTF8String is an Unicode string with UTF-8 encoding.
+ * *UTF8String* is an Unicode string with UTF-8 encoding.
  */
 class UTF8String extends PrimitiveString
 {

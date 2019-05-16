@@ -127,7 +127,7 @@ class BitStringTest extends TestCase
     public function testRangeOOB()
     {
         $bs = new BitString("\xff");
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $bs->range(7, 2);
     }
 
@@ -145,7 +145,7 @@ class BitStringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asBitString();
     }
 }

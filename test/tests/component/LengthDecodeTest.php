@@ -34,20 +34,20 @@ class LengthDecodeTest extends TestCase
 
     public function testLengthFailsBecauseIndefinite()
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         Length::fromDER("\x80")->length();
     }
 
     public function testIntLengthFailsBecauseIndefinite()
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         Length::fromDER("\x80")->intLength();
     }
 
     public function testHugeLengthHasNoIntval()
     {
         $der = "\xfe" . str_repeat("\xff", 126);
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow.');
         Length::fromDER($der)->intLength();
     }

@@ -103,7 +103,7 @@ class StructureTest extends TestCase
     public function testReplaceFail()
     {
         $seq = new Sequence(new NullType(), new NullType());
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $seq->withReplaced(2, new Boolean(true));
     }
 
@@ -137,7 +137,7 @@ class StructureTest extends TestCase
     public function testInsertOOB()
     {
         $seq = new Sequence(new NullType(), new NullType());
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $seq->withInserted(3, new Boolean(true));
     }
 
@@ -184,7 +184,7 @@ class StructureTest extends TestCase
     public function testRemoveFail()
     {
         $seq = new Sequence(new NullType());
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $seq->withoutElement(1);
     }
 

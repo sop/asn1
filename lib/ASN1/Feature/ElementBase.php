@@ -87,14 +87,14 @@ interface ElementBase extends Encodable
     public function expectTagged(?int $tag = null): TaggedType;
 
     /**
-     * Get the object as an abstract Element instance.
+     * Get the object as an abstract `Element` instance.
      *
      * @return Element
      */
     public function asElement(): Element;
 
     /**
-     * Get the object as an UnspecifiedType instance.
+     * Get the object as an `UnspecifiedType` instance.
      *
      * @return UnspecifiedType
      */

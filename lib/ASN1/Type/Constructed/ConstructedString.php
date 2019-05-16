@@ -29,7 +29,7 @@ class ConstructedString extends Structure implements Stringable
     /**
      * Constructor.
      *
-     * @internal Use create() method instead
+     * @internal Use `create()` or `createWithTag()` method instead
      *
      * @param Element ...$elements Any number of elements
      */
@@ -107,7 +107,7 @@ class ConstructedString extends Structure implements Stringable
     /**
      * Get the contained strings concatenated together.
      *
-     * NOTE: It's unclear how bit strings with unused bits should be concatentated.
+     * NOTE: It's unclear how bit strings with unused bits should be concatenated.
      *
      * @return string
      */

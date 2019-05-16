@@ -31,13 +31,13 @@ class TimeTypeTest extends TestCase
 
     public function testFromInvalidStringFail()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         GeneralizedTime::fromString('fail');
     }
 
     public function testFromStringWithInvalidTzFail()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006', 'nope');
     }
 

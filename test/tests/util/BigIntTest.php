@@ -27,14 +27,14 @@ class BigIntTest extends TestCase
     public function testOverflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10) + 1));
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $int->intVal();
     }
 
     public function testUnderflow()
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10) - 1));
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $int->intVal();
     }
 

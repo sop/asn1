@@ -55,7 +55,7 @@ class LengthEncodeTest extends TestCase
     {
         $largenum = gmp_init(str_repeat('ff', 127), 16);
         $length = new Length(gmp_strval($largenum, 10));
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $length->toDER();
     }
 
@@ -63,7 +63,7 @@ class LengthEncodeTest extends TestCase
     {
         $largenum = gmp_init(str_repeat('ff', 128), 16);
         $length = new Length(gmp_strval($largenum, 10));
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $length->toDER();
     }
 }

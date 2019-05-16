@@ -97,7 +97,7 @@ class IdentifierDecodeTest extends TestCase
     public function testHugeIntTagOverflow()
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow.');
         Identifier::fromDER($der)->intTag();
     }

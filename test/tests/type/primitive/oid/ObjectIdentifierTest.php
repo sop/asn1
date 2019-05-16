@@ -88,37 +88,37 @@ class ObjectIdentifierTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asObjectIdentifier();
     }
 
     public function testOnlyRootArc()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         new ObjectIdentifier('0');
     }
 
     public function testInvalidRootArc()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         new ObjectIdentifier('3.0');
     }
 
     public function testInvalidSubarc()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         new ObjectIdentifier('0.40');
     }
 
     public function testInvalidSubarc1()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         new ObjectIdentifier('1.40');
     }
 
     public function testInvalidNumber()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         new ObjectIdentifier('1.1.x');
     }
 

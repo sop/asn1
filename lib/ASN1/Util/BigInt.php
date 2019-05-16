@@ -76,7 +76,7 @@ class BigInt
     }
 
     /**
-     * Get the number as a GMP object.
+     * Get the number as a `GMP` object.
      *
      * @return \GMP
      */

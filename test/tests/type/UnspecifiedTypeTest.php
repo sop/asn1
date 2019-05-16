@@ -56,21 +56,21 @@ class UnspecifiedTypeTest extends TestCase
     public function testAsTaggedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asTagged();
     }
 
     public function testAsStringFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asString();
     }
 
     public function testAsTimeFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asTime();
     }
 
@@ -78,7 +78,7 @@ class UnspecifiedTypeTest extends TestCase
     {
         $el = new DERData("\xdf\x7f\x0");
         $wrap = new UnspecifiedType($el);
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asNull();
     }
 

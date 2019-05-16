@@ -52,7 +52,7 @@ class IntegerTest extends TestCase
      *
      * @param string $data
      *
-     * @return \Sop\ASN1\Type\Primitive\Integer
+     * @return Integer
      */
     public function testDecode(string $data): Integer
     {
@@ -87,7 +87,7 @@ class IntegerTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asInteger();
     }
 
@@ -105,7 +105,7 @@ class IntegerTest extends TestCase
     {
         $num = gmp_init(PHP_INT_MAX, 10) + 1;
         $int = new Integer(gmp_strval($num, 10));
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Integer overflow.');
         $int->intNumber();
     }

@@ -75,7 +75,7 @@ class UniversalStringTest extends TestCase
 
     public function testInvalidString()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new UniversalString('xxx');
     }
 
@@ -94,7 +94,7 @@ class UniversalStringTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asUniversalString();
     }
 }

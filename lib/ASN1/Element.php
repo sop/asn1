@@ -346,7 +346,7 @@ abstract class Element implements ElementBase
     }
 
     /**
-     * Get element decorated with UnspecifiedType object.
+     * Get element decorated with `UnspecifiedType` object.
      *
      * @return UnspecifiedType
      */

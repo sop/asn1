@@ -62,7 +62,7 @@ class Flags
     }
 
     /**
-     * Initialize from BitString.
+     * Initialize from `BitString`.
      *
      * @param BitString $bs
      * @param int       $width
@@ -144,7 +144,7 @@ class Flags
     }
 
     /**
-     * Get flags as a BitString.
+     * Get flags as a `BitString` object.
      *
      * Unused bits are set accordingly. Trailing zeroes are not stripped.
      *

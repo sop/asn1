@@ -91,7 +91,7 @@ class GeneralizedTimeTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asGeneralizedTime();
     }
 

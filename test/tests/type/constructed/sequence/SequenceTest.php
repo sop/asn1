@@ -140,7 +140,7 @@ class SequenceTest extends TestCase
      */
     public function testAtOOB(Sequence $seq)
     {
-        $this->expectException(OutOfBoundsException::class);
+        $this->expectException(\OutOfBoundsException::class);
         $seq->at(2);
     }
 
@@ -158,7 +158,7 @@ class SequenceTest extends TestCase
     public function testWrappedFail()
     {
         $wrap = new UnspecifiedType(new NullType());
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $wrap->asSequence();
     }
 }
