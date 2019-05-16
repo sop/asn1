@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=php72)](https://travis-ci.org/sop/asn1)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=php72)](https://scrutinizer-ci.com/g/sop/asn1/?branch=php72)
-[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=php72)](https://coveralls.io/github/sop/asn1?branch=php72)
-[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/php72/LICENSE)
-
 # [ASN.1](https://sop.github.io/asn1/)
+
+[![Build Status](https://travis-ci.org/sop/asn1.svg?branch=master)](https://travis-ci.org/sop/asn1)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sop/asn1/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=master)](https://coveralls.io/github/sop/asn1?branch=master)
+[![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/master/LICENSE)
 
 A PHP library for X.690 Abstract Syntax Notation One (ASN.1)
 Distinguished Encoding Rules (DER) encoding and decoding.
@@ -35,11 +35,11 @@ wrapper with accessor methods ensuring type safety.
 All objects are immutable and method chaining is promoted for the fluency
 of the API. Exception shall be thrown on errors.
 
-## Code Examples
+## [Code Examples](https://github.com/sop/asn1/tree/master/examples)
 
 Here are some simple usage examples. Namespaces are omitted for brevity.
 
-### Encode
+### [Encode](https://github.com/sop/asn1/blob/master/examples/encode.php)
 
 Encode a sequence containing a UTF-8 string, an integer
 and an explicitly tagged object identifier, conforming to the following
@@ -53,36 +53,24 @@ ASN.1 specification:
 
 ```php
 $seq = new Sequence(
-    new UTF8String("Hello"),
+    new UTF8String('Hello'),
     new Integer(42),
     new ExplicitlyTaggedType(
-        1, new ObjectIdentifier("1.3.6.1.3"))
+        1, new ObjectIdentifier('1.3.6.1.3'))
 );
 $der = $seq->toDER();
-echo bin2hex($der);
 ```
 
-Outputs:
-
-    30120c0548656c6c6f02012aa10606042b060103
-
-### Decode
+### [Decode](https://github.com/sop/asn1/blob/master/examples/decode.php)
 
 Decode DER encoding from above.
 
 ```php
 $seq = UnspecifiedType::fromDER($der)->asSequence();
-echo $seq->at(0)->asUTF8String()->string() . "\n";
-echo $seq->at(1)->asInteger()->number() . "\n";
-echo $seq->at(2)->asTagged()->asExplicit()
-    ->asObjectIdentifier()->oid() . "\n";
+$greeting = $seq->at(0)->asUTF8String()->string();
+$answer = $seq->at(1)->asInteger()->intNumber();
+$type = $seq->at(2)->asTagged()->asExplicit()->asObjectIdentifier()->oid();
 ```
-
-Outputs:
-
-    Hello
-    42
-    1.3.6.1.3
 
 ### Real-World Examples
 
