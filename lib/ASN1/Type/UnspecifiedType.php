@@ -7,6 +7,7 @@ namespace Sop\ASN1\Type;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Feature\Stringable;
 
 /**
  * Decorator class to wrap an element without already knowing the specific
@@ -47,7 +48,7 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * Initialize from ElementBase interface.
+     * Initialize from `ElementBase` interface.
      *
      * @param ElementBase $el
      *
@@ -337,8 +338,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as a printable string type.
      *
-     * @throws \UnexpectedValueException If the element is not a printable
-     *                                   string
+     * @throws \UnexpectedValueException If the element is not a printable string
      *
      * @return \Sop\ASN1\Type\Primitive\PrintableString
      */
@@ -546,7 +546,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as any string type.
      *
-     * @throws \UnexpectedValueException If the element is not a string
+     * @throws \UnexpectedValueException If the element is not a simple string element
      *
      * @return StringType
      */
@@ -555,6 +555,23 @@ class UnspecifiedType implements ElementBase
         if (!$this->_element instanceof StringType) {
             throw new \UnexpectedValueException(
                 $this->_generateExceptionMessage(Element::TYPE_STRING));
+        }
+        return $this->_element;
+    }
+
+    /**
+     * Get the wrapped element as a `Stringable` object.
+     *
+     * @throws \UnexpectedValueException If the element cannot be converted to string
+     *
+     * @return Stringable
+     */
+    public function asStringable(): Stringable
+    {
+        if (!$this->_element instanceof Stringable) {
+            throw new \UnexpectedValueException(
+                sprintf('%s does not implement string interface.',
+                    $this->_typeDescriptorString()));
         }
         return $this->_element;
     }
