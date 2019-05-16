@@ -1,9 +1,9 @@
+# [ASN.1](https://sop.github.io/asn1/)
+
 [![Build Status](https://travis-ci.org/sop/asn1.svg?branch=php70)](https://travis-ci.org/sop/asn1)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/asn1/badges/quality-score.png?b=php70)](https://scrutinizer-ci.com/g/sop/asn1/?branch=php70)
 [![Coverage Status](https://coveralls.io/repos/github/sop/asn1/badge.svg?branch=php70)](https://coveralls.io/github/sop/asn1?branch=php70)
 [![License](https://poser.pugx.org/sop/asn1/license)](https://github.com/sop/asn1/blob/php70/LICENSE)
-
-# [ASN.1](https://sop.github.io/asn1/)
 
 A PHP library for X.690 Abstract Syntax Notation One (ASN.1)
 Distinguished Encoding Rules (DER) encoding and decoding.
@@ -88,15 +88,15 @@ Outputs:
 
 See the following for more practical real-world usage examples.
 
--   EC Private Key
-    -   [Decode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L70)
-    -   [Encode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L209)
--   X.501 Attribute
-    -   [Decode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L55)
-    -   [Encode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L113)
--   X.509 Certificate (`TBSCertificate` sequence)
-    -   [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
-    -   [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
+- EC Private Key
+  - [Decode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L70)
+  - [Encode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L209)
+- X.501 Attribute
+  - [Decode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L55)
+  - [Encode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L113)
+- X.509 Certificate (`TBSCertificate` sequence)
+  - [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
+  - [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
 
 ## License
 

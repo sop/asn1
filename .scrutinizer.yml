@@ -1,17 +1,27 @@
 build:
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
+        tests-and-coverage:
+            requires:
+                - node: analysis
+            tests:
+                override:
+                    - command: vendor/bin/phpunit
+                      coverage:
+                          format: clover
+                          file: build/logs/clover.xml
     environment:
         php:
-            version: 7.0.20
-    tests:
-        override:
-        -   command: vendor/bin/phpunit
-            coverage:
-                format: php-clover
-                file: build/logs/clover.xml
+            version: 7.0
+filter:
+    excluded_paths:
+        - test/
+    dependency_paths:
+        - vendor/
 checks:
     php:
         code_rating: true
         duplication: false
-filter:
-    excluded_paths:
-    - test/
