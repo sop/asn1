@@ -86,6 +86,14 @@ See the following for more practical real-world usage examples.
   - [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
   - [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
 
+## ASN.1 References
+
+- [ITU-T X.690 07/2002](https://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf)
+- [ITU-T X.690 08/2015](https://www.itu.int/rec/T-REC-X.690-201508-I/en)
+- Hosted by [OSS Nokalva](http://www.oss.com/asn1/resources/books-whitepapers-pubs/asn1-books.html)
+  - [ASN.1 — Communication Between Heterogeneous Systems by Olivier Dubuisson](http://www.oss.com/asn1/resources/books-whitepapers-pubs/dubuisson-asn1-book.PDF)
+  - [ASN.1 Complete by Professor John Larmouth](http://www.oss.com/asn1/resources/books-whitepapers-pubs/larmouth-asn1-book.pdf)
+
 ## License
 
 This project is licensed under the MIT License.
