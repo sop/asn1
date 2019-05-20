@@ -10,7 +10,7 @@ namespace Sop\ASN1\Util;
 class BigInt
 {
     /**
-     * Number as a base10 integer string.
+     * Number as a base 10 integer string.
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class BigInt
     /**
      * Constructor.
      *
-     * @param int|string $num
+     * @param int|string $num Integer number in base 10
      */
     public function __construct($num)
     {
@@ -38,13 +38,13 @@ class BigInt
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->base10();
     }
 
     /**
-     * Get the number as a base10 integer string.
+     * Get the number as a base 10 integer string.
      *
      * @return string
      */
@@ -63,7 +63,7 @@ class BigInt
     public function intVal(): int
     {
         if (!isset($this->_intNum)) {
-            $num = gmp_init($this->_num, 10);
+            $num = $this->gmpObj();
             if (gmp_cmp($num, $this->_intMaxGmp()) > 0) {
                 throw new \RuntimeException('Integer overflow.');
             }
@@ -78,11 +78,17 @@ class BigInt
     /**
      * Get the number as a `GMP` object.
      *
+     * @throws \RuntimeException if number is not a valid integer
+     *
      * @return \GMP
      */
     public function gmpObj(): \GMP
     {
-        return gmp_init($this->_num, 10);
+        $num = @gmp_init($this->_num, 10);
+        if (false === $num) {
+            throw new \RuntimeException("Unable to convert {$this->_num} to integer.");
+        }
+        return $num;
     }
 
     /**

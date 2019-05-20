@@ -43,4 +43,12 @@ class BigIntTest extends TestCase
         $int = new BigInt(1);
         $this->assertSame('1', strval($int));
     }
+
+    public function testInvalidNumber()
+    {
+        $int = new BigInt('fail');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to convert');
+        $int->gmpObj();
+    }
 }
