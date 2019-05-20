@@ -109,9 +109,9 @@ class GeneralizedTime extends TimeType
                 throw new DecodeException(
                     "Fractional seconds must omit trailing zeroes.");
             }
-            $frac = (int) $frac;
+            $frac = $frac;
         } else {
-            $frac = 0;
+            $frac = '0';
         }
         $time = $year . $month . $day . $hour . $minute . $second . "." . $frac .
             self::TZ_UTC;

@@ -102,4 +102,19 @@ class GeneralizedTimeTest extends PHPUnit_Framework_TestCase
         $clone = clone $el;
         $this->assertInstanceOf(GeneralizedTime::class, $clone);
     }
+    
+    /**
+     * Test bug where leading zeroes in fraction gets stripped,
+     * such that `.05` becomes `.5`.
+     */
+    public function testLeadingFractionZeroes()
+    {
+        $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.05",
+            new \DateTimeZone('UTC'));
+        $el = new GeneralizedTime($dt);
+        $der = $el->toDER();
+        $el = GeneralizedTime::fromDER($der);
+        $this->assertEquals($der, $el->toDER());
+    }
 }
