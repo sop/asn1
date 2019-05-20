@@ -105,4 +105,31 @@ class GeneralizedTimeTest extends TestCase
         $clone = clone $el;
         $this->assertInstanceOf(GeneralizedTime::class, $clone);
     }
+
+    /**
+     * @depends testCreate
+     *
+     * @param TimeType $time
+     */
+    public function testStringable(TimeType $time)
+    {
+        $this->assertEquals('20060102220405Z', $time->string());
+        $this->assertEquals('20060102220405Z', strval($time));
+    }
+
+    /**
+     * Test bug where leading zeroes in fraction gets stripped,
+     * such that `.05` becomes `.5`.
+     */
+    public function testLeadingFractionZeroes()
+    {
+        $ts = strtotime('Mon Jan 2 15:04:05 MST 2006');
+        $dt = \DateTimeImmutable::createFromFormat('U.u', "{$ts}.05",
+            new \DateTimeZone('UTC'));
+        $el = new GeneralizedTime($dt);
+        $str = $el->string();
+        $der = $el->toDER();
+        $el = GeneralizedTime::fromDER($der);
+        $this->assertEquals($str, $el->string());
+    }
 }

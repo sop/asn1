@@ -7,7 +7,6 @@ namespace Sop\ASN1\Type;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Feature\Stringable;
 
 /**
  * Decorator class to wrap an element without already knowing the specific
@@ -546,7 +545,7 @@ class UnspecifiedType implements ElementBase
     /**
      * Get the wrapped element as any string type.
      *
-     * @throws \UnexpectedValueException If the element is not a simple string element
+     * @throws \UnexpectedValueException If the element is not a string type
      *
      * @return StringType
      */
@@ -560,26 +559,9 @@ class UnspecifiedType implements ElementBase
     }
 
     /**
-     * Get the wrapped element as a `Stringable` object.
-     *
-     * @throws \UnexpectedValueException If the element cannot be converted to string
-     *
-     * @return Stringable
-     */
-    public function asStringable(): Stringable
-    {
-        if (!$this->_element instanceof Stringable) {
-            throw new \UnexpectedValueException(
-                sprintf('%s does not implement string interface.',
-                    $this->_typeDescriptorString()));
-        }
-        return $this->_element;
-    }
-
-    /**
      * Get the wrapped element as any time type.
      *
-     * @throws \UnexpectedValueException If the element is not a time
+     * @throws \UnexpectedValueException If the element is not a time type
      *
      * @return TimeType
      */
@@ -590,6 +572,22 @@ class UnspecifiedType implements ElementBase
                 $this->_generateExceptionMessage(Element::TYPE_TIME));
         }
         return $this->_element;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function asElement(): Element
+    {
+        return $this->_element;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function asUnspecified(): UnspecifiedType
+    {
+        return $this;
     }
 
     /**
@@ -611,14 +609,6 @@ class UnspecifiedType implements ElementBase
     /**
      * {@inheritdoc}
      */
-    public function isConstructed(): bool
-    {
-        return $this->_element->isConstructed();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function tag(): int
     {
         return $this->_element->tag();
@@ -627,9 +617,25 @@ class UnspecifiedType implements ElementBase
     /**
      * {@inheritdoc}
      */
+    public function isConstructed(): bool
+    {
+        return $this->_element->isConstructed();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isType(int $tag): bool
     {
         return $this->_element->isType($tag);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isTagged(): bool
+    {
+        return $this->_element->isTagged();
     }
 
     /**
@@ -644,14 +650,6 @@ class UnspecifiedType implements ElementBase
 
     /**
      * {@inheritdoc}
-     */
-    public function isTagged(): bool
-    {
-        return $this->_element->isTagged();
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * Consider using `asTagged()` method instead and chaining
      * with `TaggedType::asExplicit()` or `TaggedType::asImplicit()`.
@@ -659,22 +657,6 @@ class UnspecifiedType implements ElementBase
     public function expectTagged(?int $tag = null): TaggedType
     {
         return $this->_element->expectTagged($tag);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function asElement(): Element
-    {
-        return $this->_element;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function asUnspecified(): UnspecifiedType
-    {
-        return $this;
     }
 
     /**
@@ -699,9 +681,12 @@ class UnspecifiedType implements ElementBase
     {
         $type_cls = $this->_element->typeClass();
         $tag = $this->_element->tag();
+        $str = $this->_element->isConstructed() ? 'constructed ' : 'primitive ';
         if (Identifier::CLASS_UNIVERSAL === $type_cls) {
-            return Element::tagToName($tag);
+            $str .= Element::tagToName($tag);
+        } else {
+            $str .= Identifier::classToName($type_cls) . " TAG {$tag}";
         }
-        return Identifier::classToName($type_cls) . " TAG {$tag}";
+        return $str;
     }
 }

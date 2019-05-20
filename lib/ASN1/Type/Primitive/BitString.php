@@ -8,14 +8,14 @@ use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\BaseString;
 use Sop\ASN1\Type\PrimitiveType;
-use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements *BIT STRING* type.
  */
-class BitString extends StringType
+class BitString extends BaseString
 {
     use UniversalClass;
     use PrimitiveType;

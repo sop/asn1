@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Exception\DecodeException;
+use Sop\ASN1\Type\BaseString;
 use Sop\ASN1\Type\PrimitiveString;
 use Sop\ASN1\Type\StringType;
 
@@ -19,19 +20,19 @@ class StringTypeDecodeTest extends TestCase
 {
     public function testType()
     {
-        $el = StringType::fromDER("\x13\x0");
+        $el = BaseString::fromDER("\x13\x0");
         $this->assertInstanceOf(StringType::class, $el);
     }
 
     public function testValue()
     {
-        $el = StringType::fromDER("\x13\x0bHello World");
+        $el = BaseString::fromDER("\x13\x0bHello World");
         $this->assertEquals('Hello World', $el->string());
     }
 
     public function testExpectation()
     {
-        $el = StringType::fromDER("\x13\x0bHello World");
+        $el = BaseString::fromDER("\x13\x0bHello World");
         $this->assertInstanceOf(StringType::class,
             $el->expectType(Element::TYPE_STRING));
     }

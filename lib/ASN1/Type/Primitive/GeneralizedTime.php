@@ -8,14 +8,14 @@ use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Component\Length;
 use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
+use Sop\ASN1\Type\BaseTime;
 use Sop\ASN1\Type\PrimitiveType;
-use Sop\ASN1\Type\TimeType;
 use Sop\ASN1\Type\UniversalClass;
 
 /**
  * Implements *GeneralizedTime* type.
  */
-class GeneralizedTime extends TimeType
+class GeneralizedTime extends BaseTime
 {
     use UniversalClass;
     use PrimitiveType;
@@ -100,6 +100,7 @@ class GeneralizedTime extends TimeType
             throw new DecodeException('Invalid GeneralizedTime format.');
         }
         [, $year, $month, $day, $hour, $minute, $second] = $match;
+        // if fractions match, there's at least one digit
         if (isset($match[7])) {
             $frac = $match[7];
             // DER restricts trailing zeroes in fractional seconds component
@@ -107,9 +108,9 @@ class GeneralizedTime extends TimeType
                 throw new DecodeException(
                     'Fractional seconds must omit trailing zeroes.');
             }
-            $frac = (int) $frac;
+            $frac = $frac;
         } else {
-            $frac = 0;
+            $frac = '0';
         }
         $time = $year . $month . $day . $hour . $minute . $second . '.' . $frac .
             self::TZ_UTC;

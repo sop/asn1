@@ -11,8 +11,12 @@ use Sop\ASN1\Feature\ElementBase;
 
 /**
  * Base class for primitive strings.
+ *
+ * Used by types that don't require special processing of the encoded string data.
+ *
+ * @internal
  */
-abstract class PrimitiveString extends StringType
+abstract class PrimitiveString extends BaseString
 {
     use PrimitiveType;
 

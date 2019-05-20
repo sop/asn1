@@ -15,17 +15,18 @@ use Sop\ASN1\Type\UnspecifiedType;
  */
 class TimeTypeTest extends TestCase
 {
+    const VALUE = 'Mon Jan 2 15:04:05 MST 2006';
+
     public function testFromString()
     {
-        $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006');
+        $el = GeneralizedTime::fromString(self::VALUE);
         $this->assertInstanceOf(TimeType::class, $el);
         return $el;
     }
 
     public function testFromStringWithTz()
     {
-        $el = GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006',
-            'Europe/Helsinki');
+        $el = GeneralizedTime::fromString(self::VALUE, 'Europe/Helsinki');
         $this->assertInstanceOf(TimeType::class, $el);
     }
 
@@ -38,7 +39,7 @@ class TimeTypeTest extends TestCase
     public function testFromStringWithInvalidTzFail()
     {
         $this->expectException(\RuntimeException::class);
-        GeneralizedTime::fromString('Mon Jan 2 15:04:05 MST 2006', 'nope');
+        GeneralizedTime::fromString(self::VALUE, 'nope');
     }
 
     /**
@@ -48,7 +49,7 @@ class TimeTypeTest extends TestCase
      */
     public function testWrapped(TimeType $time)
     {
-        $wrap = new UnspecifiedType($time);
+        $wrap = new UnspecifiedType($time->asElement());
         $this->assertInstanceOf(TimeType::class, $wrap->asTime());
     }
 }

@@ -7,7 +7,6 @@ namespace Sop\ASN1\Type\Constructed;
 use Sop\ASN1\Component\Identifier;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Feature\Stringable;
 use Sop\ASN1\Type\StringType;
 use Sop\ASN1\Type\Structure;
 
@@ -18,13 +17,19 @@ use Sop\ASN1\Type\Structure;
  * indefinite length. Generally constructed string must contain only elements
  * that have the same type tag as the constructing element.
  * For example:
- *      OCTET STRING (cons) {
- *          OCTET STRING (prim) "ABC"
- *          OCTET STRING (prim) "DEF"
- *      }
+ * ```
+ *  OCTET STRING (cons) {
+ *      OCTET STRING (prim) "ABC"
+ *      OCTET STRING (prim) "DEF"
+ *  }
+ * ```
  * Canonically this corresponds to a payload of "ABCDEF" string.
+ *
+ * From API standpoint this can also be seen as a string type
+ * (as it implements `StringType`), and thus `UnspecifiedType::asString()`
+ * method may return `ConstructedString` instances.
  */
-class ConstructedString extends Structure implements Stringable
+class ConstructedString extends Structure implements StringType
 {
     /**
      * Constructor.
@@ -40,8 +45,6 @@ class ConstructedString extends Structure implements Stringable
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function __toString(): string
     {

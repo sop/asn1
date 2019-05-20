@@ -93,4 +93,15 @@ class UTCTimeTest extends TestCase
         $this->expectException(\UnexpectedValueException::class);
         $wrap->asUTCTime();
     }
+
+    /**
+     * @depends testCreate
+     *
+     * @param TimeType $time
+     */
+    public function testStringable(TimeType $time)
+    {
+        $this->assertEquals('060102220405Z', $time->string());
+        $this->assertEquals('060102220405Z', strval($time));
+    }
 }

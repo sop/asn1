@@ -6,10 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Sop\ASN1\DERData;
 use Sop\ASN1\Element;
 use Sop\ASN1\Feature\ElementBase;
-use Sop\ASN1\Feature\Stringable;
-use Sop\ASN1\Type\Constructed\ConstructedString;
 use Sop\ASN1\Type\Primitive\NullType;
-use Sop\ASN1\Type\Primitive\OctetString;
 use Sop\ASN1\Type\Tagged\ImplicitlyTaggedType;
 use Sop\ASN1\Type\UnspecifiedType;
 
@@ -137,18 +134,5 @@ class UnspecifiedTypeTest extends TestCase
         $el = new ImplicitlyTaggedType(0, new NullType());
         $wrap = new UnspecifiedType($el);
         $this->assertInstanceOf(ElementBase::class, $wrap->expectTagged(0));
-    }
-
-    public function testAsStringable()
-    {
-        $el = new UnspecifiedType(ConstructedString::create(new OctetString('')));
-        $this->assertInstanceOf(Stringable::class, $el->asStringable());
-    }
-
-    public function testAsStringableFail()
-    {
-        $this->expectException(\UnexpectedValueException::class);
-        $el = new UnspecifiedType(new NullType());
-        $el->asStringable();
     }
 }
