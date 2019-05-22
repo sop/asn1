@@ -77,14 +77,14 @@ $type = $seq->at(2)->asTagged()->asExplicit()->asObjectIdentifier()->oid();
 See the following for more practical real-world usage examples.
 
 - EC Private Key
-  - [Decode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L70)
-  - [Encode](https://github.com/sop/crypto-types/blob/0.2.1/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L209)
+  - [Decode](https://github.com/sop/crypto-types/blob/a27fa76d5f5e8c4596cb65a7be9d02a08421ba1e/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L72)
+  - [Encode](https://github.com/sop/crypto-types/blob/a27fa76d5f5e8c4596cb65a7be9d02a08421ba1e/lib/CryptoTypes/Asymmetric/EC/ECPrivateKey.php#L206)
 - X.501 Attribute
-  - [Decode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L55)
-  - [Encode](https://github.com/sop/x501/blob/0.5.0/lib/X501/ASN1/Attribute.php#L113)
+  - [Decode](https://github.com/sop/x501/blob/c6bdb04673d5c04b9d49f83020e75b8ba7a20064/lib/X501/ASN1/Attribute.php#L55)
+  - [Encode](https://github.com/sop/x501/blob/c6bdb04673d5c04b9d49f83020e75b8ba7a20064/lib/X501/ASN1/Attribute.php#L114)
 - X.509 Certificate (`TBSCertificate` sequence)
-  - [Decode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L129)
-  - [Encode](https://github.com/sop/x509/blob/0.6.0/lib/X509/Certificate/TBSCertificate.php#L565)
+  - [Decode](https://github.com/sop/x509/blob/f762c743b6930af4f45ef857ccc9f6199980a92e/lib/X509/Certificate/TBSCertificate.php#L130)
+  - [Encode](https://github.com/sop/x509/blob/f762c743b6930af4f45ef857ccc9f6199980a92e/lib/X509/Certificate/TBSCertificate.php#L576)
 
 ## ASN.1 References
 
