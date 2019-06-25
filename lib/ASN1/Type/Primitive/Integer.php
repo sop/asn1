@@ -30,7 +30,7 @@ class Integer extends Element
     /**
      * Constructor.
      *
-     * @param int|string $number Base 10 integer
+     * @param \GMP|int|string $number Base 10 integer
      */
     public function __construct($number)
     {
@@ -67,17 +67,7 @@ class Integer extends Element
      */
     protected function _encodedContentDER(): string
     {
-        $num = $this->_number->gmpObj();
-        switch (gmp_sign($num)) {
-            // positive
-            case 1:
-                return self::_encodePositiveInteger($num);
-            // negative
-            case -1:
-                return self::_encodeNegativeInteger($num);
-        }
-        // zero
-        return "\0";
+        return $this->_number->signedOctets();
     }
 
     /**
@@ -90,71 +80,10 @@ class Integer extends Element
         $length = Length::expectFromDER($data, $idx)->intLength();
         $bytes = substr($data, $idx, $length);
         $idx += $length;
-        $neg = ord($bytes[0]) & 0x80;
-        // negative, apply inversion of two's complement
-        if ($neg) {
-            $len = strlen($bytes);
-            for ($i = 0; $i < $len; ++$i) {
-                $bytes[$i] = ~$bytes[$i];
-            }
-        }
-        $num = gmp_init(bin2hex($bytes), 16);
-        // negative, apply addition of two's complement
-        // and produce negative result
-        if ($neg) {
-            $num = gmp_neg($num + 1);
-        }
+        $num = BigInt::fromSignedOctets($bytes)->gmpObj();
         $offset = $idx;
         // late static binding since enumerated extends integer type
-        return new static(gmp_strval($num, 10));
-    }
-
-    /**
-     * Encode positive integer to DER content.
-     *
-     * @param \GMP $num
-     *
-     * @return string
-     */
-    private static function _encodePositiveInteger(\GMP $num): string
-    {
-        $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        // if first bit is 1, prepend full zero byte
-        // to represent positive two's complement
-        if (ord($bin[0]) & 0x80) {
-            $bin = chr(0x00) . $bin;
-        }
-        return $bin;
-    }
-
-    /**
-     * Encode negative integer to DER content.
-     *
-     * @param \GMP $num
-     *
-     * @return string
-     */
-    private static function _encodeNegativeInteger(\GMP $num): string
-    {
-        $num = gmp_abs($num);
-        // compute number of bytes required
-        $width = 1;
-        if ($num > 128) {
-            $tmp = $num;
-            do {
-                ++$width;
-                $tmp >>= 8;
-            } while ($tmp > 128);
-        }
-        // compute two's complement 2^n - x
-        $num = gmp_pow('2', 8 * $width) - $num;
-        $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
-        // if first bit is 0, prepend full inverted byte
-        // to represent negative two's complement
-        if (!(ord($bin[0]) & 0x80)) {
-            $bin = chr(0xff) . $bin;
-        }
-        return $bin;
+        return new static($num);
     }
 
     /**
@@ -170,6 +99,9 @@ class Integer extends Element
             return true;
         }
         if (is_string($num) && preg_match('/-?\d+/', $num)) {
+            return true;
+        }
+        if ($num instanceof \GMP) {
             return true;
         }
         return false;

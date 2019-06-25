@@ -30,8 +30,8 @@ class Length implements Encodable
     /**
      * Constructor.
      *
-     * @param int|string $length     Length
-     * @param bool       $indefinite Whether length is indefinite
+     * @param \GMP|int|string $length     Length
+     * @param bool            $indefinite Whether length is indefinite
      */
     public function __construct($length, bool $indefinite = false)
     {
@@ -109,8 +109,8 @@ class Length implements Encodable
         // if certain length was expected
         if (isset($expected)) {
             if ($length->isIndefinite()) {
-                throw new DecodeException('Expected length %d, got indefinite.',
-                    $expected);
+                throw new DecodeException(sprintf(
+                    'Expected length %d, got indefinite.', $expected));
             }
             if ($expected !== $length->intLength()) {
                 throw new DecodeException(
@@ -215,10 +215,10 @@ class Length implements Encodable
      *
      * @throws DecodeException If decoding fails
      *
-     * @return string Integer as a string
+     * @return \GMP
      */
     private static function _decodeLongFormLength(int $length, string $data,
-        int &$offset): string
+        int &$offset): \GMP
     {
         // first octet must not be 0xff (spec 8.1.3.5c)
         if (127 === $length) {
@@ -230,6 +230,6 @@ class Length implements Encodable
             $num <<= 8;
             $num |= $byte;
         }
-        return gmp_strval($num);
+        return $num;
     }
 }

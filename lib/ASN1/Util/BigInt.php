@@ -10,9 +10,18 @@ namespace Sop\ASN1\Util;
 class BigInt
 {
     /**
+     * Number as a GMP object.
+     *
+     * @var \GMP
+     */
+    private $_gmp;
+
+    /**
      * Number as a base 10 integer string.
      *
-     * @var string
+     * @internal Lazily initialized
+     *
+     * @var null|string
      */
     private $_num;
 
@@ -28,11 +37,20 @@ class BigInt
     /**
      * Constructor.
      *
-     * @param int|string $num Integer number in base 10
+     * @param \GMP|int|string $num Integer number in base 10
      */
     public function __construct($num)
     {
-        $this->_num = strval($num);
+        // convert to GMP object
+        if (!($num instanceof \GMP)) {
+            $gmp = @gmp_init($num, 10);
+            if (false === $gmp) {
+                throw new \InvalidArgumentException(
+                    "Unable to convert '{$num}' to integer.");
+            }
+            $num = $gmp;
+        }
+        $this->_gmp = $num;
     }
 
     /**
@@ -44,12 +62,56 @@ class BigInt
     }
 
     /**
+     * Initialize from an arbitrary length of octets as an unsigned integer.
+     *
+     * @param string $octets
+     *
+     * @return self
+     */
+    public static function fromUnsignedOctets(string $octets): self
+    {
+        if (!strlen($octets)) {
+            throw new \InvalidArgumentException('Empty octets.');
+        }
+        return new self(gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN));
+    }
+
+    /**
+     * Initialize from an arbitrary length of octets as an signed integer
+     * having two's complement encoding.
+     *
+     * @param string $octets
+     *
+     * @return self
+     */
+    public static function fromSignedOctets(string $octets): self
+    {
+        if (!strlen($octets)) {
+            throw new \InvalidArgumentException('Empty octets.');
+        }
+        $neg = ord($octets[0]) & 0x80;
+        // negative, apply inversion of two's complement
+        if ($neg) {
+            $octets = ~$octets;
+        }
+        $num = gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        // negative, apply addition of two's complement and produce negative result
+        if ($neg) {
+            $num = gmp_neg($num + 1);
+        }
+        return new self($num);
+    }
+
+    /**
      * Get the number as a base 10 integer string.
      *
      * @return string
      */
     public function base10(): string
     {
+        if (!isset($this->_num)) {
+            $this->_num = gmp_strval($this->_gmp, 10);
+        }
         return $this->_num;
     }
 
@@ -63,14 +125,13 @@ class BigInt
     public function intVal(): int
     {
         if (!isset($this->_intNum)) {
-            $num = $this->gmpObj();
-            if (gmp_cmp($num, $this->_intMaxGmp()) > 0) {
+            if (gmp_cmp($this->_gmp, $this->_intMaxGmp()) > 0) {
                 throw new \RuntimeException('Integer overflow.');
             }
-            if (gmp_cmp($num, $this->_intMinGmp()) < 0) {
+            if (gmp_cmp($this->_gmp, $this->_intMinGmp()) < 0) {
                 throw new \RuntimeException('Integer underflow.');
             }
-            $this->_intNum = gmp_intval($num);
+            $this->_intNum = gmp_intval($this->_gmp);
         }
         return $this->_intNum;
     }
@@ -84,11 +145,76 @@ class BigInt
      */
     public function gmpObj(): \GMP
     {
-        $num = @gmp_init($this->_num, 10);
-        if (false === $num) {
-            throw new \RuntimeException("Unable to convert {$this->_num} to integer.");
+        return clone $this->_gmp;
+    }
+
+    /**
+     * Get the number as an unsigned integer encoded in binary.
+     *
+     * @return string
+     */
+    public function unsignedOctets(): string
+    {
+        return gmp_export($this->_gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+    }
+
+    /**
+     * Get the number as a signed integer encoded in two's complement binary.
+     *
+     * @return string
+     */
+    public function signedOctets(): string
+    {
+        switch (gmp_sign($this->_gmp)) {
+            case 1:
+                return $this->_signedPositiveOctets();
+            case -1:
+                return $this->_signedNegativeOctets();
         }
-        return $num;
+        // zero
+        return chr(0);
+    }
+
+    /**
+     * Encode positive integer in two's complement binary.
+     *
+     * @return string
+     */
+    private function _signedPositiveOctets(): string
+    {
+        $bin = gmp_export($this->_gmp, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        // if first bit is 1, prepend full zero byte to represent positive two's complement
+        if (ord($bin[0]) & 0x80) {
+            $bin = chr(0x00) . $bin;
+        }
+        return $bin;
+    }
+
+    /**
+     * Encode negative integer in two's complement binary.
+     *
+     * @return string
+     */
+    private function _signedNegativeOctets(): string
+    {
+        $num = gmp_abs($this->_gmp);
+        // compute number of bytes required
+        $width = 1;
+        if ($num > 128) {
+            $tmp = $num;
+            do {
+                ++$width;
+                $tmp >>= 8;
+            } while ($tmp > 128);
+        }
+        // compute two's complement 2^n - x
+        $num = gmp_pow('2', 8 * $width) - $num;
+        $bin = gmp_export($num, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        // if first bit is 0, prepend full inverted byte to represent negative two's complement
+        if (!(ord($bin[0]) & 0x80)) {
+            $bin = chr(0xff) . $bin;
+        }
+        return $bin;
     }
 
     /**

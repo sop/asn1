@@ -61,9 +61,9 @@ class Identifier implements Encodable
     /**
      * Constructor.
      *
-     * @param int        $class Type class
-     * @param int        $pc    Primitive / Constructed
-     * @param int|string $tag   Type tag number
+     * @param int             $class Type class
+     * @param int             $pc    Primitive / Constructed
+     * @param \GMP|int|string $tag   Type tag number
      */
     public function __construct(int $class, int $pc, $tag)
     {
@@ -254,7 +254,7 @@ class Identifier implements Encodable
     /**
      * Get self with given type tag.
      *
-     * @param int|string $tag Tag number
+     * @param \GMP|int|string $tag Tag number
      *
      * @return self
      */
@@ -288,9 +288,9 @@ class Identifier implements Encodable
      *
      * @throws DecodeException If decoding fails
      *
-     * @return string Tag number
+     * @return \GMP Tag number
      */
-    private static function _decodeLongFormTag(string $data, int &$offset): string
+    private static function _decodeLongFormTag(string $data, int &$offset): \GMP
     {
         $datalen = strlen($data);
         $tag = gmp_init(0, 10);
@@ -308,6 +308,6 @@ class Identifier implements Encodable
                 break;
             }
         }
-        return gmp_strval($tag, 10);
+        return $tag;
     }
 }
