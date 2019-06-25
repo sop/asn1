@@ -88,6 +88,7 @@ class IA5StringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('IA5String expected, got primitive NULL');
         $wrap->asIA5String();
     }
 }

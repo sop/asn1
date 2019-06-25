@@ -88,6 +88,8 @@ class VideotexStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'VideotexString expected, got primitive NULL');
         $wrap->asVideotexString();
     }
 }

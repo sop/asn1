@@ -28,6 +28,7 @@ class BigIntTest extends TestCase
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MAX, 10) + 1));
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Integer overflow');
         $int->intVal();
     }
 
@@ -35,6 +36,7 @@ class BigIntTest extends TestCase
     {
         $int = new BigInt(gmp_strval(gmp_init(PHP_INT_MIN, 10) - 1));
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Integer underflow');
         $int->intVal();
     }
 

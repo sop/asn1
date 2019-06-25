@@ -88,6 +88,8 @@ class OctetStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'OCTET STRING expected, got primitive NULL');
         $wrap->asOctetString();
     }
 }

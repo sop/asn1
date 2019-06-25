@@ -23,12 +23,14 @@ class NullDecodeTest extends TestCase
     public function testInvalidLength()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Expected length 0, got 1');
         NullType::fromDER("\x5\x1\x0");
     }
 
     public function testNotPrimitive()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Null value must be primitive');
         NullType::fromDER("\x25\x0");
     }
 }

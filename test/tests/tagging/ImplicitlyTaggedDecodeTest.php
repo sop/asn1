@@ -75,6 +75,8 @@ class ImplicitlyTaggedDecodeTest extends TestCase
     public function testInnerConstructedFail()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Structured element must have constructed bit set');
         TaggedType::fromDER("\x80\x0")->implicit(Element::TYPE_SEQUENCE);
     }
 

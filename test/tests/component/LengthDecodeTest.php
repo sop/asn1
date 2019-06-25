@@ -35,12 +35,14 @@ class LengthDecodeTest extends TestCase
     public function testLengthFailsBecauseIndefinite()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Length is indefinite');
         Length::fromDER("\x80")->length();
     }
 
     public function testIntLengthFailsBecauseIndefinite()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Length is indefinite');
         Length::fromDER("\x80")->intLength();
     }
 
@@ -48,7 +50,7 @@ class LengthDecodeTest extends TestCase
     {
         $der = "\xfe" . str_repeat("\xff", 126);
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Integer overflow.');
+        $this->expectExceptionMessage('Integer overflow');
         Length::fromDER($der)->intLength();
     }
 
@@ -78,6 +80,8 @@ class LengthDecodeTest extends TestCase
     public function testInvalidLongForm()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding long form length');
         Length::fromDER("\x82\xff");
     }
 
@@ -87,6 +91,7 @@ class LengthDecodeTest extends TestCase
     public function testInvalidLength()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid number of length octets');
         Length::fromDER("\xff" . str_repeat("\0", 127));
     }
 
@@ -102,6 +107,8 @@ class LengthDecodeTest extends TestCase
     {
         $offset = 1;
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding length');
         Length::fromDER("\x0", $offset);
     }
 
@@ -109,6 +116,7 @@ class LengthDecodeTest extends TestCase
     {
         $offset = 0;
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Length 1 overflows data, 0 bytes left');
         Length::expectFromDER("\x01", $offset);
     }
 
@@ -116,6 +124,7 @@ class LengthDecodeTest extends TestCase
     {
         $offset = 0;
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Expected length 2, got 1');
         Length::expectFromDER("\x01\x00", $offset, 2);
     }
 
@@ -123,7 +132,7 @@ class LengthDecodeTest extends TestCase
     {
         $offset = 0;
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessageRegExp('/got indefinite/');
+        $this->expectExceptionMessage('Expected length 1, got indefinite');
         Length::expectFromDER("\x80", $offset, 1);
     }
 }

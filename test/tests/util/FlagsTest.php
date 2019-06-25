@@ -228,6 +228,7 @@ class FlagsTest extends TestCase
     {
         $flags = new Flags(0, 8);
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Index is out of bounds');
         $flags->test(8);
     }
 }

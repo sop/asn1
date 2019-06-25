@@ -31,18 +31,23 @@ class ElementDecodeTest extends TestCase
     public function testConcreteWrongClass()
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            Boolean::class . ' expected, got ' . NullType::class);
         Boolean::fromDER("\x5\x0");
     }
 
     public function testUnimplementedFail()
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('not implemented');
         Element::fromDER("\x1f\x7f\x0");
     }
 
     public function testExpectTaggedFail()
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'Context specific element expected, got UNIVERSAL');
         Element::fromDER("\x5\x0")->expectTagged();
     }
 
@@ -55,6 +60,7 @@ class ElementDecodeTest extends TestCase
             Identifier::PRIMITIVE, Element::TYPE_NULL);
         $offset = 0;
         $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('must be implemented in derived class');
         $mtd->invokeArgs(null, [$identifier, '', &$offset]);
     }
 
@@ -65,7 +71,7 @@ class ElementDecodeTest extends TestCase
         $mtd->setAccessible(true);
         $identifier = new ElementDecodeTest_IdentifierMockup(0, 0, 0);
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessageRegExp('/not implemented.$/');
+        $this->expectExceptionMessage('not implemented');
         $mtd->invokeArgs(null, [$identifier]);
     }
 }

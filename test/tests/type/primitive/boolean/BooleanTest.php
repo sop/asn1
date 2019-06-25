@@ -88,6 +88,7 @@ class BooleanTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('BOOLEAN expected, got primitive NULL');
         $wrap->asBoolean();
     }
 }

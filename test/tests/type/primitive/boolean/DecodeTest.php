@@ -35,12 +35,15 @@ class BooleanDecodeTest extends TestCase
     public function testInvalidDER()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'DER encoded boolean true must have all bits set to 1');
         Boolean::fromDER("\x1\x1\x55");
     }
 
     public function testInvalidLength()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Expected length 1, got 2');
         Boolean::fromDER("\x1\x2\x00\x00");
     }
 }

@@ -88,6 +88,8 @@ class VisibleStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'VisibleString expected, got primitive NULL');
         $wrap->asVisibleString();
     }
 }

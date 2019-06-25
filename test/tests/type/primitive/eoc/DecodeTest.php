@@ -23,12 +23,14 @@ class EOCDecodeTest extends TestCase
     public function testInvalidLength()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Expected length 0, got 1');
         EOC::fromDER("\x0\x1\x0");
     }
 
     public function testNotPrimitive()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('EOC value must be primitive');
         EOC::fromDER("\x20\x0");
     }
 }

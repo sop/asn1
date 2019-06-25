@@ -89,6 +89,8 @@ class PrintableStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'PrintableString expected, got primitive NULL');
         $wrap->asPrintableString();
     }
 }

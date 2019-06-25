@@ -41,6 +41,7 @@ class TimeTypeDecodeTest extends TestCase
     {
         $el = new NullType();
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Any Time expected, got NULL');
         $el->expectType(Element::TYPE_TIME);
     }
 }

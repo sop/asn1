@@ -31,30 +31,35 @@ class UTCTimeDecodeTest extends TestCase
     public function testWithoutSeconds()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0b" . '0601022204Z');
     }
 
     public function testWithTimezone()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x11" . '060102150405+0700');
     }
 
     public function testEmpty()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0");
     }
 
     public function testInvalidFormat()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0d" . 'o60102220405Z');
     }
 
     public function testNoTimezone()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid UTCTime format');
         UTCTime::fromDER("\x17\x0c" . '060102220405');
     }
 }

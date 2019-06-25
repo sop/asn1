@@ -92,6 +92,8 @@ class GeneralizedTimeTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'GeneralizedTime expected, got primitive NULL');
         $wrap->asGeneralizedTime();
     }
 

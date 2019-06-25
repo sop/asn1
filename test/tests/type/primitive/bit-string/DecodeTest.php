@@ -38,6 +38,8 @@ class BitStringDecodeTest extends TestCase
     public function testDerPadding()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'DER encoded bit string must have zero padding');
         BitString::fromDER("\x3\x3\x4\xff\xf8");
     }
 
@@ -78,12 +80,15 @@ class BitStringDecodeTest extends TestCase
     public function testLengthFail()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Bit string length must be at least 1');
         BitString::fromDER("\x3\x0");
     }
 
     public function testUnusedBitsFail()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Unused bits in a bit string must be less than 8');
         BitString::fromDER("\x3\x3\x8\xff\x00");
     }
 }

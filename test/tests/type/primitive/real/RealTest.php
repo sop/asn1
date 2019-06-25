@@ -88,6 +88,7 @@ class RealTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('REAL expected, got primitive NULL');
         $wrap->asReal();
     }
 
@@ -191,6 +192,7 @@ class RealTest extends TestCase
     public function testFromPartsInvalidBase()
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Base must be 2 or 10');
         new Real(1, 1, 3);
     }
 

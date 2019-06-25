@@ -101,6 +101,8 @@ class ObjectDescriptorTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'ObjectDescriptor expected, got primitive NULL');
         $wrap->asObjectDescriptor();
     }
 }

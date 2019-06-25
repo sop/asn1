@@ -31,6 +31,7 @@ class PrintableStringDecodeTest extends TestCase
     {
         $str = 'Hello World!';
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Not a valid PrintableString string');
         PrintableString::fromDER("\x13\x0c{$str}");
     }
 }

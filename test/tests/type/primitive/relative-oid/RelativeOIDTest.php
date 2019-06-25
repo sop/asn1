@@ -88,6 +88,8 @@ class RelativeOIDTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'RELATIVE-OID expected, got primitive NULL');
         $wrap->asRelativeOID();
     }
 }

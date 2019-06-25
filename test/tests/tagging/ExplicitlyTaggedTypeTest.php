@@ -64,6 +64,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectTagFail(ExplicitlyTaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Tag 2 expected, got 1');
         $el->expectTagged(2);
     }
 
@@ -85,6 +86,8 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectImplicitFail(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'Element doesn\'t implement implicit tagging');
         $el->expectImplicit();
     }
 
@@ -106,6 +109,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectExplicitWithInvalidTagFail(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Tag 2 expected, got 1');
         $el->expectExplicit(2);
     }
 
@@ -117,6 +121,8 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testExpectTypeFails(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'NULL expected, got CONTEXT SPECIFIC TAG 1');
         $el->expectType(Element::TYPE_NULL);
     }
 
@@ -140,6 +146,7 @@ class ExplicitlyTaggedTypeTest extends TestCase
     public function testAsExplicitFail(TaggedType $el)
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('Tag 2 expected, got 1');
         $el->asExplicit(2);
     }
 }

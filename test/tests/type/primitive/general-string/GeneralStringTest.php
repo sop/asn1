@@ -88,6 +88,8 @@ class GeneralStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'GeneralString expected, got primitive NULL');
         $wrap->asGeneralString();
     }
 }

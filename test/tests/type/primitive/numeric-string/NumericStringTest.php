@@ -88,6 +88,8 @@ class NumericStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'NumericString expected, got primitive NULL');
         $wrap->asNumericString();
     }
 }

@@ -89,6 +89,8 @@ class CharacterStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'CHARACTER STRING expected, got primitive NULL');
         $wrap->asCharacterString();
     }
 }

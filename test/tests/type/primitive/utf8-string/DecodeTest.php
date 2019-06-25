@@ -31,6 +31,7 @@ class UTF8StringDecodeTest extends TestCase
     {
         $str = "Hello W\x94rld!";
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Not a valid UTF8String string');
         UTF8String::fromDER("\x0c\x0c{$str}");
     }
 }

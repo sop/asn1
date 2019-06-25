@@ -31,6 +31,7 @@ class UniversalStringDecodeTest extends TestCase
     {
         $str = "\0\0\0H\0\0\0e\0\0\0l\0\0\0lo";
         $this->expectException(DecodeException::class);
-        UniversalString::fromDER("\x1c\x17{$str}");
+        $this->expectExceptionMessage('Not a valid UniversalString string');
+        UniversalString::fromDER("\x1c\x11{$str}");
     }
 }

@@ -76,6 +76,7 @@ class UTF8StringTest extends TestCase
     public function testInvalidString()
     {
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Not a valid UTF8String string');
         new UTF8String(hex2bin('ff'));
     }
 
@@ -94,6 +95,8 @@ class UTF8StringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'UTF8String expected, got primitive NULL');
         $wrap->asUTF8String();
     }
 }

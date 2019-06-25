@@ -33,12 +33,14 @@ class TimeTypeTest extends TestCase
     public function testFromInvalidStringFail()
     {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Failed to create DateTime');
         GeneralizedTime::fromString('fail');
     }
 
     public function testFromStringWithInvalidTzFail()
     {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Failed to create DateTime');
         GeneralizedTime::fromString(self::VALUE, 'nope');
     }
 

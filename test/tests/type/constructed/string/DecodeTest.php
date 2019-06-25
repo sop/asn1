@@ -32,6 +32,8 @@ class ConstructedStringDecodeTest extends TestCase
     public function testInvalidCallingClass()
     {
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            NullType::class . ' expected, got ' . ConstructedString::class);
         NullType::fromDER(hex2bin('2400'));
     }
 

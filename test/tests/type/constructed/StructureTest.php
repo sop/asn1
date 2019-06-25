@@ -104,6 +104,8 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage(
+            'Structure doesn\'t have element at index 2');
         $seq->withReplaced(2, new Boolean(true));
     }
 
@@ -138,6 +140,7 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType(), new NullType());
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Index 3 is out of bounds');
         $seq->withInserted(3, new Boolean(true));
     }
 
@@ -185,6 +188,8 @@ class StructureTest extends TestCase
     {
         $seq = new Sequence(new NullType());
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage(
+            'Structure doesn\'t have element at index 1');
         $seq->withoutElement(1);
     }
 

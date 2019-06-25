@@ -31,6 +31,7 @@ class IA5StringDecodeTest extends TestCase
     {
         $str = "H\xebll\xf8 W\xf6rld!";
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Not a valid IA5String string');
         IA5String::fromDER("\x16\x0c{$str}");
     }
 }

@@ -36,7 +36,8 @@ class IndefiniteTaggedTest extends TestCase
     public function testPrimitiveFail()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessageRegExp('/^Primitive type/');
+        $this->expectExceptionMessage(
+            'Primitive type with indefinite length is not supported');
         TaggedType::fromDER(hex2bin('80800201010000'));
     }
 }

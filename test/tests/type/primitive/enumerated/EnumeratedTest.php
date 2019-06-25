@@ -88,6 +88,8 @@ class EnumeratedTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'ENUMERATED expected, got primitive NULL');
         $wrap->asEnumerated();
     }
 }

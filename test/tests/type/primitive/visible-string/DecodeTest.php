@@ -31,6 +31,7 @@ class VisibleStringDecodeTest extends TestCase
     {
         $str = "Hello\nWorld!";
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Not a valid VisibleString string');
         VisibleString::fromDER("\x1a\x0c{$str}");
     }
 }

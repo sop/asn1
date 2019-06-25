@@ -17,28 +17,32 @@ class RealDecodeTest extends TestCase
     public function testReservedBinaryEncodingFail()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Reserved REAL binary encoding base not supported');
+        $this->expectExceptionMessage(
+            'Reserved REAL binary encoding base not supported');
         Real::fromDER(hex2bin('0902B000'));
     }
 
     public function testBinaryEncodingExponentLengthUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage('Unexpected end of data while decoding REAL exponent length');
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding REAL exponent length');
         Real::fromDER(hex2bin('090183'));
     }
 
     public function testBinaryEncodingExponentUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage('Unexpected end of data while decoding REAL exponent');
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding REAL exponent');
         Real::fromDER(hex2bin('090180'));
     }
 
     public function testBinaryEncodingMantissaUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessage('Unexpected end of data while decoding REAL mantissa');
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding REAL mantissa');
         Real::fromDER(hex2bin('09028000'));
     }
 
@@ -52,7 +56,8 @@ class RealDecodeTest extends TestCase
     public function testSpecialEncodingTooLong()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('SpecialRealValue must have one content octet');
+        $this->expectExceptionMessage(
+            'SpecialRealValue must have one content octet');
         Real::fromDER(hex2bin('09024000'));
     }
 

@@ -72,6 +72,7 @@ class ObjectIdentifierDecodeTest extends TestCase
     public function testInvalid()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Unexpected end of data');
         ObjectIdentifier::fromDER("\x6\x3\xff\xff\xff");
     }
 }

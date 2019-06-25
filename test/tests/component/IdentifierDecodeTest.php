@@ -98,7 +98,7 @@ class IdentifierDecodeTest extends TestCase
     {
         $der = "\x1f" . str_repeat("\xff", 100) . "\x7f";
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Integer overflow.');
+        $this->expectExceptionMessage('Integer overflow');
         Identifier::fromDER($der)->intTag();
     }
 
@@ -106,12 +106,15 @@ class IdentifierDecodeTest extends TestCase
     {
         $offset = 1;
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Invalid offset');
         Identifier::fromDER("\x0", $offset);
     }
 
     public function testUnexpectedTagEnd()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding long form identifier');
         Identifier::fromDER("\x1f\xff");
     }
 }

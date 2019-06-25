@@ -141,6 +141,8 @@ class ConstructedStringTest extends TestCase
     {
         $ut = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'Constructed String expected, got primitive NULL');
         $ut->asConstructedString();
     }
 
@@ -163,12 +165,16 @@ class ConstructedStringTest extends TestCase
     public function testCreateNoElementsFail()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(
+            'No elements, unable to determine type tag');
         ConstructedString::create();
     }
 
     public function testCreateMixedElementsFail()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(
+            'All elements in constructed string must have the same type');
         ConstructedString::create(new OctetString('Hello'),
             new BitString('World'));
     }

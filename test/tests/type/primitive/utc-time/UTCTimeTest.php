@@ -91,6 +91,7 @@ class UTCTimeTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('UTCTime expected, got primitive NULL');
         $wrap->asUTCTime();
     }
 

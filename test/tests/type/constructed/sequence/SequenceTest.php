@@ -141,6 +141,8 @@ class SequenceTest extends TestCase
     public function testAtOOB(Sequence $seq)
     {
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage(
+            'Structure doesn\'t have an element at index 2');
         $seq->at(2);
     }
 
@@ -159,6 +161,7 @@ class SequenceTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('SEQUENCE expected, got primitive NULL');
         $wrap->asSequence();
     }
 }

@@ -80,6 +80,7 @@ class GeneralizedTimeDecodeTest extends TestCase
     public function testInvalidTime()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Failed to decode GeneralizedTime');
         GeneralizedTime::fromDER("\x18\x19" . '20060102220405.123456789Z');
     }
 }

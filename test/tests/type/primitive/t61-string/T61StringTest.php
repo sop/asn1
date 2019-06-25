@@ -88,6 +88,8 @@ class T61StringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'T61String expected, got primitive NULL');
         $wrap->asT61String();
     }
 }

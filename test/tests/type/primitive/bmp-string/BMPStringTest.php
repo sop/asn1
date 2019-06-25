@@ -88,6 +88,7 @@ class BMPStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('BMPString expected, got primitive NULL');
         $wrap->asBMPString();
     }
 }

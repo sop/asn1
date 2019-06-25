@@ -150,6 +150,7 @@ class IntegerDecodeTest extends TestCase
     {
         $der = "\x2\x2\x0";
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Length 2 overflows data, 1 bytes left');
         Integer::fromDER($der);
     }
 

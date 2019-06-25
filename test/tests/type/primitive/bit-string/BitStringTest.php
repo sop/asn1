@@ -128,6 +128,7 @@ class BitStringTest extends TestCase
     {
         $bs = new BitString("\xff");
         $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Not enough bits');
         $bs->range(7, 2);
     }
 
@@ -146,6 +147,8 @@ class BitStringTest extends TestCase
     {
         $wrap = new UnspecifiedType(new NullType());
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'BIT STRING expected, got primitive NULL');
         $wrap->asBitString();
     }
 }

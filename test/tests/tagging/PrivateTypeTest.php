@@ -114,6 +114,8 @@ class PrivateTypeTest extends TestCase
     {
         $el = UnspecifiedType::fromDER("\x5\0");
         $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage(
+            'Private type expected, got primitive NULL');
         $el->asPrivate();
     }
 }

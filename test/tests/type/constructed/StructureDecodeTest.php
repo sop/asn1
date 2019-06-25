@@ -24,6 +24,8 @@ class StructureDecodeTest extends TestCase
     public function testTooShort()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Structure\'s content overflows length');
         Structure::fromDER("\x30\x1\x5\x0");
     }
 
@@ -33,6 +35,7 @@ class StructureDecodeTest extends TestCase
     public function testTooLong()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Length 3 overflows data, 2 bytes left');
         Structure::fromDER("\x30\x3\x5\x0");
     }
 
@@ -42,6 +45,8 @@ class StructureDecodeTest extends TestCase
     public function testNotConstructed()
     {
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage(
+            'Structured element must have constructed bit set');
         Structure::fromDER("\x10\x0");
     }
 
@@ -83,6 +88,7 @@ class StructureDecodeTest extends TestCase
         // null, tag 0, null
         $set = Set::fromDER("\x31\x6\x5\x0\x80\x0\x5\x0");
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('No tagged element for tag 1');
         $set->getTagged(1);
     }
 
@@ -95,7 +101,8 @@ class StructureDecodeTest extends TestCase
     public function testIndefiniteUnexpectedEnd()
     {
         $this->expectException(DecodeException::class);
-        $this->expectExceptionMessageRegExp('/^Unexpected end of data while decoding indefinite length structure/');
+        $this->expectExceptionMessage(
+            'Unexpected end of data while decoding indefinite length structure');
         Sequence::fromDER(hex2bin('3080020101'));
     }
 }

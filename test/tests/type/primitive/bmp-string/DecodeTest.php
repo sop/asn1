@@ -32,6 +32,7 @@ class BMPStringDecodeTest extends TestCase
         // last character is not 2 octets
         $str = "\0H\0e\0l\0l\0o\0 \0W\0o\0r\0l\0d!";
         $this->expectException(DecodeException::class);
+        $this->expectExceptionMessage('Not a valid BMPString string');
         BMPString::fromDER("\x1e\x17{$str}");
     }
 }
