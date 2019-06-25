@@ -11,6 +11,7 @@ use Sop\ASN1\Exception\DecodeException;
 use Sop\ASN1\Feature\ElementBase;
 use Sop\ASN1\Type\PrimitiveType;
 use Sop\ASN1\Type\UniversalClass;
+use Sop\ASN1\Util\BigInt;
 
 /**
  * Implements *REAL* type.
@@ -21,11 +22,36 @@ class Real extends Element
     use PrimitiveType;
 
     /**
-     * Regex pattern to parse NR3 form number conforming to DER.
+     * Regex pattern to parse NR1 form number.
      *
      * @var string
      */
-    const NR3_REGEX = '/^(-?)(\d+)?\.E([+\-]?\d+)$/';
+    const NR1_REGEX = '/^\s*' .
+        '(?<s>[+\-])?' .    // sign
+        '(?<i>\d+)' .       // integer
+    '$/';
+
+    /**
+     * Regex pattern to parse NR2 form number.
+     *
+     * @var string
+     */
+    const NR2_REGEX = '/^\s*' .
+        '(?<s>[+\-])?' .                            // sign
+        '(?<d>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // decimal number
+    '$/';
+
+    /**
+     * Regex pattern to parse NR3 form number.
+     *
+     * @var string
+     */
+    const NR3_REGEX = '/^\s*' .
+        '(?<ms>[+\-])?' .                           // mantissa sign
+        '(?<m>(?:\d+[\.,]\d*)|(?:\d*[\.,]\d+))' .   // mantissa
+        '[Ee](?<es>[+\-])?' .                       // exponent sign
+        '(?<e>\d+)' .                               // exponent
+    '$/';
 
     /**
      * Regex pattern to parse PHP exponent number format.
@@ -35,46 +61,97 @@ class Real extends Element
      * @var string
      */
     const PHP_EXPONENT_DNUM = '/^' .
-        '([+\-]?' . // sign
-        '(?:' .
-            '\d+' . // LNUM
+        '(?<ms>[+\-])?' .               // sign
+        '(?<m>' .
+            '\d+' .                     // LNUM
             '|' .
-            '(?:\d*\.\d+|\d+\.\d*)' . // DNUM
-        '))[eE]' .
-        '([+\-]?\d+)' . // exponent
+            '(?:\d*\.\d+|\d+\.\d*)' .   // DNUM
+        ')[eE]' .
+        '(?<es>[+\-])?(?<e>\d+)' .      // exponent
     '$/';
 
     /**
-     * Number zero represented in NR3 form.
+     * Exponent when value is positive or negative infinite.
      *
-     * @var string
+     * @var int
      */
-    const NR3_ZERO = '.E+0';
+    const INF_EXPONENT = 2047;
 
     /**
-     * Number in NR3 form.
+     * Exponent bias for IEEE 754 double precision float.
      *
-     * @var string
+     * @var int
      */
-    private $_number;
+    const EXP_BIAS = -1023;
+
+    /**
+     * Signed integer mantissa.
+     *
+     * @var BigInt
+     */
+    private $_mantissa;
+
+    /**
+     * Signed integer exponent.
+     *
+     * @var BigInt
+     */
+    private $_exponent;
+
+    /**
+     * Abstract value base.
+     *
+     * Must be 2 or 10.
+     *
+     * @var int
+     */
+    private $_base;
+
+    /**
+     * Whether to encode strictly in DER.
+     *
+     * @var bool
+     */
+    private $_strictDer;
+
+    /**
+     * Number as a native float.
+     *
+     * @internal Lazily initialized
+     *
+     * @var null|float
+     */
+    private $_float;
 
     /**
      * Constructor.
      *
-     * @param string $number number in NR3 form
+     * @param \GMP|int|string $mantissa Integer mantissa
+     * @param \GMP|int|string $exponent Integer exponent
+     * @param int             $base     Base, 2 or 10
      */
-    public function __construct(string $number)
+    public function __construct($mantissa, $exponent, int $base = 10)
     {
-        $this->_typeTag = self::TYPE_REAL;
-        if (!self::_validateNumber($number)) {
-            throw new \InvalidArgumentException(
-                "'{$number}' is not a valid NR3 form real.");
+        if (10 !== $base && 2 !== $base) {
+            throw new \UnexpectedValueException('Base must be 2 or 10.');
         }
-        $this->_number = $number;
+        $this->_typeTag = self::TYPE_REAL;
+        $this->_strictDer = true;
+        $this->_mantissa = new BigInt($mantissa);
+        $this->_exponent = new BigInt($exponent);
+        $this->_base = $base;
     }
 
     /**
-     * Initialize from float.
+     * {@inheritdoc}
+     */
+    public function __toString(): string
+    {
+        return sprintf('%g', $this->floatVal());
+    }
+
+    /**
+     * Create base 2 real number from float.
      *
      * @param float $number
      *
@@ -82,7 +159,71 @@ class Real extends Element
      */
     public static function fromFloat(float $number): self
     {
-        return new self(self::_decimalToNR3(strval($number)));
+        if (is_infinite($number)) {
+            return self::_fromInfinite($number);
+        }
+        if (is_nan($number)) {
+            throw new \UnexpectedValueException('NaN values not supported.');
+        }
+        [$m, $e] = self::_parse754Double(pack('E', $number));
+        return new self($m, $e, 2);
+    }
+
+    /**
+     * Create base 10 real number from string.
+     *
+     * @param string $number Real number in base-10 textual form
+     *
+     * @return self
+     */
+    public static function fromString(string $number): self
+    {
+        [$m, $e] = self::_parseString($number);
+        return new self($m, $e, 10);
+    }
+
+    /**
+     * Get self with strict DER flag set or unset.
+     *
+     * @param bool $strict whether to encode strictly in DER
+     *
+     * @return self
+     */
+    public function withStrictDER(bool $strict): self
+    {
+        $obj = clone $this;
+        $obj->_strictDer = $strict;
+        return $obj;
+    }
+
+    /**
+     * Get the mantissa.
+     *
+     * @return BigInt
+     */
+    public function mantissa(): BigInt
+    {
+        return $this->_mantissa;
+    }
+
+    /**
+     * Get the exponent.
+     *
+     * @return BigInt
+     */
+    public function exponent(): BigInt
+    {
+        return $this->_exponent;
+    }
+
+    /**
+     * Get the base.
+     *
+     * @return int
+     */
+    public function base(): int
+    {
+        return $this->_base;
     }
 
     /**
@@ -90,9 +231,44 @@ class Real extends Element
      *
      * @return float
      */
-    public function float(): float
+    public function floatVal(): float
     {
-        return self::_nr3ToDecimal($this->_number);
+        if (!isset($this->_float)) {
+            $m = $this->_mantissa->intVal();
+            $e = $this->_exponent->intVal();
+            $this->_float = (float) ($m * pow($this->_base, $e));
+        }
+        return $this->_float;
+    }
+
+    /**
+     * Get number as a NR3 form string conforming to DER rules.
+     *
+     * @return string
+     */
+    public function nr3Val(): string
+    {
+        // convert to base 10
+        if (2 === $this->_base) {
+            [$m, $e] = self::_parseString(sprintf('%15E', $this->floatVal()));
+        } else {
+            $m = $this->_mantissa->gmpObj();
+            $e = $this->_exponent->gmpObj();
+        }
+        // shift trailing zeroes from the mantissa to the exponent
+        // (X.690 07-2002, section 11.3.2.4)
+        while (0 != $m && 0 == $m % 10) {
+            $m /= 10;
+            ++$e;
+        }
+        // if exponent is zero, it must be prefixed with a "+" sign
+        // (X.690 07-2002, section 11.3.2.6)
+        if (0 == $e) {
+            $es = '+';
+        } else {
+            $es = $e < 0 ? '-' : '';
+        }
+        return sprintf('%s.E%s%s', gmp_strval($m), $es, gmp_strval(gmp_abs($e)));
     }
 
     /**
@@ -100,13 +276,108 @@ class Real extends Element
      */
     protected function _encodedContentDER(): string
     {
-        /* if the real value is the value zero, there shall be no contents
-         octets in the encoding. (X.690 07-2002, section 8.5.2) */
-        if (self::NR3_ZERO === $this->_number) {
+        if (self::INF_EXPONENT == $this->_exponent->gmpObj()) {
+            return $this->_encodeSpecial();
+        }
+        // if the real value is the value zero, there shall be no contents
+        // octets in the encoding. (X.690 07-2002, section 8.5.2)
+        if (0 == $this->_mantissa->gmpObj()) {
             return '';
         }
+        if (10 === $this->_base) {
+            return $this->_encodeDecimal();
+        }
+        return $this->_encodeBinary();
+    }
+
+    /**
+     * Encode in binary format.
+     *
+     * @return string
+     */
+    protected function _encodeBinary(): string
+    {
+        [$base, $sign, $m, $e] = $this->_prepareBinaryEncoding();
+        $zero = gmp_init(0, 10);
+        $byte = 0x80;
+        if ($sign < 0) {
+            $byte |= 0x40;
+        }
+        // normalization: mantissa must be 0 or odd
+        if (2 === $base) {
+            // while last bit is zero
+            while ($m > 0 && 0 === gmp_cmp($m & 0x01, $zero)) {
+                $m >>= 1;
+                ++$e;
+            }
+        } elseif (8 === $base) {
+            $byte |= 0x10;
+            // while last 3 bits are zero
+            while ($m > 0 && 0 === gmp_cmp($m & 0x07, $zero)) {
+                $m >>= 3;
+                ++$e;
+            }
+        } else { // base === 16
+            $byte |= 0x20;
+            // while last 4 bits are zero
+            while ($m > 0 && 0 === gmp_cmp($m & 0x0f, $zero)) {
+                $m >>= 4;
+                ++$e;
+            }
+        }
+        // scale factor
+        $scale = 0;
+        while ($m > 0 && 0 === gmp_cmp($m & 0x01, $zero)) {
+            $m >>= 1;
+            ++$scale;
+        }
+        $byte |= ($scale & 0x03) << 2;
+        // encode exponent
+        $exp_bytes = (new BigInt($e))->signedOctets();
+        $exp_len = strlen($exp_bytes);
+        if ($exp_len > 0xff) {
+            throw new \RangeException('Exponent encoding is too long.');
+        }
+        if ($exp_len <= 3) {
+            $byte |= ($exp_len - 1) & 0x03;
+            $bytes = chr($byte);
+        } else {
+            $byte |= 0x03;
+            $bytes = chr($byte) . chr($exp_len);
+        }
+        $bytes .= $exp_bytes;
+        // encode mantissa
+        $bytes .= (new BigInt($m))->unsignedOctets();
+        return $bytes;
+    }
+
+    /**
+     * Encode in decimal format.
+     *
+     * @return strign
+     */
+    protected function _encodeDecimal(): string
+    {
         // encode in NR3 decimal encoding
-        return chr(0x03) . $this->_number;
+        return chr(0x03) . $this->nr3Val();
+    }
+
+    /**
+     * Encode special value.
+     *
+     * @return string
+     */
+    protected function _encodeSpecial(): string
+    {
+        switch ($this->_mantissa->intVal()) {
+            // positive infitinity
+            case 1:
+                return chr(0x40);
+            // negative infinity
+            case -1:
+                return chr(0x41);
+        }
+        throw new \LogicException('Invalid special value.');
     }
 
     /**
@@ -119,7 +390,7 @@ class Real extends Element
         $length = Length::expectFromDER($data, $idx)->intLength();
         // if length is zero, value is zero (spec 8.5.2)
         if (!$length) {
-            $obj = new self(self::NR3_ZERO);
+            $obj = new self(0, 0, 10);
         } else {
             $bytes = substr($data, $idx, $length);
             $byte = ord($bytes[0]);
@@ -136,17 +407,73 @@ class Real extends Element
     }
 
     /**
-     * @todo Implement
+     * Decode binary encoding.
      *
      * @param string $data
      */
     protected static function _decodeBinaryEncoding(string $data)
     {
-        throw new \RuntimeException(
-            'Binary encoding of REAL is not implemented.');
+        $byte = ord($data[0]);
+        // bit 7 is set if mantissa is negative
+        $neg = (bool) (0x40 & $byte);
+        // encoding base in bits 6 and 5
+        switch (($byte >> 4) & 0x03) {
+            case 0b00:
+                $base = 2;
+                break;
+            case 0b01:
+                $base = 8;
+                break;
+            case 0b10:
+                $base = 16;
+                break;
+            default:
+                throw new \RuntimeException(
+                    'Reserved REAL binary encoding base not supported.');
+        }
+        // scaling factor in bits 4 and 3
+        $scale = ($byte >> 2) & 0x03;
+        $idx = 1;
+        // content length in bits 2 and 1
+        $len = ($byte & 0x03) + 1;
+        // if both bits are set, the next octet encodes the length
+        if ($len > 3) {
+            if (strlen($data) < 2) {
+                throw new DecodeException(
+                    'Unexpected end of data while decoding REAL exponent length.');
+            }
+            $len = ord($data[1]);
+            $idx = 2;
+        }
+        if (strlen($data) < $idx + $len) {
+            throw new DecodeException(
+                'Unexpected end of data while decoding REAL exponent.');
+        }
+        // decode exponent
+        $octets = substr($data, $idx, $len);
+        $exp = BigInt::fromSignedOctets($octets)->gmpObj();
+        if (8 === $base) {
+            $exp *= 3;
+        } elseif (16 === $base) {
+            $exp *= 4;
+        }
+        if (strlen($data) <= $idx + $len) {
+            throw new DecodeException(
+                'Unexpected end of data while decoding REAL mantissa.');
+        }
+        // decode mantissa
+        $octets = substr($data, $idx + $len);
+        $n = BigInt::fromUnsignedOctets($octets)->gmpObj();
+        $n *= 2 ** $scale;
+        if ($neg) {
+            $n = gmp_neg($n);
+        }
+        return new self($n, $exp, 2);
     }
 
     /**
+     * Decode decimal encoding.
+     *
      * @param string $data
      *
      * @throws \RuntimeException
@@ -155,138 +482,255 @@ class Real extends Element
      */
     protected static function _decodeDecimalEncoding(string $data): self
     {
-        $nr = ord($data[0]) & 0x03;
-        if (0x03 !== $nr) {
-            throw new \RuntimeException('Only NR3 form supported.');
+        $nr = ord($data[0]) & 0x3f;
+        if (!in_array($nr, [1, 2, 3])) {
+            throw new \RuntimeException('Unsupported decimal encoding form.');
         }
         $str = substr($data, 1);
-        return new self($str);
+        return self::fromString($str);
     }
 
     /**
-     * @todo Implement
+     * Decode special encoding.
      *
      * @param string $data
+     *
+     * @return self
      */
-    protected static function _decodeSpecialRealValue(string $data)
+    protected static function _decodeSpecialRealValue(string $data): self
     {
         if (1 !== strlen($data)) {
             throw new DecodeException(
                 'SpecialRealValue must have one content octet.');
         }
         $byte = ord($data[0]);
-        if (0x40 === $byte) { // positive infinity
-            throw new \RuntimeException('PLUS-INFINITY not supported.');
+        if (0x40 === $byte) {   // positive infinity
+            return self::_fromInfinite(INF);
         }
-        if (0x41 === $byte) { // negative infinity
-            throw new \RuntimeException('MINUS-INFINITY not supported.');
+        if (0x41 === $byte) {   // negative infinity
+            return self::_fromInfinite(-INF);
         }
         throw new DecodeException('Invalid SpecialRealValue encoding.');
     }
 
     /**
-     * Convert decimal number string to NR3 form.
+     * Prepare value for binary encoding.
      *
-     * @param string $str
-     *
-     * @return string
+     * @return array (int) base, (int) sign, (\GMP) mantissa and (\GMP) exponent
      */
-    private static function _decimalToNR3(string $str): string
+    protected function _prepareBinaryEncoding(): array
     {
-        // if number is in exponent form
-        /** @var string[] $match */
+        $base = 2;
+        $m = $this->_mantissa->gmpObj();
+        $ms = gmp_sign($m);
+        $m = gmp_abs($m);
+        $e = $this->_exponent->gmpObj();
+        $es = gmp_sign($e);
+        $e = gmp_abs($e);
+        // DER uses only base 2 binary encoding
+        if (!$this->_strictDer) {
+            if (0 == $e % 4) {
+                $base = 16;
+                $e = gmp_div_q($e, 4);
+            } elseif (0 == $e % 3) {
+                $base = 8;
+                $e = gmp_div_q($e, 3);
+            }
+        }
+        return [$base, $ms, $m, $e * $es];
+    }
+
+    /**
+     * Initialize from INF or -INF.
+     *
+     * @param float $inf
+     *
+     * @return self
+     */
+    private static function _fromInfinite(float $inf): self
+    {
+        return new self($inf === -INF ? -1 : 1, self::INF_EXPONENT, 2);
+    }
+
+    /**
+     * Parse IEEE 754 big endian formatted double precision float to base 2
+     * mantissa and exponent.
+     *
+     * @param string $octets 64 bits
+     *
+     * @return \GMP[] Tuple of mantissa and exponent
+     */
+    private static function _parse754Double(string $octets): array
+    {
+        $n = gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
+        // sign bit
+        $neg = gmp_testbit($n, 63);
+        // 11 bits of biased exponent
+        $exp = (gmp_and($n, '0x7ff0000000000000') >> 52) + self::EXP_BIAS;
+        // 52 bits of mantissa
+        $man = gmp_and($n, '0xfffffffffffff');
+        // zero, ASN.1 doesn't differentiate -0 from +0
+        if (self::EXP_BIAS == $exp && 0 == $man) {
+            return [gmp_init(0, 10), gmp_init(0, 10)];
+        }
+        // denormalized value, shift binary point
+        if (self::EXP_BIAS == $exp) {
+            ++$exp;
+        }
+        // normalized value, insert implicit leading one before the binary point
+        else {
+            gmp_setbit($man, 52);
+        }
+        // find the last fraction bit that is set
+        $last = gmp_scan1($man, 0);
+        $bits_for_fraction = 52 - $last;
+        // adjust mantissa and exponent so that we have integer values
+        $man >>= $last;
+        $exp -= $bits_for_fraction;
+        // negate mantissa if number was negative
+        if ($neg) {
+            $man = gmp_neg($man);
+        }
+        return [$man, $exp];
+    }
+
+    /**
+     * Parse textual REAL number to base 10 mantissa and exponent.
+     *
+     * @param string $str Number
+     *
+     * @return \GMP[] Tuple of mantissa and exponent
+     */
+    private static function _parseString(string $str): array
+    {
+        // PHP exponent format
         if (preg_match(self::PHP_EXPONENT_DNUM, $str, $match)) {
-            $parts = explode('.', $match[1]);
-            $m = ltrim($parts[0], '0');
-            $e = intval($match[2]);
-            // if mantissa had decimals
-            if (2 === count($parts)) {
-                $d = rtrim($parts[1], '0');
-                $e -= strlen($d);
-                $m .= $d;
-            }
-        } else {
-            // explode from decimal
-            $parts = explode('.', $str);
-            $m = ltrim($parts[0], '0');
-            // if number had decimals
-            if (2 === count($parts)) {
-                // exponent is negative number of the decimals
-                $e = -strlen($parts[1]);
-                // append decimals to the mantissa
-                $m .= $parts[1];
-            } else {
-                $e = 0;
-            }
-            // shift trailing zeroes from the mantissa to the exponent
-            while ('0' === substr($m, -1)) {
-                ++$e;
-                $m = substr($m, 0, -1);
-            }
+            [$m, $e] = self::_parsePHPExponentMatch($match);
         }
-        /* if exponent is zero, it must be prefixed with a "+" sign
-         (X.690 07-2002, section 11.3.2.6) */
-        if (0 === $e) {
-            $es = '+';
-        } else {
-            $es = $e < 0 ? '-' : '';
+        // NR3 format
+        elseif (preg_match(self::NR3_REGEX, $str, $match)) {
+            [$m, $e] = self::_parseNR3Match($match);
         }
-        return sprintf('%s.E%s%d', $m, $es, abs($e));
-    }
-
-    /**
-     * Convert NR3 form number to decimal.
-     *
-     * @param string $str
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return float
-     */
-    private static function _nr3ToDecimal(string $str): float
-    {
-        /** @var string[] $match */
-        if (!preg_match(self::NR3_REGEX, $str, $match)) {
+        // NR2 format
+        elseif (preg_match(self::NR2_REGEX, $str, $match)) {
+            [$m, $e] = self::_parseNR2Match($match);
+        }
+        // NR1 format
+        elseif (preg_match(self::NR1_REGEX, $str, $match)) {
+            [$m, $e] = self::_parseNR1Match($match);
+        }
+        // invalid number
+        else {
             throw new \UnexpectedValueException(
-                "'{$str}' is not a valid NR3 form real.");
+                "{$str} could not be parsed to REAL.");
         }
-        $m = $match[2];
-        // if number started with minus sign
-        $inv = '-' === $match[1];
-        $e = intval($match[3]);
-        // positive exponent
-        if ($e > 0) {
-            // pad with trailing zeroes
-            $num = $m . str_repeat('0', $e);
-        } elseif ($e < 0) {
-            // pad with leading zeroes
-            if (strlen($m) < abs($e)) {
-                $m = str_repeat('0', intval(abs($e)) - strlen($m)) . $m;
-            }
-            // insert decimal point
-            $num = substr($m, 0, $e) . '.' . substr($m, $e);
-        } else {
-            $num = empty($m) ? '0' : $m;
+        // normalize so that mantsissa has no trailing zeroes
+        while (0 != $m && 0 == $m % 10) {
+            $m /= 10;
+            ++$e;
         }
-        // if number is negative
-        if ($inv) {
-            $num = "-{$num}";
-        }
-        return floatval($num);
+        return [$m, $e];
     }
 
     /**
-     * Test that number is valid for this context.
+     * Parse PHP form float to base 10 mantissa and exponent.
      *
-     * @param mixed $num
+     * @param array $match Regexp match
      *
-     * @return bool
+     * @return \GMP[] Tuple of mantissa and exponent
      */
-    private static function _validateNumber($num): bool
+    private static function _parsePHPExponentMatch(array $match): array
     {
-        if (!preg_match(self::NR3_REGEX, $num)) {
-            return false;
+        // mantissa sign
+        $ms = '-' === $match['ms'] ? -1 : 1;
+        $m_parts = explode('.', $match['m']);
+        // integer part of the mantissa
+        $int = ltrim($m_parts[0], '0');
+        // exponent sign
+        $es = '-' === $match['es'] ? -1 : 1;
+        // signed exponent
+        $e = gmp_init($match['e'], 10) * $es;
+        // if mantissa had fractional part
+        if (2 === count($m_parts)) {
+            $frac = rtrim($m_parts[1], '0');
+            $e -= strlen($frac);
+            $int .= $frac;
         }
-        return true;
+        $m = gmp_init($int, 10) * $ms;
+        return [$m, $e];
+    }
+
+    /**
+     * Parse NR3 form number to base 10 mantissa and exponent.
+     *
+     * @param array $match Regexp match
+     *
+     * @return \GMP[] Tuple of mantissa and exponent
+     */
+    private static function _parseNR3Match(array $match): array
+    {
+        // mantissa sign
+        $ms = '-' === $match['ms'] ? -1 : 1;
+        // explode mantissa to integer and fraction parts
+        [$int, $frac] = explode('.', str_replace(',', '.', $match['m']));
+        $int = ltrim($int, '0');
+        $frac = rtrim($frac, '0');
+        // exponent sign
+        $es = '-' === $match['es'] ? -1 : 1;
+        // signed exponent
+        $e = gmp_init($match['e'], 10) * $es;
+        // shift exponent by the number of base 10 fractions
+        $e -= strlen($frac);
+        // insert fractions to integer part and produce signed mantissa
+        $int .= $frac;
+        if ('' === $int) {
+            $int = '0';
+        }
+        $m = gmp_init($int, 10) * $ms;
+        return [$m, $e];
+    }
+
+    /**
+     * Parse NR2 form number to base 10 mantissa and exponent.
+     *
+     * @param array $match Regexp match
+     *
+     * @return \GMP[] Tuple of mantissa and exponent
+     */
+    private static function _parseNR2Match(array $match): array
+    {
+        $sign = '-' === $match['s'] ? -1 : 1;
+        // explode decimal number to integer and fraction parts
+        [$int, $frac] = explode('.', str_replace(',', '.', $match['d']));
+        $int = ltrim($int, '0');
+        $frac = rtrim($frac, '0');
+        // shift exponent by the number of base 10 fractions
+        $e = gmp_init(0, 10);
+        $e -= strlen($frac);
+        // insert fractions to integer part and produce signed mantissa
+        $int .= $frac;
+        if ('' === $int) {
+            $int = '0';
+        }
+        $m = gmp_init($int, 10) * $sign;
+        return [$m, $e];
+    }
+
+    /**
+     * Parse NR1 form number to base 10 mantissa and exponent.
+     *
+     * @param array $match Regexp match
+     *
+     * @return \GMP[] Tuple of mantissa and exponent
+     */
+    private static function _parseNR1Match(array $match): array
+    {
+        $sign = '-' === $match['s'] ? -1 : 1;
+        $int = ltrim($match['i'], '0');
+        if ('' === $int) {
+            $int = '0';
+        }
+        $m = gmp_init($int, 10) * $sign;
+        return [$m, gmp_init(0, 10)];
     }
 }

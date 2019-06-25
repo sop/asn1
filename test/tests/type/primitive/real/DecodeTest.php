@@ -14,52 +14,58 @@ use Sop\ASN1\Type\Primitive\Real;
  */
 class RealDecodeTest extends TestCase
 {
-    public function testBinaryEncodingFail()
+    public function testReservedBinaryEncodingFail()
     {
-        $data = "\x9\x2\x80\x0";
         $this->expectException(\RuntimeException::class);
-        Real::fromDER($data);
+        $this->expectExceptionMessage('Reserved REAL binary encoding base not supported');
+        Real::fromDER(hex2bin('0902B000'));
     }
 
-    public function testNonNR3DecimalEncodingFail()
+    public function testBinaryEncodingExponentLengthUnexpectedEnd()
     {
-        $data = "\x9\x02\x010";
-        $this->expectException(\RuntimeException::class);
-        Real::fromDER($data);
-    }
-
-    public function testSpecialEncodingMultipleOctetsFail()
-    {
-        $data = "\x9\x02\x40\x0";
         $this->expectException(DecodeException::class);
-        Real::fromDER($data);
+        $this->expectExceptionMessage('Unexpected end of data while decoding REAL exponent length');
+        Real::fromDER(hex2bin('090183'));
     }
 
-    public function testSpecialEncodingPositiveINF()
+    public function testBinaryEncodingExponentUnexpectedEnd()
     {
-        $data = "\x9\x01\x40";
-        $this->expectException(\RuntimeException::class);
-        Real::fromDER($data);
-    }
-
-    public function testSpecialEncodingNegativeINF()
-    {
-        $data = "\x9\x01\x41";
-        $this->expectException(\RuntimeException::class);
-        Real::fromDER($data);
-    }
-
-    public function testInvalidSpecialEncodingFail()
-    {
-        $data = "\x9\x01\x4f";
         $this->expectException(DecodeException::class);
-        Real::fromDER($data);
+        $this->expectExceptionMessage('Unexpected end of data while decoding REAL exponent');
+        Real::fromDER(hex2bin('090180'));
     }
 
-    public function testInvalidNumberFail()
+    public function testBinaryEncodingMantissaUnexpectedEnd()
     {
-        $data = "\x9\x02\x03.";
         $this->expectException(DecodeException::class);
-        Real::fromDER($data);
+        $this->expectExceptionMessage('Unexpected end of data while decoding REAL mantissa');
+        Real::fromDER(hex2bin('09028000'));
+    }
+
+    public function testDecimalEncodingUnsupportedForm()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unsupported decimal encoding form');
+        Real::fromDER(hex2bin('09020400'));
+    }
+
+    public function testSpecialEncodingTooLong()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('SpecialRealValue must have one content octet');
+        Real::fromDER(hex2bin('09024000'));
+    }
+
+    public function testSpecialEncodingInvalid()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid SpecialRealValue encoding');
+        Real::fromDER(hex2bin('090142'));
+    }
+
+    public function testLongExponent()
+    {
+        $real = Real::fromDER(hex2bin('090783044000000001'));
+        $this->assertEquals('1073741824', $real->exponent()->base10());
     }
 }
