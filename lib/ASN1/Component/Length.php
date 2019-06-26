@@ -109,8 +109,8 @@ class Length implements Encodable
         // if certain length was expected
         if (isset($expected)) {
             if ($length->isIndefinite()) {
-                throw new DecodeException(sprintf(
-                    'Expected length %d, got indefinite.', $expected));
+                throw new DecodeException(
+                    sprintf('Expected length %d, got indefinite.', $expected));
             }
             if ($expected !== $length->intLength()) {
                 throw new DecodeException(

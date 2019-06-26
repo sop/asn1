@@ -29,8 +29,7 @@ abstract class BaseString extends Element implements StringType
     {
         if (!$this->_validateString($string)) {
             throw new \InvalidArgumentException(
-                sprintf('Not a valid %s string.',
-                    self::tagToName($this->_typeTag)));
+                sprintf('Not a valid %s string.', self::tagToName($this->_typeTag)));
         }
         $this->_string = $string;
     }

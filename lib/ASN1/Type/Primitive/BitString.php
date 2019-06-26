@@ -80,8 +80,7 @@ class BitString extends BaseString
         // if tested bit is last octet's unused bit
         if ($oi === strlen($this->_string) - 1) {
             if ($bi >= 8 - $this->_unusedBits) {
-                throw new \OutOfBoundsException(
-                    'Index refers to an unused bit.');
+                throw new \OutOfBoundsException('Index refers to an unused bit.');
             }
         }
         $byte = $this->_string[$oi];

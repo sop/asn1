@@ -16,7 +16,7 @@ class RealDecodeTest extends TestCase
 {
     public function testReservedBinaryEncodingFail()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
             'Reserved REAL binary encoding base not supported');
         Real::fromDER(hex2bin('0902B000'));
@@ -48,14 +48,14 @@ class RealDecodeTest extends TestCase
 
     public function testDecimalEncodingUnsupportedForm()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Unsupported decimal encoding form');
         Real::fromDER(hex2bin('09020400'));
     }
 
     public function testSpecialEncodingTooLong()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DecodeException::class);
         $this->expectExceptionMessage(
             'SpecialRealValue must have one content octet');
         Real::fromDER(hex2bin('09024000'));
@@ -63,7 +63,7 @@ class RealDecodeTest extends TestCase
 
     public function testSpecialEncodingInvalid()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(DecodeException::class);
         $this->expectExceptionMessage('Invalid SpecialRealValue encoding');
         Real::fromDER(hex2bin('090142'));
     }

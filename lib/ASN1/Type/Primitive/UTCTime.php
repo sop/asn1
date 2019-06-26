@@ -76,8 +76,7 @@ class UTCTime extends BaseTime
         $dt = \DateTimeImmutable::createFromFormat('!ymdHisT', $time,
             self::_createTimeZone(self::TZ_UTC));
         if (!$dt) {
-            throw new DecodeException(
-                'Failed to decode UTCTime: ' .
+            throw new DecodeException('Failed to decode UTCTime: ' .
                 self::_getLastDateTimeImmutableErrorsStr());
         }
         $offset = $idx;

@@ -428,7 +428,7 @@ class Real extends Element
                 $base = 16;
                 break;
             default:
-                throw new \RuntimeException(
+                throw new DecodeException(
                     'Reserved REAL binary encoding base not supported.');
         }
         // scaling factor in bits 4 and 3
@@ -484,7 +484,7 @@ class Real extends Element
     {
         $nr = ord($data[0]) & 0x3f;
         if (!in_array($nr, [1, 2, 3])) {
-            throw new \RuntimeException('Unsupported decimal encoding form.');
+            throw new DecodeException('Unsupported decimal encoding form.');
         }
         $str = substr($data, 1);
         return self::fromString($str);

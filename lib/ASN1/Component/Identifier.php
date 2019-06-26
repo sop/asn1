@@ -297,8 +297,7 @@ class Identifier implements Encodable
         while (true) {
             if ($offset >= $datalen) {
                 throw new DecodeException(
-                    'Unexpected end of data while decoding' .
-                    ' long form identifier.');
+                    'Unexpected end of data while decoding long form identifier.');
             }
             $byte = ord($data[$offset++]);
             $tag <<= 7;
