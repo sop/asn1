@@ -354,7 +354,7 @@ class Real extends Element
     /**
      * Encode in decimal format.
      *
-     * @return strign
+     * @return string
      */
     protected function _encodeDecimal(): string
     {
