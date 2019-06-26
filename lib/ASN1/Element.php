@@ -207,23 +207,15 @@ abstract class Element implements ElementBase
         $identifier = Identifier::fromDER($data, $idx);
         // determine class that implements type specific decoding
         $cls = self::_determineImplClass($identifier);
-        try {
-            // decode remaining element
-            $element = $cls::_decodeFromDER($identifier, $data, $idx);
-        } catch (\LogicException $e) {
-            // rethrow as a RuntimeException for unified exception handling
-            throw new DecodeException(
-                sprintf('Error while decoding %s.',
-                    self::tagToName($identifier->intTag())), 0, $e);
-        }
+        // decode remaining element
+        $element = $cls::_decodeFromDER($identifier, $data, $idx);
         // if called in the context of a concrete class, check
         // that decoded type matches the type of a calling class
         $called_class = get_called_class();
         if (self::class !== $called_class) {
             if (!$element instanceof $called_class) {
                 throw new \UnexpectedValueException(
-                    sprintf('%s expected, got %s.', $called_class,
-                        get_class($element)));
+                    sprintf('%s expected, got %s.', $called_class, get_class($element)));
             }
         }
         // update offset for the caller
@@ -422,10 +414,8 @@ abstract class Element implements ElementBase
             case Identifier::CLASS_PRIVATE:
                 return PrivateType::class;
         }
-        throw new \UnexpectedValueException(
-            sprintf('%s %d not implemented.',
-                Identifier::classToName($identifier->typeClass()),
-                $identifier->tag()));
+        throw new \UnexpectedValueException(sprintf('%s %d not implemented.',
+            Identifier::classToName($identifier->typeClass()), $identifier->tag()));
     }
 
     /**
