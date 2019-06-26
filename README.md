@@ -19,7 +19,9 @@ Distinguished Encoding Rules (DER) encoding and decoding.
 This library is available on
 [Packagist](https://packagist.org/packages/sop/asn1).
 
-    composer require sop/asn1
+```sh
+composer require sop/asn1
+```
 
 ## Usage
 
@@ -45,11 +47,13 @@ Encode a sequence containing a UTF-8 string, an integer
 and an explicitly tagged object identifier, conforming to the following
 ASN.1 specification:
 
-    Example ::= SEQUENCE {
-        greeting    UTF8String,
-        answer      INTEGER,
-        type    [1] EXPLICIT OBJECT IDENTIFIER
-    }
+```asn.1
+Example ::= SEQUENCE {
+    greeting    UTF8String,
+    answer      INTEGER,
+    type    [1] EXPLICIT OBJECT IDENTIFIER
+}
+```
 
 ```php
 $seq = new Sequence(
