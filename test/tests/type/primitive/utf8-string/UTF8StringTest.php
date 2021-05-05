@@ -25,8 +25,6 @@ class UTF8StringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -35,10 +33,6 @@ class UTF8StringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -51,8 +45,6 @@ class UTF8StringTest extends TestCase
      * @depends testEncode
      *
      * @param string $data
-     *
-     * @return UTF8String
      */
     public function testDecode($data): UTF8String
     {
@@ -64,9 +56,6 @@ class UTF8StringTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -82,8 +71,6 @@ class UTF8StringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {

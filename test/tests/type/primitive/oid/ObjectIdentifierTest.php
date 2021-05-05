@@ -25,8 +25,6 @@ class ObjectIdentifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -35,10 +33,6 @@ class ObjectIdentifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -49,10 +43,6 @@ class ObjectIdentifierTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return ObjectIdentifier
      */
     public function testDecode(string $data): ObjectIdentifier
     {
@@ -64,9 +54,6 @@ class ObjectIdentifierTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -75,8 +62,6 @@ class ObjectIdentifierTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {
@@ -124,10 +109,23 @@ class ObjectIdentifierTest extends TestCase
         new ObjectIdentifier('1.40');
     }
 
-    public function testInvalidNumber()
+    /**
+     * @requires PHP < 8.0
+     */
+    public function testInvalidNumberPrePHP8()
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->expectExceptionMessage('is not a number');
+        new ObjectIdentifier('1.1.x');
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testInvalidNumberPHP8()
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('not an integer');
         new ObjectIdentifier('1.1.x');
     }
 

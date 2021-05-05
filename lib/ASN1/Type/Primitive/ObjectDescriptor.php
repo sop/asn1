@@ -16,8 +16,6 @@ class ObjectDescriptor extends PrimitiveString
 
     /**
      * Constructor.
-     *
-     * @param string $descriptor
      */
     public function __construct(string $descriptor)
     {
@@ -27,8 +25,6 @@ class ObjectDescriptor extends PrimitiveString
 
     /**
      * Get the object descriptor.
-     *
-     * @return string
      */
     public function descriptor(): string
     {

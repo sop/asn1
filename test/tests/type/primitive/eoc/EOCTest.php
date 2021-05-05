@@ -14,9 +14,6 @@ use Sop\ASN1\Type\Primitive\EOC;
  */
 class EOCTest extends TestCase
 {
-    /**
-     * @return Element
-     */
     public function testCreate(): Element
     {
         $el = new EOC();
@@ -26,8 +23,6 @@ class EOCTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -36,10 +31,6 @@ class EOCTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -52,8 +43,6 @@ class EOCTest extends TestCase
      * @depends testEncode
      *
      * @param string $data
-     *
-     * @return EOC
      */
     public function testDecode($data): EOC
     {
@@ -65,9 +54,6 @@ class EOCTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {

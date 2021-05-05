@@ -11,15 +11,11 @@ interface Stringable
 {
     /**
      * Convert object to string.
-     *
-     * @return string
      */
     public function __toString(): string;
 
     /**
      * Get the string representation of the type.
-     *
-     * @return string
      */
     public function string(): string;
 }

@@ -42,8 +42,6 @@ class BitString extends BaseString
 
     /**
      * Get the number of bits in the string.
-     *
-     * @return int
      */
     public function numBits(): int
     {
@@ -52,8 +50,6 @@ class BitString extends BaseString
 
     /**
      * Get the number of unused bits in the last octet of the string.
-     *
-     * @return int
      */
     public function unusedBits(): int
     {
@@ -64,8 +60,6 @@ class BitString extends BaseString
      * Test whether bit is set.
      *
      * @param int $idx Bit index. Most significant bit of the first octet is index 0.
-     *
-     * @return bool
      */
     public function testBit(int $idx): bool
     {
@@ -123,8 +117,6 @@ class BitString extends BaseString
 
     /**
      * Get a copy of the bit string with trailing zeroes removed.
-     *
-     * @return self
      */
     public function withoutTrailingZeroes(): self
     {

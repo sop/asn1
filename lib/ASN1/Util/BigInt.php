@@ -53,9 +53,6 @@ class BigInt
         $this->_gmp = $num;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->base10();
@@ -63,10 +60,6 @@ class BigInt
 
     /**
      * Initialize from an arbitrary length of octets as an unsigned integer.
-     *
-     * @param string $octets
-     *
-     * @return self
      */
     public static function fromUnsignedOctets(string $octets): self
     {
@@ -79,10 +72,6 @@ class BigInt
     /**
      * Initialize from an arbitrary length of octets as an signed integer
      * having two's complement encoding.
-     *
-     * @param string $octets
-     *
-     * @return self
      */
     public static function fromSignedOctets(string $octets): self
     {
@@ -104,8 +93,6 @@ class BigInt
 
     /**
      * Get the number as a base 10 integer string.
-     *
-     * @return string
      */
     public function base10(): string
     {
@@ -119,8 +106,6 @@ class BigInt
      * Get the number as an integer.
      *
      * @throws \RuntimeException If number overflows integer size
-     *
-     * @return int
      */
     public function intVal(): int
     {
@@ -140,8 +125,6 @@ class BigInt
      * Get the number as a `GMP` object.
      *
      * @throws \RuntimeException if number is not a valid integer
-     *
-     * @return \GMP
      */
     public function gmpObj(): \GMP
     {
@@ -150,8 +133,6 @@ class BigInt
 
     /**
      * Get the number as an unsigned integer encoded in binary.
-     *
-     * @return string
      */
     public function unsignedOctets(): string
     {
@@ -160,8 +141,6 @@ class BigInt
 
     /**
      * Get the number as a signed integer encoded in two's complement binary.
-     *
-     * @return string
      */
     public function signedOctets(): string
     {
@@ -177,8 +156,6 @@ class BigInt
 
     /**
      * Encode positive integer in two's complement binary.
-     *
-     * @return string
      */
     private function _signedPositiveOctets(): string
     {
@@ -192,8 +169,6 @@ class BigInt
 
     /**
      * Encode negative integer in two's complement binary.
-     *
-     * @return string
      */
     private function _signedNegativeOctets(): string
     {
@@ -219,8 +194,6 @@ class BigInt
 
     /**
      * Get the maximum integer value.
-     *
-     * @return \GMP
      */
     private function _intMaxGmp(): \GMP
     {
@@ -233,8 +206,6 @@ class BigInt
 
     /**
      * Get the minimum integer value.
-     *
-     * @return \GMP
      */
     private function _intMinGmp(): \GMP
     {

@@ -24,8 +24,6 @@ class DERTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERTaggedType $el
      */
     public function testEncode(DERTaggedType $el)
     {
@@ -35,8 +33,6 @@ class DERTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERTaggedType $el
      */
     public function testExpectExplicit(DERTaggedType $el)
     {
@@ -45,8 +41,6 @@ class DERTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERTaggedType $el
      */
     public function testExpectImplicit(DERTaggedType $el)
     {
@@ -55,8 +49,6 @@ class DERTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {

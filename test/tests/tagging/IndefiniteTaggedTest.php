@@ -24,8 +24,6 @@ class IndefiniteTaggedTest extends TestCase
 
     /**
      * @depends testDecodeIndefinite
-     *
-     * @param TaggedType $el
      */
     public function testEncodeIndefinite(TaggedType $el)
     {

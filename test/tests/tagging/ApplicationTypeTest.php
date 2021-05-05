@@ -36,8 +36,6 @@ class ApplicationTypeTest extends TestCase
 
     /**
      * @depends testImplicitType
-     *
-     * @param ApplicationType $el
      */
     public function testUnwrapImplicit(ApplicationType $el)
     {
@@ -73,8 +71,6 @@ class ApplicationTypeTest extends TestCase
 
     /**
      * @depends testExplicitType
-     *
-     * @param ApplicationType $el
      */
     public function testUnwrapExplicit(ApplicationType $el)
     {
@@ -95,8 +91,6 @@ class ApplicationTypeTest extends TestCase
 
     /**
      * @depends testExplicitType
-     *
-     * @param ApplicationType $el
      */
     public function testRecodeExplicit(ApplicationType $el)
     {

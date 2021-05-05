@@ -63,11 +63,6 @@ class Flags
 
     /**
      * Initialize from `BitString`.
-     *
-     * @param BitString $bs
-     * @param int       $width
-     *
-     * @return self
      */
     public static function fromBitString(BitString $bs, int $width): self
     {
@@ -85,11 +80,7 @@ class Flags
      *
      * Index 0 is the leftmost bit.
      *
-     * @param int $idx
-     *
      * @throws \OutOfBoundsException
-     *
-     * @return bool
      */
     public function test(int $idx): bool
     {
@@ -110,8 +101,6 @@ class Flags
      * Get flags as an octet string.
      *
      * Zeroes are appended to the last octet if width is not divisible by 8.
-     *
-     * @return string
      */
     public function string(): string
     {
@@ -134,8 +123,6 @@ class Flags
 
     /**
      * Get flags as an integer.
-     *
-     * @return int
      */
     public function intNumber(): int
     {
@@ -147,8 +134,6 @@ class Flags
      * Get flags as a `BitString` object.
      *
      * Unused bits are set accordingly. Trailing zeroes are not stripped.
-     *
-     * @return BitString
      */
     public function bitString(): BitString
     {

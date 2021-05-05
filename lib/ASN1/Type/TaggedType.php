@@ -20,8 +20,6 @@ abstract class TaggedType extends Element
      * @param null|int $expectedTag Optional outer tag expectation
      *
      * @throws \UnexpectedValueException If expectation fails
-     *
-     * @return ExplicitTagging
      */
     public function expectExplicit(?int $expectedTag = null): ExplicitTagging
     {
@@ -42,8 +40,6 @@ abstract class TaggedType extends Element
      * @param null|int $expectedTag Optional outer tag expectation
      *
      * @throws \UnexpectedValueException If expectation fails
-     *
-     * @return UnspecifiedType
      */
     public function asExplicit(?int $expectedTag = null): UnspecifiedType
     {
@@ -56,8 +52,6 @@ abstract class TaggedType extends Element
      * @param null|int $expectedTag Optional outer tag expectation
      *
      * @throws \UnexpectedValueException If expectation fails
-     *
-     * @return ImplicitTagging
      */
     public function expectImplicit(?int $expectedTag = null): ImplicitTagging
     {
@@ -80,8 +74,6 @@ abstract class TaggedType extends Element
      * @param int      $expectedClass Optional inner type class expectation
      *
      * @throws \UnexpectedValueException If expectation fails
-     *
-     * @return UnspecifiedType
      */
     public function asImplicit(int $tag, ?int $expectedTag = null,
         int $expectedClass = Identifier::CLASS_UNIVERSAL): UnspecifiedType

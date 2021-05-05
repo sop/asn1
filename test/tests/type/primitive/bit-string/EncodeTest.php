@@ -15,9 +15,6 @@ class BitStringEncodeTest extends TestCase
 {
     /**
      * @dataProvider withoutTrailingZeroesProvider
-     *
-     * @param string $bits
-     * @param string $expected
      */
     public function testWithoutTrailingZeroes(string $bits, string $expected)
     {

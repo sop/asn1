@@ -25,8 +25,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
      */
     public function testTag(Real $el)
     {
@@ -35,10 +33,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
-     *
-     * @return string
      */
     public function testEncode(Real $el): string
     {
@@ -49,10 +43,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return Real
      */
     public function testDecode(string $data): Real
     {
@@ -64,9 +54,6 @@ class RealTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Real $ref
-     * @param Real $el
      */
     public function testRecoded(Real $ref, Real $el)
     {
@@ -75,8 +62,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {
@@ -94,8 +79,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
      */
     public function testString(Real $el)
     {
@@ -104,8 +87,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
      */
     public function testMantissa(Real $el)
     {
@@ -114,8 +95,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
      */
     public function testExponent(Real $el)
     {
@@ -124,8 +103,6 @@ class RealTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Real $el
      */
     public function testBase(Real $el)
     {
@@ -134,8 +111,6 @@ class RealTest extends TestCase
 
     /**
      * @dataProvider provideFromFloat
-     *
-     * @param float $number
      */
     public function testFromFloat(float $number)
     {
@@ -146,8 +121,6 @@ class RealTest extends TestCase
 
     /**
      * @dataProvider provideFromFloat
-     *
-     * @param float $number
      */
     public function testFromFloatNonStrict(float $number)
     {

@@ -18,8 +18,6 @@ class FlagsTest extends TestCase
      * @dataProvider flagsProvider
      *
      * @param number $num
-     * @param int    $width
-     * @param string $result
      */
     public function testFlags($num, int $width, string $result)
     {
@@ -52,10 +50,6 @@ class FlagsTest extends TestCase
 
     /**
      * @dataProvider setBitProvider
-     *
-     * @param int $num
-     * @param int $width
-     * @param int $idx
      */
     public function testSetBit(int $num, int $width, int $idx)
     {
@@ -80,10 +74,6 @@ class FlagsTest extends TestCase
 
     /**
      * @dataProvider unsetBitProvider
-     *
-     * @param int $num
-     * @param int $width
-     * @param int $idx
      */
     public function testUnsetBit(int $num, int $width, int $idx)
     {
@@ -105,10 +95,7 @@ class FlagsTest extends TestCase
     /**
      * @dataProvider toBitStringProvider
      *
-     * @param int    $num
-     * @param int    $width
      * @param string $result
-     * @param int    $unused_bits
      */
     public function testToBitString(int $num, int $width, $result,
         int $unused_bits)
@@ -136,11 +123,6 @@ class FlagsTest extends TestCase
 
     /**
      * @dataProvider fromBitStringProvider
-     *
-     * @param string $str
-     * @param int    $unused_bits
-     * @param int    $width
-     * @param string $result
      */
     public function testFromBitString(string $str, int $unused_bits, int $width,
         string $result)
@@ -199,8 +181,6 @@ class FlagsTest extends TestCase
      * @dataProvider bitStringToNumberProvider
      *
      * @param string $str
-     * @param int    $unused_bits
-     * @param int    $width
      * @param number $number
      */
     public function testBitStringToNumber($str, int $unused_bits, int $width,

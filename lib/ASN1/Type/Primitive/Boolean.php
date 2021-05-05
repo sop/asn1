@@ -29,8 +29,6 @@ class Boolean extends Element
 
     /**
      * Constructor.
-     *
-     * @param bool $bool
      */
     public function __construct(bool $bool)
     {
@@ -40,8 +38,6 @@ class Boolean extends Element
 
     /**
      * Get the value.
-     *
-     * @return bool
      */
     public function value(): bool
     {

@@ -26,8 +26,6 @@ class UTCTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -36,10 +34,6 @@ class UTCTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -50,10 +44,6 @@ class UTCTimeTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return UTCTime
      */
     public function testDecode(string $data): UTCTime
     {
@@ -65,9 +55,6 @@ class UTCTimeTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param TimeType $ref
-     * @param TimeType $el
      */
     public function testRecoded(TimeType $ref, TimeType $el)
     {
@@ -78,8 +65,6 @@ class UTCTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {
@@ -97,8 +82,6 @@ class UTCTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TimeType $time
      */
     public function testStringable(TimeType $time)
     {

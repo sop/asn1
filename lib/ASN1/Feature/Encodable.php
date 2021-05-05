@@ -11,8 +11,6 @@ interface Encodable
 {
     /**
      * Encode object to DER.
-     *
-     * @return string
      */
     public function toDER(): string;
 }

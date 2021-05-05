@@ -11,8 +11,6 @@ interface TimeType extends StringType
 {
     /**
      * Get the date and time.
-     *
-     * @return \DateTimeImmutable
      */
     public function dateTime(): \DateTimeImmutable;
 }

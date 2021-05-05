@@ -27,8 +27,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -37,10 +35,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -51,10 +45,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return Sequence
      */
     public function testDecode(string $data): Sequence
     {
@@ -66,9 +56,6 @@ class SequenceTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -77,8 +64,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testElements(Sequence $seq)
     {
@@ -88,8 +73,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testCount(Sequence $seq)
     {
@@ -98,8 +81,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testIterator(Sequence $seq)
     {
@@ -113,8 +94,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testAt(Sequence $seq)
     {
@@ -124,8 +103,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testAtExpected(Sequence $seq)
     {
@@ -135,8 +112,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Sequence $seq
      */
     public function testAtOOB(Sequence $seq)
     {
@@ -148,8 +123,6 @@ class SequenceTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {

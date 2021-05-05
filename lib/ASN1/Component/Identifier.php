@@ -139,8 +139,6 @@ class Identifier implements Encodable
 
     /**
      * Get class of the type.
-     *
-     * @return int
      */
     public function typeClass(): int
     {
@@ -149,8 +147,6 @@ class Identifier implements Encodable
 
     /**
      * Get P/C.
-     *
-     * @return int
      */
     public function pc(): int
     {
@@ -169,8 +165,6 @@ class Identifier implements Encodable
 
     /**
      * Get the tag as an integer.
-     *
-     * @return int
      */
     public function intTag(): int
     {
@@ -179,8 +173,6 @@ class Identifier implements Encodable
 
     /**
      * Check whether type is of an universal class.
-     *
-     * @return bool
      */
     public function isUniversal(): bool
     {
@@ -189,8 +181,6 @@ class Identifier implements Encodable
 
     /**
      * Check whether type is of an application class.
-     *
-     * @return bool
      */
     public function isApplication(): bool
     {
@@ -199,8 +189,6 @@ class Identifier implements Encodable
 
     /**
      * Check whether type is of a context specific class.
-     *
-     * @return bool
      */
     public function isContextSpecific(): bool
     {
@@ -209,8 +197,6 @@ class Identifier implements Encodable
 
     /**
      * Check whether type is of a private class.
-     *
-     * @return bool
      */
     public function isPrivate(): bool
     {
@@ -219,8 +205,6 @@ class Identifier implements Encodable
 
     /**
      * Check whether content is primitive type.
-     *
-     * @return bool
      */
     public function isPrimitive(): bool
     {
@@ -229,8 +213,6 @@ class Identifier implements Encodable
 
     /**
      * Check hether content is constructed type.
-     *
-     * @return bool
      */
     public function isConstructed(): bool
     {
@@ -267,10 +249,6 @@ class Identifier implements Encodable
 
     /**
      * Get human readable name of the type class.
-     *
-     * @param int $class
-     *
-     * @return string
      */
     public static function classToName(int $class): string
     {

@@ -27,8 +27,6 @@ abstract class BaseTime extends Element implements TimeType
 
     /**
      * Constructor.
-     *
-     * @param \DateTimeImmutable $dt
      */
     public function __construct(\DateTimeImmutable $dt)
     {
@@ -52,8 +50,6 @@ abstract class BaseTime extends Element implements TimeType
      * @param null|string $tz   timezone, if null use default
      *
      * @throws \RuntimeException
-     *
-     * @return self
      */
     public static function fromString(string $time, ?string $tz = null): self
     {
@@ -72,8 +68,6 @@ abstract class BaseTime extends Element implements TimeType
 
     /**
      * Get the date and time.
-     *
-     * @return \DateTimeImmutable
      */
     public function dateTime(): \DateTimeImmutable
     {
@@ -82,8 +76,6 @@ abstract class BaseTime extends Element implements TimeType
 
     /**
      * Get the date and time as a type specific string.
-     *
-     * @return string
      */
     public function string(): string
     {
@@ -93,11 +85,7 @@ abstract class BaseTime extends Element implements TimeType
     /**
      * Create `DateTimeZone` object from string.
      *
-     * @param string $tz
-     *
      * @throws \UnexpectedValueException If timezone is invalid
-     *
-     * @return \DateTimeZone
      */
     protected static function _createTimeZone(string $tz): \DateTimeZone
     {
@@ -110,8 +98,6 @@ abstract class BaseTime extends Element implements TimeType
 
     /**
      * Get last error caused by `DateTimeImmutable`.
-     *
-     * @return string
      */
     protected static function _getLastDateTimeImmutableErrorsStr(): string
     {

@@ -44,8 +44,6 @@ class ElementTest extends TestCase
 
     /**
      * @depends testAsElement
-     *
-     * @param Element $el
      */
     public function testAsUnspecified(Element $el)
     {

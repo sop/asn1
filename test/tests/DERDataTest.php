@@ -26,8 +26,6 @@ class DERDataTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERData $el
      */
     public function testClass(DERData $el)
     {
@@ -36,8 +34,6 @@ class DERDataTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERData $el
      */
     public function testConstructed(DERData $el)
     {
@@ -46,8 +42,6 @@ class DERDataTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param DERData $el
      */
     public function testEncode(DERData $el)
     {

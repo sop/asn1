@@ -54,8 +54,6 @@ class Integer extends Element
 
     /**
      * Get the number as an integer type.
-     *
-     * @return int
      */
     public function intNumber(): int
     {
@@ -90,8 +88,6 @@ class Integer extends Element
      * Test that number is valid for this context.
      *
      * @param mixed $num
-     *
-     * @return bool
      */
     private static function _validateNumber($num): bool
     {

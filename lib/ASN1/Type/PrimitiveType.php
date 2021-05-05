@@ -11,8 +11,6 @@ trait PrimitiveType
 {
     /**
      * @see \Sop\ASN1\Feature\ElementBase::isConstructed()
-     *
-     * @return bool
      */
     public function isConstructed(): bool
     {

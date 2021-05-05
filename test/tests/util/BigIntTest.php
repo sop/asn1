@@ -52,10 +52,23 @@ class BigIntTest extends TestCase
         $this->assertInstanceOf(\GMP::class, $int->gmpObj());
     }
 
-    public function testInvalidNumber()
+    /**
+     * @requires PHP < 8.0
+     */
+    public function testInvalidNumberPrePHP8()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to convert');
+        new BigInt('fail');
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testInvalidNumberPHP8()
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('not an integer');
         new BigInt('fail');
     }
 

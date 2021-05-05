@@ -13,8 +13,6 @@ trait UniversalClass
 {
     /**
      * @see \Sop\ASN1\Feature\ElementBase::typeClass()
-     *
-     * @return int
      */
     public function typeClass(): int
     {

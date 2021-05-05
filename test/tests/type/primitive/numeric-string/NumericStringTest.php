@@ -25,8 +25,6 @@ class NumericStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -35,10 +33,6 @@ class NumericStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -51,8 +45,6 @@ class NumericStringTest extends TestCase
      * @depends testEncode
      *
      * @param string $data
-     *
-     * @return NumericString
      */
     public function testDecode($data): NumericString
     {
@@ -64,9 +56,6 @@ class NumericStringTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -75,8 +64,6 @@ class NumericStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {

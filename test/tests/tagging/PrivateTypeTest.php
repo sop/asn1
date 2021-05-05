@@ -36,8 +36,6 @@ class PrivateTypeTest extends TestCase
 
     /**
      * @depends testImplicitType
-     *
-     * @param PrivateType $el
      */
     public function testUnwrapImplicit(PrivateType $el)
     {
@@ -73,8 +71,6 @@ class PrivateTypeTest extends TestCase
 
     /**
      * @depends testExplicitType
-     *
-     * @param PrivateType $el
      */
     public function testUnwrapExplicit(PrivateType $el)
     {
@@ -95,8 +91,6 @@ class PrivateTypeTest extends TestCase
 
     /**
      * @depends testExplicitType
-     *
-     * @param PrivateType $el
      */
     public function testRecodeExplicit(PrivateType $el)
     {

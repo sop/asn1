@@ -25,8 +25,6 @@ class EnumeratedTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -35,10 +33,6 @@ class EnumeratedTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -49,10 +43,6 @@ class EnumeratedTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return Enumerated
      */
     public function testDecode(string $data): Enumerated
     {
@@ -64,9 +54,6 @@ class EnumeratedTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -75,8 +62,6 @@ class EnumeratedTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {

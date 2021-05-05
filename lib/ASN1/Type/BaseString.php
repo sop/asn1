@@ -21,8 +21,6 @@ abstract class BaseString extends Element implements StringType
     /**
      * Constructor.
      *
-     * @param string $string
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(string $string)
@@ -44,8 +42,6 @@ abstract class BaseString extends Element implements StringType
 
     /**
      * Get the string value.
-     *
-     * @return string
      */
     public function string(): string
     {
@@ -54,10 +50,6 @@ abstract class BaseString extends Element implements StringType
 
     /**
      * Check whether string is valid for the concrete type.
-     *
-     * @param string $string
-     *
-     * @return bool
      */
     protected function _validateString(string $string): bool
     {

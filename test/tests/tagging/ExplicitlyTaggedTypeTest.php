@@ -26,8 +26,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ExplicitTagging $el
      */
     public function testGetExplicit(ExplicitTagging $el)
     {
@@ -38,8 +36,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ExplicitlyTaggedType $el
      */
     public function testExpectTagged(ExplicitlyTaggedType $el)
     {
@@ -48,8 +44,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ExplicitlyTaggedType $el
      */
     public function testExpectTag(ExplicitlyTaggedType $el)
     {
@@ -58,8 +52,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ExplicitlyTaggedType $el
      */
     public function testExpectTagFail(ExplicitlyTaggedType $el)
     {
@@ -70,8 +62,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectExplicit(TaggedType $el)
     {
@@ -80,8 +70,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectImplicitFail(TaggedType $el)
     {
@@ -93,8 +81,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectExplicitWithTag(TaggedType $el)
     {
@@ -103,8 +89,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectExplicitWithInvalidTagFail(TaggedType $el)
     {
@@ -115,8 +99,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectTypeFails(TaggedType $el)
     {
@@ -128,8 +110,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testAsExplicit(TaggedType $el)
     {
@@ -140,8 +120,6 @@ class ExplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testAsExplicitFail(TaggedType $el)
     {

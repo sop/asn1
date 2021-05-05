@@ -152,10 +152,6 @@ class Real extends Element
 
     /**
      * Create base 2 real number from float.
-     *
-     * @param float $number
-     *
-     * @return self
      */
     public static function fromFloat(float $number): self
     {
@@ -173,8 +169,6 @@ class Real extends Element
      * Create base 10 real number from string.
      *
      * @param string $number Real number in base-10 textual form
-     *
-     * @return self
      */
     public static function fromString(string $number): self
     {
@@ -186,8 +180,6 @@ class Real extends Element
      * Get self with strict DER flag set or unset.
      *
      * @param bool $strict whether to encode strictly in DER
-     *
-     * @return self
      */
     public function withStrictDER(bool $strict): self
     {
@@ -198,8 +190,6 @@ class Real extends Element
 
     /**
      * Get the mantissa.
-     *
-     * @return BigInt
      */
     public function mantissa(): BigInt
     {
@@ -208,8 +198,6 @@ class Real extends Element
 
     /**
      * Get the exponent.
-     *
-     * @return BigInt
      */
     public function exponent(): BigInt
     {
@@ -218,8 +206,6 @@ class Real extends Element
 
     /**
      * Get the base.
-     *
-     * @return int
      */
     public function base(): int
     {
@@ -228,8 +214,6 @@ class Real extends Element
 
     /**
      * Get number as a float.
-     *
-     * @return float
      */
     public function floatVal(): float
     {
@@ -243,8 +227,6 @@ class Real extends Element
 
     /**
      * Get number as a NR3 form string conforming to DER rules.
-     *
-     * @return string
      */
     public function nr3Val(): string
     {
@@ -292,8 +274,6 @@ class Real extends Element
 
     /**
      * Encode in binary format.
-     *
-     * @return string
      */
     protected function _encodeBinary(): string
     {
@@ -353,8 +333,6 @@ class Real extends Element
 
     /**
      * Encode in decimal format.
-     *
-     * @return string
      */
     protected function _encodeDecimal(): string
     {
@@ -364,8 +342,6 @@ class Real extends Element
 
     /**
      * Encode special value.
-     *
-     * @return string
      */
     protected function _encodeSpecial(): string
     {
@@ -408,8 +384,6 @@ class Real extends Element
 
     /**
      * Decode binary encoding.
-     *
-     * @param string $data
      */
     protected static function _decodeBinaryEncoding(string $data)
     {
@@ -474,11 +448,7 @@ class Real extends Element
     /**
      * Decode decimal encoding.
      *
-     * @param string $data
-     *
      * @throws \RuntimeException
-     *
-     * @return self
      */
     protected static function _decodeDecimalEncoding(string $data): self
     {
@@ -492,10 +462,6 @@ class Real extends Element
 
     /**
      * Decode special encoding.
-     *
-     * @param string $data
-     *
-     * @return self
      */
     protected static function _decodeSpecialRealValue(string $data): self
     {
@@ -542,10 +508,6 @@ class Real extends Element
 
     /**
      * Initialize from INF or -INF.
-     *
-     * @param float $inf
-     *
-     * @return self
      */
     private static function _fromInfinite(float $inf): self
     {

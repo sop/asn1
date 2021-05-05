@@ -72,8 +72,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     /**
      * Explode DER structure to DER encoded components that it contains.
      *
-     * @param string $data
-     *
      * @throws DecodeException
      *
      * @return string[]
@@ -114,8 +112,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * @param Element $el  New element to insert into the structure
      *
      * @throws \OutOfBoundsException
-     *
-     * @return self
      */
     public function withReplaced(int $idx, Element $el): self
     {
@@ -135,8 +131,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * @param Element $el  New element to insert into the structure
      *
      * @throws \OutOfBoundsException
-     *
-     * @return self
      */
     public function withInserted(int $idx, Element $el): self
     {
@@ -152,8 +146,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * Get self with an element appended to the end.
      *
      * @param Element $el Element to insert into the structure
-     *
-     * @return self
      */
     public function withAppended(Element $el): self
     {
@@ -166,8 +158,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * Get self with an element prepended in the beginning.
      *
      * @param Element $el Element to insert into the structure
-     *
-     * @return self
      */
     public function withPrepended(Element $el): self
     {
@@ -182,8 +172,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * @param int $idx Element index
      *
      * @throws \OutOfBoundsException
-     *
-     * @return self
      */
     public function withoutElement(int $idx): self
     {
@@ -218,8 +206,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @param int      $idx         Index 0..n
      * @param null|int $expectedTag Optional type tag expectation
-     *
-     * @return bool
      */
     public function has(int $idx, ?int $expectedTag = null): bool
     {
@@ -242,8 +228,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      *
      * @throws \OutOfBoundsException     If element doesn't exists
      * @throws \UnexpectedValueException If expectation fails
-     *
-     * @return UnspecifiedType
      */
     public function at(int $idx): UnspecifiedType
     {
@@ -259,8 +243,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * given tag.
      *
      * @param int $tag Tag number
-     *
-     * @return bool
      */
     public function hasTagged(int $tag): bool
     {
@@ -279,11 +261,7 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
     /**
      * Get a context specific element tagged with a given tag.
      *
-     * @param int $tag
-     *
      * @throws \LogicException If tag doesn't exists
-     *
-     * @return TaggedType
      */
     public function getTagged(int $tag): TaggedType
     {
@@ -295,8 +273,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
 
     /**
      * @see \Countable::count()
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -307,8 +283,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * Get an iterator for the `UnspecifiedElement` objects.
      *
      * @see \IteratorAggregate::getIterator()
-     *
-     * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
     {
@@ -359,8 +333,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * @param int    $length Number of bytes to decode
      *
      * @throws DecodeException
-     *
-     * @return ElementBase
      */
     private static function _decodeDefiniteLength(string $data, int &$offset,
         int $length): ElementBase
@@ -387,8 +359,6 @@ abstract class Structure extends Element implements \Countable, \IteratorAggrega
      * @param int    $offset Offset to data
      *
      * @throws DecodeException
-     *
-     * @return ElementBase
      */
     private static function _decodeIndefiniteLength(string $data, int &$offset): ElementBase
     {

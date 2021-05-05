@@ -197,8 +197,6 @@ abstract class Element implements ElementBase
      * @throws DecodeException           If decoding fails
      * @throws \UnexpectedValueException If called in the context of an expected
      *                                   type, but decoding yields another type
-     *
-     * @return ElementBase
      */
     public static function fromDER(string $data, int &$offset = null): ElementBase
     {
@@ -307,8 +305,6 @@ abstract class Element implements ElementBase
 
     /**
      * Whether element has indefinite length.
-     *
-     * @return bool
      */
     public function hasIndefiniteLength(): bool
     {
@@ -319,8 +315,6 @@ abstract class Element implements ElementBase
      * Get self with indefinite length encoding set.
      *
      * @param bool $indefinite True for indefinite length, false for definite length
-     *
-     * @return self
      */
     public function withIndefiniteLength(bool $indefinite = true): self
     {
@@ -339,8 +333,6 @@ abstract class Element implements ElementBase
 
     /**
      * Get element decorated with `UnspecifiedType` object.
-     *
-     * @return UnspecifiedType
      */
     public function asUnspecified(): UnspecifiedType
     {
@@ -349,10 +341,6 @@ abstract class Element implements ElementBase
 
     /**
      * Get human readable name for an universal tag.
-     *
-     * @param int $tag
-     *
-     * @return string
      */
     public static function tagToName(int $tag): string
     {
@@ -366,8 +354,6 @@ abstract class Element implements ElementBase
      * Get the content encoded in DER.
      *
      * Returns the DER encoded content without identifier and length header octets.
-     *
-     * @return string
      */
     abstract protected function _encodedContentDER(): string;
 
@@ -379,8 +365,6 @@ abstract class Element implements ElementBase
      * @param int        $offset     Offset in data to the next byte after identifier
      *
      * @throws DecodeException If decoding fails
-     *
-     * @return ElementBase
      */
     protected static function _decodeFromDER(Identifier $identifier,
         string $data, int &$offset): ElementBase
@@ -392,8 +376,6 @@ abstract class Element implements ElementBase
     /**
      * Determine the class that implements the type.
      *
-     * @param Identifier $identifier
-     *
      * @return string Class name
      */
     protected static function _determineImplClass(Identifier $identifier): string
@@ -402,8 +384,8 @@ abstract class Element implements ElementBase
             case Identifier::CLASS_UNIVERSAL:
                 $cls = self::_determineUniversalImplClass($identifier->intTag());
                 // constructed strings may be present in BER
-                if ($identifier->isConstructed() &&
-                    is_subclass_of($cls, StringType::class)) {
+                if ($identifier->isConstructed()
+                    && is_subclass_of($cls, StringType::class)) {
                     $cls = ConstructedString::class;
                 }
                 return $cls;
@@ -421,8 +403,6 @@ abstract class Element implements ElementBase
     /**
      * Determine the class that implements an universal type of the given tag.
      *
-     * @param int $tag
-     *
      * @throws \UnexpectedValueException
      *
      * @return string Class name
@@ -438,8 +418,6 @@ abstract class Element implements ElementBase
 
     /**
      * Get textual description of the type for debugging purposes.
-     *
-     * @return string
      */
     protected function _typeDescriptorString(): string
     {
@@ -452,10 +430,6 @@ abstract class Element implements ElementBase
 
     /**
      * Check whether the element is a concrete type of a given tag.
-     *
-     * @param int $tag
-     *
-     * @return bool
      */
     private function _isConcreteType(int $tag): bool
     {
@@ -475,10 +449,6 @@ abstract class Element implements ElementBase
 
     /**
      * Check whether the element is a pseudotype.
-     *
-     * @param int $tag
-     *
-     * @return bool
      */
     private function _isPseudoType(int $tag): bool
     {

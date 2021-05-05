@@ -14,8 +14,6 @@ interface ExplicitTagging extends ElementBase
 {
     /**
      * Get explicitly tagged wrapped element.
-     *
-     * @return UnspecifiedType
      */
     public function explicit(): UnspecifiedType;
 }

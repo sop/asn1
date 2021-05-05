@@ -18,8 +18,6 @@ class UTF8String extends PrimitiveString
 
     /**
      * Constructor.
-     *
-     * @param string $string
      */
     public function __construct(string $string)
     {

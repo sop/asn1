@@ -46,8 +46,6 @@ class TimeTypeTest extends TestCase
 
     /**
      * @depends testFromString
-     *
-     * @param TimeType $time
      */
     public function testWrapped(TimeType $time)
     {

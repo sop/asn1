@@ -21,9 +21,6 @@ class StructureTest extends TestCase
 {
     /**
      * @dataProvider hasProvider
-     *
-     * @param int  $idx
-     * @param bool $result
      */
     public function testHas(int $idx, bool $result)
     {
@@ -43,10 +40,6 @@ class StructureTest extends TestCase
 
     /**
      * @dataProvider hasTypeProvider
-     *
-     * @param int  $idx
-     * @param int  $type
-     * @param bool $result
      */
     public function testHasType(int $idx, int $type, bool $result)
     {

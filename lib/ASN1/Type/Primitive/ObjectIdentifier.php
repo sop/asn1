@@ -66,8 +66,6 @@ class ObjectIdentifier extends Element
 
     /**
      * Get OID in dotted format.
-     *
-     * @return string
      */
     public function oid(): string
     {
@@ -139,8 +137,6 @@ class ObjectIdentifier extends Element
      * Implode an array of sub IDs to dotted OID format.
      *
      * @param \GMP ...$subids
-     *
-     * @return string
      */
     protected static function _implodeSubIDs(\GMP ...$subids): string
     {
@@ -154,8 +150,6 @@ class ObjectIdentifier extends Element
      * Encode sub ID's to DER.
      *
      * @param \GMP ...$subids
-     *
-     * @return string
      */
     protected static function _encodeSubIDs(\GMP ...$subids): string
     {
@@ -182,8 +176,6 @@ class ObjectIdentifier extends Element
 
     /**
      * Decode sub ID's from DER data.
-     *
-     * @param string $data
      *
      * @throws DecodeException
      *

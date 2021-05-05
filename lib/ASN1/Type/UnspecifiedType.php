@@ -26,8 +26,6 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Constructor.
-     *
-     * @param Element $el
      */
     public function __construct(Element $el)
     {
@@ -38,8 +36,6 @@ class UnspecifiedType implements ElementBase
      * Initialize from DER data.
      *
      * @param string $data DER encoded data
-     *
-     * @return self
      */
     public static function fromDER(string $data): self
     {
@@ -48,10 +44,6 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Initialize from `ElementBase` interface.
-     *
-     * @param ElementBase $el
-     *
-     * @return self
      */
     public static function fromElementBase(ElementBase $el): self
     {
@@ -66,8 +58,6 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as a context specific tagged type.
      *
      * @throws \UnexpectedValueException If the element is not tagged
-     *
-     * @return TaggedType
      */
     public function asTagged(): TaggedType
     {
@@ -546,8 +536,6 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as any string type.
      *
      * @throws \UnexpectedValueException If the element is not a string type
-     *
-     * @return StringType
      */
     public function asString(): StringType
     {
@@ -562,8 +550,6 @@ class UnspecifiedType implements ElementBase
      * Get the wrapped element as any time type.
      *
      * @throws \UnexpectedValueException If the element is not a time type
-     *
-     * @return TimeType
      */
     public function asTime(): TimeType
     {
@@ -663,8 +649,6 @@ class UnspecifiedType implements ElementBase
      * Generate message for exceptions thrown by `as*` methods.
      *
      * @param int $tag Type tag of the expected element
-     *
-     * @return string
      */
     private function _generateExceptionMessage(int $tag): string
     {
@@ -674,8 +658,6 @@ class UnspecifiedType implements ElementBase
 
     /**
      * Get textual description of the wrapped element for debugging purposes.
-     *
-     * @return string
      */
     private function _typeDescriptorString(): string
     {

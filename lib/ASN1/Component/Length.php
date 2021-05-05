@@ -49,8 +49,6 @@ class Length implements Encodable
      *                         parsed length component. If null, start from offset 0.
      *
      * @throws DecodeException If decoding fails
-     *
-     * @return self
      */
     public static function fromDER(string $data, int &$offset = null): self
     {
@@ -98,8 +96,6 @@ class Length implements Encodable
      * @param null|int $expected Expected length, null to bypass checking
      *
      * @throws DecodeException If decoding or expectation fails
-     *
-     * @return self
      */
     public static function expectFromDER(string $data, int &$offset,
         int $expected = null): self
@@ -119,8 +115,8 @@ class Length implements Encodable
             }
         }
         // check that enough data is available
-        if (!$length->isIndefinite() &&
-            strlen($data) < $idx + $length->intLength()) {
+        if (!$length->isIndefinite()
+            && strlen($data) < $idx + $length->intLength()) {
             throw new DecodeException(
                 sprintf('Length %d overflows data, %d bytes left.',
                     $length->intLength(), strlen($data) - $idx));
@@ -185,8 +181,6 @@ class Length implements Encodable
      *
      * @throws \LogicException   If length is indefinite
      * @throws \RuntimeException If length overflows integer size
-     *
-     * @return int
      */
     public function intLength(): int
     {
@@ -198,8 +192,6 @@ class Length implements Encodable
 
     /**
      * Whether length is indefinite.
-     *
-     * @return bool
      */
     public function isIndefinite(): bool
     {
@@ -214,8 +206,6 @@ class Length implements Encodable
      * @param int    $offset reference to the variable containing offset to the data
      *
      * @throws DecodeException If decoding fails
-     *
-     * @return \GMP
      */
     private static function _decodeLongFormLength(int $length, string $data,
         int &$offset): \GMP

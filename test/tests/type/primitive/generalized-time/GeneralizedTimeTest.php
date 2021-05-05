@@ -26,8 +26,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -36,10 +34,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -50,10 +44,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return GeneralizedTime
      */
     public function testDecode(string $data): GeneralizedTime
     {
@@ -65,9 +55,6 @@ class GeneralizedTimeTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param TimeType $ref
-     * @param TimeType $el
      */
     public function testRecoded(TimeType $ref, TimeType $el)
     {
@@ -78,8 +65,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testWrapped(Element $el)
     {
@@ -99,8 +84,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testClone(Element $el)
     {
@@ -110,8 +93,6 @@ class GeneralizedTimeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TimeType $time
      */
     public function testStringable(TimeType $time)
     {

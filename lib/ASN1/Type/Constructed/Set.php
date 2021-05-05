@@ -27,8 +27,6 @@ class Set extends Structure
      * Sort by canonical ascending order.
      *
      * Used for DER encoding of *SET* type.
-     *
-     * @return self
      */
     public function sortedSet(): self
     {
@@ -50,8 +48,6 @@ class Set extends Structure
      * Sort by encoding ascending order.
      *
      * Used for DER encoding of *SET OF* type.
-     *
-     * @return self
      */
     public function sortedSetOf(): self
     {

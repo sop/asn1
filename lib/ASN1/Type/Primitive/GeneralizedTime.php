@@ -47,8 +47,6 @@ class GeneralizedTime extends BaseTime
 
     /**
      * Constructor.
-     *
-     * @param \DateTimeImmutable $dt
      */
     public function __construct(\DateTimeImmutable $dt)
     {

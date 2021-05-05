@@ -27,8 +27,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ImplicitTagging $el
      */
     public function testGetImplicit(ImplicitTagging $el)
     {
@@ -39,8 +37,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ImplicitTagging $el
      */
     public function testExpectationFail(ImplicitTagging $el)
     {
@@ -52,8 +48,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectImplicit(TaggedType $el)
     {
@@ -62,8 +56,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectExplicitFail(TaggedType $el)
     {
@@ -75,8 +67,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectImplicitWithTag(TaggedType $el)
     {
@@ -85,8 +75,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectImplicitWithInvalidTagFail(TaggedType $el)
     {
@@ -97,8 +85,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testExpectTypeFails(TaggedType $el)
     {
@@ -110,8 +96,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testAsImplicit(TaggedType $el)
     {
@@ -122,8 +106,6 @@ class ImplicitlyTaggedTypeTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param TaggedType $el
      */
     public function testAsImplicitFail(TaggedType $el)
     {

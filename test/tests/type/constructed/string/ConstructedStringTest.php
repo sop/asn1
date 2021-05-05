@@ -47,8 +47,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
      */
     public function testTag(Element $el)
     {
@@ -57,10 +55,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param Element $el
-     *
-     * @return string
      */
     public function testEncode(Element $el): string
     {
@@ -71,10 +65,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testEncode
-     *
-     * @param string $data
-     *
-     * @return ConstructedString
      */
     public function testDecode(string $data): ConstructedString
     {
@@ -86,9 +76,6 @@ class ConstructedStringTest extends TestCase
     /**
      * @depends testCreate
      * @depends testDecode
-     *
-     * @param Element $ref
-     * @param Element $el
      */
     public function testRecoded(Element $ref, Element $el)
     {
@@ -97,8 +84,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ConstructedString $cs
      */
     public function testStrings(ConstructedString $cs)
     {
@@ -107,8 +92,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ConstructedString $cs
      */
     public function testStringable(ConstructedString $cs)
     {
@@ -118,8 +101,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ConstructedString $cs
      */
     public function testIsPseudoType(ConstructedString $cs)
     {
@@ -128,8 +109,6 @@ class ConstructedStringTest extends TestCase
 
     /**
      * @depends testCreate
-     *
-     * @param ConstructedString $cs
      */
     public function testUnspecified(ConstructedString $cs)
     {

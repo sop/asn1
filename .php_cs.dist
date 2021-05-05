@@ -27,6 +27,11 @@ return PhpCsFixer\Config::create()
         'list_syntax' => [
             'syntax' => 'short',
         ],
+        'trailing_comma_in_multiline_array' => false,
+        'echo_tag_syntax' => [
+            'format' => 'short'
+        ],
+        'no_alternative_syntax' => false,
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_types' => false,
     ])

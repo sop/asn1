@@ -59,8 +59,6 @@ class ConstructedString extends Structure implements StringType
      * @param StringType ...$elements
      *
      * @throws \LogicException
-     *
-     * @return self
      */
     public static function create(StringType ...$elements): self
     {
@@ -110,8 +108,6 @@ class ConstructedString extends Structure implements StringType
      * Get the contained strings concatenated together.
      *
      * NOTE: It's unclear how bit strings with unused bits should be concatenated.
-     *
-     * @return string
      */
     public function string(): string
     {
