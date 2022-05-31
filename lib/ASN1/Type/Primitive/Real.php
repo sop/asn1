@@ -527,10 +527,14 @@ class Real extends Element
         $n = gmp_import($octets, 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
         // sign bit
         $neg = gmp_testbit($n, 63);
+
+        // phpcs:disable PHPCompatibility.Miscellaneous.ValidIntegers.HexNumericStringFound
         // 11 bits of biased exponent
         $exp = (gmp_and($n, '0x7ff0000000000000') >> 52) + self::EXP_BIAS;
         // 52 bits of mantissa
         $man = gmp_and($n, '0xfffffffffffff');
+        // phpcs:enable PHPCompatibility.Miscellaneous.ValidIntegers.HexNumericStringFound
+
         // zero, ASN.1 doesn't differentiate -0 from +0
         if (self::EXP_BIAS == $exp && 0 == $man) {
             return [gmp_init(0, 10), gmp_init(0, 10)];
