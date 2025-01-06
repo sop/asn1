@@ -50,7 +50,7 @@ class Length implements Encodable
      *
      * @throws DecodeException If decoding fails
      */
-    public static function fromDER(string $data, int &$offset = null): self
+    public static function fromDER(string $data, ?int &$offset = null): self
     {
         $idx = $offset ?? 0;
         $datalen = strlen($data);
