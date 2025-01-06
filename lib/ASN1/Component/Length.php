@@ -98,7 +98,7 @@ class Length implements Encodable
      * @throws DecodeException If decoding or expectation fails
      */
     public static function expectFromDER(string $data, int &$offset,
-        int $expected = null): self
+        ?int $expected = null): self
     {
         $idx = $offset;
         $length = self::fromDER($data, $idx);
