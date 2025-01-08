@@ -26,9 +26,6 @@
     "require-dev": {
         "phpunit/phpunit": "^8.1"
     },
-    "conflict": {
-        "php": "8.2.26 || 8.3.14 || 8.4.1"
-    },
     "autoload": {
         "psr-4": {
             "Sop\\ASN1\\": "lib/ASN1/"
